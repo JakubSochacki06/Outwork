@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "77982820125",
+    "project_id": "outwork-368cd",
+    "storage_bucket": "outwork-368cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77982820125:android:0d5da89c5d7d23050f23f4",
+        "android_client_info": {
+          "package_name": "com.example.outwork"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpRCkmE05KDtZbz9durtAbz5FcQ3h4Wh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
