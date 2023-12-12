@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/text_styles.dart';
 import 'package:provider/provider.dart';
-import 'package:outwork/providers/google_signin_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
 
 class GoogleSignupButton extends StatelessWidget {
   const GoogleSignupButton({super.key});
@@ -20,8 +20,8 @@ class GoogleSignupButton extends StatelessWidget {
           elevation: 0,
         ),
         onPressed: () {
-          final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-          provider.googleLogin();
+          final provider = Provider.of<UserProvider>(context, listen: false);
+          provider.signInWithGoogle();
           Navigator.pushNamed(context, '/processingLogging');
         },
         child: const Row(

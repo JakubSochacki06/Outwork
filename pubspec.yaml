@@ -15,6 +15,13 @@ dependencies:
   google_sign_in: ^6.1.6
   google_nav_bar: ^5.0.6
   cloud_firestore: ^4.13.3
+  animated_text_kit: ^4.2.2
+  image_cropper: ^5.0.1
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
+  syncfusion_flutter_sliders: ^23.2.7
+  auto_size_text: ^3.0.0
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:
@@ -25,12 +32,15 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/emojis/
 
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 700
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

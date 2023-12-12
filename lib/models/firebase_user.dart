@@ -3,8 +3,9 @@ class FirebaseUser {
   String? email;
   // String? familyID;
   String? photoURL;
+  List<String>? morningRoutines;
 
-  FirebaseUser({this.displayName, this.email, this.photoURL});
+  FirebaseUser({this.displayName, this.email, this.photoURL, this.morningRoutines});
 
   factory FirebaseUser.fromMap(Map<String, dynamic> data){
     FirebaseUser user = FirebaseUser(
@@ -12,6 +13,7 @@ class FirebaseUser {
       email: data['email'],
       // familyID: data['familyID'],
       photoURL: data['photoURL'],
+      morningRoutines: data['morningRoutines'],
     );
     return user;
   }

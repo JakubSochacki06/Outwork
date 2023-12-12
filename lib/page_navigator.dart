@@ -3,7 +3,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'providers/firebase_user_provider.dart';
+import 'providers/user_provider.dart';
+import 'screens/mental_health_page.dart';
+import 'screens/home_page.dart';
 
 class PageNavigator extends StatefulWidget {
   @override
@@ -15,9 +17,9 @@ class _PageNavigatorState extends State<PageNavigator> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
     Text('test'),
-    Text('test'),
-    Text('test'),
+    MentalHealthPage(),
     Text('test'),
     // const FridgePage(),
     // FindRecipePage(),
@@ -27,12 +29,13 @@ class _PageNavigatorState extends State<PageNavigator> {
 
   @override
   Widget build(BuildContext context) {
+    print('rebuilded page navigator');
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Consumer<FirebaseUserProvider>(
+        body: Consumer<UserProvider>(
           builder: (_, value, child) => FutureBuilder(
-            future: value.getUser(FirebaseAuth.instance.currentUser!.email!),
+            future: value.fetchUserData(FirebaseAuth.instance.currentUser!.email!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

@@ -1,4 +1,4 @@
-// import 'package:familyfridge/providers/firebase_user_provider.dart';
+// import 'package:familyfridge/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/services/database_service.dart';
@@ -22,12 +22,6 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
-            DatabaseService dbs = DatabaseService();
-            print(FirebaseAuth.instance.currentUser!.providerData[0].providerId);
-            if(FirebaseAuth.instance.currentUser!.providerData[0].providerId == "google.com"){
-              dbs.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
-            }
-
             return PageNavigator();
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went Wrong!'));
