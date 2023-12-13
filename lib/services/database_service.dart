@@ -14,8 +14,9 @@ class DatabaseService {
       'email': user.email,
       'photoURL': user.photoURL,
       'morningRoutines':[
-        'Prepare healthy breakfast',
-      ]
+        {'name': 'Prepare healthy breakfast', 'completed': false},
+      ],
+      'lastUpdate': FieldValue.serverTimestamp(),
     });
     // await _db.collection('families').doc(familyID).set({
     //   'familyID': familyID,
@@ -30,7 +31,10 @@ class DatabaseService {
     await _db.collection('users_data').doc(user.email).set({
       'displayName': user.email,
       'email': user.email,
-      'photoURL': 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg'
+      'photoURL': 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg',
+      'morningRoutines':[
+        'Prepare healthy breakfast',
+      ]
     });
   }
 

@@ -13,6 +13,7 @@ class UserProvider extends ChangeNotifier {
   final DatabaseService _dbS = DatabaseService();
   FirebaseUser? _user;
 
+
   FirebaseUser? get user => _user;
 
   // Register user with email and password
@@ -84,6 +85,9 @@ class UserProvider extends ChangeNotifier {
       if (querySnapshot.docs.isNotEmpty) {
         dynamic userData = querySnapshot.docs.first.data();
         _user = FirebaseUser.fromMap(userData);
+        print('fetched user data');
+        return;
+        print('fetched data');
       }
     } catch (e) {
       // Handle error
@@ -91,14 +95,11 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addMorningRoutineToDatabase(String morningRoutine) async{
-    List<String> morningRoutines = await _dbS.getDataFromDatabase('users_data', _user!.email!, 'morningRoutines');
-    morningRoutines.add(morningRoutine);
-    await _db
-        .collection('users_data')
-        .doc(_user!.email!)
-        .set({'morningRoutines': morningRoutines}, SetOptions(merge: true));
+  Future<void> reloadData() async{
+    await fetchUserData(user!.email!);
   }
+
+
   // Sign out the current user
   Future<void> signOut() async {
     await _auth.signOut();

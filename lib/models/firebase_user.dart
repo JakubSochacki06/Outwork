@@ -3,7 +3,7 @@ class FirebaseUser {
   String? email;
   // String? familyID;
   String? photoURL;
-  List<String>? morningRoutines;
+  List<dynamic>? morningRoutines;
 
   FirebaseUser({this.displayName, this.email, this.photoURL, this.morningRoutines});
 

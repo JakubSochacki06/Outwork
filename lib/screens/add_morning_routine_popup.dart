@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/text_styles.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +59,10 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
           ),
           ElevatedButton(
             onPressed: () {
-              final provider = Provider.of<UserProvider>(context, listen: false);
-              provider.addMorningRoutineToDatabase(_morningRoutineController.text);
+              final morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
+              final userProvider = Provider.of<UserProvider>(context, listen: false);
+              morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
+              Navigator.pop(context);
             },
             child: Text(
               'Submit new routine',

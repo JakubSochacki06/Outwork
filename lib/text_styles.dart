@@ -10,6 +10,11 @@ const kRegular20 = TextStyle(
   fontFamily: 'Poppins',
 );
 
+const kRegular16 = TextStyle(
+  fontSize: 16,
+  fontFamily: 'Poppins',
+);
+
 const kBold22 = TextStyle(
   fontSize: 22,
   fontFamily: 'Poppins',

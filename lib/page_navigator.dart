@@ -40,7 +40,7 @@ class _PageNavigatorState extends State<PageNavigator> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.connectionState == ConnectionState.done) {
-                return _widgetOptions.elementAt(_selectedIndex);
+                  return _widgetOptions.elementAt(_selectedIndex);
               } else {
                 return const Center(child: Text('Something went Wrong!'));
               }

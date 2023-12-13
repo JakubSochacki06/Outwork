@@ -5,6 +5,7 @@ import 'package:outwork/widgets/home_page_calendar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/text_styles.dart';
+import 'package:outwork/providers/morning_routine_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,6 +19,9 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
           body: Consumer<UserProvider>(
         builder: (context, provider, child) {
+          final morningRoutineProvider =
+          Provider.of<MorningRoutineProvider>(context, listen: false);
+          morningRoutineProvider.setMorningRoutines(provider.user!);
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -53,19 +57,24 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: height*0.01,
                   ),
-                  Container(
-                    height: height*0.33,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return SizedBox(width: width*0.05);
-                      },
-                      itemCount: 3,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index){
-                        return DailyCheckinBox();
-                      },
-                    ),
+                  DailyCheckinBox(
+                    value: morningRoutineProvider.countProgress(),
+                    maximum: morningRoutineProvider.morningRoutines.length,
                   ),
+                  // Container(
+                  //   height: height*0.33,
+                  //   child: ListView.separated(
+                  //     separatorBuilder: (context, index) {
+                  //       return SizedBox(width: width*0.05);
+                  //     },
+                  //     itemCount: 3,
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemBuilder: (context, index){
+                  //       return DailyCheckinBox();
+                  //     },
+                  //   ),
+                  // ),
+                  // ZROBIC SHOW BUTTONS? DEFAULT FALSE I WTEDY BEDZIE MOZNA ZROBIC TEZ LICZNIKI
                   SizedBox(
                     height: height*0.01,
                   ),

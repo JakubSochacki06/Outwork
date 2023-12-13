@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/text_styles.dart';
+import 'package:outwork/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class EditMorningRoutinePopup extends StatelessWidget {
   const EditMorningRoutinePopup({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<UserProvider>(context, listen: false);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
@@ -30,10 +33,9 @@ class EditMorningRoutinePopup extends StatelessWidget {
                   isScrollControlled: true,
                   builder: (context) => SingleChildScrollView(
                     child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddMorningRoutinePopup()
-                    ),
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: AddMorningRoutinePopup()),
                   ),
                 );
               },

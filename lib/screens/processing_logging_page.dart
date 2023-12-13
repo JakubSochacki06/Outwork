@@ -1,11 +1,10 @@
-// import 'package:familyfridge/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:outwork/page_navigator.dart';
 import 'package:outwork/screens/login_page.dart';
 import 'package:provider/provider.dart';
-// import 'package:familyfridge/services/database_service.dart';
+import 'package:outwork/providers/user_provider.dart';
 
 class ProcessingLoggingPage extends StatefulWidget {
   @override

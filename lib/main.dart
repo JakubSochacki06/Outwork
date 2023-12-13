@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'screens/welcome_page.dart';
 import 'screens/login_page.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => MorningRoutineProvider()),
         ChangeNotifierProvider(create: (context) => JournalEntryProvider()),
       ],
       child: MaterialApp(
