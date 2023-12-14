@@ -12,7 +12,7 @@ class ImageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    JournalEntryProvider diaryEntryProvider = Provider.of<JournalEntryProvider>(context);
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
 
     Future<void> _pickImage(ImageSource source) async {
       final ImagePicker _picker = ImagePicker();
@@ -29,8 +29,8 @@ class ImageInput extends StatelessWidget {
       final fileName = path.basename(imageFile.path);
       final savedImage = await File(imageFile.path).copy(
           '${appDir.path}/$fileName');
-      diaryEntryProvider.setSavedImage(savedImage);
-      diaryEntryProvider.setStoredImage(_storedImage!);
+      journalEntryProvider.setSavedImage(savedImage);
+      journalEntryProvider.setStoredImage(_storedImage!);
     }
 
 
@@ -42,7 +42,7 @@ class ImageInput extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey),
           ),
-          child: diaryEntryProvider.storedImage != null
+          child: journalEntryProvider.journalEntry.storedImage != null
               ? Image.file(
             _storedImage!,
             fit: BoxFit.fill,

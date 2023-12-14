@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/screens/new_journal_entry_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -33,11 +34,17 @@ class MentalHealthPage extends StatelessWidget {
             );
           },
         ),
-        body: Column(
-          children: [
-            Text('entries in diary'),
-          ],
-        ),
+        body: Consumer<UserProvider>(
+          builder: (context, provider, child) {
+            final journingEntryProvider = Provider.of<JournalEntryProvider>(context, listen: false);
+            journingEntryProvider.setJournalEntries(provider.user!);
+            return Column(
+              children: [
+                Text(provider.user!.journalEntries![0].feeling),
+              ],
+            );
+          }
+        )
       ),
     );
   }

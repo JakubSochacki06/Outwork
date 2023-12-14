@@ -30,7 +30,7 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
     JournalEntryProvider diaryEntryProvider = Provider.of<JournalEntryProvider>(context);
     final double _min = 0.0;
     final double _max = 10.0;
-    double _value = diaryEntryProvider.stressLevel.toDouble();
+    double _value = diaryEntryProvider.journalEntry.stressLevel.toDouble();
     return Scaffold(
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {

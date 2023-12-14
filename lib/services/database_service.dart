@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -55,5 +56,9 @@ class DatabaseService {
     }
   }
 
-
+  Future<void> updateDataToDatabase(String email, String field, dynamic value) async{
+    await _db.collection('users_data').doc(email).update({
+      field:value,
+    });
+  }
 }

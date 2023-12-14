@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/emotions_list.dart';
 import 'package:outwork/widgets/main_feelings_row.dart';
 import 'package:outwork/text_styles.dart';
@@ -13,6 +14,8 @@ class NewJournalEntryPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider =
+    Provider.of<UserProvider>(context, listen: false);
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -90,12 +93,12 @@ class NewJournalEntryPopup extends StatelessWidget {
             SizedBox(
               height: height*0.01,
             ),
-            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.hasNote, onChanged: (checkboxValue){
+            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.journalEntry.hasNote, onChanged: (checkboxValue){
               journalEntryProvider.setHasNote(checkboxValue!);
             }),
             ElevatedButton(
               onPressed: () {
-                journalEntryProvider.hasNote?
+                journalEntryProvider.journalEntry.hasNote?
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -106,10 +109,10 @@ class NewJournalEntryPopup extends StatelessWidget {
                       child: NewJournalEntryPopup2(),
                     ),
                   ),
-                ):print('xd');
+                ):journalEntryProvider.addJournalEntryToDatabase(userProvider.user!.email!);
               },
               child: Text(
-                journalEntryProvider.hasNote?'Add note':'Submit',
+                journalEntryProvider.journalEntry.hasNote?'Add note':'Submit',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               ),

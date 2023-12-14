@@ -8,17 +8,17 @@ class MainFeelingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    JournalEntryProvider diaryEntryProvider = Provider.of<JournalEntryProvider>(context);
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
     return GestureDetector(
       onTap: (){
-        diaryEntryProvider.updateSelectedFeeling(feeling);
+        journalEntryProvider.updateSelectedFeeling(feeling);
       },
       child: CircleAvatar(
         radius: 25,
-        backgroundColor: diaryEntryProvider.selectedFeeling == feeling?Colors.black12:Colors.transparent,
+        backgroundColor: journalEntryProvider.journalEntry.feeling == feeling?Colors.black12:Colors.transparent,
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: diaryEntryProvider.selectedFeeling == feeling?15:25,
+          radius: journalEntryProvider.journalEntry.feeling == feeling?15:25,
           child: Image.asset('assets/emojis/$feeling.png'),
         ),
       ),

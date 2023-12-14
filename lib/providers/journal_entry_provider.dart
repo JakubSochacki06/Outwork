@@ -1,61 +1,59 @@
 import 'dart:io';
-
+import 'package:outwork/models/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
+import 'package:outwork/services/database_service.dart';
 
 class JournalEntryProvider extends ChangeNotifier {
-  String _selectedFeeling = '';
-  int _stressLevel = 0;
-  List<String> _emotions = [];
-  File? _storedImage;
-  File? _savedImage;
-  bool _hasNote = false;
+  JournalEntry _journalEntry = JournalEntry(feeling: '', stressLevel: 1, emotions: [], storedImage: null, savedImage: null, hasNote: false);
+  List<JournalEntry>? _journalEntries;
 
-  // TODO: FORMAT IT SO JOURNAL ENTRY IS A MODEL AND THIS ONLY USES AND MANAGES IT.
+  JournalEntry get journalEntry=> _journalEntry;
+  List<JournalEntry> get journalEntries => _journalEntries!;
 
-  String get selectedFeeling => _selectedFeeling;
-  int get stressLevel => _stressLevel;
-  List<String> get emotions => _emotions;
-  File? get storedImage => _storedImage;
-  File? get savedImage => _savedImage;
-  bool get hasNote => _hasNote;
+  Future<void> setJournalEntries(FirebaseUser user) async{
+    _journalEntries = user.journalEntries!;
+  }
 
   void updateSelectedFeeling(String feeling) {
-    _selectedFeeling = feeling;
+    _journalEntry.feeling = feeling;
     notifyListeners();
   }
 
   void addEmotion(String emotion){
-    _emotions.contains(emotion)?_emotions.remove(emotion):_emotions.add(emotion);
+    _journalEntry.emotions.contains(emotion)?_journalEntry.emotions.remove(emotion):_journalEntry.emotions.add(emotion);
     notifyListeners();
   }
 
   void setStoredImage(File storedImage){
-    _storedImage = storedImage;
+    _journalEntry.storedImage = storedImage;
     notifyListeners();
   }
 
   void setSavedImage(File savedImage){
-    _savedImage = savedImage;
+    _journalEntry.savedImage = savedImage;
     notifyListeners();
   }
 
   void setHasNote(bool value){
-    _hasNote = value;
+    _journalEntry.hasNote = value;
     notifyListeners();
   }
 
   void setStressLevel(int stressLevel){
-    _stressLevel = stressLevel;
+    _journalEntry.stressLevel = stressLevel;
     notifyListeners();
   }
 
-  void clearProvider(){
-    _selectedFeeling = '';
-    _emotions = [];
-  }
+  // void clearProvider(){
+  //   _selectedFeeling = '';
+  //   _emotions = [];
+  // }
 
-  void addEntryToFirebase(){
-
+  Future<void> addJournalEntryToDatabase(String email) async{
+    _journalEntries!.add(_journalEntry);
+    DatabaseService dbS = DatabaseService();
+    dbS.updateDataToDatabase(email, 'journalEntries', _journalEntries);
+    notifyListeners();
   }
 }
