@@ -25,7 +25,6 @@ class RotatingTextJournal extends StatelessWidget {
             height: height*0.1,
             width: width*0.25,
             child: DefaultTextStyle(
-              maxLines: 1,
               style: const TextStyle(
                 fontSize: 20.0,
                 color: Colors.black,

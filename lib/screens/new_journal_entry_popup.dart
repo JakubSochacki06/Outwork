@@ -5,19 +5,15 @@ import 'package:outwork/text_styles.dart';
 import 'package:outwork/widgets/stress_slider.dart';
 import 'new_journal_entry_popup2.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
+import 'package:provider/provider.dart';
 
-class NewJournalEntryPopup extends StatefulWidget {
+class NewJournalEntryPopup extends StatelessWidget {
   const NewJournalEntryPopup({Key? key});
 
   @override
-  State<NewJournalEntryPopup> createState() => _NewJournalEntryPopupState();
-}
-
-class _NewJournalEntryPopupState extends State<NewJournalEntryPopup> {
-  double _value = 1;
-
-  @override
   Widget build(BuildContext context) {
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
@@ -94,8 +90,12 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup> {
             SizedBox(
               height: height*0.01,
             ),
+            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.hasNote, onChanged: (checkboxValue){
+              journalEntryProvider.setHasNote(checkboxValue!);
+            }),
             ElevatedButton(
               onPressed: () {
+                journalEntryProvider.hasNote?
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -106,10 +106,10 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup> {
                       child: NewJournalEntryPopup2(),
                     ),
                   ),
-                );
+                ):print('xd');
               },
               child: Text(
-                'Next',
+                journalEntryProvider.hasNote?'Add note':'Submit',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               ),

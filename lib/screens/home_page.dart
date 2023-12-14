@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
+import 'package:outwork/widgets/night_routine.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/text_styles.dart';
@@ -22,6 +24,9 @@ class HomePage extends StatelessWidget {
           final morningRoutineProvider =
           Provider.of<MorningRoutineProvider>(context, listen: false);
           morningRoutineProvider.setMorningRoutines(provider.user!);
+          final nightRoutineProvider =
+          Provider.of<NightRoutineProvider>(context, listen: false);
+          nightRoutineProvider.setNightRoutines(provider.user!);
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -43,6 +48,9 @@ class HomePage extends StatelessWidget {
                       style: kHomePageGray,
                     ),
                   ),
+                  SizedBox(
+                    height: height*0.03,
+                  ),
                   HomePageCalendar(),
                   SizedBox(
                     height: height*0.03,
@@ -57,9 +65,37 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: height*0.01,
                   ),
-                  DailyCheckinBox(
-                    value: morningRoutineProvider.countProgress(),
-                    maximum: morningRoutineProvider.morningRoutines.length,
+                  Container(
+                    height: height*0.33,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          DailyCheckinBox(
+                            value: morningRoutineProvider.countProgress(),
+                            maximum: morningRoutineProvider.morningRoutines.length,
+                            text: 'Morning Routine',
+                            emojiName: 'morning',
+                            colorGradient1: Color(0xFFCC2B5E),
+                            colorGradient2: Color(0xFF753A88),
+                          ),
+                          SizedBox(
+                            width: width*0.05,
+                          ),
+                          DailyCheckinBox(
+                            value: nightRoutineProvider.countProgress(),
+                            maximum: nightRoutineProvider.nightRoutines.length,
+                            text: 'Night Routine',
+                            emojiName: 'bed',
+                            colorGradient1: Color(0xFFFF5F6D),
+                            colorGradient2: Color(0xFFFFC371),
+                          ),
+                          SizedBox(
+                            width: width*0.05,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   // Container(
                   //   height: height*0.33,
@@ -78,7 +114,11 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: height*0.01,
                   ),
-                  MorningRoutine()
+                  MorningRoutine(),
+                  SizedBox(
+                    height: height*0.03,
+                  ),
+                  NightRoutine(),
                 ],
               ),
             ),

@@ -1,14 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:outwork/text_styles.dart';
+import 'package:provider/provider.dart';
+import 'package:outwork/providers/morning_routine_provider.dart';
+
 
 class DailyCheckinBox extends StatelessWidget {
-  final int maximum;
-  final int value;
-  const DailyCheckinBox({required this.maximum, required this.value});
+  int maximum;
+  int value;
+  // TODO: ZFIXOWAC TUTAJ Z KLASA FINALNA
+  final String text;
+  final String emojiName;
+  final Color colorGradient1;
+  final Color colorGradient2;
+  DailyCheckinBox({required this.maximum, required this.value, required this.text, required this.emojiName, required this.colorGradient1, required this.colorGradient2});
 
   @override
   Widget build(BuildContext context) {
+    if(text == 'Morning Routine') {
+      final morningRoutineProvider =
+      Provider.of<MorningRoutineProvider>(context, listen: true);
+      value = morningRoutineProvider.countProgress();
+      maximum = morningRoutineProvider.morningRoutines.length;
+    } else if(text == 'Night Routine'){
+      final nightRoutineProvider =
+      Provider.of<NightRoutineProvider>(context, listen: true);
+      value = nightRoutineProvider.countProgress();
+      maximum = nightRoutineProvider.nightRoutines.length;
+    }
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Center(
@@ -24,6 +44,7 @@ class DailyCheckinBox extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 3,
+                // blurRadius: 10,
                 offset: Offset(3, 3),
               )
             ]),
@@ -42,13 +63,13 @@ class DailyCheckinBox extends StatelessWidget {
                       radius: 10,
                       backgroundColor: Colors.transparent,
                       child: Image.asset(
-                        'assets/emojis/morning.png',
+                        'assets/emojis/$emojiName.png',
                       ),
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      'Morning Routine',
+                      text,
                       style: kRegular16,
                       textAlign: TextAlign.center,
                     ),
@@ -75,9 +96,9 @@ class DailyCheckinBox extends StatelessWidget {
                           value: value.toDouble(),
                           // width: constraints.maxWidth/20,
                           sizeUnit: GaugeSizeUnit.logicalPixel,
-                          gradient: const SweepGradient(colors: <Color>[
-                            Color(0xFFCC2B5E),
-                            Color(0xFF753A88)
+                          gradient: SweepGradient(colors: <Color>[
+                            colorGradient1,
+                            colorGradient2
                           ], stops: <double>[
                             0.25,
                             0.75

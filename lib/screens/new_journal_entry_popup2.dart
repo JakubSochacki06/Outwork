@@ -22,9 +22,24 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Container(
+      padding: EdgeInsets.all(20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          FractionallySizedBox(
+            widthFactor: 0.15,
+            alignment: Alignment.center,
+            child: Container(
+              height: height*0.005,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.black12,
+              ),
+            ),
+          ),
           RotatingTextJournal(),
           TextField(
             controller: _titleController,
@@ -50,6 +65,25 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             height: 10.0,
           ),
           ImageInput(),
+          SizedBox(
+            height: height*0.03,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              'Submit note',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(
+              shape: StadiumBorder(),
+              minimumSize: Size(width*0.8, height*0.05),
+              backgroundColor: Color(0xFF2A6049),
+              elevation: 0,
+            ),
+          ),
         ],
       ),
     );

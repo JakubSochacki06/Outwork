@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:outwork/services/database_service.dart';
 import 'package:outwork/models/firebase_user.dart';
 
 
 class MorningRoutineProvider extends ChangeNotifier {
-  final DatabaseService _dbS = DatabaseService();
   FirebaseFirestore _db = FirebaseFirestore.instance;
   List<dynamic> _morningRoutines = [];
 
