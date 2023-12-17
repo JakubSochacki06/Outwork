@@ -23,6 +23,8 @@ dependencies:
   auto_size_text: ^3.0.0
   table_calendar: ^3.0.9
   syncfusion_flutter_gauges: ^23.2.7
+  step_progress_indicator: ^1.0.2
+  sleek_circular_slider: ^2.0.1
 
 dev_dependencies:
   flutter_test:

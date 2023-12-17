@@ -22,6 +22,11 @@ class DatabaseService {
       ],
       'journalEntries':[
       ],
+      'dailyCheckins':[
+        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':1},
+        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':5},
+        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':15},
+      ],
       'lastUpdate': FieldValue.serverTimestamp(),
     });
     // await _db.collection('families').doc(familyID).set({

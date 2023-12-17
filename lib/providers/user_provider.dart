@@ -99,6 +99,15 @@ class UserProvider extends ChangeNotifier {
     await fetchUserData(user!.email!);
   }
 
+  Future<void> addDailyCheckinProgressToFirebase(int step, String name) async{
+    int indexToUpdate = _user!.dailyCheckins!.indexWhere((map) => map['name'] == name);
+    _user!.dailyCheckins![indexToUpdate]['value'] += step;
+    await _db.collection('users_data').doc(_user!.email).update({
+      'dailyCheckins':_user!.dailyCheckins,
+    });
+    notifyListeners();
+  }
+
 
   // Sign out the current user
   Future<void> signOut() async {

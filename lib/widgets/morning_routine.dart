@@ -23,8 +23,8 @@ class _MorningRoutineState extends State<MorningRoutine> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete note?'),
-            content: Text('Are you sure you want to delete note?'),
+            title: Text('Delete morning routine?'),
+            content: Text('Are you sure you want to delete this routine?'),
             actions: [
               TextButton(
                 onPressed: () {
