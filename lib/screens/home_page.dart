@@ -71,25 +71,25 @@ class HomePage extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          DailyCheckinBox(
+                          morningRoutineProvider.morningRoutines.length != 0?DailyCheckinBox(
                             value: morningRoutineProvider.countProgress(),
                             maximum: morningRoutineProvider.morningRoutines.length,
                             text: 'Morning Routine',
                             emojiName: 'morning',
                             colorGradient1: Color(0xFFCC2B5E),
                             colorGradient2: Color(0xFF753A88),
-                          ),
-                          SizedBox(
+                          ):Container(),
+                          morningRoutineProvider.morningRoutines.length != 0?SizedBox(
                             width: width*0.05,
-                          ),
-                          DailyCheckinBox(
+                          ):Container(),
+                          nightRoutineProvider.nightRoutines.length != 0?DailyCheckinBox(
                             value: nightRoutineProvider.countProgress(),
                             maximum: nightRoutineProvider.nightRoutines.length,
                             text: 'Night Routine',
                             emojiName: 'bed',
                             colorGradient1: Color(0xFFFF5F6D),
                             colorGradient2: Color(0xFFFFC371),
-                          ),
+                          ):Placeholder(),
                           SizedBox(
                             width: width*0.05,
                           ),

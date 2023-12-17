@@ -22,6 +22,15 @@ class MorningRoutineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> removeMorningRoutineFromDatabase(String morningRoutine, String email) async{
+    _morningRoutines.removeWhere((map) => map['name'] == morningRoutine);
+    await _db
+        .collection('users_data')
+        .doc(email)
+        .set({'morningRoutines': _morningRoutines}, SetOptions(merge: true));
+    notifyListeners();
+  }
+
   Future<void> updateRoutineCompletionStatus(int index, bool completed, String email) async {
     _morningRoutines[index]['completed'] = completed;
     await _db.collection('users_data').doc(email).update({

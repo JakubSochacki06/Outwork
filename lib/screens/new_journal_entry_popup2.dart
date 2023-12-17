@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/image_input.dart';
 import 'package:outwork/widgets/rotating_text_journal.dart';
+import 'package:provider/provider.dart';
 class NewJournalEntryPopup2 extends StatefulWidget {
   const NewJournalEntryPopup2({super.key});
 
@@ -22,6 +25,9 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
 
   @override
   Widget build(BuildContext context) {
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
+    UserProvider userProvider =
+    Provider.of<UserProvider>(context, listen: false);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
@@ -70,10 +76,15 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
           ),
           ElevatedButton(
             onPressed: () {
+              journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
+              journalEntryProvider.journalEntry.noteTitle = _titleController.text;
+              journalEntryProvider.setHasNote(true);
+              journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+              Navigator.pop(context);
               Navigator.pop(context);
             },
             child: Text(
-              'Submit note',
+              'Submit with note',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
             ),

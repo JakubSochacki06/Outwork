@@ -21,7 +21,6 @@ class DatabaseService {
         {'name': 'Limit blue light', 'completed': false},
       ],
       'journalEntries':[
-        {'feeling':'sad', 'emotions':['Loved'], 'stressLevel':3, 'hasNote':true, 'noteTitle':'Note Title', 'noteDescription':'Note Description', 'hasPhoto':false}
       ],
       'lastUpdate': FieldValue.serverTimestamp(),
     });

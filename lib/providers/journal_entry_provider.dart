@@ -5,10 +5,12 @@ import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/services/database_service.dart';
 
 class JournalEntryProvider extends ChangeNotifier {
-  JournalEntry _journalEntry = JournalEntry(feeling: '', stressLevel: 1, emotions: [], storedImage: null, savedImage: null, hasNote: false);
+  JournalEntry _journalEntry = JournalEntry(emotions: []);
+  bool _wantToAddNote = false;
   List<JournalEntry>? _journalEntries;
 
   JournalEntry get journalEntry=> _journalEntry;
+  bool get wantToAddNote=> _wantToAddNote;
   List<JournalEntry> get journalEntries => _journalEntries!;
 
   Future<void> setJournalEntries(FirebaseUser user) async{
@@ -21,7 +23,7 @@ class JournalEntryProvider extends ChangeNotifier {
   }
 
   void addEmotion(String emotion){
-    _journalEntry.emotions.contains(emotion)?_journalEntry.emotions.remove(emotion):_journalEntry.emotions.add(emotion);
+    _journalEntry.emotions!.contains(emotion)?_journalEntry.emotions!.remove(emotion):_journalEntry.emotions!.add(emotion);
     notifyListeners();
   }
 
@@ -45,15 +47,26 @@ class JournalEntryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void clearProvider(){
-  //   _selectedFeeling = '';
-  //   _emotions = [];
-  // }
 
-  Future<void> addJournalEntryToDatabase(String email) async{
+  void changeWantToAddNote(bool value){
+    _wantToAddNote = value;
+    notifyListeners();
+  }
+
+  void clearProvider(FirebaseUser user){
+    _journalEntry = JournalEntry(emotions:[]);
+    _wantToAddNote = false;
+    _journalEntries = user.journalEntries!;
+    notifyListeners();
+  }
+
+  Future<void> addJournalEntryToDatabase(FirebaseUser user) async{
+    _journalEntry.date = DateTime.now();
     _journalEntries!.add(_journalEntry);
+    List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
     DatabaseService dbS = DatabaseService();
-    dbS.updateDataToDatabase(email, 'journalEntries', _journalEntries);
+    dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
+    clearProvider(user);
     notifyListeners();
   }
 }

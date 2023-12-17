@@ -93,26 +93,32 @@ class NewJournalEntryPopup extends StatelessWidget {
             SizedBox(
               height: height*0.01,
             ),
-            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.journalEntry.hasNote, onChanged: (checkboxValue){
-              journalEntryProvider.setHasNote(checkboxValue!);
+            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.wantToAddNote, onChanged: (checkboxValue){
+              journalEntryProvider.changeWantToAddNote(checkboxValue!);
             }),
             ElevatedButton(
               onPressed: () {
-                journalEntryProvider.journalEntry.hasNote?
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: NewJournalEntryPopup2(),
+                print(journalEntryProvider.wantToAddNote);
+                if(journalEntryProvider.wantToAddNote == true){
+                  print('wanted to add note');
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: NewJournalEntryPopup2(),
+                      ),
                     ),
-                  ),
-                ):journalEntryProvider.addJournalEntryToDatabase(userProvider.user!.email!);
+                  );
+                } else {
+                  journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+                  Navigator.pop(context);
+                }
               },
               child: Text(
-                journalEntryProvider.journalEntry.hasNote?'Add note':'Submit',
+                journalEntryProvider.wantToAddNote?'Add note':'Submit',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               ),

@@ -46,3 +46,24 @@ const kHomePageGray = TextStyle(
   fontFamily: 'Poppins',
   color: Colors.grey,
 );
+
+const kBold16 = TextStyle(
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    // color: Colors.white
+    fontWeight: FontWeight.w700,
+    color: Colors.black
+);
+
+const kSecondary14 = TextStyle(
+    fontSize: 14,
+    fontFamily: 'Poppins',
+    color: Colors.grey
+);
+
+const kNotesYear = TextStyle(
+    fontSize: 22,
+    fontFamily: 'Poppins',
+    color: Colors.black12,
+  fontWeight: FontWeight.w300
+);

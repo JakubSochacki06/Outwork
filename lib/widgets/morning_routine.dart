@@ -17,6 +17,34 @@ class MorningRoutine extends StatefulWidget {
 class _MorningRoutineState extends State<MorningRoutine> {
   @override
   Widget build(BuildContext context) {
+
+    Future<bool> wantToDeleteNoteAlert(BuildContext context) async {
+      bool deleteNote = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete note?'),
+            content: Text('Are you sure you want to delete note?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('No'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Yes'),
+              ),
+            ],
+          );
+        },
+      );
+      return deleteNote;
+    }
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     double routineItemHeight = height * 0.06;
@@ -113,7 +141,6 @@ class _MorningRoutineState extends State<MorningRoutine> {
                   .entries
                   .map((MapEntry<int, Map<String, dynamic>> entry) {
                 bool isCompleted = entry.value['completed'];
-                print(isCompleted);
                 return InkWell(
                   key: ValueKey(entry.key),
                   onTap: () async {
@@ -149,8 +176,11 @@ class _MorningRoutineState extends State<MorningRoutine> {
                           },
                         ),
                         GestureDetector(
-                          onTap: () {},
-                          child: Icon(Icons.add_a_photo),
+                          onTap: () async{
+                            bool wantToDelete = await wantToDeleteNoteAlert(context);
+                            if(wantToDelete) await morningRoutineProvider.removeMorningRoutineFromDatabase(entry.value['name'], value.user!.email!);
+                          },
+                          child: Icon(Icons.delete),
                         ),
                         SizedBox(
                           width: width * 0.02,

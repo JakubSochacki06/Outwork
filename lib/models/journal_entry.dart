@@ -1,14 +1,17 @@
 import 'dart:io';
 
 class JournalEntry{
-  String feeling = '';
-  int stressLevel = 0;
-  List<dynamic> emotions = [];
+  String? feeling;
+  int stressLevel;
+  List<dynamic>? emotions;
   File? storedImage;
   File? savedImage;
-  bool hasNote = false;
+  bool hasNote;
+  DateTime? date;
+  String? noteTitle;
+  String? noteDescription;
 
-  JournalEntry({required this.feeling, required this.stressLevel, required this.emotions, required this.storedImage, required this.savedImage, required this.hasNote});
+  JournalEntry({this.feeling, this.stressLevel = 0, this.emotions, this.storedImage, this.savedImage, this.hasNote = false, this.date, this.noteTitle, this.noteDescription});
 
   factory JournalEntry.fromMap(Map<String, dynamic> data){
     JournalEntry journalEntry = JournalEntry(
@@ -18,7 +21,25 @@ class JournalEntry{
       savedImage: data['savedImage'],
       storedImage: data['storedImage'],
       stressLevel: data['stressLevel'],
+      date: data['date'].toDate(),
+      noteTitle:data['noteTitle'],
+      noteDescription:data['noteDescription']
+
     );
     return journalEntry;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'feeling': feeling,
+      'stressLevel': stressLevel,
+      'emotions':emotions,
+      'storedImage':storedImage,
+      'savedImage':savedImage,
+      'hasNote':hasNote,
+      'date':date,
+      'noteTitle':noteTitle,
+      'noteDescription':noteDescription
+    };
   }
 }
