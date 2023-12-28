@@ -18,14 +18,15 @@ class DatabaseService {
         {'name': 'Prepare healthy breakfast', 'completed': false},
       ],
       'nightRoutines':[
-        {'name': 'Limit blue light', 'completed': false},
+        {'name': 'End of the day journal', 'completed': false, 'deletable':false},
       ],
       'journalEntries':[
       ],
+      'endOfTheDayJournal':{},
       'dailyCheckins':[
-        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':1},
-        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':5},
-        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'colors':[0xFFFFFF, 0xFFFFFF], 'step':15},
+        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'colors':['0083B0', '00B4DB'], 'step':1},
+        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'colors':['ec2F4B', '009FFF'], 'step':5},
+        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'colors':['89216B', 'DA4453'], 'step':15},
       ],
       'lastUpdate': FieldValue.serverTimestamp(),
     });
@@ -65,4 +66,5 @@ class DatabaseService {
       field:value,
     });
   }
+
 }

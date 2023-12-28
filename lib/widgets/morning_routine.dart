@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/screens/edit_morning_routine_popup.dart';
 import 'package:outwork/text_styles.dart';
@@ -48,6 +49,7 @@ class _MorningRoutineState extends State<MorningRoutine> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     double routineItemHeight = height * 0.06;
+    int routineNumber = 0;
     return Consumer<UserProvider>(builder: (_, value, child) {
       final morningRoutineProvider =
           Provider.of<MorningRoutineProvider>(context, listen: true);
@@ -56,29 +58,30 @@ class _MorningRoutineState extends State<MorningRoutine> {
           morningRoutineProvider.morningRoutines);
       double containerHeight =
           height * 0.13 + numberOfRoutines * routineItemHeight;
+      ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
       return Container(
         height: containerHeight,
         width: width * 0.9,
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Color(0xFFEDEDED)),
+            color: Theme.of(context).colorScheme.primary,
+            border: themeProvider.isLightTheme()?Border.all(color: Color(0xFFEDEDED)):null,
             // color: Color(0xFFF0F2F5),
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            boxShadow: [
+            boxShadow: themeProvider.isLightTheme()?[
               BoxShadow(
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 3,
                 offset: Offset(3, 3),
               )
-            ]),
+            ]:null),
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xFFEDEDED),
+                  backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
                   radius: 20,
                   child: CircleAvatar(
                     radius: 10,
@@ -93,7 +96,7 @@ class _MorningRoutineState extends State<MorningRoutine> {
                 ),
                 Text(
                   'Morning Routine',
-                  style: kRegular20,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Spacer(),
                 IconButton(
@@ -112,7 +115,7 @@ class _MorningRoutineState extends State<MorningRoutine> {
                         ),
                       );
                     },
-                    icon: Icon(Icons.add))
+                    icon: Icon(Icons.add, size: 35,))
               ],
             ),
             SizedBox(
@@ -120,13 +123,15 @@ class _MorningRoutineState extends State<MorningRoutine> {
             ),
             Divider(
               height: 1,
-              color: Color(0xFFEDEDED),
+              thickness: 2,
+              color: Theme.of(context).colorScheme.primary,
             ),
             SizedBox(
               height: height * 0.01,
             ),
             Expanded(
                 child: ReorderableListView(
+                  physics: NeverScrollableScrollPhysics(),
               onReorder: (int oldIndex, int newIndex) async {
                 if (oldIndex < newIndex) {
                   newIndex -= 1;
@@ -140,11 +145,11 @@ class _MorningRoutineState extends State<MorningRoutine> {
                   .asMap()
                   .entries
                   .map((MapEntry<int, Map<String, dynamic>> entry) {
+                routineNumber++;
                 bool isCompleted = entry.value['completed'];
                 return InkWell(
                   key: ValueKey(entry.key),
                   onTap: () async {
-                    print(morningRoutineProvider.morningRoutines);
                     isCompleted = !isCompleted;
                     await morningRoutineProvider.updateRoutineCompletionStatus(
                         entry.key, isCompleted, value.user!.email!);
@@ -162,8 +167,9 @@ class _MorningRoutineState extends State<MorningRoutine> {
                           width: width * 0.02,
                         ),
                         AutoSizeText(
-                          entry.value['name'],
+                          '$routineNumber. ${entry.value['name']}',
                           minFontSize: 16,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Spacer(),
                         Checkbox(

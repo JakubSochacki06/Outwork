@@ -21,6 +21,11 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
+            // final userProvider =
+            // Provider.of<UserProvider>(context, listen: false);
+            // userProvider.fetchUserData(FirebaseAuth.instance);
+            DatabaseService _dbS = DatabaseService();
+            _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
             return PageNavigator();
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went Wrong!'));

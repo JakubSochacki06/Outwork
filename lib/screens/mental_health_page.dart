@@ -3,6 +3,7 @@ import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/screens/new_journal_entry_popup.dart';
 import 'package:outwork/text_styles.dart';
+import 'package:outwork/widgets/appBars/mental_health_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/note_tile.dart';
@@ -23,38 +24,9 @@ class MentalHealthPage extends StatelessWidget {
         .width;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          // backgroundColor: Colors.white,
-          centerTitle: true,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.add, color: Colors.black),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  // makes it to sit right above keyboard
-                  isScrollControlled: true,
-                  builder: (context) =>
-                      SingleChildScrollView(
-                        child: Container(
-                          // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery
-                                  .of(context)
-                                  .viewInsets
-                                  .bottom),
-                          child: NewJournalEntryPopup(),
-                        ),
-                      ),
-                );
-              },
-            ),
-          ],
-          title: Text('Diary'),
-        ),
+        appBar: MentalHealthAppBar(),
         body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.07),
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height*0.02),
             child: Consumer<UserProvider>(
               builder: (context, provider, child) {
                 final journalEntryProvider = Provider.of<JournalEntryProvider>(
@@ -68,8 +40,8 @@ class MentalHealthPage extends StatelessWidget {
                       journalEntryProvider.journalEntries.length, (index) {
                     JournalEntry currentEntry = journalEntryProvider
                         .journalEntries.reversed.toList()[index];
-                    bool hasNote = currentEntry.hasNote == true;
-                    bool hasPhoto = currentEntry.storedImage == null;
+                    bool hasNote = currentEntry.hasNote;
+                    bool hasPhoto = currentEntry.hasPhoto!;
 
                     if (!monthsAdded.contains(currentEntry.date!.month)) {
                       monthsAdded.add(currentEntry.date!.month);
@@ -83,13 +55,13 @@ class MentalHealthPage extends StatelessWidget {
                             child: RichText(
                               text: TextSpan(
                                   text: monthName,
-                                  style: kBold22,
+                                  style: Theme.of(context).textTheme.headlineLarge,
                                   children: [
                                     WidgetSpan(
                                       child: SizedBox(width: width*0.02),
                                     ),
                                     TextSpan(text: '${currentEntry.date!.year}',
-                                        style: kNotesYear,
+                                        style: Theme.of(context).textTheme.titleLarge,
                                     )
                                   ]
                               ),

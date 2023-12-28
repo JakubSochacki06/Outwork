@@ -22,12 +22,12 @@ class EmotionsList extends StatelessWidget {
                 onPressed: () {
                   diaryEntryProvider.addEmotion(emotion);
                 },
-                child: Text(emotion, style: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?kEmotionActive:kEmotionInactive),
+                child: Text(emotion, style: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?Theme.of(context).textTheme.labelMedium:Theme.of(context).textTheme.bodySmall),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?Color(0xFF27B5BE):Colors.black12,
+                  backgroundColor: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
                   elevation: 0,
                 ),
               ),

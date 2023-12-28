@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/daily_checkin_provider.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
@@ -8,143 +10,190 @@ import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/text_styles.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
+import 'package:outwork/string_extension.dart';
+import 'package:outwork/widgets/appBars/main_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          body: Consumer<UserProvider>(
-            builder: (context, provider, child) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        appBar: MainAppBar(),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Consumer<UserProvider>(
+          builder: (context, provider, child) {
+            final morningRoutineProvider =
+                Provider.of<MorningRoutineProvider>(context, listen: true);
+            morningRoutineProvider.setMorningRoutines(provider.user!);
+            final nightRoutineProvider =
+                Provider.of<NightRoutineProvider>(context, listen: true);
+            nightRoutineProvider.setNightRoutines(provider.user!);
+            final dailyCheckinProvider =
+                Provider.of<DailyCheckinProvider>(context, listen: true);
+            dailyCheckinProvider.setDailyCheckins(provider.user!);
+            final journalEntryProvider =
+                Provider.of<JournalEntryProvider>(context, listen: true);
+            journalEntryProvider.setJournalEntries(provider.user!);
 
-              final morningRoutineProvider =
-              Provider.of<MorningRoutineProvider>(context, listen: false);
-              morningRoutineProvider.setMorningRoutines(provider.user!);
-              final nightRoutineProvider =
-              Provider.of<NightRoutineProvider>(context, listen: false);
-              nightRoutineProvider.setNightRoutines(provider.user!);
-
-              List<dynamic> dailyCheckins = provider.user!.dailyCheckins!;
-              List<Widget> checkinBoxes = List.generate(dailyCheckins.length, (index) {
-                print('colorxd');
-                print(Color(dailyCheckins[index]['colors'][0]));
-                List<Color> colors = [Color(dailyCheckins[index]['colors'][0]), Color(dailyCheckins[index]['colors'][1])];
-                return Row(
-                  children: [
-                    DailyCheckinBox(maximum: dailyCheckins[index]['goal'],
-                        value: dailyCheckins[index]['value'],
-                        text: dailyCheckins[index]['name'],
-                        unit: dailyCheckins[index]['unit'],
-                        emojiName: dailyCheckins[index]['name'].toString().toLowerCase(),
-                        step: dailyCheckins[index]['step'],
-                        colorsGradient: colors,
-                        hasButtons: true),
-                    SizedBox(width: width*0.05,)
-                  ],
-                );
-              });
-
-              morningRoutineProvider.morningRoutines.length != 0? checkinBoxes.insert(0, Row(
+            List<dynamic> dailyCheckins = dailyCheckinProvider.dailyCheckins;
+            List<Widget> checkinBoxes =
+                List.generate(dailyCheckins.length, (index) {
+              List<Color> colors = [
+                HexColor(dailyCheckins[index]['colors'][0]),
+                HexColor(dailyCheckins[index]['colors'][1])
+              ];
+              return Row(
                 children: [
                   DailyCheckinBox(
-                    value: morningRoutineProvider.countProgress(),
-                    maximum: morningRoutineProvider.morningRoutines
-                        .length,
-                    unit: 'routines',
-                    text: 'Morning Routine',
-                    step: 1,
-                    emojiName: 'morning',
-                    colorsGradient: [Color(0xFFCC2B5E), Color(0xFF753A88)],
-                    hasButtons: false,
-                  ),
-                  SizedBox(width: width*0.05,)
+                      text: dailyCheckins[index]['name'],
+                      unit: dailyCheckins[index]['unit'],
+                      emojiName:
+                          dailyCheckins[index]['name'].toString().toLowerCase(),
+                      step: dailyCheckins[index]['step'],
+                      colorsGradient: colors,
+                      index: index,
+                      hasButtons: true),
+                  SizedBox(
+                    width: width * 0.05,
+                  )
                 ],
-              )):null;
-
-              nightRoutineProvider.nightRoutines.length != 0? checkinBoxes.insert(checkinBoxes.length, DailyCheckinBox(
-                value: nightRoutineProvider.countProgress(),
-                maximum: nightRoutineProvider.nightRoutines
-                    .length,
-                unit: 'routines',
-                text: 'Night Routine',
-                step: 1,
-                emojiName: 'bed',
-                colorsGradient: [Color(0xFFFF5F6D), Color(0xFFFFC371)],
-                hasButtons: false,
-              )):null;
-
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: height * 0.05, horizontal: width * 0.07),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Hello ${provider.user!.displayName}!',
-                          style: kBold22,
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'I believe in you.',
-                          style: kHomePageGray,
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.03,
-                      ),
-                      HomePageCalendar(),
-                      SizedBox(
-                        height: height * 0.03,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Daily check-in',
-                          style: kBold22,
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Container(
-                        height: height * 0.33,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: checkinBoxes
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.03,
-                      ),
-                      MorningRoutine(),
-                      SizedBox(
-                        height: height * 0.03,
-                      ),
-                      NightRoutine(),
-                    ],
-                  ),
-                ),
               );
-            },
-          )),
-    );
+            });
+
+            checkinBoxes.insert(
+                0,
+                Row(
+                  children: [
+                    DailyCheckinBox(
+                      unit: 'routines',
+                      text: 'Morning',
+                      step: 1,
+                      index: 0,
+                      emojiName: 'morning',
+                      colorsGradient: [Color(0xFF78ffd6), Color(0xFFa8ff78)],
+                      hasButtons: false,
+                    ),
+                    SizedBox(
+                      width: width * 0.05,
+                    )
+                  ],
+                ));
+
+            checkinBoxes.insert(
+                checkinBoxes.length,
+                DailyCheckinBox(
+                  unit: 'routines',
+                  text: 'Night',
+                  index: -1,
+                  step: 1,
+                  emojiName: 'bed',
+                  colorsGradient: [Color(0xFFFF5F6D), Color(0xFFFFC371)],
+                  hasButtons: false,
+                ));
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: height * 0.02, horizontal: width * 0.04),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Hello ${provider.user!.displayName}!',
+                        style: Theme.of(context).textTheme.headlineLarge,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'I believe in you.',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    HomePageCalendar(),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Daily check-in',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                          SizedBox(
+                            width: width * 0.02,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Center(
+                              child: Text(
+                                '${dailyCheckinProvider.countDoneCheckins(morningRoutineProvider.morningRoutineFinished(), nightRoutineProvider.nightRoutineFinished())}/${dailyCheckinProvider.dailyCheckins.length + 2}',
+                                style: dailyCheckinProvider.countDoneCheckins(
+                                            morningRoutineProvider
+                                                .morningRoutineFinished(),
+                                            nightRoutineProvider
+                                                .nightRoutineFinished()) !=
+                                        dailyCheckinProvider
+                                                .dailyCheckins.length +
+                                            2
+                                    ? Theme.of(context).textTheme.bodyMedium
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () async {},
+                            child: Icon(
+                              Icons.add,
+                              size: 35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(children: checkinBoxes),
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    MorningRoutine(),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    NightRoutine(),
+                  ],
+                ),
+              ),
+            );
+          },
+        ));
   }
 }

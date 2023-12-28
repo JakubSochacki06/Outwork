@@ -70,9 +70,7 @@ class UserProvider extends ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       await _signInWithCredential(credential);
-      await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
     } catch (e) {
       // Handle error
       print(e.toString());
@@ -81,13 +79,22 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> fetchUserData(String email) async {
     try {
-      final QuerySnapshot querySnapshot = await _db.collection('users_data').where('email', isEqualTo: email).get();
+      final QuerySnapshot querySnapshot = await _db
+          .collection('users_data')
+          .where('email', isEqualTo: email)
+          .get();
+
       if (querySnapshot.docs.isNotEmpty) {
         dynamic userData = querySnapshot.docs.first.data();
-        _user = FirebaseUser.fromMap(userData);
-        print('fetched user data');
+        FirebaseUser? newUser = FirebaseUser.fromMap(userData);
+
+        if (_user == null || _user != newUser) {
+          _user = newUser;
+          print('fetched user data: ${_user?.email}');
+        } else {
+          print('User data unchanged. Not notifying listeners.');
+        }
         return;
-        print('fetched data');
       }
     } catch (e) {
       // Handle error
@@ -95,18 +102,14 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+
+
+
+
   Future<void> reloadData() async{
     await fetchUserData(user!.email!);
   }
 
-  Future<void> addDailyCheckinProgressToFirebase(int step, String name) async{
-    int indexToUpdate = _user!.dailyCheckins!.indexWhere((map) => map['name'] == name);
-    _user!.dailyCheckins![indexToUpdate]['value'] += step;
-    await _db.collection('users_data').doc(_user!.email).update({
-      'dailyCheckins':_user!.dailyCheckins,
-    });
-    notifyListeners();
-  }
 
 
   // Sign out the current user

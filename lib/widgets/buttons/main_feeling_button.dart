@@ -15,7 +15,7 @@ class MainFeelingButton extends StatelessWidget {
       },
       child: CircleAvatar(
         radius: 25,
-        backgroundColor: journalEntryProvider.journalEntry.feeling == feeling?Colors.black12:Colors.transparent,
+        backgroundColor: journalEntryProvider.journalEntry.feeling == feeling?Theme.of(context).colorScheme.onPrimaryContainer:Colors.transparent,
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: journalEntryProvider.journalEntry.feeling == feeling?15:25,

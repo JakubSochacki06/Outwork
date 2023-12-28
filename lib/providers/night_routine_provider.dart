@@ -14,7 +14,7 @@ class NightRoutineProvider extends ChangeNotifier {
   }
 
   Future<void> addNightRoutineToDatabase(String nightRoutine, String email) async{
-    _nightRoutines.add({'name':nightRoutine, 'completed':false});
+    _nightRoutines.insert(_nightRoutines.length-1,{'name':nightRoutine, 'completed':false, 'deletable':true});
     await _db
         .collection('users_data')
         .doc(email)
@@ -27,6 +27,14 @@ class NightRoutineProvider extends ChangeNotifier {
     await _db.collection('users_data').doc(email).update({
       'nightRoutines':_nightRoutines,
     });
+    notifyListeners();
+  }
+  Future<void> removeNightRoutineFromDatabase(String morningRoutine, String email) async{
+    _nightRoutines.removeWhere((map) => map['name'] == morningRoutine);
+    await _db
+        .collection('users_data')
+        .doc(email)
+        .set({'nightRoutines': _nightRoutines}, SetOptions(merge: true));
     notifyListeners();
   }
 
@@ -46,5 +54,9 @@ class NightRoutineProvider extends ChangeNotifier {
       }
     }
     return sum;
+  }
+
+  bool nightRoutineFinished(){
+    return countProgress() == _nightRoutines.length;
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
@@ -6,6 +8,7 @@ import 'package:outwork/services/database_service.dart';
 
 class JournalEntryProvider extends ChangeNotifier {
   JournalEntry _journalEntry = JournalEntry(emotions: []);
+  FirebaseFirestore _db = FirebaseFirestore.instance;
   bool _wantToAddNote = false;
   List<JournalEntry>? _journalEntries;
 
@@ -63,10 +66,43 @@ class JournalEntryProvider extends ChangeNotifier {
   Future<void> addJournalEntryToDatabase(FirebaseUser user) async{
     _journalEntry.date = DateTime.now();
     _journalEntries!.add(_journalEntry);
+    _journalEntry.storedImage != null? await uploadPhoto(_journalEntry.storedImage!, user):null;
+    _journalEntry.storedImage != null? _journalEntry.hasPhoto = true: _journalEntry.hasPhoto = false;
     List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
     DatabaseService dbS = DatabaseService();
     dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
     clearProvider(user);
     notifyListeners();
+  }
+
+  Future<void> removeJournalEntryFromDatabase(DateTime date, FirebaseUser user) async{
+    _journalEntries!.removeWhere((entry) => entry.date == date);
+    List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
+    await _db
+        .collection('users_data')
+        .doc(user.email)
+        .set({'journalEntries': entriesAsMap}, SetOptions(merge: true));
+    notifyListeners();
+  }
+
+
+  Future<void> uploadPhoto(File file, FirebaseUser user) async{
+    String firebasePath = 'images/${user.email}/${_journalEntry.date}.jpg';
+    final ref = FirebaseStorage.instance.ref().child(firebasePath);
+    await ref.putFile(file);
+    notifyListeners();
+  }
+
+  Future<String> retrievePhoto(DateTime date, FirebaseUser user) async{
+    String firebasePath = 'images/${user.email}/$date.jpg';
+    final ref = FirebaseStorage.instance.ref().child(firebasePath);
+    String url = await ref.getDownloadURL();
+    return url;
+  }
+
+  Future<void> deletePhoto(DateTime date, FirebaseUser user) async{
+    String firebasePath = 'images/${user.email}/$date.jpg';
+    final ref = FirebaseStorage.instance.ref().child(firebasePath);
+    await ref.delete();
   }
 }

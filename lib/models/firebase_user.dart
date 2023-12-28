@@ -9,8 +9,9 @@ class FirebaseUser {
   List<dynamic>? nightRoutines;
   List<dynamic>? dailyCheckins;
   List<JournalEntry>? journalEntries;
+  Map<dynamic, dynamic>? endOfTheDayJournal;
 
-  FirebaseUser({this.displayName, this.email, this.photoURL, this.morningRoutines, this.nightRoutines, this.journalEntries, this.dailyCheckins});
+  FirebaseUser({this.displayName, this.email, this.photoURL, this.morningRoutines, this.nightRoutines, this.journalEntries, this.dailyCheckins, this.endOfTheDayJournal});
 
   factory FirebaseUser.fromMap(Map<String, dynamic> data){
     List<JournalEntry> journalEntries = [];
@@ -27,6 +28,7 @@ class FirebaseUser {
       nightRoutines: data['nightRoutines'],
       journalEntries: journalEntries,
       dailyCheckins: data['dailyCheckins'],
+      endOfTheDayJournal: data['endOfTheDayJournal']
     );
     return user;
   }

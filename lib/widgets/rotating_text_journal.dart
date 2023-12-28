@@ -13,9 +13,9 @@ class RotatingTextJournal extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        const Text(
+        Text(
           'Write about',
-          style: kRotatingText,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         SizedBox(
           width: width*0.01,
@@ -25,48 +25,46 @@ class RotatingTextJournal extends StatelessWidget {
             height: height*0.1,
             width: width*0.25,
             child: DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 20.0,
-                color: Colors.black,
-              ),
+              textAlign: TextAlign.start,
+              style: Theme.of(context).textTheme.bodySmall!,
               child: AnimatedTextKit(
                 repeatForever: true,
                 animatedTexts: [
                   RotateAnimatedText(
-                      'your emotions', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText
+                      'your emotions', alignment: Alignment.centerLeft
                   ),
-                  RotateAnimatedText('your plans', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your feelings', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                  RotateAnimatedText('your plans', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your feelings', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'insecurity you’re working to overcome', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your day', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your recent failure', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your thoughts', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your goals', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'insecurity you’re working to overcome', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your day', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your recent failure', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your thoughts', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your goals', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'your recent disappointment', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'your recent disappointment', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'something you’re grateful for', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('recent realization', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'something you’re grateful for', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('recent realization', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'difficult decision you’re facing', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'difficult decision you’re facing', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'skill you’re working to improve', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
-                  RotateAnimatedText('your dream', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'skill you’re working to improve', alignment: Alignment.centerLeft),
+                  RotateAnimatedText('your dream', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'personal project you’re working on', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'personal project you’re working on', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'something you’ve been struggling with', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'something you’ve been struggling with', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'relationship that is important to you', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'relationship that is important to you', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'recent change in your life', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'recent change in your life', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'personal values and beliefs', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'personal values and beliefs', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'recent accomplishments you feel proud of', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      'recent accomplishments you feel proud of', alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      ' new experience you’ve had recently', alignment: Alignment.centerLeft, textAlign: TextAlign.start, textStyle: kRotatingText),
+                      ' new experience you’ve had recently', alignment: Alignment.centerLeft),
                 ],
                 onTap: () {
                   print("Tap Event");

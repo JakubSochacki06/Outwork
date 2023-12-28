@@ -7,11 +7,12 @@ class JournalEntry{
   File? storedImage;
   File? savedImage;
   bool hasNote;
+  bool? hasPhoto;
   DateTime? date;
   String? noteTitle;
   String? noteDescription;
 
-  JournalEntry({this.feeling, this.stressLevel = 0, this.emotions, this.storedImage, this.savedImage, this.hasNote = false, this.date, this.noteTitle, this.noteDescription});
+  JournalEntry({this.feeling, this.stressLevel = 0, this.emotions, this.storedImage, this.savedImage, this.hasNote = false, this.date, this.noteTitle, this.noteDescription, this.hasPhoto});
 
   factory JournalEntry.fromMap(Map<String, dynamic> data){
     JournalEntry journalEntry = JournalEntry(
@@ -21,6 +22,7 @@ class JournalEntry{
       savedImage: data['savedImage'],
       storedImage: data['storedImage'],
       stressLevel: data['stressLevel'],
+      hasPhoto: data['hasPhoto'],
       date: data['date'].toDate(),
       noteTitle:data['noteTitle'],
       noteDescription:data['noteDescription']
@@ -34,9 +36,8 @@ class JournalEntry{
       'feeling': feeling,
       'stressLevel': stressLevel,
       'emotions':emotions,
-      'storedImage':storedImage,
-      'savedImage':savedImage,
       'hasNote':hasNote,
+      'hasPhoto':hasPhoto,
       'date':date,
       'noteTitle':noteTitle,
       'noteDescription':noteDescription

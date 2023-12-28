@@ -35,7 +35,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             height: height * 0.01,
           ),
           Text(
-            'Routine name',
+            'Night Routine name',
             style: kRegular20,
           ),
           SizedBox(

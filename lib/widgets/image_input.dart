@@ -13,6 +13,8 @@ class ImageInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     Future<void> _pickImage(ImageSource source) async {
       final ImagePicker _picker = ImagePicker();
@@ -31,20 +33,21 @@ class ImageInput extends StatelessWidget {
           '${appDir.path}/$fileName');
       journalEntryProvider.setSavedImage(savedImage);
       journalEntryProvider.setStoredImage(_storedImage!);
+      journalEntryProvider.journalEntry.hasPhoto = true;
     }
 
 
     return Row(
       children: [
         Container(
-          width: 200,
-          height: 200,
+          width: width*0.3,
+          height: height*0.1,
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey),
           ),
           child: journalEntryProvider.journalEntry.storedImage != null
               ? Image.file(
-            _storedImage!,
+            journalEntryProvider.journalEntry.storedImage!,
             fit: BoxFit.fill,
             width: double.infinity,
           )
@@ -63,15 +66,15 @@ class ImageInput extends StatelessWidget {
                 onPressed: () {
                   _pickImage(ImageSource.camera);
                 },
-                icon: Icon(Icons.camera),
-                label: Text('Take picture', style: TextStyle(color: Colors.black), textAlign: TextAlign.center,),
+                icon: Icon(Icons.camera_alt),
+                label: Text('Take picture', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
               ),
               TextButton.icon(
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
-                icon: Icon(Icons.picture_as_pdf),
-                label: Text('Choose from gallery', style: TextStyle(color: Colors.black), textAlign: TextAlign.center,),
+                icon: Icon(Icons.photo),
+                label: Text('Choose from gallery', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
               ),
             ],
           ),

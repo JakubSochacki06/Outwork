@@ -56,4 +56,8 @@ class MorningRoutineProvider extends ChangeNotifier {
     }
     return sum;
   }
+
+  bool morningRoutineFinished(){
+    return countProgress() == _morningRoutines.length;
+  }
 }

@@ -15,16 +15,17 @@ class NewJournalEntryPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
-    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
+        Provider.of<UserProvider>(context, listen: false);
+    JournalEntryProvider journalEntryProvider =
+        Provider.of<JournalEntryProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
-      color: Color(0xFF757575),
+      color: Colors.transparent,
       child: Container(
         padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           border: Border.all(color: Colors.transparent),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -38,69 +39,79 @@ class NewJournalEntryPopup extends StatelessWidget {
               widthFactor: 0.15,
               alignment: Alignment.center,
               child: Container(
-                height: height*0.005,
+                height: height * 0.005,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
-                  color: Colors.black12,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.01,
             ),
             Text(
               'How are you feeling?',
               textAlign: TextAlign.center,
-              style: kRegular20,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.01,
             ),
             MainFeelingsRow(),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.01,
             ),
             Text(
               'Emotions that you felt',
               textAlign: TextAlign.center,
-              style: kRegular20,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.01,
             ),
             EmotionsList(
               emotions: ['Excited', 'Loved', 'Surprised'],
             ),
             EmotionsList(emotions: ['Angry', 'Anxious', 'Lonely']),
             EmotionsList(
-              emotions: ['Calm', 'Bored', 'Tired'],
+              emotions: ['Calm', 'Fascinated', 'Tired'],
             ),
             EmotionsList(
-              emotions: ['Frustrated', 'Relaxed', 'Fascinated'],
+              emotions: ['Frustrated', 'Relaxed', 'Bored'],
             ),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.01,
             ),
             Text(
               'Stress level',
               textAlign: TextAlign.center,
-              style: kRegular20,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             Container(
-              height: height*0.1,
-                width: width*0.8,
+                height: height * 0.07,
+                width: width * 0.8,
                 child: StressSlider()),
             SizedBox(
-              height: height*0.01,
+              height: height * 0.03,
             ),
-            CheckboxListTile(title:Text('Leave a note'), value: journalEntryProvider.wantToAddNote, onChanged: (checkboxValue){
-              journalEntryProvider.changeWantToAddNote(checkboxValue!);
-            }),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(15)
+              ),
+              child: CheckboxListTile(
+                  title: Text('Leave a note', style: Theme.of(context).textTheme.bodyLarge,),
+                  value: journalEntryProvider.wantToAddNote,
+                  onChanged: (checkboxValue) {
+                    journalEntryProvider.changeWantToAddNote(checkboxValue!);
+                  }),
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
             ElevatedButton(
               onPressed: () {
-                print(journalEntryProvider.wantToAddNote);
-                if(journalEntryProvider.wantToAddNote == true){
-                  print('wanted to add note');
+                if (journalEntryProvider.wantToAddNote == true) {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
@@ -113,19 +124,20 @@ class NewJournalEntryPopup extends StatelessWidget {
                     ),
                   );
                 } else {
-                  journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+                  journalEntryProvider
+                      .addJournalEntryToDatabase(userProvider.user!);
                   Navigator.pop(context);
                 }
               },
               child: Text(
-                journalEntryProvider.wantToAddNote?'Add note':'Submit',
+                journalEntryProvider.wantToAddNote ? 'Add note' : 'Submit',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
                 shape: StadiumBorder(),
-                minimumSize: Size(width*0.8, height*0.05),
-                backgroundColor: Color(0xFF2A6049),
+                minimumSize: Size(width * 0.8, height * 0.05),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 elevation: 0,
               ),
             ),

@@ -32,6 +32,14 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
     double width = MediaQuery.of(context).size.width;
     return Container(
       padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        border: Border.all(color: Colors.transparent),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -42,7 +50,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
               height: height*0.005,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Colors.black12,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
@@ -75,7 +83,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             height: height*0.03,
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async{
               journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
               journalEntryProvider.journalEntry.noteTitle = _titleController.text;
               journalEntryProvider.setHasNote(true);
@@ -86,12 +94,12 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             child: Text(
               'Submit with note',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: Theme.of(context).textTheme.displayMedium,
             ),
             style: ElevatedButton.styleFrom(
               shape: StadiumBorder(),
               minimumSize: Size(width*0.8, height*0.05),
-              backgroundColor: Color(0xFF2A6049),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               elevation: 0,
             ),
           ),
