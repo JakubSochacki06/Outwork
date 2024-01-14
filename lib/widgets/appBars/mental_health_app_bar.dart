@@ -35,7 +35,7 @@ class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget 
           },
         ),
       ],
-      title: Text('Diary', style: Theme.of(context).textTheme.headlineLarge),
+      title: Text('Diary', style: Theme.of(context).textTheme.bodyLarge),
     );
   }
 

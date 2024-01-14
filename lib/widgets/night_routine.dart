@@ -5,7 +5,6 @@ import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/screens/add_night_routine_popup.dart';
 import 'package:outwork/screens/edit_morning_routine_popup.dart';
 import 'package:outwork/screens/end_of_day_journal_popup.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
@@ -103,7 +102,7 @@ class _NightRoutineState extends State<NightRoutine> {
                 ),
                 Text(
                   'Night Routine',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).primaryTextTheme.bodyMedium,
                 ),
                 Spacer(),
                 IconButton(
@@ -190,7 +189,7 @@ class _NightRoutineState extends State<NightRoutine> {
                         AutoSizeText(
                           '$routineNumber. ${entry.value['name']}',
                           minFontSize: 16,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).primaryTextTheme.labelLarge,
                         ),
                         Spacer(),
                         Checkbox(

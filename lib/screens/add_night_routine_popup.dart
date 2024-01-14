@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -36,7 +35,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
           ),
           Text(
             'Night Routine name',
-            style: kRegular20,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(
             height: height * 0.01,

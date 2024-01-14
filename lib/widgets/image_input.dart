@@ -51,7 +51,7 @@ class ImageInput extends StatelessWidget {
             fit: BoxFit.fill,
             width: double.infinity,
           )
-              : Text('No image taken', textAlign: TextAlign.center,),
+              : Text('No image taken', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,),
           alignment: Alignment.center,
         ),
         SizedBox(
@@ -67,14 +67,14 @@ class ImageInput extends StatelessWidget {
                   _pickImage(ImageSource.camera);
                 },
                 icon: Icon(Icons.camera_alt),
-                label: Text('Take picture', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
+                label: Text('Take picture', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
               TextButton.icon(
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
                 icon: Icon(Icons.photo),
-                label: Text('Choose from gallery', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
+                label: Text('Choose from gallery', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
             ],
           ),

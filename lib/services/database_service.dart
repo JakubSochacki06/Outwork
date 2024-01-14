@@ -22,6 +22,11 @@ class DatabaseService {
       ],
       'journalEntries':[
       ],
+      'projectsIDList':[
+
+      ],
+      'xpAmount':0,
+      'level':1,
       'endOfTheDayJournal':{},
       'dailyCheckins':[
         {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'colors':['0083B0', '00B4DB'], 'step':1},

@@ -65,6 +65,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             height: 10.0,
           ),
           Container(
+            // TODO: MAKE IT RESPONSIVCE
             height: 125,
             child: TextField(
               maxLines: null,
@@ -94,7 +95,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             child: Text(
               'Submit with note',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.displayMedium,
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),
             style: ElevatedButton.styleFrom(
               shape: StadiumBorder(),

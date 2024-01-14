@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:outwork/screens/planner_page.dart';
-import 'package:outwork/text_styles.dart';
+import 'package:outwork/screens/profile_page.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'providers/user_provider.dart';
@@ -21,7 +22,7 @@ class _PageNavigatorState extends State<PageNavigator> {
     HomePage(),
     PlannerPage(),
     MentalHealthPage(),
-    Text('test'),
+    ProfilePage(),
     // const FridgePage(),
     // FindRecipePage(),
     // const FamilyPage(),
@@ -37,28 +38,7 @@ class _PageNavigatorState extends State<PageNavigator> {
     return SafeArea(
       child: Scaffold(
         // backgroundColor: Colors.white,
-        body: FutureBuilder(
-          future: userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.connectionState == ConnectionState.done) {
-              if(userProvider.user == null){
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                    Text('Loading user', style: kBold22,)
-                  ],
-                );
-              }
-              return _widgetOptions.elementAt(_selectedIndex);
-            } else {
-              return const Center(child: Text('Something went Wrong!'));
-            }
-          },
-        ),
+        body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           decoration: BoxDecoration(
@@ -93,28 +73,28 @@ class _PageNavigatorState extends State<PageNavigator> {
                   GButton(
                     icon: Icons.home,
                     text: 'Home',
-                    textStyle: Theme.of(context).textTheme.displaySmall,
+                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
                     // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     iconColor: Theme.of(context).iconTheme.color,
                   ),
                   GButton(
                     icon: Icons.date_range,
                     text: 'Planner',
-                    textStyle: Theme.of(context).textTheme.displaySmall,
+                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
                     // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     iconColor: Theme.of(context).iconTheme.color,
                   ),
                   GButton(
                     icon: Icons.sticky_note_2,
                     text: 'Journal',
-                    textStyle: Theme.of(context).textTheme.displaySmall,
+                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
                     // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     iconColor: Theme.of(context).iconTheme.color,
                   ),
                   GButton(
-                    icon: Icons.checklist_outlined,
-                    text: 'Shopping list',
-                    textStyle: Theme.of(context).textTheme.displaySmall,
+                    icon: Icons.person,
+                    text: 'Profile',
+                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
                     // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                     iconColor: Theme.of(context).iconTheme.color,
                   ),

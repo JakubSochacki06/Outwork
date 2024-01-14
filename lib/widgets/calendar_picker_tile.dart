@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 class CalendarPickerTile extends StatelessWidget {
-  const CalendarPickerTile({super.key});
+  final dynamic calendarSubject;
+  CalendarPickerTile({required this.calendarSubject});
+  // projectProvider.newProject
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,8 @@ class CalendarPickerTile extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            projectProvider.newProject.dueDate==null?'Input due date ->':'Due ${projectProvider.newProject.dueDate!.day} ${DateFormat('MMMM').format(projectProvider.newProject.dueDate!)} ${projectProvider.newProject.dueDate!.year}',
-            style: Theme.of(context).textTheme.bodyMedium,
+            calendarSubject.dueDate==null?'Input due date ->':'Due ${calendarSubject.dueDate!.day} ${DateFormat('MMMM').format(calendarSubject.dueDate!)} ${calendarSubject.dueDate!.year}',
+            style: Theme.of(context).primaryTextTheme.labelLarge,
           ),
           Spacer(),
           IconButton(
@@ -36,7 +38,7 @@ class CalendarPickerTile extends StatelessWidget {
                       child: Text(
                         'Select date',
                         style:
-                        Theme.of(context).textTheme.headlineLarge,
+                        Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                     content: Container(
@@ -48,6 +50,7 @@ class CalendarPickerTile extends StatelessWidget {
                             height: height*0.33,
                             width: width*0.8,
                             child: SfDateRangePicker(
+                              todayHighlightColor: Theme.of(context).colorScheme.secondary,
                               selectableDayPredicate: (DateTime dateTime) {
                                 if (dateTime.isBefore(DateTime.now())) {
                                   return false;
@@ -61,7 +64,8 @@ class CalendarPickerTile extends StatelessWidget {
                                   .colorScheme
                                   .secondary,
                               onSelectionChanged: (arg) {
-                                projectProvider.setDueDate(arg.value);
+                                calendarSubject == projectProvider.newProject?projectProvider.setNewProjectDueDate(arg.value):projectProvider.setNewTaskDueDate(arg.value);
+
                               },
                               // selectionShape: DateRangePickerSelectionShape.rectangle,
                               showNavigationArrow: true,
@@ -84,13 +88,11 @@ class CalendarPickerTile extends StatelessWidget {
                                   },
                                   child: Text(
                                     'Cancel',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
+                                    style: Theme.of(context).primaryTextTheme.labelLarge,
                                   )),
                               TextButton(
                                   onPressed:
-                                  projectProvider.newProject.dueDate !=
+                                  calendarSubject.dueDate !=
                                       null
                                       ? () {
                                     Navigator.pop(context);
@@ -98,20 +100,17 @@ class CalendarPickerTile extends StatelessWidget {
                                       : null,
                                   child: Text(
                                     'Submit',
-                                    style: projectProvider
-                                        .newProject.dueDate !=
+                                    style: calendarSubject.dueDate !=
                                         null
-                                        ? Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
+                                        ? Theme.of(context).primaryTextTheme.labelLarge!
                                         .copyWith(
                                         color:
                                         Theme.of(context)
                                             .colorScheme
                                             .secondary)
                                         : Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!,
+                                        .primaryTextTheme
+                                        .labelLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                                   )),
                             ],
                           )

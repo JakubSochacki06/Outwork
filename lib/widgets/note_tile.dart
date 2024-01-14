@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +43,7 @@ class NoteTile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Photo you left', style: Theme.of(context).textTheme.headlineMedium),
+            title: Text('Photo you left', style: Theme.of(context).textTheme.bodyMedium),
             content: Image.network(url),
             actions: [
               Center(
@@ -52,7 +51,7 @@ class NoteTile extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close', style: Theme.of(context).textTheme.headlineSmall,),
+                  child: Text('Close', style: Theme.of(context).textTheme.bodySmall,),
                 ),
               ),
             ],
@@ -73,13 +72,13 @@ class NoteTile extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall,),
+                child: Text('No', style: Theme.of(context).primaryTextTheme.labelMedium,),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),),
+                child: Text('Yes', style: Theme.of(context).primaryTextTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
               ),
             ],
           );
@@ -172,7 +171,7 @@ class NoteTile extends StatelessWidget {
                         Align(
                           child: Text(convertFeelingToTitle(),
                               style:
-                                  Theme.of(context).textTheme.headlineMedium),
+                                  Theme.of(context).textTheme.bodyMedium),
                         ),
                         SizedBox(
                           height: 5,
@@ -180,7 +179,7 @@ class NoteTile extends StatelessWidget {
                         Align(
                           child: Text(
                             setDate(),
-                            style: Theme.of(context).textTheme.titleSmall,
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                           ),
                         ),
                       ],
@@ -226,7 +225,7 @@ class NoteTile extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     noteTitle!,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
                 Align(
@@ -235,7 +234,7 @@ class NoteTile extends StatelessWidget {
                     noteDescription!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                   ),
                 ),
               ],
@@ -292,7 +291,7 @@ class NoteTile extends StatelessWidget {
                     children: [
                       Text(
                         setDate(),
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer)
                       ),
                       Text('${convertFeelingToTitle()}',
                           style: Theme.of(context).textTheme.headlineSmall),
@@ -302,7 +301,7 @@ class NoteTile extends StatelessWidget {
                       ),
                       Text(
                         '${emotionsText()}',
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       )

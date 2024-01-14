@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/screens/new_journal_entry_popup.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:outwork/widgets/appBars/mental_health_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -55,13 +54,13 @@ class MentalHealthPage extends StatelessWidget {
                             child: RichText(
                               text: TextSpan(
                                   text: monthName,
-                                  style: Theme.of(context).textTheme.headlineLarge,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                   children: [
                                     WidgetSpan(
                                       child: SizedBox(width: width*0.02),
                                     ),
                                     TextSpan(text: '${currentEntry.date!.year}',
-                                        style: Theme.of(context).textTheme.titleLarge,
+                                        style: Theme.of(context).textTheme.bodyLarge,
                                     )
                                   ]
                               ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/screens/edit_morning_routine_popup.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
@@ -96,7 +95,7 @@ class _MorningRoutineState extends State<MorningRoutine> {
                 ),
                 Text(
                   'Morning Routine',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).primaryTextTheme.bodyMedium,
                 ),
                 Spacer(),
                 IconButton(
@@ -169,7 +168,7 @@ class _MorningRoutineState extends State<MorningRoutine> {
                         AutoSizeText(
                           '$routineNumber. ${entry.value['name']}',
                           minFontSize: 16,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).primaryTextTheme.labelLarge,
                         ),
                         Spacer(),
                         Checkbox(

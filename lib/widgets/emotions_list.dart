@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class EmotionsList extends StatelessWidget {
@@ -22,7 +21,7 @@ class EmotionsList extends StatelessWidget {
                 onPressed: () {
                   diaryEntryProvider.addEmotion(emotion);
                 },
-                child: Text(emotion, style: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?Theme.of(context).textTheme.labelMedium:Theme.of(context).textTheme.bodySmall),
+                child: Text(emotion, style: diaryEntryProvider.journalEntry.emotions!.contains(emotion)?Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer):Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),

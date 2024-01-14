@@ -4,7 +4,6 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 
@@ -122,7 +121,7 @@ class DailyCheckinBox extends StatelessWidget {
                   Expanded(
                     child: Text(
                       text,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.bodySmall,
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -156,10 +155,10 @@ class DailyCheckinBox extends StatelessWidget {
                               textAlign: TextAlign.center,
                               text: TextSpan(
                                   text: values['hasRoutines'] == true?'${values['value']}/${values['maximum']}\n':'No\n',
-                                  style: Theme.of(context).textTheme.displayMedium,
+                                  style: Theme.of(context).primaryTextTheme.displaySmall,
                                   children: <TextSpan>[
                                     TextSpan(text: values['hasRoutines'] == true?unit:'routines',
-                                        style: Theme.of(context).textTheme.titleMedium,
+                                        style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                                     )
                                   ]
                               ),
@@ -169,6 +168,7 @@ class DailyCheckinBox extends StatelessWidget {
                       ],
                       pointers: <GaugePointer>[
                         RangePointer(
+                          enableAnimation: true,
                           value: values['value']!.toDouble(),
                           sizeUnit: GaugeSizeUnit.logicalPixel,
                           pointerOffset: -2,
@@ -233,7 +233,7 @@ class DailyCheckinBox extends StatelessWidget {
                   : Container(
                 child: Text(
                   values['hasRoutines'] == true?'You can do it':'Add new routine',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 height: height * 0.04,
               ),

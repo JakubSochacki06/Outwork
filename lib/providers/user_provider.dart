@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/projects_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -87,13 +88,7 @@ class UserProvider extends ChangeNotifier {
       if (querySnapshot.docs.isNotEmpty) {
         dynamic userData = querySnapshot.docs.first.data();
         FirebaseUser? newUser = FirebaseUser.fromMap(userData);
-
-        if (_user == null || _user != newUser) {
-          _user = newUser;
-          print('fetched user data: ${_user?.email}');
-        } else {
-          print('User data unchanged. Not notifying listeners.');
-        }
+        _user = newUser;
         return;
       }
     } catch (e) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -24,14 +23,14 @@ class GoogleSignupButton extends StatelessWidget {
           provider.signInWithGoogle();
           Navigator.pushNamed(context, '/processingLogging');
         },
-        child: const Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), backgroundColor: Color(0x100FFFFF), radius: 13,),
             SizedBox(
               width: 10,
             ),
-            Text('Google', style: kLandingPageGoogleButtonTextStyle,)
+            Text('Google', style: Theme.of(context).textTheme.bodyMedium,)
           ],
         ),
       ),

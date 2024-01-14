@@ -5,13 +5,17 @@ ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
     background: Color(0xFF101010),
-    // background: Color(0xFF0E0E0F),
+    onBackground: Colors.white,
     primary: Color(0xFF2B2B2B),
     // onBackground: ,
     onPrimaryContainer: Color(0xFF404040),
     secondary: Color(0xFFB2F042),
     onSecondaryContainer: Color(0xFF101010),
     error: Color(0xFFFF7280),
+    // IMPORTANT
+    onError: Color(0xFFB286FD),
+    // URGENT
+    onErrorContainer: Color(0xFFFFFAA0),
   ),
   checkboxTheme: CheckboxThemeData(
     checkColor:  MaterialStateProperty.all<Color>(Color(0xFFB2F042)),
@@ -26,7 +30,7 @@ ThemeData darkTheme = ThemeData(
     border: InputBorder.none,
   ),
   iconTheme: IconThemeData(
-    color: Color(0xFF666565)
+    color: Colors.white
   ),
   // typography: Typography(),
   // bottomNavigationBarTheme: BottomNavigationBarThemeData(

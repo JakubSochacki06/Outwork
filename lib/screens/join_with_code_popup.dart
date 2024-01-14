@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
+import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
-class AddMorningRoutinePopup extends StatefulWidget {
-  const AddMorningRoutinePopup({super.key});
+class JoinWithCodePopup extends StatefulWidget {
+  const JoinWithCodePopup({super.key});
 
   @override
-  State<AddMorningRoutinePopup> createState() => _AddMorningRoutinePopupState();
+  State<JoinWithCodePopup> createState() => _AddMorningRoutinePopupState();
 }
 
-class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
-  final _morningRoutineController = TextEditingController();
+class _AddMorningRoutinePopupState extends State<JoinWithCodePopup> {
+  final _codeController = TextEditingController();
+  String? errorMessage;
 
   @override
   void dispose() {
-    _morningRoutineController.dispose();
+    _codeController.dispose();
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    ProjectsProvider projectsProvider = Provider.of<ProjectsProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Container(
       padding: EdgeInsets.all(15),
@@ -33,7 +37,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             height: height * 0.01,
           ),
           Text(
-            'Morning Routine name',
+            'Project code',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           SizedBox(
@@ -43,8 +47,10 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             width: width * 0.8,
             height: height * 0.05,
             child: TextField(
-              controller: _morningRoutineController,
+              maxLength: 6,
+              controller: _codeController,
               decoration: InputDecoration(
+                errorText: errorMessage,
                 contentPadding: EdgeInsets.only(
                   left: width * 0.02,
                   bottom: height * 0.05 / 2,
@@ -57,21 +63,24 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             height: height * 0.01,
           ),
           ElevatedButton(
-            onPressed: () {
-              final morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
-              final userProvider = Provider.of<UserProvider>(context, listen: false);
-              morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
-              Navigator.pop(context);
+            onPressed: () async {
+              if(! await projectsProvider.projectIDValid(_codeController.text, userProvider.user!)){
+                setState(() {
+                  errorMessage = 'Project ID must be valid!';
+                });
+              } else {
+                Navigator.pop(context);
+              }
             },
             child: Text(
-              'Submit new routine',
+              'Join project',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),
             style: ElevatedButton.styleFrom(
               shape: StadiumBorder(),
               minimumSize: Size(width * 0.8, height * 0.05),
-              backgroundColor: Color(0xFF2A6049),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               elevation: 0,
             ),
           ),

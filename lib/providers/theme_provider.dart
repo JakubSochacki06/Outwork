@@ -8,6 +8,12 @@ class ThemeProvider extends ChangeNotifier {
 
   ThemeData get themeData => _themeData;
 
+  void enableLightTheme(bool value){
+    value == true?_themeData = lightTheme:_themeData = darkTheme;
+    print(themeData.colorScheme.background);
+    notifyListeners();
+  }
+
   bool isDarkTheme(){
     return _themeData == darkTheme;
   }

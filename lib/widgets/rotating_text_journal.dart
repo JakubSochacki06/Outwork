@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:outwork/text_styles.dart';
 
 class RotatingTextJournal extends StatelessWidget {
   const RotatingTextJournal({super.key});
@@ -15,7 +14,7 @@ class RotatingTextJournal extends StatelessWidget {
       children: <Widget>[
         Text(
           'Write about',
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         SizedBox(
           width: width*0.01,
@@ -26,7 +25,7 @@ class RotatingTextJournal extends StatelessWidget {
             width: width*0.25,
             child: DefaultTextStyle(
               textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.bodySmall!,
+              style: Theme.of(context).textTheme.labelMedium!,
               child: AnimatedTextKit(
                 repeatForever: true,
                 animatedTexts: [

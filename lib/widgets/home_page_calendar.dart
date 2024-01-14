@@ -91,11 +91,13 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
               );
             } else {
               return Container(
+                height: height * 0.06,
+                width: width * 0.1,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black12,
                 ),
-                child: Center(child: Text(date.day.toString())),
+                child: Center(child: Text(date.day.toString(), style: Theme.of(context).textTheme.labelLarge)),
               );
             }
           },
@@ -122,7 +124,7 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
             } else {
               return Container(
                 // color: Colors.grey,
-                child: Center(child: Text(date.day.toString())),
+                child: Center(child: Text(date.day.toString(), style: Theme.of(context).primaryTextTheme.bodyMedium)),
               );
             }
           },
@@ -131,7 +133,7 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
             return Center(
                 child: Text(
                     weekDayToName(date.weekday),
-                  style: isToday?Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelMedium!,
+                  style: isToday?Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer)!,
                 ),
               );
           }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/emotions_list.dart';
 import 'package:outwork/widgets/main_feelings_row.dart';
-import 'package:outwork/text_styles.dart';
 import 'package:outwork/widgets/stress_slider.dart';
 import 'new_journal_entry_popup2.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -52,7 +51,7 @@ class NewJournalEntryPopup extends StatelessWidget {
             Text(
               'How are you feeling?',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             SizedBox(
               height: height * 0.01,
@@ -64,7 +63,7 @@ class NewJournalEntryPopup extends StatelessWidget {
             Text(
               'Emotions that you felt',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             SizedBox(
               height: height * 0.01,
@@ -85,7 +84,7 @@ class NewJournalEntryPopup extends StatelessWidget {
             Text(
               'Stress level',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             Container(
                 height: height * 0.07,
@@ -100,7 +99,7 @@ class NewJournalEntryPopup extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15)
               ),
               child: CheckboxListTile(
-                  title: Text('Leave a note', style: Theme.of(context).textTheme.bodyLarge,),
+                  title: Text('Leave a note', style: Theme.of(context).primaryTextTheme.bodyMedium,),
                   value: journalEntryProvider.wantToAddNote,
                   onChanged: (checkboxValue) {
                     journalEntryProvider.changeWantToAddNote(checkboxValue!);
@@ -132,7 +131,7 @@ class NewJournalEntryPopup extends StatelessWidget {
               child: Text(
                 journalEntryProvider.wantToAddNote ? 'Add note' : 'Submit',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
                 shape: StadiumBorder(),
