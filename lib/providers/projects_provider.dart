@@ -12,7 +12,6 @@ class ProjectsProvider extends ChangeNotifier {
   List<dynamic> _projectsIDList = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
   Project _newProject = Project();
-  Project editedProject = Project();
   ProjectTask _newTask = ProjectTask();
 
   List<Project> get projectsList => _projectsList;
@@ -42,6 +41,28 @@ class ProjectsProvider extends ChangeNotifier {
 
   void setNewProjectType(String type) {
     _newProject.projectType = type;
+    notifyListeners();
+  }
+
+  Future<void> changeProjectDueDate(DateTime dueDate, Project project) async{
+    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+    _projectsList[indexOfEditedProject].dueDate = dueDate;
+    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+    notifyListeners();
+  }
+
+  Future<void> changeProjectType(String type, Project project) async{
+    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+    _projectsList[indexOfEditedProject].projectType = type;
+    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+    notifyListeners();
+  }
+
+  Future<void> changeTitleAndDescription(String title, String description, Project project) async{
+    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+    _projectsList[indexOfEditedProject].title = title;
+    _projectsList[indexOfEditedProject].description = description;
+    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
     notifyListeners();
   }
 

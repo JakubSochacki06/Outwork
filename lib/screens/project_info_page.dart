@@ -15,7 +15,6 @@ import 'package:intl/intl.dart';
 
 class ProjectInfoPage extends StatelessWidget {
   final Project project;
-
   ProjectInfoPage({required this.project});
 
   @override
@@ -153,7 +152,7 @@ class ProjectInfoPage extends StatelessWidget {
                                       // height: height*0.1,
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                                      child: AddProjectPage(),
+                                      child: AddProjectPage(mode: 'Edit existing', projectToEdit: project,),
                                     ),
                                   ),
                                 );

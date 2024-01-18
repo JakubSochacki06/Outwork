@@ -38,7 +38,7 @@ class ProjectsPage extends StatelessWidget {
                   // height: height*0.1,
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddProjectPage(),
+                  child: AddProjectPage(mode: 'Add new',),
                 ),
               ),
             );
