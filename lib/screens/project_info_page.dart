@@ -143,6 +143,11 @@ class ProjectInfoPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: (){
+                                projectsProvider.editableDummyProject.title = project.title;
+                                projectsProvider.editableDummyProject.description = project.description;
+                                projectsProvider.editableDummyProject.dueDate = project.dueDate;
+                                projectsProvider.editableDummyProject.projectType = project.projectType;
+                                projectsProvider.editableDummyProject.id = project.id;
                                 showModalBottomSheet(
                                   context: context,
                                   isScrollControlled: true,
@@ -152,7 +157,7 @@ class ProjectInfoPage extends StatelessWidget {
                                       // height: height*0.1,
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                                      child: AddProjectPage(mode: 'Edit existing', projectToEdit: project,),
+                                      child: AddProjectPage(mode: 'Edit existing'),
                                     ),
                                   ),
                                 );

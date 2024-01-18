@@ -12,6 +12,7 @@ class ProjectsProvider extends ChangeNotifier {
   List<dynamic> _projectsIDList = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
   Project _newProject = Project();
+  Project editableDummyProject = Project();
   ProjectTask _newTask = ProjectTask();
 
   List<Project> get projectsList => _projectsList;
@@ -44,27 +45,47 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> changeProjectDueDate(DateTime dueDate, Project project) async{
-    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
-    _projectsList[indexOfEditedProject].dueDate = dueDate;
-    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  void editProjectDueDate(DateTime? dueDate){
+    editableDummyProject.dueDate = dueDate;
     notifyListeners();
   }
 
-  Future<void> changeProjectType(String type, Project project) async{
-    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
-    _projectsList[indexOfEditedProject].projectType = type;
-    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  void editProjectType(String type){
+    editableDummyProject.projectType = type;
     notifyListeners();
   }
 
-  Future<void> changeTitleAndDescription(String title, String description, Project project) async{
-    int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
-    _projectsList[indexOfEditedProject].title = title;
-    _projectsList[indexOfEditedProject].description = description;
-    await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  Future<void> saveEditedChanges() async{
+    int indexOfEditedProject = _projectsList.indexWhere((project) => project.id == editableDummyProject.id);
+    _projectsList[indexOfEditedProject].title = editableDummyProject.title;
+    _projectsList[indexOfEditedProject].description = editableDummyProject.description;
+    _projectsList[indexOfEditedProject].dueDate = editableDummyProject.dueDate;
+    _projectsList[indexOfEditedProject].projectType = editableDummyProject.projectType;
+    await _db.collection('projects').doc(editableDummyProject.id).set(_projectsList[indexOfEditedProject].toMap());
     notifyListeners();
   }
+
+  // Future<void> changeProjectDueDate(DateTime dueDate, Project project) async{
+  //   int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+  //   _projectsList[indexOfEditedProject].dueDate = dueDate;
+  //   await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> changeProjectType(String type, Project project) async{
+  //   int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+  //   _projectsList[indexOfEditedProject].projectType = type;
+  //   await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  //   notifyListeners();
+  // }
+  //
+  // Future<void> changeTitleAndDescription(String title, String description, Project project) async{
+  //   int indexOfEditedProject = _projectsList.indexWhere((element) => element == project);
+  //   _projectsList[indexOfEditedProject].title = title;
+  //   _projectsList[indexOfEditedProject].description = description;
+  //   await _db.collection('projects').doc(project.id).set(_projectsList[indexOfEditedProject].toMap());
+  //   notifyListeners();
+  // }
 
   Future<Project?> getProjectById(String id) async {
     final QuerySnapshot querySnapshot =
