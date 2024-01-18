@@ -105,12 +105,18 @@ class UserProvider extends ChangeNotifier {
     await fetchUserData(user!.email!);
   }
 
-
-
   // Sign out the current user
   Future<void> signOut() async {
     await _auth.signOut();
     _user = null;
+    notifyListeners();
+  }
+
+  Future<void> addWorkedSecondsToDatabase(int workedSeconds) async{
+    await _db
+        .collection('users_data')
+        .doc(user!.email)
+        .update({'workedSeconds': FieldValue.increment(workedSeconds)});
     notifyListeners();
   }
 }

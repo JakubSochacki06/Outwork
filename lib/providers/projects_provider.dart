@@ -12,6 +12,7 @@ class ProjectsProvider extends ChangeNotifier {
   List<dynamic> _projectsIDList = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
   Project _newProject = Project();
+  Project editedProject = Project();
   ProjectTask _newTask = ProjectTask();
 
   List<Project> get projectsList => _projectsList;
@@ -39,7 +40,7 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setProjectType(String type) {
+  void setNewProjectType(String type) {
     _newProject.projectType = type;
     notifyListeners();
   }
@@ -49,7 +50,6 @@ class ProjectsProvider extends ChangeNotifier {
         await _db.collection('projects').where('id', isEqualTo: id).get();
     if (querySnapshot.docs.isNotEmpty) {
       dynamic projectData = querySnapshot.docs.first.data();
-      print(projectData['membersEmails'].runtimeType);
       List<FirebaseUser> projectMembers = await getProjectMembersData(projectData['membersEmails']);
       Project project = Project.fromMap(projectData, projectMembers);
       return project;
@@ -60,7 +60,6 @@ class ProjectsProvider extends ChangeNotifier {
   Future<List<FirebaseUser>> getProjectMembersData(List<dynamic> userEmails) async{
     List<FirebaseUser> projectMembers = [];
     for (var userEmail in userEmails) {
-      print('yes');
       FirebaseUser? projectMember = await FirebaseUser.getUserByMail(userEmail);
       projectMembers.add(projectMember!);
     }
@@ -111,17 +110,15 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> addProjectIDToUserDatabase(FirebaseUser user, Project project) async{
-  //   _projectsIDList.add(project.id);
-  //   await _db
-  //       .collection('users_data')
-  //       .doc(user.email)
-  //       .set({'projectsIDList': _projectsIDList}, SetOptions(merge: true));
-  //   project.members!.add(user.email);
-  //   await _db
-  //       .collection('projects')
-  //       .doc(project.id)
-  //       .set({'members': project.members}, SetOptions(merge: true));
+  // Future<void> editProjectAndSave(FirebaseUser user) async {
+  //   int indexToEdit = _projectsList.indexWhere((project) => project.id == editedProject.id);
+  //   _projectsList[indexToEdit].title = editedProject.title;
+  //   _projectsList[indexToEdit].description = editedProject.description;
+  //   _projectsList[indexToEdit].dueDate = editedProject.dueDate;
+  //   _projectsList[indexToEdit].projectType = editedProject.projectType;
+  //
+  //   await _db.collection('projects').doc(editedProject.id).set(_projectsList[indexToEdit].toMap());
+  //   notifyListeners();
   // }
 
   Future<void> addTaskToDatabase(Project project) async {
@@ -149,8 +146,10 @@ class ProjectsProvider extends ChangeNotifier {
     List<ProjectTask> allTasks = [];
     for (var project in _projectsList) {
       project.tasks!.forEach((task) {
-        task.projectColor = project.color;
-        allTasks.add(task);
+        if(task.completed == false && task.dueDate!.isAfter(DateTime.now())) {
+          task.projectColor = project.color;
+          allTasks.add(task);
+        }
       });
     }
     allTasks.sort((a, b) => a.dueDate!.compareTo(b.dueDate!));
@@ -186,6 +185,20 @@ class ProjectsProvider extends ChangeNotifier {
       'projectsIDList': FieldValue.arrayUnion([projectID])
     });
     _projectsIDList.remove(projectID);
+    notifyListeners();
+  }
+
+  Future<void> deleteProject(Project project, String userEmail) async{
+    _projectsList.remove(project);
+    for (var email in project.membersEmails!) {
+      await _db.collection('users_data').doc(email).update({
+        'projectsIDList': FieldValue.arrayRemove([project.id])
+      });
+    }
+    await _db.collection('projects').doc(project.id).delete().then(
+          (doc) => print("Document deleted"),
+      onError: (e) => print("Error updating document $e"),
+    );
     notifyListeners();
   }
 

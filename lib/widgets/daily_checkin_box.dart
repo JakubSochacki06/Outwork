@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/models/daily_checkin.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/add_daily_checkin_popup.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 
 class DailyCheckinBox extends StatelessWidget {
-  final String text;
-  final String emojiName;
-  final String unit;
   final int index;
-  final int step;
-  final List<Color> colorsGradient;
-  final bool hasButtons;
+  String? routineName;
 
   DailyCheckinBox({
-    required this.unit,
-    required this.text,
     required this.index,
-    required this.step,
-    required this.emojiName,
-    required this.colorsGradient,
-    required this.hasButtons,
+    this.routineName,
   });
 
   @override
   Widget build(BuildContext context) {
 
-    dynamic provider;
+    DailyCheckinProvider dailyCheckinProvider = Provider.of<DailyCheckinProvider>(context, listen: true);
     int currentMaximum = 0;
     int currentValue = 0;
-
+    DailyCheckin dailyCheckin = DailyCheckin();
 
     Map<String, dynamic> _getValues(BuildContext context) {
 
       bool hasRoutines = true;
-      if (text == 'Morning') {
+      if (routineName == 'Morning') {
         final morningRoutineProvider =
         Provider.of<MorningRoutineProvider>(context, listen: true);
+        dailyCheckin.name = 'Morning';
+        dailyCheckin.emojiName = 'morning';
+        dailyCheckin.step = 1;
+        dailyCheckin.unit = 'routines';
+        dailyCheckin.color = Color(0xFF6096B4);
         morningRoutineProvider.morningRoutines.length != 0 ?
         currentValue = morningRoutineProvider.countProgress() : 0;
         currentMaximum = morningRoutineProvider.morningRoutines.length != 0
@@ -48,9 +45,14 @@ class DailyCheckinBox extends StatelessWidget {
         morningRoutineProvider.morningRoutines.length == 0
             ? hasRoutines = false
             : null;
-      } else if (text == 'Night') {
+      } else if (routineName == 'Night') {
         final nightRoutineProvider =
         Provider.of<NightRoutineProvider>(context, listen: true);
+        dailyCheckin.name = 'Night';
+        dailyCheckin.emojiName = 'bed';
+        dailyCheckin.step = 1;
+        dailyCheckin.unit = 'routines';
+        dailyCheckin.color = Color(0xFFAC87C5);
         currentValue =
         nightRoutineProvider.nightRoutines.length != 0 ? nightRoutineProvider
             .countProgress() : 0;
@@ -61,11 +63,9 @@ class DailyCheckinBox extends StatelessWidget {
             ? hasRoutines = false
             : null;
       } else {
-        DailyCheckinProvider dailyCheckinProvider =
-        Provider.of<DailyCheckinProvider>(context, listen: true);
-        provider = dailyCheckinProvider;
-        currentValue = dailyCheckinProvider.dailyCheckins[index]['value'];
-        currentMaximum = dailyCheckinProvider.dailyCheckins[index]['goal'];
+        dailyCheckin = dailyCheckinProvider.dailyCheckins[index];
+        currentValue = dailyCheckinProvider.dailyCheckins[index].value!;
+        currentMaximum = dailyCheckinProvider.dailyCheckins[index].goal!;
       }
 
       return {'maximum': currentMaximum, 'value': currentValue, 'hasRoutines':hasRoutines};
@@ -103,6 +103,7 @@ class DailyCheckinBox extends StatelessWidget {
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -112,19 +113,38 @@ class DailyCheckinBox extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 10,
                       backgroundColor: Colors.transparent,
-                      child: Image.asset('assets/emojis/$emojiName.png'),
+                      child: Image.asset('assets/emojis/dailycheckin/${dailyCheckin.emojiName}.png'),
                     ),
-                  ),
-                  SizedBox(
-                    width: width * 0.03,
                   ),
                   Expanded(
                     child: Text(
-                      text,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      textAlign: TextAlign.left,
+                      dailyCheckin.name!,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                  CircleAvatar(
+                    radius: 20,
+                    child: routineName == null?IconButton(
+                      onPressed: (){
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          useRootNavigator: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              // height: height*0.1,
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                  MediaQuery.of(context).viewInsets.bottom),
+                              child: AddDailyCheckinPopup(buttonText: 'Edit existing', name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[index].emojiName!, id: dailyCheckinProvider.dailyCheckins[index].id!,),
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.settings, color: Theme.of(context).iconTheme.color,),
+                    ):Container(),
+                  )
                 ],
               ),
               SizedBox(
@@ -157,7 +177,7 @@ class DailyCheckinBox extends StatelessWidget {
                                   text: values['hasRoutines'] == true?'${values['value']}/${values['maximum']}\n':'No\n',
                                   style: Theme.of(context).primaryTextTheme.displaySmall,
                                   children: <TextSpan>[
-                                    TextSpan(text: values['hasRoutines'] == true?unit:'routines',
+                                    TextSpan(text: values['hasRoutines'] == true?dailyCheckin.unit:'routines',
                                         style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                                     )
                                   ]
@@ -172,17 +192,18 @@ class DailyCheckinBox extends StatelessWidget {
                           value: values['value']!.toDouble(),
                           sizeUnit: GaugeSizeUnit.logicalPixel,
                           pointerOffset: -2,
-                          gradient: SweepGradient(
-                              colors: colorsGradient,
-                              // stops: <double>[0.25, 0.75]
-                          ),
+                          color: dailyCheckin.color,
+                          // gradient: SweepGradient(
+                          //     colors: colorsGradient,
+                          //     // stops: <double>[0.25, 0.75]
+                          // ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              hasButtons == true
+              routineName == null
                   ? Container(
                 height: height * 0.04,
                 width: width * 0.25,
@@ -196,8 +217,8 @@ class DailyCheckinBox extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () async {
-                        await provider.removeDailyCheckinProgressToFirebase(
-                            step, text, userProvider.user!.email!);
+                        await dailyCheckinProvider.removeDailyCheckinProgressToFirebase(
+                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
                       },
                       child: Container(
                         child: Icon(
@@ -215,8 +236,8 @@ class DailyCheckinBox extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        await provider.addDailyCheckinProgressToFirebase(
-                            step, text, userProvider.user!.email!);
+                        await dailyCheckinProvider.addDailyCheckinProgressToFirebase(
+                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
                       },
                       child: Container(
                         child: Icon(

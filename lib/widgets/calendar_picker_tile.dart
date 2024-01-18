@@ -64,7 +64,13 @@ class CalendarPickerTile extends StatelessWidget {
                                   .colorScheme
                                   .secondary,
                               onSelectionChanged: (arg) {
-                                calendarSubject == projectProvider.newProject?projectProvider.setNewProjectDueDate(arg.value):projectProvider.setNewTaskDueDate(arg.value);
+                                if(calendarSubject == projectProvider.newProject){
+                                  projectProvider.setNewProjectDueDate(arg.value);
+                                } else if(calendarSubject == projectProvider.newTask){
+                                  projectProvider.setNewTaskDueDate(arg.value);
+                                } else {
+                                  // projectProvider.setExistingProjectDueDate(arg.value);
+                                }
 
                               },
                               // selectionShape: DateRangePickerSelectionShape.rectangle,

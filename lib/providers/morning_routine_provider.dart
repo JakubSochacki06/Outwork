@@ -45,6 +45,7 @@ class MorningRoutineProvider extends ChangeNotifier {
     });
     _morningRoutines = morningRoutines;
     notifyListeners();
+    print('notified');
   }
 
   int countProgress(){
@@ -58,6 +59,6 @@ class MorningRoutineProvider extends ChangeNotifier {
   }
 
   bool morningRoutineFinished(){
-    return countProgress() == _morningRoutines.length;
+    return _morningRoutines.length!=0?countProgress() == _morningRoutines.length:false;
   }
 }

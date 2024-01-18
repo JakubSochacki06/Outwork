@@ -57,9 +57,9 @@ class ProjectTask {
     if (daysLeft > 10) {
       return Theme.of(context).colorScheme.onSurface;
     } else if (daysLeft > 5) {
-      return Theme.of(context).colorScheme.onErrorContainer; // or any color you prefer
+      return Theme.of(context).colorScheme.onErrorContainer;
     } else {
-      return Theme.of(context).colorScheme.error; // or any color you prefer
+      return Theme.of(context).colorScheme.error;
     }
   }
 }

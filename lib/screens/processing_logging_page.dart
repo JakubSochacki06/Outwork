@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/morning_routine_provider.dart';
+import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/services/database_service.dart';
@@ -19,12 +21,16 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     ProjectsProvider projectsProvider = Provider.of<ProjectsProvider>(context, listen: false);
+    MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
+    NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
 
     Future<void> setUpData() async{
       DatabaseService _dbS = DatabaseService();
       await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
       await userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!);
       await projectsProvider.setProjectsList(userProvider.user!);
+      morningRoutineProvider.setMorningRoutines(userProvider.user!);
+      nightRoutineProvider.setNightRoutines(userProvider.user!);
     }
 
     return Scaffold(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/screens/pomodoro_page.dart';
-import 'package:outwork/screens/planner_page.dart';
+import 'package:outwork/screens/projects_page.dart';
 import 'package:outwork/screens/profile_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'providers/user_provider.dart';
@@ -15,101 +17,81 @@ class PageNavigator extends StatefulWidget {
 }
 
 class _PageNavigatorState extends State<PageNavigator> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    PlannerPage(),
-    MentalHealthPage(),
-    ProfilePage(),
-    // const FridgePage(),
-    // FindRecipePage(),
-    // const FamilyPage(),
-    // const ShoppingListsPage()
-  ];
+  List<Widget> _buildScreens(){
+    return [
+      HomePage(),
+      ProjectsPage(),
+      MentalHealthPage(),
+      ProfilePage(),
+    ];
+  }
+
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        activeColorPrimary: Theme.of(context).colorScheme.secondary,
+        icon: Icon(Icons.home),
+        inactiveColorPrimary: Theme.of(context).iconTheme.color,
+        title: ('Home'),
+        // activeColorPrimary: CupertinoColors.activeBlue,
+        // inactiveColorPrimary: CupertinoColors.systemGrey,
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: Theme.of(context).colorScheme.secondary,
+        icon: Icon(Icons.date_range),
+        inactiveColorPrimary: Theme.of(context).iconTheme.color,
+        title: ('Projects'),
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: Theme.of(context).colorScheme.secondary,
+        icon: Icon(Icons.sticky_note_2),
+        inactiveColorPrimary: Theme.of(context).iconTheme.color,
+        title: ('Journal'),
+      ),
+      PersistentBottomNavBarItem(
+        activeColorPrimary: Theme.of(context).colorScheme.secondary,
+        icon: Icon(Icons.person),
+        inactiveColorPrimary: Theme.of(context).iconTheme.color,
+        title: ("Profile"),
+      ),
+
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context);
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    final userProvider =
-    Provider.of<UserProvider>(context, listen: true);
-    return SafeArea(
-      child: Scaffold(
-        // backgroundColor: Colors.white,
-        body: _widgetOptions.elementAt(_selectedIndex),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            // borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: 30,
-                blurRadius: 50,
-                color: Colors.black,
-              )
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(15.0),
-            ),
-            child: SafeArea(
-              child: GNav(
-                // backgroundColor: Colors.purple,
-                // rippleColor: Colors.grey[300]!,
-                hoverColor: Colors.grey[100]!,
-                gap: 8,
-                activeColor: Colors.black,
-                iconSize: 24,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: const Duration(milliseconds: 400),
-                tabBackgroundColor: Theme.of(context).colorScheme.secondary,
-                color: Colors.black,
-                tabs: [
-                  GButton(
-                    icon: Icons.home,
-                    text: 'Home',
-                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
-                    // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    iconColor: Theme.of(context).iconTheme.color,
-                  ),
-                  GButton(
-                    icon: Icons.date_range,
-                    text: 'Planner',
-                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
-                    // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    iconColor: Theme.of(context).iconTheme.color,
-                  ),
-                  GButton(
-                    icon: Icons.sticky_note_2,
-                    text: 'Journal',
-                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
-                    // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    iconColor: Theme.of(context).iconTheme.color,
-                  ),
-                  GButton(
-                    icon: Icons.person,
-                    text: 'Profile',
-                    textStyle: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
-                    // iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                    iconColor: Theme.of(context).iconTheme.color,
-                  ),
-                ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-              ),
-            ),
-          ),
-        ),
+    // final userProvider =
+    // Provider.of<UserProvider>(context, listen: true);
+    return PersistentTabView(
+      context,
+      controller: navbarControllerProvider.controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      decoration: NavBarDecoration(
+        boxShadow: [
+          BoxShadow(
+            spreadRadius: 30,
+            blurRadius: 50,
+            color: Colors.black,
+          )
+        ]
       ),
+      itemAnimationProperties: ItemAnimationProperties(
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: ScreenTransitionAnimation(
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle: NavBarStyle.style1,
     );
   }
 }

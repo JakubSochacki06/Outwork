@@ -31,7 +31,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     ProjectsProvider projectProvider =
-        Provider.of<ProjectsProvider>(context, listen: true);
+    Provider.of<ProjectsProvider>(context, listen: true);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     projectProvider.newProject.title != null?_titleController.text = projectProvider.newProject.title!:null;
@@ -121,6 +121,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               },
               decoration: InputDecoration(
                   errorText: titleError,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
                   errorStyle: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),
                   // alignLabelWithHint: true,
                   labelText: 'Title',
@@ -145,6 +146,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
               // expands: true,
               controller: _descriptionController,
               decoration: InputDecoration(
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
                   errorText: descriptionError,
                   errorStyle: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),
                   labelText: 'Description',
@@ -169,7 +171,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
             height: height * 0.01,
           ),
           Text(
-            'Task type',
+            'Project type',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(
@@ -180,67 +182,67 @@ class _AddProjectPageState extends State<AddProjectPage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  projectProvider.setProjectType('Basic');
+                  projectProvider.setNewProjectType('Basic');
                 },
                 child: Text('Basic',
                     style: projectProvider.newProject.projectType == 'Basic'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondaryContainer)
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor:
-                      projectProvider.newProject.projectType == 'Basic'
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary,
+                  projectProvider.newProject.projectType == 'Basic'
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
                   elevation: 0,
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  projectProvider.setProjectType('Urgent');
+                  projectProvider.setNewProjectType('Urgent');
                 },
                 child: Text('Urgent',
                     style: projectProvider.newProject.projectType == 'Urgent'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondaryContainer)
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor:
-                      projectProvider.newProject.projectType == 'Urgent'
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary,
+                  projectProvider.newProject.projectType == 'Urgent'
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
                   elevation: 0,
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  projectProvider.setProjectType('Important');
+                  projectProvider.setNewProjectType('Important');
                 },
                 child: Text('Important',
                     style: projectProvider.newProject.projectType == 'Important'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSecondaryContainer)
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor:
-                      projectProvider.newProject.projectType == 'Important'
-                          ? Theme.of(context).colorScheme.secondary
-                          : Theme.of(context).colorScheme.primary,
+                  projectProvider.newProject.projectType == 'Important'
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primary,
                   elevation: 0,
                 ),
               ),

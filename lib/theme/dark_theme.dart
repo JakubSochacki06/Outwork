@@ -15,7 +15,7 @@ ThemeData darkTheme = ThemeData(
     // IMPORTANT
     onError: Color(0xFFB286FD),
     // URGENT
-    onErrorContainer: Color(0xFFFFFAA0),
+    onErrorContainer: Color(0xFFffdd3c),
   ),
   checkboxTheme: CheckboxThemeData(
     checkColor:  MaterialStateProperty.all<Color>(Color(0xFFB2F042)),

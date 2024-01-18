@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +13,7 @@ class AddNightRoutinePopup extends StatefulWidget {
 
 class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
   final _nightRoutineController = TextEditingController();
+  String? errorText;
 
   @override
   void dispose() {
@@ -25,58 +25,101 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    bool checkIfValid(){
+      if(_nightRoutineController.text.length==0){
+        setState(() {
+          errorText = 'Textfield can\'t be empty';
+        });
+        return false;
+      }
+      final nightRoutineProvider =
+      Provider.of<NightRoutineProvider>(context, listen: false);
+      final userProvider =
+      Provider.of<UserProvider>(context, listen: false);
+      nightRoutineProvider.addNightRoutineToDatabase(
+          _nightRoutineController.text, userProvider.user!.email!);
+      Navigator.pop(context);
+      return true;
+    }
+
     return Container(
-      padding: EdgeInsets.all(15),
-      width: width * 0.9,
-      child: Column(
-        children: [
-          SizedBox(
-            height: height * 0.01,
+      color: Colors.transparent,
+      child: Container(
+        width: width,
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          border: Border.all(color: Colors.transparent),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          Text(
-            'Night Routine name',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          SizedBox(
-            height: height * 0.01,
-          ),
-          Container(
-            width: width * 0.8,
-            height: height * 0.05,
-            child: TextField(
-              controller: _nightRoutineController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(
-                  left: width * 0.02,
-                  bottom: height * 0.05 / 2,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FractionallySizedBox(
+              widthFactor: 0.15,
+              alignment: Alignment.center,
+              child: Container(
+                height: height * 0.005,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                border: OutlineInputBorder(),
               ),
             ),
-          ),
-          SizedBox(
-            height: height * 0.01,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
-              final userProvider = Provider.of<UserProvider>(context, listen: false);
-              nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Submit new routine',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
+            SizedBox(
+              height: height * 0.01,
             ),
-            style: ElevatedButton.styleFrom(
-              shape: StadiumBorder(),
-              minimumSize: Size(width * 0.8, height * 0.05),
-              backgroundColor: Color(0xFF2A6049),
-              elevation: 0,
+            Text(
+              'Create night routine',
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-          ),
-        ],
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(15)),
+              child: TextField(
+                // maxLength: 20,
+                controller: _nightRoutineController,
+                decoration: InputDecoration(
+                    errorText: errorText,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    errorStyle: Theme.of(context)
+                        .primaryTextTheme
+                        .labelLarge!
+                        .copyWith(color: Theme.of(context).colorScheme.error),
+                    // alignLabelWithHint: true,
+                    labelText: 'Night routine',
+                    labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
+                    hintText: 'Enter your night routine name'),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            ElevatedButton(
+              onPressed: checkIfValid,
+              child: Text(
+                'Submit new routine',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer),
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: StadiumBorder(),
+                minimumSize: Size(width * 0.8, height * 0.05),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                elevation: 0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

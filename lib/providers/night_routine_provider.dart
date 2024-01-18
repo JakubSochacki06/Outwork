@@ -57,6 +57,6 @@ class NightRoutineProvider extends ChangeNotifier {
   }
 
   bool nightRoutineFinished(){
-    return countProgress() == _nightRoutines.length;
+    return _nightRoutines.length!=0?countProgress() == _nightRoutines.length:false;
   }
 }

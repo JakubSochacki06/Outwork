@@ -17,7 +17,7 @@ class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget 
           onPressed: () {
             showModalBottomSheet(
               context: context,
-              // makes it to sit right above keyboard
+              useRootNavigator: true,
               isScrollControlled: true,
               builder: (context) =>
                   SingleChildScrollView(

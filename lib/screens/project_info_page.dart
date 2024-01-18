@@ -4,6 +4,8 @@ import 'package:outwork/models/firebase_user.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/add_project_page.dart';
 import 'package:outwork/screens/add_task_popup.dart';
 import 'package:outwork/screens/project_requests_popup.dart';
 import 'package:outwork/widgets/project_members_avatars.dart';
@@ -21,7 +23,9 @@ class ProjectInfoPage extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     ProjectsProvider projectsProvider = Provider.of<ProjectsProvider>(context);
+
     Color getColorBasedOnTask() {
       Color lightThemeColor = Colors.white;
       switch (project.projectType) {
@@ -37,6 +41,32 @@ class ProjectInfoPage extends StatelessWidget {
           : lightThemeColor;
     }
 
+    Future<bool?> wantToDeleteNoteAlert(BuildContext context) async {
+      bool? deleteNote = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete project?', style: Theme.of(context).textTheme.bodySmall,),
+            content: Text('Are you sure you want to delete this project? You can\'t retrieve it after', style: Theme.of(context).primaryTextTheme.bodySmall),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+              ),
+            ],
+          );
+        },
+      );
+      return deleteNote;
+    }
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -90,42 +120,82 @@ class ProjectInfoPage extends StatelessWidget {
                             icon: Icon(Icons.people),
                           ),
                         ),
-                        SizedBox(
-                          width: width * 0.015,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            border: themeProvider.isLightTheme()
-                                ? Border.all(color: Color(0xFFEDEDED))
-                                : null,
-                            // color: Color(0xFFF0F2F5),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            boxShadow: themeProvider.isLightTheme()
-                                ? [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 2,
-                                      blurRadius: 3,
-                                      // blurRadius: 10,
-                                      offset: Offset(3, 3),
-                                    )
-                                  ]
-                                : null,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.edit),
-                              SizedBox(
-                                width: width * 0.01,
+                        userProvider.user!.email==project.membersData![0].email?Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.015,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.error,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: IconButton(
+                                onPressed: () async {
+                                  bool? wantToDelete = await wantToDeleteNoteAlert(context);
+                                  if(wantToDelete == true){
+                                    await projectsProvider.deleteProject(project, userProvider.user!.email!);
+                                  }
+                                },
+                                icon: Icon(Icons.delete),
                               ),
-                              Text('Edit project',
-                                  style:
-                                      Theme.of(context).textTheme.labelMedium),
-                            ],
-                          ),
-                        )
+                            ),
+                            SizedBox(
+                              width: width * 0.015,
+                            ),
+                            InkWell(
+                              onTap: (){
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  useRootNavigator: true,
+                                  builder: (context) => SingleChildScrollView(
+                                    child: Container(
+                                      // height: height*0.1,
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      child: AddProjectPage(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  border: themeProvider.isLightTheme()
+                                      ? Border.all(color: Color(0xFFEDEDED))
+                                      : null,
+                                  // color: Color(0xFFF0F2F5),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  boxShadow: themeProvider.isLightTheme()
+                                      ? [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.3),
+                                            spreadRadius: 2,
+                                            blurRadius: 3,
+                                            // blurRadius: 10,
+                                            offset: Offset(3, 3),
+                                          )
+                                        ]
+                                      : null,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.edit),
+                                    SizedBox(
+                                      width: width * 0.01,
+                                    ),
+                                    Text('Edit project',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ):Container(),
                       ],
                     ),
                     SizedBox(
@@ -174,7 +244,8 @@ class ProjectInfoPage extends StatelessWidget {
                           radius: 25,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(45),
-                            child: Image.network(project.membersData![0].photoURL!),
+                            child: Image.network(
+                                project.membersData![0].photoURL!),
                           ),
                         ),
                         SizedBox(
@@ -184,19 +255,22 @@ class ProjectInfoPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Created by',
-                              style: Theme.of(context).primaryTextTheme.titleLarge,
+                              'Managed by',
+                              style:
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                             Text(
                               project.membersData![0].displayName!,
-                              style: Theme.of(context).primaryTextTheme.titleMedium,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .titleMedium,
                             )
                           ],
                         ),
                         Spacer(),
                         CircleAvatar(
                           backgroundColor:
-                          Theme.of(context).colorScheme.onPrimaryContainer,
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           radius: 25,
                           child: CircleAvatar(
                             radius: 10,
@@ -212,11 +286,14 @@ class ProjectInfoPage extends StatelessWidget {
                           children: [
                             Text(
                               'Due Date',
-                              style: Theme.of(context).primaryTextTheme.titleLarge,
+                              style:
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                             Text(
                               '${project.dueDate!.day} ${DateFormat('MMMM').format(project.dueDate!).toString().substring(0, 3)} ${project.dueDate!.year}',
-                              style: Theme.of(context).primaryTextTheme.titleMedium,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .titleMedium,
                             )
                           ],
                         ),
@@ -290,6 +367,7 @@ class ProjectInfoPage extends StatelessWidget {
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
+                              useRootNavigator: true,
                               builder: (context) => SingleChildScrollView(
                                 child: Container(
                                   // height: height*0.1,

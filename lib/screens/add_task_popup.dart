@@ -19,6 +19,7 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
   final _descriptionController = TextEditingController();
   String? titleError;
   String? descriptionError;
+  String? dueDateError;
 
   @override
   void dispose() {
@@ -27,31 +28,6 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
     super.dispose();
   }
 
-  bool textFieldsValid() {
-    bool isValid = true;
-    if (_titleController.text.isEmpty) {
-      setState(() {
-        titleError = 'Title can\'t be empty';
-        isValid = false;
-      });
-    } else {
-      setState(() {
-        titleError = null;
-      });
-    }
-
-    if (_descriptionController.text.isEmpty) {
-      setState(() {
-        descriptionError = 'Description can\'t be empty';
-        isValid = false;
-      });
-    } else {
-      setState(() {
-        descriptionError = null;
-      });
-    }
-    return isValid;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +35,34 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
     double width = MediaQuery.of(context).size.width;
     ProjectsProvider projectProvider = Provider.of<ProjectsProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
+
+    bool formValid() {
+      bool isValid = true;
+      setState(() {
+
+        if (projectProvider.newTask.dueDate == null) {
+          dueDateError = 'Select due date by clicking the icon';
+          isValid = false;
+        } else {
+          dueDateError = null;
+        }
+        if (_titleController.text.isEmpty) {
+          titleError = 'Title can\'t be empty';
+          isValid = false;
+        } else {
+          titleError = null;
+        }
+
+        if (_descriptionController.text.isEmpty) {
+          descriptionError = 'Description can\'t be empty';
+          isValid = false;
+        } else {
+          descriptionError = null;
+        }
+      });
+
+      return isValid;
+    }
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -96,29 +100,41 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
             SizedBox(
               height: height * 0.01,
             ),
-            TextField(
-              controller: _titleController,
-              maxLength: 20,
-              decoration: InputDecoration(
-                  errorText: titleError,
-                  errorStyle: Theme.of(context)
-                      .primaryTextTheme
-                      .labelLarge!
-                      .copyWith(color: Theme.of(context).colorScheme.error),
-                  // alignLabelWithHint: true,
-                  labelText: 'Title',
-                  labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                  hintText: 'Enter your title here'),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(15)),
+              child: TextField(
+                controller: _titleController,
+                maxLength: 20,
+                decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    errorText: titleError,
+                    errorStyle: Theme.of(context)
+                        .primaryTextTheme
+                        .labelLarge!
+                        .copyWith(color: Theme.of(context).colorScheme.error),
+                    // alignLabelWithHint: true,
+                    labelText: 'Title',
+                    labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
+                    hintText: 'Enter your title here'),
+              ),
             ),
             SizedBox(
               height: height * 0.01,
             ),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(15)),
               child: TextField(
                 maxLines: 2,
                 maxLength: 40,
                 controller: _descriptionController,
                 decoration: InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
                     errorText: descriptionError,
                     errorStyle: Theme.of(context)
                         .primaryTextTheme
@@ -134,12 +150,21 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
               height: height * 0.01,
             ),
             CalendarPickerTile(calendarSubject: projectProvider.newTask),
+            dueDateError != null
+                ? Text(
+              dueDateError!,
+              style: Theme.of(context)
+                  .primaryTextTheme
+                  .labelLarge!
+                  .copyWith(color: Theme.of(context).colorScheme.error),
+            )
+                : Container(),
             SizedBox(
               height: height * 0.01,
             ),
             ElevatedButton(
               onPressed: () async{
-                if(textFieldsValid()) {
+                if(formValid()) {
                   projectProvider.newTask.title = _titleController.text;
                   projectProvider.newTask.description = _descriptionController.text;
                   projectProvider.newTask.addedBy = userProvider.user!.email!;

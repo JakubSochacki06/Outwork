@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
+import 'package:outwork/screens/pomodoro_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class TaskTile extends StatelessWidget {
@@ -16,6 +18,7 @@ class TaskTile extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
+            border: Border.all(color: project.tasks![taskIndex].completed!?Theme.of(context).colorScheme.secondary:project.tasks![taskIndex].colorOfDaysLeft(context)==Theme.of(context).colorScheme.onSurface?Theme.of(context).colorScheme.primary:project.tasks![taskIndex].colorOfDaysLeft(context), width: 2),
             borderRadius: BorderRadius.circular(15)),
       child: ExpansionTile(
         childrenPadding: EdgeInsets.symmetric(horizontal: width * 0.04),
@@ -32,7 +35,11 @@ class TaskTile extends StatelessWidget {
           children: [
             TextButton(
               onPressed: (){
-                Navigator.pushNamed(context, '/pomodoro');
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: PomodoroPage(),
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
               },
               child: Text('Work', style: Theme.of(context).textTheme.bodySmall,),
             ),
@@ -49,8 +56,8 @@ class TaskTile extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
         subtitle: Text(
-          project.tasks![taskIndex].countTimeLeft(),
-          style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: project.tasks![taskIndex].colorOfDaysLeft(context)),
+          project.tasks![taskIndex].completed!?'Done ✔️':project.tasks![taskIndex].countTimeLeft(),
+          style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: project.tasks![taskIndex].completed!?Theme.of(context).colorScheme.secondary:project.tasks![taskIndex].colorOfDaysLeft(context)),
           textAlign: TextAlign.start,
         ),
         children: [

@@ -25,7 +25,7 @@ class MentalHealthPage extends StatelessWidget {
       child: Scaffold(
         appBar: MentalHealthAppBar(),
         body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height*0.02),
+            padding: EdgeInsets.only(left: width * 0.04, right: width * 0.04, top: height*0.02),
             child: Consumer<UserProvider>(
               builder: (context, provider, child) {
                 final journalEntryProvider = Provider.of<JournalEntryProvider>(
@@ -80,7 +80,7 @@ class MentalHealthPage extends StatelessWidget {
                 return journalEntryProvider.journalEntries.length != 0
                     ? ListView.separated(
                   separatorBuilder: (context, index) =>
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: height * 0.02),
                   itemCount: noteTiles.length,
                   itemBuilder: (context, index) {
                     return noteTiles[index];
@@ -98,7 +98,7 @@ class MentalHealthPage extends StatelessWidget {
 }
 
 Widget buildNoteTile(JournalEntry currentEntry, bool hasNote, bool hasPhoto) {
-  // ADD STRESS LEVEL TO NOTE TILE
+  // TODO: ADD STRESS LEVEL TO NOTE TILE
   return NoteTile(
     date: currentEntry.date!,
     feeling: currentEntry.feeling!,

@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:outwork/widgets/projects_list.dart';
 
-class PlannerPage extends StatelessWidget {
-  const PlannerPage({super.key});
+class ProjectsPage extends StatelessWidget {
+  const ProjectsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,7 @@ class PlannerPage extends StatelessWidget {
             showModalBottomSheet(
               context: context,
               isScrollControlled: true,
+              useRootNavigator: true,
               builder: (context) => SingleChildScrollView(
                 child: Container(
                   // height: height*0.1,
@@ -208,7 +209,7 @@ class PlannerPage extends StatelessWidget {
               SizedBox(
                 height: height * 0.01,
               ),
-              ProjectsList()
+              Expanded(child: ProjectsList())
             ],
           ),
         ),

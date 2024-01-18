@@ -40,6 +40,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
     }
 
     double getInterval(){
+      print(amountOfMoods);
       switch(amountOfMoods){
         case 7:
           return 1;
@@ -50,7 +51,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
         case 90:
           return 9;
         default:
-          return 0;
+          return 1;
       }
     }
 

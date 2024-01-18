@@ -34,7 +34,7 @@ class Project {
       'projectType': projectType,
       'dueDate': dueDate,
       'membersEmails': membersEmails,
-      'tasks': tasks,
+      'tasks': tasksToMap(),
       'color':color!.value.toRadixString(16),
       'requests':requests,
       'id': id,

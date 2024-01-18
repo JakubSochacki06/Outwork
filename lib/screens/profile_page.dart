@@ -3,6 +3,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/appBars/profile_app_bar.dart';
 import 'package:outwork/widgets/mood_linear_chart.dart';
 import 'package:outwork/widgets/stress_level_info.dart';
+import 'package:outwork/widgets/work_time_info.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/mood_chart.dart';
@@ -70,7 +71,10 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: height*0.01,),
             MoodLinearChart(),
             SizedBox(height: height*0.01,),
+            WorkedTimeInfo(),
+            SizedBox(height: height*0.01,),
             StressLevelInfo(),
+            SizedBox(height: height*0.01,),
             MoodChart(),
           ],
         ),

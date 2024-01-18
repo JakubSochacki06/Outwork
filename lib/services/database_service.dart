@@ -27,11 +27,12 @@ class DatabaseService {
       ],
       'xpAmount':0,
       'level':1,
+      'workedSeconds':0,
       'endOfTheDayJournal':{},
       'dailyCheckins':[
-        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'colors':['0083B0', '00B4DB'], 'step':1},
-        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'colors':['ec2F4B', '009FFF'], 'step':5},
-        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'colors':['89216B', 'DA4453'], 'step':15},
+        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'color':'FF0083B0', 'step':1, 'emojiName':'water', 'id':'EXAMP1'},
+        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'color':'FFec2F4B', 'step':5, 'emojiName':'meditation', 'id':'EXAMP2'},
+        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'color':'FF89216B', 'step':15, 'emojiName':'exercises', 'id':'EXAMP3'},
       ],
       'lastUpdate': FieldValue.serverTimestamp(),
     });

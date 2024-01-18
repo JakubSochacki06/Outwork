@@ -70,7 +70,7 @@ class JournalEntryProvider extends ChangeNotifier {
     _journalEntry.storedImage != null? _journalEntry.hasPhoto = true: _journalEntry.hasPhoto = false;
     List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
     DatabaseService dbS = DatabaseService();
-    dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
+    await dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
     clearProvider(user);
     notifyListeners();
   }
