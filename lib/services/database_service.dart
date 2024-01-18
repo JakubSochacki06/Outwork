@@ -25,6 +25,11 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
+      'pomodoroSettings':{
+        'Pomodoro':25,
+        'ShortBreak':5,
+        'LongBreak':15,
+      },
       'xpAmount':0,
       'level':1,
       'workedSeconds':0,

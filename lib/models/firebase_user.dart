@@ -19,6 +19,7 @@ class FirebaseUser {
   List<JournalEntry>? journalEntries;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
+  Map<dynamic, dynamic>? pomodoroSettings;
 
   FirebaseUser(
       {this.displayName,
@@ -32,7 +33,8 @@ class FirebaseUser {
       this.projectsIDList,
       this.xpAmount,
       this.level,
-      this.workedSeconds});
+      this.workedSeconds,
+      this.pomodoroSettings});
 
   factory FirebaseUser.fromMap(Map<String, dynamic> data) {
     List<JournalEntry> journalEntries = [];
@@ -44,19 +46,22 @@ class FirebaseUser {
         {dailyCheckins.add(DailyCheckin.fromMap(unorganizedDailyCheckin))});
 
     FirebaseUser user = FirebaseUser(
-        displayName: data['displayName'],
-        email: data['email'],
-        xpAmount: data['xpAmount'],
-        level: data['level'],
-        // familyID: data['familyID'],
-        photoURL: data['photoURL'],
-        morningRoutines: data['morningRoutines'],
-        nightRoutines: data['nightRoutines'],
-        journalEntries: journalEntries,
-        workedSeconds: data['workedSeconds'],
-        dailyCheckins: dailyCheckins,
-        projectsIDList: data['projectsIDList'],
-        endOfTheDayJournal: data['endOfTheDayJournal']);
+      displayName: data['displayName'],
+      email: data['email'],
+      xpAmount: data['xpAmount'],
+      level: data['level'],
+      // familyID: data['familyID'],
+      photoURL: data['photoURL'],
+      morningRoutines: data['morningRoutines'],
+      nightRoutines: data['nightRoutines'],
+      journalEntries: journalEntries,
+      workedSeconds: data['workedSeconds'],
+      dailyCheckins: dailyCheckins,
+      projectsIDList: data['projectsIDList'],
+      endOfTheDayJournal: data['endOfTheDayJournal'],
+      pomodoroSettings: data['pomodoroSettings'],
+    );
+
     return user;
   }
 

@@ -119,4 +119,13 @@ class UserProvider extends ChangeNotifier {
         .update({'workedSeconds': FieldValue.increment(workedSeconds)});
     notifyListeners();
   }
+
+  Future<void> updatePomodoroSettings(Map<dynamic, dynamic> newSettings) async{
+    _user!.pomodoroSettings = newSettings;
+    await _db
+        .collection('users_data')
+        .doc(user!.email)
+        .update({'pomodoroSettings': newSettings});
+    notifyListeners();
+  }
 }

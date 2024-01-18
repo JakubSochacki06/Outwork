@@ -25,6 +25,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
 
     Future<void> setUpData() async{
+      print('FKED UPPPP');
       DatabaseService _dbS = DatabaseService();
       await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
       await userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!);

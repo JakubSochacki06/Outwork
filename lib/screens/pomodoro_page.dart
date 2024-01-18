@@ -1,11 +1,14 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/pomodoro_settings_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 
 class PomodoroPage extends StatefulWidget {
-  const PomodoroPage({super.key});
+  // need to pass userProvider in order to access it in dispose method.
+  final UserProvider userProvider;
+   PomodoroPage({required this.userProvider});
 
   @override
   State<PomodoroPage> createState() => _PomodoroPageState();
@@ -15,8 +18,37 @@ class _PomodoroPageState extends State<PomodoroPage> {
   CountDownController pomodoroController = CountDownController();
   String pomodoroStatus = 'Pomodoro';
   String pomodoroTimerStatus = 'Not started';
-  int pomodoroTimer = 25 * 60;
+  late int pomodoroTimer;
   int interval = 1;
+
+  int calculateTimeDifference(int startTimeSeconds, String endTime) {
+    List<int> endComponents = endTime.split(':').map(int.parse).toList();
+    int endSeconds = endComponents[0] * 60 + endComponents[1];
+    int timeDifference = startTimeSeconds - endSeconds;
+    return timeDifference.abs();
+  }
+
+  @override
+  void initState() {
+    pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if(pomodoroTimerStatus != 'Not started'){
+      int workedSeconds = calculateTimeDifference(
+          pomodoroTimer, pomodoroController.getTime()!);
+      Future.delayed(Duration.zero, () async {
+        try {
+          await widget.userProvider.addWorkedSecondsToDatabase(workedSeconds);
+        } catch (e) {
+          print('Error during disposal: $e');
+        }
+      });
+    }
+    super.dispose();
+  }
 
 
 
@@ -26,37 +58,29 @@ class _PomodoroPageState extends State<PomodoroPage> {
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
+
     void getNextMode(){
       if(interval % 6 == 0){
         pomodoroStatus = 'Long break';
         pomodoroTimerStatus = 'Not started';
-        pomodoroTimer = 15*60;
+        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['LongBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
       } else if(interval.isOdd){
         pomodoroStatus = 'Pomodoro';
         pomodoroTimerStatus = 'Not started';
-        pomodoroTimer = 25*60;
+        pomodoroTimer =  widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
       } else {
         pomodoroStatus = 'Short break';
         pomodoroTimerStatus = 'Not started';
-        pomodoroTimer = 5*60;
+        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['ShortBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
       }
     }
 
-    int calculateTimeDifference(int startTimeSeconds, String endTime) {
-      List<int> endComponents = endTime.split(':').map(int.parse).toList();
-
-      int endSeconds = endComponents[0] * 60 + endComponents[1]; // Convert to total seconds
-
-      int timeDifference = startTimeSeconds - endSeconds;
-
-      return timeDifference.abs(); // Return the absolute value to ensure a positive difference
-    }
 
     TextButton? generateTextButton() {
       switch (pomodoroTimerStatus) {
@@ -66,6 +90,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
               setState(() {
                 pomodoroTimerStatus = 'Running';
                 pomodoroController.resume();
+
               });
             },
             child: Text('Resume timer',
@@ -78,6 +103,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 pomodoroTimerStatus = 'Paused';
                 pomodoroController.pause();
               });
+
             },
             child:
             Text('Pause timer', style: Theme.of(context).textTheme.bodyLarge),
@@ -96,7 +122,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
       }
       return null;
     }
-
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -122,7 +147,21 @@ class _PomodoroPageState extends State<PomodoroPage> {
                   ),
                   IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: (){},
+                    onPressed: (){
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            // height: height*0.1,
+                            padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).viewInsets.bottom),
+                            child: PomodoroSettingsPopup(pomodoroSettings: userProvider.user!.pomodoroSettings!,)
+                          ),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),
@@ -141,7 +180,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       setState(() {
                         pomodoroStatus = 'Pomodoro';
                         pomodoroTimerStatus = 'Not started';
-                        pomodoroTimer = 25*60;
+                        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
                         // print(pomodoroTimer);
@@ -156,7 +195,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       setState(() {
                         pomodoroStatus = 'Short break';
                         pomodoroTimerStatus = 'Not started';
-                        pomodoroTimer = 5*60;
+                        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['ShortBreak'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
                         // print(pomodoroTimer);
@@ -171,7 +210,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       setState(() {
                         pomodoroStatus = 'Long break';
                         pomodoroTimerStatus = 'Not started';
-                        pomodoroTimer = 15*60;
+                        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['LongBreak'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
                         // print(pomodoroTimer);

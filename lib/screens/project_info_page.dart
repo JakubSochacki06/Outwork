@@ -134,6 +134,7 @@ class ProjectInfoPage extends StatelessWidget {
                                   if(wantToDelete == true){
                                     await projectsProvider.deleteProject(project, userProvider.user!.email!);
                                   }
+                                  Navigator.pop(context);
                                 },
                                 icon: Icon(Icons.delete),
                               ),

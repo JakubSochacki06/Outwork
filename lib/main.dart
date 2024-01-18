@@ -62,7 +62,6 @@ class MyApp extends StatelessWidget {
           '/login':(context) => LoginPage(),
           '/processingLogging':(context) => ProcessingLoggingPage(),
           '/settings':(context) => SettingsPage(),
-          '/pomodoro':(context) => PomodoroPage(),
         },
         initialRoute: FirebaseAuth.instance.currentUser!=null?'/processingLogging':'/login',
       ),

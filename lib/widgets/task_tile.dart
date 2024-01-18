@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class TaskTile extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ProjectsProvider projectProvider = Provider.of<ProjectsProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     return Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
@@ -37,7 +39,7 @@ class TaskTile extends StatelessWidget {
               onPressed: (){
                 PersistentNavBarNavigator.pushNewScreen(
                   context,
-                  screen: PomodoroPage(),
+                  screen: PomodoroPage(userProvider: userProvider,),
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
               },
