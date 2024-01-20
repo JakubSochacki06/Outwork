@@ -37,6 +37,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   persistent_bottom_nav_bar: ^5.0.2
   numberpicker: ^2.1.2
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ flutter:
     - assets/images/
     - assets/emojis/
     - assets/emojis/dailycheckin/
+    - assets/
 
   # example:
   fonts:

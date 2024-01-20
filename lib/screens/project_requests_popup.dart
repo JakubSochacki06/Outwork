@@ -91,11 +91,13 @@ class ProjectRequestsPopup extends StatelessWidget {
                                 IconButton(
                                   onPressed: userProvider.user!.email ==
                                           project.membersEmails![0]
-                                      ? () {
-                                    projectsProvider.addUserToProject(requestedUser, project.id!);
+                                      ? () async{
+                                    await projectsProvider.addUserToProject(requestedUser, project.id!);
+                                    Navigator.pop(context);
                                   }
                                       : () {
-                                          print('sorki');
+                                          print('nie masz admina');
+                                          Navigator.pop(context);
                                         },
                                   icon: Icon(Icons.done),
                                   color:

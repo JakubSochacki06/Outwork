@@ -15,10 +15,6 @@ class _MoodChartState extends State<MoodChart> {
   int? touchedIndex;
   @override
   Widget build(BuildContext context) {
-    Map<String, int> otherFeelingsAmount = {};
-    // Future<String>? adviceFuture;
-    Color adviceBorderColor = Colors.black26;
-    Color adviceBackgroundColor = Colors.black12;
     JournalEntryProvider journalEntryProvider =
         Provider.of<JournalEntryProvider>(context);
     Map<String, int> feelingsAmount = journalEntryProvider.getFeelingsAmount();
@@ -68,7 +64,7 @@ class _MoodChartState extends State<MoodChart> {
         ),
         feelingsAmount.isNotEmpty
             ? AspectRatio(
-                aspectRatio: 1.3,
+                aspectRatio: 1.5,
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: PieChart(
@@ -100,9 +96,6 @@ class _MoodChartState extends State<MoodChart> {
             : Text(
                 'Submit more day ratings and see stats about your main feelings!',
               ),
-        SizedBox(
-          height: 10,
-        ),
         averageMood.length != 0
             ? Align(
                 alignment: Alignment.center,
@@ -159,18 +152,6 @@ class _MoodChartState extends State<MoodChart> {
         //       ),
         //     ),
         //   ),
-        // ),
-        SizedBox(
-          height: 10,
-        ),
-        // feelingsAmount.isNotEmpty
-        //     ? Align(
-        //   alignment: Alignment.center,
-        //   child: OtherMoodsChart(snapshotData: widget.snapshotData),
-        // )
-        //     : Text(
-        //   'Submit more day ratings and see stats about your other feelings!',
-        //   style: kHomePageQuoteText,
         // ),
       ],
     );

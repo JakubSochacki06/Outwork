@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -288,6 +289,8 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                           bool? wantToDelete = await wantToDeleteNoteAlert(context);
                           if(wantToDelete == true){
                             await dailyCheckinProvider.deleteDailyCheckinFromFirebase(widget.id, userProvider.user!.email!);
+                            XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                            await xpLevelProvider.removeXpAmount(20, userProvider.user!.email!);
                           }
                           Navigator.pop(context);
                         }, icon: Icon(Icons.delete),),):Container()
@@ -474,8 +477,9 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                         hexColor,
                         userProvider.user!.email!,
                         selectedEmoji!);
+                    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                    await xpLevelProvider.addXpAmount(20, userProvider.user!.email!);
                   } else {
-                    print(selectedEmoji);
                     await dailyCheckinProvider.editDailyCheckin(
                       _nameController.text,
                       _unitController.text,

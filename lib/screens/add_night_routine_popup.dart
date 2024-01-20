@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -32,13 +33,6 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
         });
         return false;
       }
-      final nightRoutineProvider =
-      Provider.of<NightRoutineProvider>(context, listen: false);
-      final userProvider =
-      Provider.of<UserProvider>(context, listen: false);
-      nightRoutineProvider.addNightRoutineToDatabase(
-          _nightRoutineController.text, userProvider.user!.email!);
-      Navigator.pop(context);
       return true;
     }
 
@@ -104,7 +98,19 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
               height: height * 0.01,
             ),
             ElevatedButton(
-              onPressed: checkIfValid,
+              onPressed: () async{
+                if(checkIfValid()){
+                  final nightRoutineProvider =
+                  Provider.of<NightRoutineProvider>(context, listen: false);
+                  final userProvider =
+                  Provider.of<UserProvider>(context, listen: false);
+                  await nightRoutineProvider.addNightRoutineToDatabase(
+                      _nightRoutineController.text, userProvider.user!.email!);
+                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                  Navigator.pop(context);
+                }
+              },
               child: Text(
                 'Submit new routine',
                 textAlign: TextAlign.center,

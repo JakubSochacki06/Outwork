@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -26,20 +27,13 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    bool checkIfValid(){
+    bool checkIfValid() {
       if(_morningRoutineController.text.length==0){
         setState(() {
           errorText = 'Textfield can\'t be empty';
         });
         return false;
       }
-      final morningRoutineProvider =
-      Provider.of<MorningRoutineProvider>(context, listen: false);
-      final userProvider =
-      Provider.of<UserProvider>(context, listen: false);
-      morningRoutineProvider.addMorningRoutineToDatabase(
-          _morningRoutineController.text, userProvider.user!.email!);
-      Navigator.pop(context);
       return true;
     }
 
@@ -105,7 +99,19 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
               height: height * 0.01,
             ),
             ElevatedButton(
-              onPressed: checkIfValid,
+              onPressed: () async{
+                if(checkIfValid()){
+                  final morningRoutineProvider =
+                  Provider.of<MorningRoutineProvider>(context, listen: false);
+                  final userProvider =
+                  Provider.of<UserProvider>(context, listen: false);
+                  await morningRoutineProvider.addMorningRoutineToDatabase(
+                      _morningRoutineController.text, userProvider.user!.email!);
+                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                  Navigator.pop(context);
+                }
+              },
               child: Text(
                 'Submit new routine',
                 textAlign: TextAlign.center,

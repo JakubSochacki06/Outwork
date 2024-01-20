@@ -17,14 +17,42 @@ class StressLevelInfo extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    Future<Map<String, dynamic>> getStressLevelInfo(int stressLevel) async {
-      Response response =
-      await get(Uri.parse('https://outwork.onrender.com/stressadvice/$stressLevel'));
-      return jsonDecode(response.body);
+    // Future<Map<String, dynamic>> getStressLevelInfo(int stressLevel) async {
+    //   Response response =
+    //   await get(Uri.parse('https://outwork.onrender.com/stressadvice/$stressLevel'));
+    //   return jsonDecode(response.body);
+    // }
+
+    String getStressAdvice(int stressLevel) {
+      switch (stressLevel) {
+        case 0:
+          return 'You\'re doing great! Keep up the positive mindset.';
+        case 1:
+          return 'Stay calm and take a deep breath. It\'s just a small bump.';
+        case 2:
+          return 'Focus on the positive aspects of your day.';
+        case 3:
+          return 'Take a short break and relax. You\'ve got this!';
+        case 4:
+          return 'Organize your tasks and prioritize. It will help reduce stress.';
+        case 5:
+          return 'Consider practicing mindfulness or meditation for relaxation.';
+        case 6:
+          return 'Connect with friends or family for emotional support.';
+        case 7:
+          return 'Delegate tasks if possible. Share the load.';
+        case 8:
+          return 'Make sure to get enough sleep. It plays a crucial role in stress management.';
+        case 9:
+          return 'Seek professional help or talk to a counselor if needed.';
+        case 10:
+          return 'It\'s okay not to be okay. Reach out for support and take care of yourself.';
+        default:
+          return 'Invalid stress level';
+      }
     }
 
     return Container(
-      height: height * 0.15,
       padding: EdgeInsets.symmetric(
           horizontal: width * 0.03, vertical: height * 0.01),
       decoration: BoxDecoration(
@@ -65,32 +93,21 @@ class StressLevelInfo extends StatelessWidget {
           SizedBox(
             width: width * 0.03,
           ),
-          journalEntryProvider.getAverageStressScore().toString() != 'NaN'?FutureBuilder(
-            future: getStressLevelInfo(journalEntryProvider.getAverageStressScore().round()),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done){
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: Text(
-                      '${snapshot.data!['advice']}',
-                      style: Theme.of(context).primaryTextTheme.bodySmall,
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: Text('No data error', style: Theme.of(context).primaryTextTheme.bodySmall,
-                      textAlign: TextAlign.center,),
-                  );
-                }
-              } else {
-                return Expanded(child: Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onBackground,)));
-              }
-            },
-          ):Expanded(
-            child: Text('Add more notes to track your stress and feelings', style: Theme.of(context).primaryTextTheme.bodySmall,
-              textAlign: TextAlign.center,),
-          ),
+          journalEntryProvider.getAverageStressScore().toString() != 'NaN'
+              ? Expanded(
+                child: Text(
+                getStressAdvice(journalEntryProvider.getAverageStressScore().round()),
+                            style: Theme.of(context).primaryTextTheme.bodySmall,
+                            textAlign: TextAlign.center,
+                          ),
+              )
+              : Expanded(
+                  child: Text(
+                    'Add more notes to track your stress and feelings',
+                    style: Theme.of(context).primaryTextTheme.bodySmall,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
         ],
       ),
     );

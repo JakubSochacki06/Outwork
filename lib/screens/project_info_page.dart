@@ -66,6 +66,65 @@ class ProjectInfoPage extends StatelessWidget {
       );
       return deleteNote;
     }
+
+    void showMembers() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Project members', style: Theme.of(context).textTheme.bodyMedium),
+            content: Container(
+              height: project.membersData!.length>4?height*0.5:null,
+              width: double.maxFinite,
+              child: ListView.separated(
+                itemCount: project.membersData!.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.04,
+                        vertical: height * 0.01),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                          NetworkImage(project.membersData![index].photoURL!),
+                        ),
+                        SizedBox(
+                          width: width * 0.03,
+                        ),
+                        Text(project.membersData![index].displayName!,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .labelLarge),
+                        Spacer(),
+                        userProvider.user!.email != project.membersData![index].email?IconButton(
+                            onPressed: () async{
+                              await projectsProvider.deleteUserFromProject(project.membersData![index], project.id!);
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.close),
+                            color: Theme.of(context).colorScheme.error):Container()
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: height * 0.01,
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -119,6 +178,7 @@ class ProjectInfoPage extends StatelessWidget {
                             icon: Icon(Icons.people),
                           ),
                         ),
+                        // TODO: ADD OPTION TO LEAVE PROJECT IF YOU ARE NOT OWNER
                         userProvider.user!.email==project.membersData![0].email?Row(
                           children: [
                             SizedBox(
@@ -320,31 +380,37 @@ class ProjectInfoPage extends StatelessWidget {
                     SizedBox(
                       height: height * 0.02,
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Team members',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        children: [
-                          TextSpan(
-                            text: ' (${project.membersEmails!.length})',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Text('Team members ', style: Theme.of(context).textTheme.headlineSmall),
+                        Text(
+                          '(${project.membersEmails!.length})',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                              color:
+                              Theme.of(context).colorScheme.primary),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(Icons.list),
+                          onPressed: (){
+                            showMembers();
+                          },
+                        )
+                      ],
                     ),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.005,
                     ),
                     ProjectMembersAvatars(
-                      avatarSize: width * 0.05,
+                      avatarSize: width * 0.06,
                       project: project,
                       progressVisible: true,
                       addMemberVisible: true,
+                      width:width*0.7,
+                      spaceBetweenAvatars: 32,
                     ),
                     SizedBox(
                       height: height * 0.015,

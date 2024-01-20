@@ -20,7 +20,6 @@ class WorkedTimeInfo extends StatelessWidget {
 
 
     return Container(
-      height: height * 0.15,
       padding: EdgeInsets.symmetric(
           horizontal: width * 0.03, vertical: height * 0.01),
       decoration: BoxDecoration(
@@ -44,7 +43,9 @@ class WorkedTimeInfo extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-                'I see you working hard. Head down and keep on going, your time to shine will come.'
+                'I see you working hard. Head down and keep on going, your time to shine will come.',
+              style: Theme.of(context).primaryTextTheme.bodySmall,
+              textAlign: TextAlign.center,
             ),
           ),
           SizedBox(

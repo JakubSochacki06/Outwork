@@ -13,6 +13,34 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<bool?> wantToDeleteTaskAlert(BuildContext context) async {
+      bool? deleteTask = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Delete task?', style: Theme.of(context).textTheme.bodySmall,),
+            content: Text('Are you sure you want to delete this task? You can\'t retrieve it after', style: Theme.of(context).primaryTextTheme.bodySmall),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+              ),
+            ],
+          );
+        },
+      );
+      return deleteTask;
+    }
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ProjectsProvider projectProvider = Provider.of<ProjectsProvider>(context);
@@ -67,10 +95,30 @@ class TaskTile extends StatelessWidget {
             thickness: height*0.003,
             color: Theme.of(context).colorScheme.onPrimaryContainer,
           ),
-          Text(
-            project.tasks![taskIndex].description!,
-            style: Theme.of(context).primaryTextTheme.labelLarge,
-            textAlign: TextAlign.start,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  project.tasks![taskIndex].description!,
+                  style: Theme.of(context).primaryTextTheme.labelLarge,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    borderRadius: BorderRadius.circular(15)),
+                child: IconButton(
+                  onPressed: () async {
+                    bool? wantToDelete = await wantToDeleteTaskAlert(context);
+                    if(wantToDelete == true){
+                      await projectProvider.deleteTask(taskIndex, project.id!, userProvider.user!.email!);
+                    }
+                  },
+                  icon: Icon(Icons.delete),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: height*0.01,),
         ],

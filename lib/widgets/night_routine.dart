@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/screens/add_night_routine_popup.dart';
 import 'package:outwork/screens/edit_morning_routine_popup.dart';
@@ -19,14 +20,17 @@ class NightRoutine extends StatefulWidget {
 class _NightRoutineState extends State<NightRoutine> {
   @override
   Widget build(BuildContext context) {
-
     Future<bool?> wantToDeleteNoteAlert(BuildContext context) async {
       bool? deleteNote = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete night routine?', style: Theme.of(context).textTheme.bodySmall,),
-            content: Text('Are you sure you want to delete this routine?', style: Theme.of(context).primaryTextTheme.bodySmall),
+            title: Text(
+              'Delete night routine?',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            content: Text('Are you sure you want to delete this routine?',
+                style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
@@ -38,7 +42,9 @@ class _NightRoutineState extends State<NightRoutine> {
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                child: Text('Yes',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary)),
               ),
             ],
           );
@@ -52,10 +58,12 @@ class _NightRoutineState extends State<NightRoutine> {
     int routineNumber = 0;
     double routineItemHeight = height * 0.06;
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: true);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+    NightRoutineProvider nightRoutineProvider =
+        Provider.of<NightRoutineProvider>(context, listen: true);
     int numberOfRoutines = nightRoutineProvider.nightRoutines.length;
     List<Map<String, dynamic>> nightRoutines =
-    List<Map<String, dynamic>>.from(nightRoutineProvider.nightRoutines);
+        List<Map<String, dynamic>>.from(nightRoutineProvider.nightRoutines);
 
     double containerHeight =
         height * 0.13 + numberOfRoutines * routineItemHeight;
@@ -72,13 +80,13 @@ class _NightRoutineState extends State<NightRoutine> {
           borderRadius: BorderRadius.all(Radius.circular(15)),
           boxShadow: themeProvider.isLightTheme()
               ? [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 3,
-              offset: Offset(3, 3),
-            )
-          ]
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: Offset(3, 3),
+                  )
+                ]
               : null),
       padding: EdgeInsets.all(15),
       child: Column(
@@ -87,7 +95,7 @@ class _NightRoutineState extends State<NightRoutine> {
             children: [
               CircleAvatar(
                 backgroundColor:
-                Theme.of(context).colorScheme.onPrimaryContainer,
+                    Theme.of(context).colorScheme.onPrimaryContainer,
                 radius: 20,
                 child: CircleAvatar(
                   radius: 10,
@@ -115,8 +123,7 @@ class _NightRoutineState extends State<NightRoutine> {
                         child: Container(
                           // height: height*0.1,
                           padding: EdgeInsets.only(
-                              bottom:
-                              MediaQuery.of(context).viewInsets.bottom),
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: AddNightRoutinePopup(),
                         ),
                       ),
@@ -138,104 +145,122 @@ class _NightRoutineState extends State<NightRoutine> {
           ),
           Expanded(
               child: ReorderableListView(
-                physics: NeverScrollableScrollPhysics(),
-                onReorder: (int oldIndex, int newIndex) async {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final Map<String, dynamic> item =
+            physics: NeverScrollableScrollPhysics(),
+            onReorder: (int oldIndex, int newIndex) async {
+              if (oldIndex < newIndex) {
+                newIndex -= 1;
+              }
+              final Map<String, dynamic> item =
                   nightRoutines.removeAt(oldIndex);
-                  nightRoutines.insert(newIndex, item);
-                  await nightRoutineProvider.updateNightRoutineOrder(
-                      nightRoutines, userProvider.user!.email!);
-                },
-                children: nightRoutines
-                    .asMap()
-                    .entries
-                    .map((MapEntry<int, Map<String, dynamic>> entry) {
-                  routineNumber++;
-                  bool isCompleted = entry.value['completed'];
-                  return InkWell(
-                    key: ValueKey(entry.key),
-                    onTap: entry.value['deletable']==true?() async {
-                      isCompleted = !isCompleted;
-                      await nightRoutineProvider.updateRoutineCompletionStatus(
-                          entry.key, isCompleted, userProvider.user!.email!);
-                    }:(){
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                MediaQuery.of(context).viewInsets.bottom),
-                            child: EndOfDayJournalPopup(),
+              nightRoutines.insert(newIndex, item);
+              await nightRoutineProvider.updateNightRoutineOrder(
+                  nightRoutines, userProvider.user!.email!);
+            },
+            children: nightRoutines
+                .asMap()
+                .entries
+                .map((MapEntry<int, Map<String, dynamic>> entry) {
+              routineNumber++;
+              bool isCompleted = entry.value['completed'];
+              return InkWell(
+                key: ValueKey(entry.key),
+                onTap: entry.value['deletable'] == true
+                    ? () async {
+                        isCompleted = !isCompleted;
+                        await nightRoutineProvider
+                            .updateRoutineCompletionStatus(entry.key,
+                                isCompleted, userProvider.user!.email!);
+                        isCompleted
+                            ? await xpLevelProvider.addXpAmount(
+                                5, userProvider.user!.email!)
+                            : await xpLevelProvider.removeXpAmount(
+                                5, userProvider.user!.email!);
+                      }
+                    : () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (context) => SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: EndOfDayJournalPopup(),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: routineItemHeight,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.black12),
+                        );
+                      },
+                child: Container(
+                  height: routineItemHeight,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: Colors.black12),
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width * 0.02,
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          AutoSizeText(
-                            '$routineNumber. ${entry.value['name']}',
-                            minFontSize: 16,
-                            style: Theme.of(context).primaryTextTheme.labelLarge,
-                          ),
-                          Spacer(),
-                          Checkbox(
-                            value: isCompleted,
-                            onChanged: entry.value['deletable']==true?(checkboxValue) async {
-                              isCompleted = !isCompleted;
-                              await nightRoutineProvider
-                                  .updateRoutineCompletionStatus(
-                                  entry.key, isCompleted, userProvider.user!.email!);
-                              // morningRoutineNotifier.notifyListeners();
-                            }:(checkboxValue){},
-                          ),
-                          GestureDetector(
-                            onTap: entry.value['deletable']==true?() async {
-                              bool? wantToDelete =
-                              await wantToDeleteNoteAlert(context);
-                              if (wantToDelete == true)
+                      AutoSizeText(
+                        '$routineNumber. ${entry.value['name']}',
+                        minFontSize: 16,
+                        style: Theme.of(context).primaryTextTheme.labelLarge,
+                      ),
+                      Spacer(),
+                      Checkbox(
+                        value: isCompleted,
+                        onChanged: entry.value['deletable'] == true
+                            ? (checkboxValue) async {
+                                isCompleted = !isCompleted;
                                 await nightRoutineProvider
-                                    .removeNightRoutineFromDatabase(
-                                    entry.value['name'], userProvider.user!.email!);
-                            }:(){
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) => SingleChildScrollView(
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        bottom:
-                                        MediaQuery.of(context).viewInsets.bottom),
-                                    child: EndOfDayJournalPopup(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: entry.value['deletable']==true?Icon(Icons.delete):Icon(Icons.navigate_next),
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                        ],
+                                    .updateRoutineCompletionStatus(entry.key,
+                                        isCompleted, userProvider.user!.email!);
+                                isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                              }
+                            : (checkboxValue) {},
                       ),
-                    ),
-                  );
-                }).toList(),
-              )),
+                      GestureDetector(
+                        onTap: entry.value['deletable'] == true
+                            ? () async {
+                                bool? wantToDelete =
+                                    await wantToDeleteNoteAlert(context);
+                                if (wantToDelete == true){
+                                  await nightRoutineProvider
+                                      .removeNightRoutineFromDatabase(
+                                      entry.value['name'],
+                                      userProvider.user!.email!);
+                                  await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
+                                }
+                              }
+                            : () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) => SingleChildScrollView(
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: EndOfDayJournalPopup(),
+                                    ),
+                                  ),
+                                );
+                              },
+                        child: entry.value['deletable'] == true
+                            ? Icon(Icons.delete)
+                            : Icon(Icons.navigate_next),
+                      ),
+                      SizedBox(
+                        width: width * 0.02,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          )),
         ],
       ),
     );

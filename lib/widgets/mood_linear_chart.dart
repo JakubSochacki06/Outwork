@@ -251,7 +251,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                 ),
               ),
               SizedBox(
-                height: height*0.01,
+                height: height*0.02,
               ),
               Expanded(
                 flex: 5,

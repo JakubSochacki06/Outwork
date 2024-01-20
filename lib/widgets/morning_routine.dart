@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/screens/edit_morning_routine_popup.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,7 @@ class MorningRoutine extends StatelessWidget {
     double routineItemHeight = height * 0.06;
     int routineNumber = 0;
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context);
     int numberOfRoutines = morningRoutineProvider.morningRoutines.length;
     List<Map<String, dynamic>> morningRoutines = List<Map<String, dynamic>>.from(
@@ -147,6 +149,7 @@ class MorningRoutine extends StatelessWidget {
                       isCompleted = !isCompleted;
                       await morningRoutineProvider.updateRoutineCompletionStatus(
                           entry.key, isCompleted, userProvider.user!.email!);
+                      isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                     },
                     child: Container(
                       height: routineItemHeight,
@@ -172,13 +175,16 @@ class MorningRoutine extends StatelessWidget {
                               isCompleted = !isCompleted;
                               await morningRoutineProvider.updateRoutineCompletionStatus(
                                   entry.key, isCompleted, userProvider.user!.email!);
-                              // morningRoutineNotifier.notifyListeners();
+                              isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                             },
                           ),
                           GestureDetector(
                             onTap: () async{
                               bool? wantToDelete = await wantToDeleteNoteAlert(context);
-                              if(wantToDelete == true) await morningRoutineProvider.removeMorningRoutineFromDatabase(entry.value['name'], userProvider.user!.email!);
+                              if(wantToDelete == true){
+                                await morningRoutineProvider.removeMorningRoutineFromDatabase(entry.value['name'], userProvider.user!.email!);
+                                await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
+                              }
                             },
                             child: Icon(Icons.delete),
                           ),

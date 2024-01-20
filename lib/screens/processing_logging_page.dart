@@ -4,6 +4,7 @@ import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:outwork/page_navigator.dart';
 import 'package:outwork/screens/login_page.dart';
@@ -23,6 +24,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     ProjectsProvider projectsProvider = Provider.of<ProjectsProvider>(context, listen: false);
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
 
     Future<void> setUpData() async{
       print('FKED UPPPP');
@@ -32,6 +34,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
       await projectsProvider.setProjectsList(userProvider.user!);
       morningRoutineProvider.setMorningRoutines(userProvider.user!);
       nightRoutineProvider.setNightRoutines(userProvider.user!);
+      xpLevelProvider.setXPAmount(userProvider.user!);
     }
 
     return Scaffold(

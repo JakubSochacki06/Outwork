@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/services/database_service.dart';
+import 'package:intl/intl.dart';
 
 class JournalEntryProvider extends ChangeNotifier {
   JournalEntry _journalEntry = JournalEntry(emotions: []);
@@ -16,7 +18,7 @@ class JournalEntryProvider extends ChangeNotifier {
   bool get wantToAddNote=> _wantToAddNote;
   List<JournalEntry> get journalEntries => _journalEntries!;
 
-  Future<void> setJournalEntries(FirebaseUser user) async{
+  void setJournalEntries(FirebaseUser user) {
     _journalEntries = user.journalEntries!;
   }
 
@@ -87,21 +89,21 @@ class JournalEntryProvider extends ChangeNotifier {
 
 
   Future<void> uploadPhoto(File file, FirebaseUser user) async{
-    String firebasePath = 'images/${user.email}/${_journalEntry.date}.jpg';
+    String firebasePath = 'images/${user.email}/${DateFormat('yyyy-MM-dd kk:mm:ss').format(_journalEntry.date!)}.jpg';
     final ref = FirebaseStorage.instance.ref().child(firebasePath);
     await ref.putFile(file);
     notifyListeners();
   }
 
   Future<String> retrievePhoto(DateTime date, FirebaseUser user) async{
-    String firebasePath = 'images/${user.email}/$date.jpg';
+    String firebasePath = 'images/${user.email}/${DateFormat('yyyy-MM-dd kk:mm:ss').format(date)}.jpg';
     final ref = FirebaseStorage.instance.ref().child(firebasePath);
     String url = await ref.getDownloadURL();
     return url;
   }
 
   Future<void> deletePhoto(DateTime date, FirebaseUser user) async{
-    String firebasePath = 'images/${user.email}/$date.jpg';
+    String firebasePath = 'images/${user.email}/${DateFormat('yyyy-MM-dd kk:mm:ss').format(date)}.jpg';
     final ref = FirebaseStorage.instance.ref().child(firebasePath);
     await ref.delete();
   }
@@ -176,9 +178,131 @@ class JournalEntryProvider extends ChangeNotifier {
 
   double getAverageStressScore(){
     int sum = 0;
-    journalEntries.forEach((entry) {
+    _journalEntries!.forEach((entry) {
       sum+=entry.stressLevel;
     });
-    return double.parse((sum/journalEntries.length).toStringAsFixed(2));
+    return double.parse((sum/_journalEntries!.length).toStringAsFixed(2));
+  }
+
+  List<MapEntry<String, int>> getMostFeltEmotions() {
+    Map<String, int> emotions = {};
+
+    // Count occurrences of each emotion
+    _journalEntries?.forEach((journalEntry) {
+      journalEntry.emotions?.forEach((emotion) {
+        emotions[emotion] =
+        emotions.containsKey(emotion) ? emotions[emotion]! + 1 : 1;
+      });
+    });
+
+    List<MapEntry<String, int>> sortedEmotions = emotions.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    return sortedEmotions;
+  }
+
+  String getAdviceBasedOnEmotion(String emotion) {
+    Random random = Random();
+
+    switch (emotion) {
+      case 'Frustrated':
+        return _frustratedAdvices[random.nextInt(_frustratedAdvices.length)];
+      case 'Relaxed':
+        return _relaxedAdvices[random.nextInt(_relaxedAdvices.length)];
+      case 'Bored':
+        return _boredAdvices[random.nextInt(_boredAdvices.length)];
+      case 'Calm':
+        return _calmAdvices[random.nextInt(_calmAdvices.length)];
+      case 'Fascinated':
+        return _fascinatedAdvices[random.nextInt(_fascinatedAdvices.length)];
+      case 'Tired':
+        return _tiredAdvices[random.nextInt(_tiredAdvices.length)];
+      case 'Angry':
+        return _angryAdvices[random.nextInt(_angryAdvices.length)];
+      case 'Anxious':
+        return _anxiousAdvices[random.nextInt(_anxiousAdvices.length)];
+      case 'Lonely':
+        return _lonelyAdvices[random.nextInt(_lonelyAdvices.length)];
+      case 'Excited':
+        return _excitedAdvices[random.nextInt(_excitedAdvices.length)];
+      case 'Loved':
+        return _lovedAdvices[random.nextInt(_lovedAdvices.length)];
+      case 'Surprised':
+        return _surprisedAdvices[random.nextInt(_surprisedAdvices.length)];
+      default:
+        return 'No advice available for this emotion.';
+    }
   }
 }
+
+List<String> _frustratedAdvices = [
+  'Take a deep breath and count to ten.',
+  'Step back and reassess the situation.',
+  'Express your feelings through writing.',
+];
+
+List<String> _relaxedAdvices = [
+  'Find a quiet place and meditate.',
+  'Listen to calming music.',
+  'Take a leisurely walk.',
+];
+
+List<String> _boredAdvices = [
+  'Try a new hobby or activity.',
+  'Explore a new book or movie.',
+  'Connect with friends for a fun activity.',
+];
+
+List<String> _calmAdvices = [
+  'Practice mindfulness and focus on your breath.',
+  'Engage in a relaxing activity.',
+  'Visualize a peaceful scene.',
+];
+
+List<String> _fascinatedAdvices = [
+  'Dive deeper into what fascinates you.',
+  'Learn more about the subject of interest.',
+  'Share your fascination with others.',
+];
+
+List<String> _tiredAdvices = [
+  'Take a short nap or rest.',
+  'Hydrate and ensure you\'re getting enough sleep.',
+  'Delegate tasks and prioritize self-care.',
+];
+
+List<String> _angryAdvices = [
+  'Take a break and walk away from the situation.',
+  'Channel your anger into physical activity.',
+  'Practice deep-breathing exercises.',
+];
+
+List<String> _anxiousAdvices = [
+  'Identify the source of your anxiety and address it.',
+  'Practice grounding techniques.',
+  'Seek support from friends or professionals.',
+];
+
+List<String> _lonelyAdvices = [
+  'Reach out to friends or family for connection.',
+  'Join social groups or activities.',
+  'Engage in activities you enjoy to lift your spirits.',
+];
+
+List<String> _excitedAdvices = [
+  'Capture your excitement by jotting down your thoughts.',
+  'Share your excitement with someone close to you.',
+  'Plan a celebration or activity to express your enthusiasm.',
+];
+
+List<String> _lovedAdvices = [
+  'Express your love and appreciation to others.',
+  'Spend quality time with loved ones.',
+  'Write a heartfelt message or letter.',
+];
+
+List<String> _surprisedAdvices = [
+  'Embrace the unexpected and go with the flow.',
+  'Reflect on the positive aspects of the surprise.',
+  'Share your surprise with others to spread joy.',
+];

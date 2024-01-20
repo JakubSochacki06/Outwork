@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:outwork/models/project.dart';
-import 'package:outwork/providers/projects_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:provider/provider.dart';
 
 class ProjectMembersAvatars extends StatelessWidget {
   final double avatarSize;
   final Project project;
   final bool progressVisible;
+  final double width;
+  final double spaceBetweenAvatars;
   final bool addMemberVisible;
 
-  ProjectMembersAvatars(
-      {required this.avatarSize,
-      required this.project,
-      required this.progressVisible,
-      required this.addMemberVisible});
+  ProjectMembersAvatars({
+    required this.avatarSize,
+    required this.project,
+    required this.progressVisible,
+    required this.addMemberVisible,
+    required this.width,
+    required this.spaceBetweenAvatars,
+  });
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     List<String> imageURLs = [];
-    project.membersData!.forEach((FirebaseUser userData){
-      imageURLs.add(userData.photoURL!);
+    project.membersData!.forEach((FirebaseUser userData) {
+      imageURLs.length == 7 ? null : imageURLs.add(userData.photoURL!);
     });
+
     void showProjectID() async {
       showDialog(
         context: context,
@@ -47,9 +50,9 @@ class ProjectMembersAvatars extends StatelessWidget {
                                 .textTheme
                                 .bodyLarge!
                                 .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary))
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondary))
                       ]),
                 ),
                 Text(
@@ -76,51 +79,65 @@ class ProjectMembersAvatars extends StatelessWidget {
       );
     }
 
+    List<Widget> generateAvatars() {
+      List<Widget> avatars = [];
 
-    List<Widget> generateRowChildren() {
-      List<Widget> rowChildren = List.generate(imageURLs.length, (index) {
-        print(index);
-        return Transform.translate(
-          offset: Offset(index * -15.0, 0.0),
-          child: CircleAvatar(
-            radius: avatarSize,
-            backgroundImage: NetworkImage(imageURLs[index]),
+      for (int index = 0; index < imageURLs.length; index++) {
+        avatars.add(
+          Positioned(
+            left: index * spaceBetweenAvatars,
+            child: CircleAvatar(
+              backgroundColor: Colors.red,
+              radius: avatarSize,
+              backgroundImage: NetworkImage(imageURLs[index]),
+            ),
           ),
         );
-      });
+      }
+
       if (addMemberVisible) {
-        rowChildren.add(Transform.translate(
-          offset: Offset(imageURLs.length * -15.0, 0.0),
-          child: CircleAvatar(
-            radius: avatarSize,
-            child: IconButton(
-              onPressed: showProjectID,
-              icon: Icon(Icons.add),
+        avatars.add(
+          Positioned(
+            left: imageURLs.length * spaceBetweenAvatars, // Adjust the offset accordingly
+            child: CircleAvatar(
+              radius: avatarSize,
+              child: IconButton(
+                onPressed: showProjectID,
+                icon: Icon(Icons.add),
+              ),
             ),
-          ),
-        ));
-      }
-      if (progressVisible) {
-        rowChildren.add(Spacer());
-        rowChildren.add(
-          CircularPercentIndicator(
-            animateFromLastPercent: true,
-            percent: project.countTaskDonePercent(),
-            center: Text(
-              '${project.countTaskDonePercentText()}%',
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
-            animation: true,
-            progressColor: project.color,
-            radius: height * 0.04,
           ),
         );
       }
-      return rowChildren;
+
+      return avatars;
     }
 
     return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: generateRowChildren());
+      children: [
+        SizedBox(
+          width: width,
+          height: avatarSize * 2.0,
+          child: Stack(
+            alignment: Alignment.centerLeft,
+            children: generateAvatars(),
+          ),
+        ),
+        Spacer(),
+        progressVisible
+            ? CircularPercentIndicator(
+                animateFromLastPercent: true,
+                percent: project.countTaskDonePercent(),
+                center: Text(
+                  '${project.countTaskDonePercentText()}%',
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+                animation: true,
+                progressColor: project.color,
+                radius: height * 0.04,
+              )
+            : Container(),
+      ],
+    );
   }
 }

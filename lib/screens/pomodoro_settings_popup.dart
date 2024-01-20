@@ -3,6 +3,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -130,6 +131,11 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
               onPressed: () async{
                 await userProvider.updatePomodoroSettings(widget.pomodoroSettings);
                 Navigator.pop(context);
+                // Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => PomodoroPage(userProvider: userProvider)),
+                // );
               },
               child: Text(
                 'Submit',

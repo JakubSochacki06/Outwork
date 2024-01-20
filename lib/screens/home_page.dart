@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/add_daily_checkin_popup.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatelessWidget {
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: true);
     DailyCheckinProvider dailyCheckinProvider =
     Provider.of<DailyCheckinProvider>(context, listen: true);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     dailyCheckinProvider.setDailyCheckins(userProvider.user!);
     JournalEntryProvider journalEntryProvider =
     Provider.of<JournalEntryProvider>(context, listen: true);
@@ -111,6 +113,45 @@ class HomePage extends StatelessWidget {
                 height: height * 0.02,
               ),
               HomePageCalendar(),
+              // SizedBox(
+              //   height: height * 0.02,
+              // ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       padding: EdgeInsets.all(5),
+              //       decoration: BoxDecoration(
+              //         color: Theme.of(context).colorScheme.primary,
+              //         border: themeProvider.isLightTheme()
+              //             ? Border.all(color: Color(0xFFEDEDED))
+              //             : null,
+              //         // color: Color(0xFFF0F2F5),
+              //         borderRadius:
+              //         BorderRadius.all(Radius.circular(15)),
+              //         boxShadow: themeProvider.isLightTheme()
+              //             ? [
+              //           BoxShadow(
+              //             color: Colors.grey.withOpacity(0.3),
+              //             spreadRadius: 2,
+              //             blurRadius: 3,
+              //             // blurRadius: 10,
+              //             offset: Offset(3, 3),
+              //           )
+              //         ]
+              //             : null,
+              //       ),
+              //       child: Text('Mood tracker', style: Theme.of(context).primaryTextTheme.labelLarge,),
+              //     ),
+              //     Spacer(),
+              //     Text(
+              //         'How are you feeling?',
+              //         style: Theme
+              //             .of(context)
+              //             .textTheme
+              //             .bodyLarge
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: height * 0.02,
               ),

@@ -8,6 +8,7 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_project_page.dart';
 import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:outwork/screens/project_info_page.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => XPLevelProvider()),
         ChangeNotifierProvider(create: (context) => NavbarControllerProvider()),
         ChangeNotifierProvider(create: (context) => DailyCheckinProvider()),
         ChangeNotifierProvider(create: (context) => MorningRoutineProvider()),

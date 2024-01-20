@@ -11,7 +11,6 @@ class FirebaseUser {
   // String? familyID;
   String? photoURL;
   int? xpAmount;
-  int? level;
   int? workedSeconds;
   List<dynamic>? morningRoutines;
   List<dynamic>? nightRoutines;
@@ -32,7 +31,6 @@ class FirebaseUser {
       this.endOfTheDayJournal,
       this.projectsIDList,
       this.xpAmount,
-      this.level,
       this.workedSeconds,
       this.pomodoroSettings});
 
@@ -49,7 +47,6 @@ class FirebaseUser {
       displayName: data['displayName'],
       email: data['email'],
       xpAmount: data['xpAmount'],
-      level: data['level'],
       // familyID: data['familyID'],
       photoURL: data['photoURL'],
       morningRoutines: data['morningRoutines'],

@@ -31,7 +31,6 @@ class DatabaseService {
         'LongBreak':15,
       },
       'xpAmount':0,
-      'level':1,
       'workedSeconds':0,
       'endOfTheDayJournal':{},
       'dailyCheckins':[

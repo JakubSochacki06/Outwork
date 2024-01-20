@@ -144,7 +144,7 @@ class ProjectsList extends StatelessWidget {
                   height: height * 0.01,
                 ),
                 ProjectMembersAvatars(
-                  avatarSize: width * 0.03, project: projectsProvider.projectsList[index], progressVisible: false, addMemberVisible: false,),
+                  avatarSize: width * 0.03, project: projectsProvider.projectsList[index], progressVisible: false, addMemberVisible: false, width: width*0.35, spaceBetweenAvatars: 20,),
                 SizedBox(
                   height: height * 0.01,
                 ),

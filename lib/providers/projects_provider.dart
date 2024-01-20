@@ -138,7 +138,7 @@ class ProjectsProvider extends ChangeNotifier {
     String projectID = uuid.v4().substring(0, 6);
     _newProject.id = projectID;
     _newProject.tasks = [];
-    _newProject.requests = [];
+    // _newProject.requests = [];
     _newProject.color = generateRandomPastelColor();
     await _db.collection('projects').doc(projectID).set(_newProject.toMap());
     _projectsIDList.add(projectID);
@@ -220,13 +220,27 @@ class ProjectsProvider extends ChangeNotifier {
   Future<void> addUserToProject(
       FirebaseUser addedUser, String projectID) async {
     await _db.collection('projects').doc(projectID).update({
-      'members': FieldValue.arrayUnion([addedUser.email]),
+      'membersEmails': FieldValue.arrayUnion([addedUser.email]),
       'requests': FieldValue.arrayRemove([addedUser.email])
     });
     await _db.collection('users_data').doc(addedUser.email).update({
       'projectsIDList': FieldValue.arrayUnion([projectID])
     });
     _projectsIDList.remove(projectID);
+    notifyListeners();
+  }
+
+  Future<void> deleteUserFromProject(FirebaseUser deletedUser, String projectID) async{
+    int indexToUpdate = _projectsList.indexWhere((project) => project.id == projectID);
+    _projectsIDList.remove(projectID);
+    _projectsList[indexToUpdate].membersEmails!.remove(deletedUser.email);
+    _projectsList[indexToUpdate].membersData!.remove(deletedUser);
+    await _db.collection('projects').doc(projectID).update({
+      'membersEmails': FieldValue.arrayRemove([deletedUser.email]),
+    });
+    await _db.collection('users_data').doc(deletedUser.email).update({
+      'projectsIDList': FieldValue.arrayRemove([projectID])
+    });
     notifyListeners();
   }
 
@@ -244,7 +258,14 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// int countDoneTasksInProject(int index){
-//   _projectsIDList[index]
-// }
+  Future<void> deleteTask(int taskIndex, String projectID, String userEmail) async{
+    int indexOfTheProject = _projectsList.indexWhere((project) => project.id == projectID);
+    ProjectTask taskToRemove = _projectsList[indexOfTheProject].tasks![taskIndex];
+    _projectsList[indexOfTheProject].tasks!.remove(taskToRemove);
+    await _db.collection('projects').doc(projectID).update({
+      'tasks': FieldValue.arrayRemove([taskToRemove.toMap()])
+    });
+    notifyListeners();
+  }
+
 }

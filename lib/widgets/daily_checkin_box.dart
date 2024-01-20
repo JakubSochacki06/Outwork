@@ -4,6 +4,7 @@ import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_daily_checkin_popup.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
@@ -219,6 +220,8 @@ class DailyCheckinBox extends StatelessWidget {
                       onTap: () async {
                         await dailyCheckinProvider.removeDailyCheckinProgressToFirebase(
                             dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
+                        XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                        await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                       },
                       child: Container(
                         child: Icon(
@@ -238,6 +241,8 @@ class DailyCheckinBox extends StatelessWidget {
                       onTap: () async {
                         await dailyCheckinProvider.addDailyCheckinProgressToFirebase(
                             dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
+                        XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                        await xpLevelProvider.addXpAmount(5, userProvider.user!.email!);
                       },
                       child: Container(
                         child: Icon(

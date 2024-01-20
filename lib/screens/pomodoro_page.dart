@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -60,24 +61,27 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
 
     void getNextMode(){
-      if(interval % 6 == 0){
+      if(pomodoroStatus == 'Pomodoro' && interval % 6 == 0){
         pomodoroStatus = 'Long break';
         pomodoroTimerStatus = 'Not started';
         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['LongBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
-      } else if(interval.isOdd){
+        return;
+      } else if(pomodoroStatus == 'Short break'){
         pomodoroStatus = 'Pomodoro';
         pomodoroTimerStatus = 'Not started';
         pomodoroTimer =  widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
+        return;
       } else {
         pomodoroStatus = 'Short break';
         pomodoroTimerStatus = 'Not started';
         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['ShortBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
+        return;
       }
     }
 
@@ -147,8 +151,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                   ),
                   IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: (){
-                      showModalBottomSheet(
+                    onPressed: () async{
+                      await showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         useRootNavigator: true,
@@ -161,6 +165,12 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           ),
                         ),
                       );
+                      setState(() {
+                        pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
+                        pomodoroStatus = 'Pomodoro';
+                        pomodoroTimerStatus = 'Not started';
+                        pomodoroController.reset();
+                      });
                     },
                   )
                 ],
@@ -226,6 +236,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 height: height * 0.01,
               ),
               CircularCountDownTimer(
+                onComplete: () async{
+                  final player = AudioPlayer();
+                  await player.play(AssetSource('successSound.mp3'));
+                  await userProvider.addWorkedSecondsToDatabase(pomodoroTimer);
+                  setState(() {
+                    interval++;
+                    getNextMode();
+                  });
+                },
                   duration: pomodoroTimer,
                   controller: pomodoroController,
                   width: width * 0.8,
