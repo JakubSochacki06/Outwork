@@ -10,70 +10,87 @@ import 'package:intl/intl.dart';
 
 class JournalEntryProvider extends ChangeNotifier {
   JournalEntry _journalEntry = JournalEntry(emotions: []);
+  JournalEntry _existingEntry = JournalEntry(emotions: []);
   FirebaseFirestore _db = FirebaseFirestore.instance;
-  bool _wantToAddNote = false;
+  DatabaseService _dbS = DatabaseService();
   List<JournalEntry>? _journalEntries;
 
   JournalEntry get journalEntry=> _journalEntry;
-  bool get wantToAddNote=> _wantToAddNote;
+  JournalEntry get existingEntry => _existingEntry;
   List<JournalEntry> get journalEntries => _journalEntries!;
 
   void setJournalEntries(FirebaseUser user) {
     _journalEntries = user.journalEntries!;
   }
 
-  void updateSelectedFeeling(String feeling) {
-    _journalEntry.feeling = feeling;
+  void updateSelectedFeeling(String feeling, final subject) {
+    subject.feeling = feeling;
+    notifyListeners();
+  }
+  void addEmotionToEntry(String emotion, JournalEntry subject) {
+    if (subject.emotions == null) {
+      subject.emotions = [];
+    }
+    if (subject.emotions!.contains(emotion)) {
+      subject.emotions!.remove(emotion);
+    } else {
+      subject.emotions!.add(emotion);
+    }
     notifyListeners();
   }
 
-  void addEmotion(String emotion){
-    _journalEntry.emotions!.contains(emotion)?_journalEntry.emotions!.remove(emotion):_journalEntry.emotions!.add(emotion);
+  void setStoredImage(File storedImage, final subject){
+    subject.storedImage = storedImage;
     notifyListeners();
   }
 
-  void setStoredImage(File storedImage){
-    _journalEntry.storedImage = storedImage;
+  void setSavedImage(File savedImage, final subject){
+    subject.savedImage = savedImage;
     notifyListeners();
   }
 
-  void setSavedImage(File savedImage){
-    _journalEntry.savedImage = savedImage;
+  void setHasNote(bool value, final subject){
+    subject.hasNote = value;
     notifyListeners();
   }
 
-  void setHasNote(bool value){
-    _journalEntry.hasNote = value;
-    notifyListeners();
-  }
-
-  void setStressLevel(int stressLevel){
-    _journalEntry.stressLevel = stressLevel;
-    notifyListeners();
-  }
-
-
-  void changeWantToAddNote(bool value){
-    _wantToAddNote = value;
+  void setStressLevel(int stressLevel, final subject){
+    subject.stressLevel = stressLevel;
     notifyListeners();
   }
 
   void clearProvider(FirebaseUser user){
     _journalEntry = JournalEntry(emotions:[]);
-    _wantToAddNote = false;
     _journalEntries = user.journalEntries!;
     notifyListeners();
   }
 
+  void clearExistingNote(){
+    _existingEntry = JournalEntry();
+}
+
   Future<void> addJournalEntryToDatabase(FirebaseUser user) async{
     _journalEntry.date = DateTime.now();
     _journalEntries!.add(_journalEntry);
-    _journalEntry.storedImage != null? await uploadPhoto(_journalEntry.storedImage!, user):null;
+    _journalEntry.storedImage != null? await uploadPhoto(_journalEntry.storedImage!, user, _journalEntry):null;
     _journalEntry.storedImage != null? _journalEntry.hasPhoto = true: _journalEntry.hasPhoto = false;
     List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
-    DatabaseService dbS = DatabaseService();
-    await dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
+    await _dbS.updateDataToDatabase(user.email!, 'journalEntries', entriesAsMap);
     clearProvider(user);
+    notifyListeners();
+  }
+
+  Future<void> editJournalEntryAndSubmit(FirebaseUser user) async{
+    int indexOfEditedEntry = _journalEntries!.indexWhere((entry) => entry.date == _existingEntry.date);
+    _journalEntries![indexOfEditedEntry] = _existingEntry;
+    print('xd');
+    _existingEntry.storedImage != null? await uploadPhoto(_existingEntry.storedImage!, user, _existingEntry):null;
+    _existingEntry.storedImage != null? _existingEntry.hasPhoto = true: _existingEntry.hasPhoto = false;
+    List<Map<String, dynamic>> entriesAsMap = journalEntries.map((entry) => entry.toMap()).toList();
+    await _db
+        .collection('users_data')
+        .doc(user.email)
+        .set({'journalEntries': entriesAsMap}, SetOptions(merge: true));
     notifyListeners();
   }
 
@@ -88,8 +105,8 @@ class JournalEntryProvider extends ChangeNotifier {
   }
 
 
-  Future<void> uploadPhoto(File file, FirebaseUser user) async{
-    String firebasePath = 'images/${user.email}/${DateFormat('yyyy-MM-dd kk:mm:ss').format(_journalEntry.date!)}.jpg';
+  Future<void> uploadPhoto(File file, FirebaseUser user, JournalEntry subject) async{
+    String firebasePath = 'images/${user.email}/${DateFormat('yyyy-MM-dd kk:mm:ss').format(subject.date!)}.jpg';
     final ref = FirebaseStorage.instance.ref().child(firebasePath);
     await ref.putFile(file);
     notifyListeners();

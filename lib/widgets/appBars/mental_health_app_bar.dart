@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/screens/new_journal_entry_popup.dart';
+import 'package:provider/provider.dart';
 
 class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MentalHealthAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
     return AppBar(
       // backgroundColor: ,
       automaticallyImplyLeading: false,
@@ -28,7 +31,7 @@ class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget 
                               .of(context)
                               .viewInsets
                               .bottom),
-                      child: NewJournalEntryPopup(),
+                      child: NewJournalEntryPopup(subject: journalEntryProvider.journalEntry,),
                     ),
                   ),
             );

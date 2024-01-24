@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
@@ -25,6 +26,8 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
+    JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(
+        context, listen: false);
 
     Future<void> setUpData() async{
       print('FKED UPPPP');
@@ -33,6 +36,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
       await userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!);
       await projectsProvider.setProjectsList(userProvider.user!);
       morningRoutineProvider.setMorningRoutines(userProvider.user!);
+      journalEntryProvider.setJournalEntries(userProvider.user!);
       nightRoutineProvider.setNightRoutines(userProvider.user!);
       xpLevelProvider.setXPAmount(userProvider.user!);
     }

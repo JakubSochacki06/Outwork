@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/models/journal_entry.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:provider/provider.dart';
 
 class StressSlider extends StatelessWidget {
-  const StressSlider({super.key});
+  final JournalEntry subject;
+  StressSlider({required this.subject});
 
   @override
   Widget build(BuildContext context) {
-    return ShapeCustomizedSliderPage(Key('slider'));
+    return ShapeCustomizedSliderPage(subject: subject,);
   }
 }
 
 class ShapeCustomizedSliderPage extends StatefulWidget {
-  ///Renders slider with customized shapes
-  const ShapeCustomizedSliderPage(Key key) : super(key: key);
+  final JournalEntry subject;
+  ShapeCustomizedSliderPage({required this.subject});
 
   @override
   ShapeCustomizedSliderPageState createState() =>
@@ -30,7 +32,7 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
     JournalEntryProvider diaryEntryProvider = Provider.of<JournalEntryProvider>(context);
     final double _min = 0.0;
     final double _max = 10.0;
-    double _value = diaryEntryProvider.journalEntry.stressLevel!.toDouble();
+    double _value = widget.subject.stressLevel!.toDouble();
     return Scaffold(
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -58,7 +60,7 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
                       onChanged: (dynamic value) {
                         setState(() {
                           _value = value as double;
-                          diaryEntryProvider.setStressLevel(_value.toInt());
+                          diaryEntryProvider.setStressLevel(_value.toInt(), widget.subject);
                         });
                       },
                     ),

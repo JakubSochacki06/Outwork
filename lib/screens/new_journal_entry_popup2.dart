@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/image_input.dart';
 import 'package:outwork/widgets/rotating_text_journal.dart';
 import 'package:provider/provider.dart';
 class NewJournalEntryPopup2 extends StatefulWidget {
-  const NewJournalEntryPopup2({super.key});
+  final JournalEntry subject;
+  NewJournalEntryPopup2({required this.subject});
 
   @override
   State<NewJournalEntryPopup2> createState() => _NewJournalEntryPopupState();
@@ -26,10 +28,15 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
   @override
   Widget build(BuildContext context) {
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
-    UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    if(widget.subject == journalEntryProvider.existingEntry && widget.subject.noteTitle != null){
+      _titleController.text = journalEntryProvider.existingEntry.noteTitle!;
+      _descriptionController.text = journalEntryProvider.existingEntry.noteDescription!;
+    }
+    // print('DATE IMAGE INPUT');
+    // print(subject.date);
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -79,16 +86,24 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
           SizedBox(
             height: 10.0,
           ),
-          ImageInput(),
+          ImageInput(subject: widget.subject,),
           SizedBox(
             height: height*0.03,
           ),
           ElevatedButton(
             onPressed: () async{
-              journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
-              journalEntryProvider.journalEntry.noteTitle = _titleController.text;
-              journalEntryProvider.setHasNote(true);
-              journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+              if(widget.subject != journalEntryProvider.existingEntry){
+                journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
+                journalEntryProvider.journalEntry.noteTitle = _titleController.text;
+                journalEntryProvider.setHasNote(true, widget.subject);
+                journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+              } else {
+                journalEntryProvider.existingEntry.noteDescription = _descriptionController.text;
+                journalEntryProvider.existingEntry.noteTitle = _titleController.text;
+                journalEntryProvider.setHasNote(true, widget.subject);
+                journalEntryProvider.editJournalEntryAndSubmit(userProvider.user!);
+
+              }
               Navigator.pop(context);
               Navigator.pop(context);
             },

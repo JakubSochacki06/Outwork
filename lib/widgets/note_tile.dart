@@ -1,33 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/new_journal_entry_popup.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
 
 class NoteTile extends StatelessWidget {
-  final String? noteTitle;
-  final String? noteDescription;
-  final String feeling;
-  final DateTime date;
-  final List<dynamic> emotions;
+  final JournalEntry note;
 
-  // final String day;
-  // final String month;
-  // final String year;
-  // final String monthName;
-  final bool hasPhoto;
-  final bool hasNote;
-
-  NoteTile(
-      {this.noteTitle,
-      this.noteDescription,
-      required this.feeling,
-      required this.date,
-      required this.hasPhoto,
-      required this.hasNote,
-      required this.emotions});
+  NoteTile({required this.note});
 
   @override
   Widget build(BuildContext context) {
@@ -87,50 +71,7 @@ class NoteTile extends StatelessWidget {
       return deleteNote;
     }
 
-    String convertFeelingToTitle() {
-      switch (feeling) {
-        case 'sad':
-        case 'unhappy':
-        case 'neutral':
-        case 'happy':
-          return feeling.capitalize();
-      }
-      return 'Very happy';
-    }
-
-    String setDate() {
-      DateTime now = DateTime.now();
-      DateTime today = DateTime(now.year, now.month, now.day);
-      DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
-      DateTime dateFormatted = DateTime(date.year, date.month, date.day);
-      String monthName = DateFormat('MMMM').format(dateFormatted);
-      String minutes;
-      date.minute.toString().length == 1
-          ? minutes = '0${date.minute}'
-          : minutes = date.minute.toString();
-      if (dateFormatted == today) {
-        return 'Today, ${date.hour}:$minutes';
-      } else if (dateFormatted == yesterday) {
-        if(convertFeelingToTitle() == 'Very happy' && hasNote != true){
-          return 'Yesterday';
-        }
-        return 'Yesterday, ${date.hour}:$minutes';
-      } else {
-        return '${date.day} $monthName';
-      }
-    }
-
-    String emotionsText() {
-      String emotionsText = '';
-      for (int i = 0; i < emotions.length; i++) {
-        emotionsText += emotions[i];
-        if (i + 1 != emotions.length) emotionsText += ', ';
-      }
-      return emotionsText;
-    }
-
-
-    return hasNote
+    return note.hasNote
         ? Container(
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
@@ -159,7 +100,7 @@ class NoteTile extends StatelessWidget {
                     Container(
                       width: width * 0.2,
                       height: height * 0.07,
-                      child: Image.asset('assets/emojis/${feeling}.png'),
+                      child: Image.asset('assets/emojis/${note.feeling}.png'),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                       ),
@@ -168,11 +109,11 @@ class NoteTile extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(convertFeelingToTitle(),
+                        Text(note.getFeelingAsTitle(),
                             style:
                                 Theme.of(context).textTheme.bodyMedium),
                         Text(
-                          setDate(),
+                          note.getDateAsString(),
                           style: Theme.of(context).primaryTextTheme.labelLarge,
                         ),
                       ],
@@ -183,7 +124,38 @@ class NoteTile extends StatelessWidget {
                     //     : FontAwesomeIcons.x),
                     Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        journalEntryProvider.clearExistingNote();
+                        journalEntryProvider.existingEntry.noteTitle = note.noteTitle;
+                        journalEntryProvider.existingEntry.noteDescription = note.noteDescription;
+                        journalEntryProvider.existingEntry.storedImage = note.storedImage;
+                        journalEntryProvider.existingEntry.savedImage = note.savedImage;
+                        List<dynamic> clonedEmotions = [];
+                        clonedEmotions.addAll(note.emotions!);
+                        journalEntryProvider.existingEntry.emotions = clonedEmotions;
+                        journalEntryProvider.existingEntry.hasPhoto = note.hasPhoto;
+                        journalEntryProvider.existingEntry.hasNote = note.hasNote;
+                        journalEntryProvider.existingEntry.feeling = note.feeling;
+                        journalEntryProvider.existingEntry.stressLevel = note.stressLevel;
+                        journalEntryProvider.existingEntry.date = note.date;
+                        showModalBottomSheet(
+                          context: context,
+                          useRootNavigator: true,
+                          isScrollControlled: true,
+                          builder: (context) =>
+                              SingleChildScrollView(
+                                child: Container(
+                                  // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery
+                                          .of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: NewJournalEntryPopup(subject: journalEntryProvider.existingEntry,),
+                                ),
+                              ),
+                        );
+                      },
                       icon: Icon(
                         Icons.edit,
                       ),
@@ -193,8 +165,8 @@ class NoteTile extends StatelessWidget {
                         bool wantToDelete =
                             await wantToDeleteNoteAlert();
                         if (wantToDelete) {
-                          await journalEntryProvider.removeJournalEntryFromDatabase(date, userProvider.user!);
-                          await journalEntryProvider.deletePhoto(date, userProvider.user!);
+                          await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
+                          await journalEntryProvider.deletePhoto(note.date!, userProvider.user!);
                         }
                       },
                       icon: Icon(
@@ -202,11 +174,11 @@ class NoteTile extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: hasPhoto?() {
-                        showPhoto(date);
+                      onPressed: note.hasPhoto!?() {
+                        showPhoto(note.date!);
                       }:null,
                       icon: Icon(
-                        hasPhoto?Icons.camera_alt:Icons.no_photography,
+                        note.hasPhoto!?Icons.camera_alt:Icons.no_photography,
                       ),
                     ),
                   ],
@@ -217,14 +189,14 @@ class NoteTile extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    noteTitle!,
+                    note.noteTitle!,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    noteDescription!,
+                    note.noteDescription!,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: Theme.of(context).primaryTextTheme.labelLarge,
@@ -268,7 +240,7 @@ class NoteTile extends StatelessWidget {
                       height: height * 0.045,
                       // width: width*0.1,
                       child: Image.asset(
-                        'assets/emojis/$feeling.png',
+                        'assets/emojis/${note.feeling}.png',
                       ),
                     ),
                   ),
@@ -283,17 +255,17 @@ class NoteTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        setDate(),
+                        note.getDateAsString(),
                         style: Theme.of(context).primaryTextTheme.labelLarge,
                       ),
-                      Text('${convertFeelingToTitle()}',
+                      Text(note.getFeelingAsTitle(),
                           style: Theme.of(context).textTheme.headlineSmall),
                       SizedBox(width: width*0.02,),
                       SizedBox(
                         height: height * 0.001,
                       ),
                       Text(
-                        '${emotionsText()}',
+                        note.getEmotionsText(),
                         style: Theme.of(context).primaryTextTheme.labelLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -306,14 +278,44 @@ class NoteTile extends StatelessWidget {
                   onTap: () async {
                     bool wantToDelete = await wantToDeleteNoteAlert();
                     if(wantToDelete){
-                      await journalEntryProvider.removeJournalEntryFromDatabase(date, userProvider.user!);
+                      await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
                     }
                   },
                   child: Icon(Icons.delete),
                 ),
                 SizedBox(width: width*0.03,),
                 GestureDetector(
-                  onTap: () async {
+                  onTap: () {
+                    journalEntryProvider.clearExistingNote();
+                    journalEntryProvider.existingEntry.noteTitle = note.noteTitle;
+                    journalEntryProvider.existingEntry.noteDescription = note.noteDescription;
+                    journalEntryProvider.existingEntry.storedImage = note.storedImage;
+                    journalEntryProvider.existingEntry.savedImage = note.savedImage;
+                    List<dynamic> clonedEmotions = [];
+                    clonedEmotions.addAll(note.emotions!);
+                    journalEntryProvider.existingEntry.emotions = clonedEmotions;
+                    journalEntryProvider.existingEntry.hasPhoto = note.hasPhoto;
+                    journalEntryProvider.existingEntry.hasNote = note.hasNote;
+                    journalEntryProvider.existingEntry.feeling = note.feeling;
+                    journalEntryProvider.existingEntry.stressLevel = note.stressLevel;
+                    journalEntryProvider.existingEntry.date = note.date;
+                    showModalBottomSheet(
+                      context: context,
+                      useRootNavigator: true,
+                      isScrollControlled: true,
+                      builder: (context) =>
+                          SingleChildScrollView(
+                            child: Container(
+                              // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
+                              padding: EdgeInsets.only(
+                                  bottom: MediaQuery
+                                      .of(context)
+                                      .viewInsets
+                                      .bottom),
+                              child: NewJournalEntryPopup(subject: journalEntryProvider.existingEntry,),
+                            ),
+                          ),
+                    );
                   },
                   child: Icon(Icons.edit),
                 ),

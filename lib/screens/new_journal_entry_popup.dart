@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/emotions_list.dart';
 import 'package:outwork/widgets/main_feelings_row.dart';
@@ -9,7 +10,9 @@ import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:provider/provider.dart';
 
 class NewJournalEntryPopup extends StatelessWidget {
-  const NewJournalEntryPopup({Key? key});
+  final JournalEntry subject;
+
+  NewJournalEntryPopup({required this.subject});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +22,15 @@ class NewJournalEntryPopup extends StatelessWidget {
         Provider.of<JournalEntryProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    bool validateInput() {
+      bool isValid = true;
+      if (subject.feeling == null) {
+        isValid = false;
+      }
+      return isValid;
+    }
+
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -56,10 +68,13 @@ class NewJournalEntryPopup extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            MainFeelingsRow(),
+            MainFeelingsRow(
+              subject: subject,
+            ),
             SizedBox(
               height: height * 0.01,
             ),
+
             Text(
               'Emotions that you felt',
               textAlign: TextAlign.center,
@@ -70,13 +85,19 @@ class NewJournalEntryPopup extends StatelessWidget {
             ),
             EmotionsList(
               emotions: ['Excited', 'Loved', 'Surprised'],
+              subject: subject,
             ),
-            EmotionsList(emotions: ['Angry', 'Anxious', 'Lonely']),
+            EmotionsList(
+              emotions: ['Angry', 'Anxious', 'Lonely'],
+              subject: subject,
+            ),
             EmotionsList(
               emotions: ['Calm', 'Fascinated', 'Tired'],
+              subject: subject,
             ),
             EmotionsList(
               emotions: ['Frustrated', 'Relaxed', 'Bored'],
+              subject: subject,
             ),
             SizedBox(
               height: height * 0.01,
@@ -89,49 +110,63 @@ class NewJournalEntryPopup extends StatelessWidget {
             Container(
                 height: height * 0.07,
                 width: width * 0.8,
-                child: StressSlider()),
+                child: StressSlider(
+                  subject: subject,
+                )),
             SizedBox(
               height: height * 0.03,
             ),
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(15)
-              ),
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(15)),
               child: CheckboxListTile(
-                  title: Text('Leave a note', style: Theme.of(context).primaryTextTheme.bodyMedium,),
-                  value: journalEntryProvider.wantToAddNote,
+                  title: Text(
+                    'Leave a note',
+                    style: Theme.of(context).primaryTextTheme.bodyMedium,
+                  ),
+                  value: subject.hasNote,
                   onChanged: (checkboxValue) {
-                    journalEntryProvider.changeWantToAddNote(checkboxValue!);
+                    journalEntryProvider.setHasNote(checkboxValue!, subject);
                   }),
             ),
             SizedBox(
               height: height * 0.01,
             ),
             ElevatedButton(
-              onPressed: () {
-                if (journalEntryProvider.wantToAddNote == true) {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (context) => SingleChildScrollView(
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: NewJournalEntryPopup2(),
+              onPressed: () async {
+                if(validateInput()){
+                  if (subject.hasNote == true) {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => SingleChildScrollView(
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: NewJournalEntryPopup2(
+                            subject: subject,
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                } else {
-                  journalEntryProvider
-                      .addJournalEntryToDatabase(userProvider.user!);
-                  Navigator.pop(context);
+                    );
+                  } else {
+                    if (subject != journalEntryProvider.existingEntry) {
+                      await journalEntryProvider
+                          .addJournalEntryToDatabase(userProvider.user!);
+                    } else {
+                      await journalEntryProvider
+                          .editJournalEntryAndSubmit(userProvider.user!);
+                    }
+                    Navigator.pop(context);
+                }
                 }
               },
               child: Text(
-                journalEntryProvider.wantToAddNote ? 'Add note' : 'Submit',
+                subject.hasNote ? 'Add note' : 'Submit',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
                 shape: StadiumBorder(),

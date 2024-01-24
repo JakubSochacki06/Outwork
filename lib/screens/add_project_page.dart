@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class AddProjectPage extends StatefulWidget {
   final String mode;
+
   const AddProjectPage({required this.mode});
 
   @override
@@ -33,65 +34,55 @@ class _AddProjectPageState extends State<AddProjectPage> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     ProjectsProvider projectProvider =
-    Provider.of<ProjectsProvider>(context, listen: true);
+        Provider.of<ProjectsProvider>(context, listen: true);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    if(widget.mode == 'Edit existing'){
+    if (widget.mode == 'Edit existing') {
       _titleController.text = projectProvider.editableDummyProject.title!;
-      _descriptionController.text = projectProvider.editableDummyProject.description!;
+      _descriptionController.text =
+          projectProvider.editableDummyProject.description!;
     } else {
-      projectProvider.newProject.title != null?_titleController.text = projectProvider.newProject.title!:null;
-      projectProvider.newProject.description != null?_descriptionController.text = projectProvider.newProject.description!:null;
+      projectProvider.newProject.title != null
+          ? _titleController.text = projectProvider.newProject.title!
+          : null;
+      projectProvider.newProject.description != null
+          ? _descriptionController.text =
+              projectProvider.newProject.description!
+          : null;
     }
 
-    bool validateDueDateAndTaskType(){
+    bool validateInput() {
       bool isValid = true;
-      if(widget.mode != 'Edit existing' && projectProvider.newProject.projectType == null){
-        setState(() {
+      setState(() {
+        if (widget.mode != 'Edit existing' &&
+            projectProvider.newProject.projectType == null) {
           projectTypeError = 'Select project type';
           isValid = false;
-        });
-      } else {
-        setState(() {
+        } else {
           projectTypeError = null;
-        });
-      }
-      if(widget.mode != 'Edit existing' && projectProvider.newProject.dueDate == null){
-        setState(() {
+        }
+        if (widget.mode != 'Edit existing' &&
+            projectProvider.newProject.dueDate == null) {
           dueDateError = 'Select due date by clicking the icon';
           isValid = false;
-        });
-      } else {
-        setState(() {
+        } else {
           dueDateError = null;
-        });
-      }
-
-      return isValid;
-    }
-    bool textFieldsValid() {
-      bool isValid = true;
-      if (_titleController.text.isEmpty) {
-        setState(() {
+        }
+        if (_titleController.text.isEmpty) {
           titleError = 'Title can\'t be empty';
           isValid = false;
-        });
-      } else {
-        setState(() {
+        } else {
           titleError = null;
-        });
-      }
+        }
 
-      if (_descriptionController.text.isEmpty) {
-        setState(() {
+        if (_descriptionController.text.isEmpty) {
           descriptionError = 'Description can\'t be empty';
           isValid = false;
-        });
-      } else {
-        setState(() {
+        } else {
           descriptionError = null;
-        });
-      }
+        }
+      });
+
       return isValid;
     }
 
@@ -130,8 +121,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
             child: TextField(
               maxLength: 20,
               controller: _titleController,
-              onChanged: (word){
-                if(widget.mode != 'Edit existing'){
+              onChanged: (word) {
+                if (widget.mode != 'Edit existing') {
                   projectProvider.newProject.title = word;
                 } else {
                   projectProvider.editableDummyProject.title = word;
@@ -140,7 +131,10 @@ class _AddProjectPageState extends State<AddProjectPage> {
               decoration: InputDecoration(
                   errorText: titleError,
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  errorStyle: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),
+                  errorStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
                   // alignLabelWithHint: true,
                   labelText: 'Title',
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
@@ -158,20 +152,22 @@ class _AddProjectPageState extends State<AddProjectPage> {
             child: TextField(
               maxLength: 50,
               maxLines: 2,
-              onChanged: (word){
-                if(widget.mode != 'Edit existing'){
+              onChanged: (word) {
+                if (widget.mode != 'Edit existing') {
                   projectProvider.newProject.description = word;
                 } else {
                   projectProvider.editableDummyProject.description = word;
                 }
-
               },
               // expands: true,
               controller: _descriptionController,
               decoration: InputDecoration(
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   errorText: descriptionError,
-                  errorStyle: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),
+                  errorStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
                   labelText: 'Description',
                   alignLabelWithHint: true,
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
@@ -188,8 +184,19 @@ class _AddProjectPageState extends State<AddProjectPage> {
           SizedBox(
             height: height * 0.01,
           ),
-          CalendarPickerTile(calendarSubject: widget.mode == 'Edit existing'?projectProvider.editableDummyProject:projectProvider.newProject),
-          dueDateError!=null?Text(dueDateError!, style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),):Container(),
+          CalendarPickerTile(
+              calendarSubject: widget.mode == 'Edit existing'
+                  ? projectProvider.editableDummyProject
+                  : projectProvider.newProject),
+          dueDateError != null
+              ? Text(
+                  dueDateError!,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
+                )
+              : Container(),
           SizedBox(
             height: height * 0.01,
           ),
@@ -205,21 +212,34 @@ class _AddProjectPageState extends State<AddProjectPage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  widget.mode!= 'Edit existing'? projectProvider.setNewProjectType('Basic'):projectProvider.editProjectType('Basic');
+                  widget.mode != 'Edit existing'
+                      ? projectProvider.setNewProjectType('Basic')
+                      : projectProvider.editProjectType('Basic');
                 },
                 child: Text('Basic',
-                    style: widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Basic' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Basic'
+                    style: widget.mode != 'Edit existing' &&
+                                projectProvider.newProject.projectType ==
+                                    'Basic' ||
+                            widget.mode == 'Edit existing' &&
+                                projectProvider
+                                        .editableDummyProject.projectType ==
+                                    'Basic'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSecondaryContainer)
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor:
-                  widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Basic' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Basic'
+                  backgroundColor: widget.mode != 'Edit existing' &&
+                              projectProvider.newProject.projectType ==
+                                  'Basic' ||
+                          widget.mode == 'Edit existing' &&
+                              projectProvider
+                                      .editableDummyProject.projectType ==
+                                  'Basic'
                       ? Theme.of(context).colorScheme.secondary
                       : Theme.of(context).colorScheme.primary,
                   elevation: 0,
@@ -227,21 +247,34 @@ class _AddProjectPageState extends State<AddProjectPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  widget.mode!= 'Edit existing'? projectProvider.setNewProjectType('Urgent'):projectProvider.editProjectType('Urgent');
+                  widget.mode != 'Edit existing'
+                      ? projectProvider.setNewProjectType('Urgent')
+                      : projectProvider.editProjectType('Urgent');
                 },
                 child: Text('Urgent',
-                    style: widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Urgent' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Urgent'
+                    style: widget.mode != 'Edit existing' &&
+                                projectProvider.newProject.projectType ==
+                                    'Urgent' ||
+                            widget.mode == 'Edit existing' &&
+                                projectProvider
+                                        .editableDummyProject.projectType ==
+                                    'Urgent'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSecondaryContainer)
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor:
-                  widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Urgent' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Urgent'
+                  backgroundColor: widget.mode != 'Edit existing' &&
+                              projectProvider.newProject.projectType ==
+                                  'Urgent' ||
+                          widget.mode == 'Edit existing' &&
+                              projectProvider
+                                      .editableDummyProject.projectType ==
+                                  'Urgent'
                       ? Theme.of(context).colorScheme.secondary
                       : Theme.of(context).colorScheme.primary,
                   elevation: 0,
@@ -249,21 +282,34 @@ class _AddProjectPageState extends State<AddProjectPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  widget.mode!= 'Edit existing'? projectProvider.setNewProjectType('Important'):projectProvider.editProjectType('Important');
+                  widget.mode != 'Edit existing'
+                      ? projectProvider.setNewProjectType('Important')
+                      : projectProvider.editProjectType('Important');
                 },
                 child: Text('Important',
-                    style: widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Important' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Important'
+                    style: widget.mode != 'Edit existing' &&
+                                projectProvider.newProject.projectType ==
+                                    'Important' ||
+                            widget.mode == 'Edit existing' &&
+                                projectProvider
+                                        .editableDummyProject.projectType ==
+                                    'Important'
                         ? Theme.of(context).textTheme.labelMedium!.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSecondaryContainer)
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer)
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
                   shape: StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor:
-                  widget.mode!= 'Edit existing' && projectProvider.newProject.projectType == 'Important' || widget.mode == 'Edit existing' && projectProvider.editableDummyProject.projectType == 'Important'
+                  backgroundColor: widget.mode != 'Edit existing' &&
+                              projectProvider.newProject.projectType ==
+                                  'Important' ||
+                          widget.mode == 'Edit existing' &&
+                              projectProvider
+                                      .editableDummyProject.projectType ==
+                                  'Important'
                       ? Theme.of(context).colorScheme.secondary
                       : Theme.of(context).colorScheme.primary,
                   elevation: 0,
@@ -271,18 +317,29 @@ class _AddProjectPageState extends State<AddProjectPage> {
               ),
             ],
           ),
-          projectTypeError!=null?Text(projectTypeError!, style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.error),):Container(),
+          projectTypeError != null
+              ? Text(
+                  projectTypeError!,
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
+                )
+              : Container(),
           SizedBox(
             height: height * 0.01,
           ),
-         ElevatedButton(
+          ElevatedButton(
             onPressed: () async {
-              if(textFieldsValid() == true && validateDueDateAndTaskType() == true){
-                if(widget.mode == 'Edit existing'){
+              if (validateInput()) {
+                if (widget.mode == 'Edit existing') {
                   await projectProvider.saveEditedChanges();
                 } else {
-                  projectProvider.newProject.membersEmails = [userProvider.user!.email!];
-                  await projectProvider.addProjectToDatabase(userProvider.user!);
+                  projectProvider.newProject.membersEmails = [
+                    userProvider.user!.email!
+                  ];
+                  await projectProvider
+                      .addProjectToDatabase(userProvider.user!);
                 }
                 Navigator.pop(context);
               }
