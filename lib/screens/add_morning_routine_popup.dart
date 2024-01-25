@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
+import 'package:outwork/utilities/utilities.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -94,6 +95,12 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
                     hintText: 'Enter your morning routine name'),
               ),
+            ),
+            TextButton(
+              onPressed: () async{
+                TimeOfDay? sheduledTime = await pickSchedule(context);
+              },
+              child: Text('schedule'),
             ),
             SizedBox(
               height: height * 0.01,

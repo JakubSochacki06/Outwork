@@ -14,6 +14,7 @@ class MainFeelingButton extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         journalEntryProvider.updateSelectedFeeling(feeling, subject);
+        journalEntryProvider.setFeelingError(null);
       },
       child: CircleAvatar(
         radius: 25,

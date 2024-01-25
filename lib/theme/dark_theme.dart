@@ -32,6 +32,8 @@ ThemeData darkTheme = ThemeData(
   iconTheme: IconThemeData(
     color: Colors.white
   ),
+  timePickerTheme: _myTimePickerTheme(),
+    // textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),)),
   // typography: Typography(),
   // bottomNavigationBarTheme: BottomNavigationBarThemeData(
   //   backgroundColor: Colors.red
@@ -178,3 +180,37 @@ ThemeData darkTheme = ThemeData(
     ),
   )
 );
+
+
+TimePickerThemeData _myTimePickerTheme (){
+  Color myTimePickerMaterialStateColorFunc(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+      MaterialState.selected, //This is the one actually used
+    };
+    if (states.any(interactiveStates.contains)) {
+      // the color to return when button is in pressed, hovered, focused, or selected state
+      return Color(0xFF2B2B2B);
+    }
+    // the color to return when button is in it's normal/unfocused state 
+    return Colors.transparent;
+  }
+
+  return ThemeData().timePickerTheme.copyWith(
+    hourMinuteTextColor: Colors.white,
+    hourMinuteColor: MaterialStateColor.resolveWith((Set<MaterialState> states) => myTimePickerMaterialStateColorFunc(states)), //Background of Hours/Minute input
+    dayPeriodTextColor: Colors.white,
+    dayPeriodColor: MaterialStateColor.resolveWith(myTimePickerMaterialStateColorFunc), //Background of AM/PM.
+    dialHandColor: Color(0xFFB2F042),
+    // dialBackgroundColor: Color(0xFFB2F042),
+    confirmButtonStyle: ButtonStyle(
+      foregroundColor: MaterialStateProperty.all<Color>(Color(0xFFB2F042)),
+    ),
+    cancelButtonStyle: ButtonStyle(
+      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+    ),
+
+  );
+}

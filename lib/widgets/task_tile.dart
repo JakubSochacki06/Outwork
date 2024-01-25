@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
@@ -76,6 +77,8 @@ class TaskTile extends StatelessWidget {
             Checkbox(
               value: project.tasks![taskIndex].completed,
               onChanged: (checkboxValue) async{
+                XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                checkboxValue == true?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                 await projectProvider.updateTaskCompletionStatus(project, taskIndex);
               },
             ),
@@ -113,6 +116,8 @@ class TaskTile extends StatelessWidget {
                     bool? wantToDelete = await wantToDeleteTaskAlert(context);
                     if(wantToDelete == true){
                       await projectProvider.deleteTask(taskIndex, project.id!, userProvider.user!.email!);
+                      XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
                     }
                   },
                   icon: Icon(Icons.delete),

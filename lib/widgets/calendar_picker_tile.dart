@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 class CalendarPickerTile extends StatelessWidget {
   final dynamic calendarSubject;
+  // final bool hasError;
   CalendarPickerTile({required this.calendarSubject});
   // projectProvider.newProject
 

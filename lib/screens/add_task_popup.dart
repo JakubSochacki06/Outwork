@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -170,6 +171,8 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
                   projectProvider.newTask.addedBy = userProvider.user!.email!;
                   projectProvider.newTask.completed = false;
                   await projectProvider.addTaskToDatabase(widget.project,);
+                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
                   Navigator.pop(context);
                 }
 

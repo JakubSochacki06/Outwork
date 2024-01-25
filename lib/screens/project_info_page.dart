@@ -5,6 +5,7 @@ import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_project_page.dart';
 import 'package:outwork/screens/add_task_popup.dart';
 import 'package:outwork/screens/project_requests_popup.dart';
@@ -192,6 +193,8 @@ class ProjectInfoPage extends StatelessWidget {
                                 onPressed: () async {
                                   bool? wantToDelete = await wantToDeleteNoteAlert(context);
                                   if(wantToDelete == true){
+                                    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                                    await xpLevelProvider.removeXpAmount(20, userProvider.user!.email!);
                                     await projectsProvider.deleteProject(project, userProvider.user!.email!);
                                   }
                                   Navigator.pop(context);

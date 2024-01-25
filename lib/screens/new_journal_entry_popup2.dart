@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/image_input.dart';
 import 'package:outwork/widgets/rotating_text_journal.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +16,9 @@ class NewJournalEntryPopup2 extends StatefulWidget {
 
 class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
   final _titleController = TextEditingController();
-
   final _descriptionController = TextEditingController();
+  String? titleError;
+  String? descriptionError;
 
   @override
   void dispose() {
@@ -35,8 +37,26 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
       _titleController.text = journalEntryProvider.existingEntry.noteTitle!;
       _descriptionController.text = journalEntryProvider.existingEntry.noteDescription!;
     }
-    // print('DATE IMAGE INPUT');
-    // print(subject.date);
+
+    bool validateTextfields(){
+      bool isValid = true;
+      setState(() {
+        if (_titleController.text.isEmpty) {
+          titleError = 'Title can\'t be empty';
+          isValid = false;
+        } else {
+          titleError = null;
+        }
+
+        if (_descriptionController.text.isEmpty) {
+          descriptionError = 'Description can\'t be empty';
+          isValid = false;
+        } else {
+          descriptionError = null;
+        }
+      });
+      return isValid;
+    }
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -62,24 +82,49 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
             ),
           ),
           RotatingTextJournal(),
-          TextField(
-            controller: _titleController,
-            decoration: InputDecoration(
-              labelText: 'Title',
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(15)),
+            child: TextField(
+              maxLength: 20,
+              controller: _titleController,
+              decoration: InputDecoration(
+                  errorText: titleError,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  errorStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
+                  // alignLabelWithHint: true,
+                  labelText: 'Title',
+                  labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
+                  hintText: 'Enter your title here'),
             ),
           ),
           SizedBox(
             height: 10.0,
           ),
           Container(
-            // TODO: MAKE IT RESPONSIVCE
-            height: 125,
+            padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(15)),
             child: TextField(
-              maxLines: null,
-              expands: true,
+              maxLength: 50,
+              maxLines: 2,
               controller: _descriptionController,
               decoration: InputDecoration(
-                labelText: 'Description',
+                  errorText: descriptionError,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  errorStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.error),
+                  labelText: 'Description',
+                  labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
+                  hintText: 'Enter your description here'
               ),
             ),
           ),
@@ -92,20 +137,23 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
           ),
           ElevatedButton(
             onPressed: () async{
-              if(widget.subject != journalEntryProvider.existingEntry){
-                journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
-                journalEntryProvider.journalEntry.noteTitle = _titleController.text;
-                journalEntryProvider.setHasNote(true, widget.subject);
-                journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
-              } else {
-                journalEntryProvider.existingEntry.noteDescription = _descriptionController.text;
-                journalEntryProvider.existingEntry.noteTitle = _titleController.text;
-                journalEntryProvider.setHasNote(true, widget.subject);
-                journalEntryProvider.editJournalEntryAndSubmit(userProvider.user!);
-
+              if(validateTextfields()){
+                if(widget.subject != journalEntryProvider.existingEntry){
+                  journalEntryProvider.journalEntry.noteDescription = _descriptionController.text;
+                  journalEntryProvider.journalEntry.noteTitle = _titleController.text;
+                  journalEntryProvider.setHasNote(true, widget.subject);
+                  journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
+                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                  await xpLevelProvider.addXpAmount(15, userProvider.user!.email!);
+                } else {
+                  journalEntryProvider.existingEntry.noteDescription = _descriptionController.text;
+                  journalEntryProvider.existingEntry.noteTitle = _titleController.text;
+                  journalEntryProvider.setHasNote(true, widget.subject);
+                  journalEntryProvider.editJournalEntryAndSubmit(userProvider.user!);
+                }
+                Navigator.pop(context);
+                Navigator.pop(context);
               }
-              Navigator.pop(context);
-              Navigator.pop(context);
             },
             child: Text(
               'Submit with note',

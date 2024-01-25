@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/emotions_list.dart';
+import 'package:outwork/widgets/error_shake_text.dart';
 import 'package:outwork/widgets/main_feelings_row.dart';
 import 'package:outwork/widgets/stress_slider.dart';
 import 'new_journal_entry_popup2.dart';
@@ -26,7 +28,10 @@ class NewJournalEntryPopup extends StatelessWidget {
     bool validateInput() {
       bool isValid = true;
       if (subject.feeling == null) {
+        journalEntryProvider.setFeelingError('Select one of the following feelings');
         isValid = false;
+      } else {
+        journalEntryProvider.setFeelingError(null);
       }
       return isValid;
     }
@@ -71,10 +76,22 @@ class NewJournalEntryPopup extends StatelessWidget {
             MainFeelingsRow(
               subject: subject,
             ),
-            SizedBox(
+            journalEntryProvider.feelingError != null && subject != journalEntryProvider.existingEntry
+                ? ShakeWidget(
+              key: UniqueKey(),
+              child: Text(
+                journalEntryProvider.feelingError!,
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .labelLarge!
+                    .copyWith(color: Theme.of(context).colorScheme.error),
+                textAlign: TextAlign.center,
+              ),
+            )
+                : Container(),
+            journalEntryProvider.feelingError == null || subject == journalEntryProvider.existingEntry?SizedBox(
               height: height * 0.01,
-            ),
-
+            ):Container(),
             Text(
               'Emotions that you felt',
               textAlign: TextAlign.center,
@@ -135,7 +152,7 @@ class NewJournalEntryPopup extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                if(validateInput()){
+                if (validateInput()) {
                   if (subject.hasNote == true) {
                     showModalBottomSheet(
                       context: context,
@@ -154,12 +171,14 @@ class NewJournalEntryPopup extends StatelessWidget {
                     if (subject != journalEntryProvider.existingEntry) {
                       await journalEntryProvider
                           .addJournalEntryToDatabase(userProvider.user!);
+                      XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
                     } else {
                       await journalEntryProvider
                           .editJournalEntryAndSubmit(userProvider.user!);
                     }
                     Navigator.pop(context);
-                }
+                  }
                 }
               },
               child: Text(

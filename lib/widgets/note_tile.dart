@@ -4,6 +4,7 @@ import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/new_journal_entry_popup.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,7 @@ class NoteTile extends StatelessWidget {
       );
       return deleteNote;
     }
-
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
     return note.hasNote
         ? Container(
             padding: EdgeInsets.all(15),
@@ -118,67 +119,73 @@ class NoteTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Text('Photo: '),
-                    // Icon(hasPhoto == true
-                    //     ? FontAwesomeIcons.check
-                    //     : FontAwesomeIcons.x),
-                    Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        journalEntryProvider.clearExistingNote();
-                        journalEntryProvider.existingEntry.noteTitle = note.noteTitle;
-                        journalEntryProvider.existingEntry.noteDescription = note.noteDescription;
-                        journalEntryProvider.existingEntry.storedImage = note.storedImage;
-                        journalEntryProvider.existingEntry.savedImage = note.savedImage;
-                        List<dynamic> clonedEmotions = [];
-                        clonedEmotions.addAll(note.emotions!);
-                        journalEntryProvider.existingEntry.emotions = clonedEmotions;
-                        journalEntryProvider.existingEntry.hasPhoto = note.hasPhoto;
-                        journalEntryProvider.existingEntry.hasNote = note.hasNote;
-                        journalEntryProvider.existingEntry.feeling = note.feeling;
-                        journalEntryProvider.existingEntry.stressLevel = note.stressLevel;
-                        journalEntryProvider.existingEntry.date = note.date;
-                        showModalBottomSheet(
-                          context: context,
-                          useRootNavigator: true,
-                          isScrollControlled: true,
-                          builder: (context) =>
-                              SingleChildScrollView(
-                                child: Container(
-                                  // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery
-                                          .of(context)
-                                          .viewInsets
-                                          .bottom),
-                                  child: NewJournalEntryPopup(subject: journalEntryProvider.existingEntry,),
-                                ),
-                              ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                      ),
+                    SizedBox(
+                      width: width*0.03,
                     ),
-                    IconButton(
-                      onPressed: () async {
-                        bool wantToDelete =
-                            await wantToDeleteNoteAlert();
-                        if (wantToDelete) {
-                          await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
-                          await journalEntryProvider.deletePhoto(note.date!, userProvider.user!);
-                        }
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: note.hasPhoto!?() {
-                        showPhoto(note.date!);
-                      }:null,
-                      icon: Icon(
-                        note.hasPhoto!?Icons.camera_alt:Icons.no_photography,
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            child: const Icon(
+                              Icons.edit,
+                            ),
+                            onTap: () {
+                              journalEntryProvider.clearExistingNote();
+                              journalEntryProvider.existingEntry.noteTitle = note.noteTitle;
+                              journalEntryProvider.existingEntry.noteDescription = note.noteDescription;
+                              journalEntryProvider.existingEntry.storedImage = note.storedImage;
+                              journalEntryProvider.existingEntry.savedImage = note.savedImage;
+                              List<dynamic> clonedEmotions = [];
+                              clonedEmotions.addAll(note.emotions!);
+                              journalEntryProvider.existingEntry.emotions = clonedEmotions;
+                              journalEntryProvider.existingEntry.hasPhoto = note.hasPhoto;
+                              journalEntryProvider.existingEntry.hasNote = note.hasNote;
+                              journalEntryProvider.existingEntry.feeling = note.feeling;
+                              journalEntryProvider.existingEntry.stressLevel = note.stressLevel;
+                              journalEntryProvider.existingEntry.date = note.date;
+                              showModalBottomSheet(
+                                context: context,
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                builder: (context) =>
+                                    SingleChildScrollView(
+                                      child: Container(
+                                        // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
+                                        padding: EdgeInsets.only(
+                                            bottom: MediaQuery
+                                                .of(context)
+                                                .viewInsets
+                                                .bottom),
+                                        child: NewJournalEntryPopup(subject: journalEntryProvider.existingEntry,),
+                                      ),
+                                    ),
+                              );
+                            },
+                          ),
+                          InkWell(
+                            child: const Icon(
+                              Icons.delete,
+                            ),
+                            onTap: () async {
+                              bool wantToDelete =
+                              await wantToDeleteNoteAlert();
+                              if (wantToDelete) {
+                                await xpLevelProvider.removeXpAmount(15, userProvider.user!.email!);
+                                await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
+                                note.hasPhoto!?await journalEntryProvider.deletePhoto(note.date!, userProvider.user!):null;
+                              }
+                            },
+                          ),
+                          InkWell(
+                            child: Icon(
+                              note.hasPhoto!?Icons.camera_alt:Icons.no_photography,
+                            ),
+                            onTap: note.hasPhoto!?() {
+                              showPhoto(note.date!);
+                            }:null,
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -278,6 +285,7 @@ class NoteTile extends StatelessWidget {
                   onTap: () async {
                     bool wantToDelete = await wantToDeleteNoteAlert();
                     if(wantToDelete){
+                      await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
                       await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
                     }
                   },

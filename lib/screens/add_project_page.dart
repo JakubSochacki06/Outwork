@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
+import 'package:outwork/widgets/error_shake_text.dart';
 import 'package:provider/provider.dart';
 
 class AddProjectPage extends StatefulWidget {
@@ -184,19 +186,30 @@ class _AddProjectPageState extends State<AddProjectPage> {
           SizedBox(
             height: height * 0.01,
           ),
-          CalendarPickerTile(
-              calendarSubject: widget.mode == 'Edit existing'
-                  ? projectProvider.editableDummyProject
-                  : projectProvider.newProject),
-          dueDateError != null
-              ? Text(
-                  dueDateError!,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .labelLarge!
-                      .copyWith(color: Theme.of(context).colorScheme.error),
-                )
-              : Container(),
+          Container(
+            decoration: BoxDecoration(
+              border: dueDateError != null
+                  ? Border.all(
+                  color: Theme.of(context).colorScheme.error,
+                  width: 2)
+                  : null,
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: CalendarPickerTile(
+                calendarSubject: widget.mode == 'Edit existing'
+                    ? projectProvider.editableDummyProject
+                    : projectProvider.newProject),
+          ),
+          // dueDateError != null
+          //     ? Text(
+          //         dueDateError!,
+          //         style: Theme.of(context)
+          //             .primaryTextTheme
+          //             .labelLarge!
+          //             .copyWith(color: Theme.of(context).colorScheme.error),
+          //       )
+          //     : Container(),
           SizedBox(
             height: height * 0.01,
           ),
@@ -318,13 +331,13 @@ class _AddProjectPageState extends State<AddProjectPage> {
             ],
           ),
           projectTypeError != null
-              ? Text(
-                  projectTypeError!,
-                  style: Theme.of(context)
-                      .primaryTextTheme
-                      .labelLarge!
-                      .copyWith(color: Theme.of(context).colorScheme.error),
-                )
+              ?ShakeWidget(key: UniqueKey(), child: Text(
+            projectTypeError!,
+            style: Theme.of(context)
+                .primaryTextTheme
+                .labelLarge!
+                .copyWith(color: Theme.of(context).colorScheme.error),
+          ))
               : Container(),
           SizedBox(
             height: height * 0.01,
@@ -340,6 +353,8 @@ class _AddProjectPageState extends State<AddProjectPage> {
                   ];
                   await projectProvider
                       .addProjectToDatabase(userProvider.user!);
+                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                  await xpLevelProvider.addXpAmount(20, userProvider.user!.email!);
                 }
                 Navigator.pop(context);
               }

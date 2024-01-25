@@ -14,6 +14,7 @@ class JournalEntryProvider extends ChangeNotifier {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   DatabaseService _dbS = DatabaseService();
   List<JournalEntry>? _journalEntries;
+  String? feelingError;
 
   JournalEntry get journalEntry=> _journalEntry;
   JournalEntry get existingEntry => _existingEntry;
@@ -21,6 +22,11 @@ class JournalEntryProvider extends ChangeNotifier {
 
   void setJournalEntries(FirebaseUser user) {
     _journalEntries = user.journalEntries!;
+  }
+
+  void setFeelingError(String? error){
+   feelingError = error;
+   notifyListeners();
   }
 
   void updateSelectedFeeling(String feeling, final subject) {
