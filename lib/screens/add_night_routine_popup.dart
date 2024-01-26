@@ -101,6 +101,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             ),
             TimePickerTile(
               subject: nightRoutineProvider,
+              hasError: false,
             ),
             SizedBox(
               height: height * 0.01,

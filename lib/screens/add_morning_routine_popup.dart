@@ -18,6 +18,7 @@ class AddMorningRoutinePopup extends StatefulWidget {
 class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
   final _morningRoutineController = TextEditingController();
   String? errorText;
+  bool scheduleHasError = false;
 
   @override
   void dispose() {
@@ -29,18 +30,25 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
+    MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: true);
     bool checkIfValid() {
-      if(_morningRoutineController.text.length==0){
-        setState(() {
+      bool isValid = true;
+      setState(() {
+        if(_morningRoutineController.text.length==0){
           errorText = 'Textfield can\'t be empty';
-        });
-        return false;
-      }
-      return true;
+          isValid = false;
+        } else {
+          errorText = null;
+        }
+        if(morningRoutineProvider.scheduledTime == null){
+          scheduleHasError = true;
+          isValid = false;
+        } else {
+          scheduleHasError = false;
+        }
+      });
+      return isValid;
     }
-    final morningRoutineProvider =
-    Provider.of<MorningRoutineProvider>(context, listen: true);
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -104,6 +112,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             ),
             TimePickerTile(
               subject: morningRoutineProvider,
+              hasError: scheduleHasError,
             ),
             SizedBox(
               height: height * 0.01,

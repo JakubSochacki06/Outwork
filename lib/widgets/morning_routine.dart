@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
@@ -14,14 +15,17 @@ class MorningRoutine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Future<bool?> wantToDeleteNoteAlert(BuildContext context) async {
       bool? deleteNote = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete morning routine?', style: Theme.of(context).textTheme.bodySmall,),
-            content: Text('Are you sure you want to delete this routine?', style: Theme.of(context).primaryTextTheme.bodySmall),
+            title: Text(
+              'Delete morning routine?',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            content: Text('Are you sure you want to delete this routine?',
+                style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
@@ -33,7 +37,9 @@ class MorningRoutine extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                child: Text('Yes',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary)),
               ),
             ],
           );
@@ -45,38 +51,42 @@ class MorningRoutine extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     double routineItemHeight = height * 0.06;
-    int routineNumber = 0;
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context);
     int numberOfRoutines = morningRoutineProvider.morningRoutines.length;
     List<Routine> morningRoutines = morningRoutineProvider.morningRoutines;
     double containerHeight =
-        height * 0.13 + numberOfRoutines * routineItemHeight;
+        height * 0.14 + numberOfRoutines * routineItemHeight;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      height: morningRoutines.length!=0?containerHeight:height*0.16,
+      height: morningRoutines.length != 0 ? containerHeight : height * 0.16,
       width: width * 0.9,
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
-          border: themeProvider.isLightTheme()?Border.all(color: Color(0xFFEDEDED)):null,
+          border: themeProvider.isLightTheme()
+              ? Border.all(color: Color(0xFFEDEDED))
+              : null,
           // color: Color(0xFFF0F2F5),
           borderRadius: BorderRadius.all(Radius.circular(15)),
-          boxShadow: themeProvider.isLightTheme()?[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 3,
-              offset: Offset(3, 3),
-            )
-          ]:null),
+          boxShadow: themeProvider.isLightTheme()
+              ? [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: Offset(3, 3),
+                  )
+                ]
+              : null),
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                backgroundColor:
+                    Theme.of(context).colorScheme.onPrimaryContainer,
                 radius: 20,
                 child: CircleAvatar(
                   radius: 10,
@@ -104,14 +114,16 @@ class MorningRoutine extends StatelessWidget {
                         child: Container(
                           // height: height*0.1,
                           padding: EdgeInsets.only(
-                              bottom:
-                              MediaQuery.of(context).viewInsets.bottom),
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: AddMorningRoutinePopup(),
                         ),
                       ),
                     );
                   },
-                  icon: Icon(Icons.add, size: 35,))
+                  icon: Icon(
+                    Icons.add,
+                    size: 35,
+                  ))
             ],
           ),
           SizedBox(
@@ -125,77 +137,69 @@ class MorningRoutine extends StatelessWidget {
           SizedBox(
             height: height * 0.01,
           ),
-          morningRoutines.length!=0?Expanded(
-              child: ReorderableListView(
-                physics: NeverScrollableScrollPhysics(),
-                onReorder: (int oldIndex, int newIndex) async {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final Routine item = morningRoutines.removeAt(oldIndex);
-                  morningRoutines.insert(newIndex, item);
-                  await morningRoutineProvider.updateMorningRoutineOrder(morningRoutines, userProvider.user!.email!);
-                },
-                children: morningRoutines
-                    .asMap()
-                    .entries
-                    .map((MapEntry<int, Map<String, dynamic>> entry) {
-                  routineNumber++;
-                  bool isCompleted = entry.value['completed'];
-                  return InkWell(
-                    key: ValueKey(entry.key),
-                    onTap: () async {
-                      isCompleted = !isCompleted;
-                      await morningRoutineProvider.updateRoutineCompletionStatus(
-                          entry.key, isCompleted, userProvider.user!.email!);
-                      isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
-                    },
-                    child: Container(
-                      height: routineItemHeight,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.02,
+          morningRoutines.length != 0
+              ? Expanded(
+                  child: ListView.separated(
+                      itemBuilder: (context, index) {
+                        bool isCompleted = morningRoutines[index].completed!;
+                        return InkWell(
+                          onTap: () async {
+                            isCompleted = !isCompleted;
+                            await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
+                            isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                          },
+                          child: Container(
+                            height: routineItemHeight,
+                            padding: EdgeInsets.symmetric(horizontal: width*0.015),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '${morningRoutines[index].scheduledTime!['hour']}:${morningRoutines[index].scheduledTime!['minute']} | ${morningRoutines[index].name}',
+                                    style: Theme.of(context).primaryTextTheme.labelLarge,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                                // Spacer(),
+                                Checkbox(
+                                  value: isCompleted,
+                                  onChanged: (checkboxValue) async {
+                                    isCompleted = !isCompleted;
+                                    await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
+                                    isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                                  },
+                                ),
+                                GestureDetector(
+                                  onTap: () async{
+                                    bool? wantToDelete = await wantToDeleteNoteAlert(context);
+                                    if(wantToDelete == true){
+                                      await morningRoutineProvider.removeMorningRoutineFromDatabase(morningRoutines[index].id!, userProvider.user!.email!);
+                                      await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
+                                    }
+                                  },
+                                  child: Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
                           ),
-                          AutoSizeText(
-                            '$routineNumber. ${entry.value['name']}',
-                            minFontSize: 16,
-                            style: Theme.of(context).primaryTextTheme.labelLarge,
-                          ),
-                          Spacer(),
-                          Checkbox(
-                            value: isCompleted,
-                            onChanged: (checkboxValue) async {
-                              isCompleted = !isCompleted;
-                              await morningRoutineProvider.updateRoutineCompletionStatus(
-                                  entry.key, isCompleted, userProvider.user!.email!);
-                              isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
-                            },
-                          ),
-                          GestureDetector(
-                            onTap: () async{
-                              bool? wantToDelete = await wantToDeleteNoteAlert(context);
-                              if(wantToDelete == true){
-                                await morningRoutineProvider.removeMorningRoutineFromDatabase(entry.value['name'], userProvider.user!.email!);
-                                await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
-                              }
-                            },
-                            child: Icon(Icons.delete),
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              )):Expanded(child: Text('Add new morning routine', style: Theme.of(context).primaryTextTheme.bodyMedium,),),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: height*0.01,);
+                      },
+                      itemCount: morningRoutines.length),
+                )
+              : Expanded(
+                  child: Text(
+                    'Add new morning routine',
+                    style: Theme.of(context).primaryTextTheme.bodyMedium,
+                  ),
+                ),
         ],
       ),
     );

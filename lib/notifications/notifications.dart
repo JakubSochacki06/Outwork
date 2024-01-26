@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:outwork/utilities/utilities.dart';
 
 Future<void> createRoutineReminderNotification(TimeOfDay timeOfDay, String name) async {
-  print('DELETED ID: ${name.hashCode.abs()}');
   await AwesomeNotifications().createNotification(
     content: NotificationContent(
       id: name.hashCode.abs(),

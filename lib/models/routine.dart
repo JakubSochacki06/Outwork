@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Routine {
   String? name;
   bool? completed;
-  Map<String, int>? scheduledTime;
+  Map<String, dynamic>? scheduledTime;
   int? id;
 
   Routine({required this.name, required this.completed, required this.scheduledTime, required this.id});
@@ -15,5 +15,14 @@ class Routine {
       scheduledTime: data['scheduledTime'],
       id: data['id'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'completed': completed,
+      'id': id,
+      'scheduledTime': scheduledTime,
+    };
   }
 }

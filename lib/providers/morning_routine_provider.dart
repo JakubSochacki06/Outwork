@@ -15,6 +15,7 @@ class MorningRoutineProvider extends ChangeNotifier {
 
   Future<void> setMorningRoutines(FirebaseUser user) async {
     List<dynamic> routines = user.morningRoutines!;
+    _morningRoutines = [];
     for (var routine in routines) {
       _morningRoutines.add(Routine.fromMap(routine));
     }
@@ -26,16 +27,16 @@ class MorningRoutineProvider extends ChangeNotifier {
   }
 
   Future<void> addMorningRoutineToDatabase(String morningRoutine, String email) async {
-    print('ADDED ID: ${morningRoutine.hashCode.abs()}');
     _morningRoutines.add(
         Routine(name: morningRoutine, completed: false, scheduledTime: _scheduledTime != null
             ? {'hour': _scheduledTime!.hour, 'minute': _scheduledTime!.minute}
             : null, id: morningRoutine.hashCode.abs())
     );
+    List<Map<String, dynamic>> routinesAsMap = _morningRoutines.map((entry) => entry.toMap()).toList();
     await _db
         .collection('users_data')
         .doc(email)
-        .update({'morningRoutines': _morningRoutines});
+        .update({'morningRoutines': routinesAsMap});
     _scheduledTime = null;
     notifyListeners();
   }
@@ -43,18 +44,22 @@ class MorningRoutineProvider extends ChangeNotifier {
   Future<void> removeMorningRoutineFromDatabase(int id, String email) async {
     _morningRoutines.removeWhere((routine) => routine.id == id);
     await AwesomeNotifications().cancel(id);
+    List<Map<String, dynamic>> routinesAsMap = _morningRoutines.map((entry) => entry.toMap()).toList();
+    print(routinesAsMap);
+    print('lot');
     await _db
         .collection('users_data')
         .doc(email)
-        .update({'morningRoutines': _morningRoutines});
+        .update({'morningRoutines': routinesAsMap});
     notifyListeners();
   }
 
   Future<void> updateRoutineCompletionStatus(
       int index, bool completed, String email) async {
     _morningRoutines[index].completed = completed;
+    List<Map<String, dynamic>> routinesAsMap = _morningRoutines.map((entry) => entry.toMap()).toList();
     await _db.collection('users_data').doc(email).update({
-      'morningRoutines': _morningRoutines,
+      'morningRoutines': routinesAsMap,
     });
     notifyListeners();
   }
