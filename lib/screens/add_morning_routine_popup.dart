@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/notifications/notifications.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:outwork/utilities/utilities.dart';
+import 'package:outwork/widgets/time_picker_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -37,7 +39,8 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
       }
       return true;
     }
-
+    final morningRoutineProvider =
+    Provider.of<MorningRoutineProvider>(context, listen: true);
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -96,11 +99,11 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                     hintText: 'Enter your morning routine name'),
               ),
             ),
-            TextButton(
-              onPressed: () async{
-                TimeOfDay? sheduledTime = await pickSchedule(context);
-              },
-              child: Text('schedule'),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            TimePickerTile(
+              subject: morningRoutineProvider,
             ),
             SizedBox(
               height: height * 0.01,
@@ -108,12 +111,12 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             ElevatedButton(
               onPressed: () async{
                 if(checkIfValid()){
-                  final morningRoutineProvider =
-                  Provider.of<MorningRoutineProvider>(context, listen: false);
                   final userProvider =
                   Provider.of<UserProvider>(context, listen: false);
-                  await morningRoutineProvider.addMorningRoutineToDatabase(
-                      _morningRoutineController.text, userProvider.user!.email!);
+                  if(morningRoutineProvider.scheduledTime!=null){
+                    await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text);
+                  }
+                  await morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
                   await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
                   Navigator.pop(context);

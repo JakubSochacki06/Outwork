@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
+import 'package:outwork/widgets/time_picker_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -35,7 +36,8 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
       }
       return true;
     }
-
+    final nightRoutineProvider =
+    Provider.of<NightRoutineProvider>(context, listen: true);
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -97,15 +99,18 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             SizedBox(
               height: height * 0.01,
             ),
+            TimePickerTile(
+              subject: nightRoutineProvider,
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
             ElevatedButton(
               onPressed: () async{
                 if(checkIfValid()){
-                  final nightRoutineProvider =
-                  Provider.of<NightRoutineProvider>(context, listen: false);
                   final userProvider =
                   Provider.of<UserProvider>(context, listen: false);
-                  await nightRoutineProvider.addNightRoutineToDatabase(
-                      _nightRoutineController.text, userProvider.user!.email!);
+                  await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
                   await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
                   Navigator.pop(context);

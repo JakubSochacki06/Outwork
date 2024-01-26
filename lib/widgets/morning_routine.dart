@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/add_morning_routine_popup.dart';
@@ -49,8 +50,7 @@ class MorningRoutine extends StatelessWidget {
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context);
     int numberOfRoutines = morningRoutineProvider.morningRoutines.length;
-    List<Map<String, dynamic>> morningRoutines = List<Map<String, dynamic>>.from(
-        morningRoutineProvider.morningRoutines);
+    List<Routine> morningRoutines = morningRoutineProvider.morningRoutines;
     double containerHeight =
         height * 0.13 + numberOfRoutines * routineItemHeight;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
@@ -132,8 +132,7 @@ class MorningRoutine extends StatelessWidget {
                   if (oldIndex < newIndex) {
                     newIndex -= 1;
                   }
-                  final Map<String, dynamic> item =
-                  morningRoutines.removeAt(oldIndex);
+                  final Routine item = morningRoutines.removeAt(oldIndex);
                   morningRoutines.insert(newIndex, item);
                   await morningRoutineProvider.updateMorningRoutineOrder(morningRoutines, userProvider.user!.email!);
                 },

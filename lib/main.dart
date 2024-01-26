@@ -37,6 +37,13 @@ Future main() async {
         channelGroupKey: 'basic_channel_group',
         importance: NotificationImportance.High,
         channelShowBadge: true),
+    NotificationChannel(
+      channelKey: 'scheduled_channel',
+      channelName: 'Scheduled Notifications',
+      channelDescription: 'Scheduled notifications channel',
+      importance: NotificationImportance.High,
+      channelShowBadge: true
+    ),
   ], channelGroups: [
     NotificationChannelGroup(
         channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
