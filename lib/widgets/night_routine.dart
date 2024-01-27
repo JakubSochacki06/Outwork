@@ -145,6 +145,7 @@ class _NightRoutineState extends State<NightRoutine> {
                 bool isCompleted = nightRoutines[index].completed!;
                 return InkWell(
                   onTap: () async {
+
                     isCompleted = !isCompleted;
                     await nightRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
                     isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);

@@ -83,8 +83,8 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
       List<String> emojiNames = ['sad', 'unhappy', 'neutral', 'happy', 'veryhappy'];
 
       return Container(
-        width: 30,
-        height: 30,
+        // width: 30,
+        // height: 30,
         child: Image.asset('assets/emojis/${emojiNames[value.toInt()-1]}.png'),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -108,7 +108,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 40,
+              reservedSize: 50,
               interval: getInterval(),
               getTitlesWidget: bottomTitleWidgets,
             ),

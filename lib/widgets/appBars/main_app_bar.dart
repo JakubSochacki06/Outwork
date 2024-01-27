@@ -1,4 +1,6 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/profile_page.dart';
@@ -15,7 +17,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.background,
       automaticallyImplyLeading: false,
-      // backgroundColor: Colors.white,
       centerTitle: true,
       leading: Padding(
         padding: EdgeInsets.only(left: width * 0.04),
@@ -32,9 +33,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
+      title: Text('Outwork', style: Theme.of(context).textTheme.bodyLarge,),
       actions: [Padding(
         padding: EdgeInsets.only(right: width * 0.04),
-        child: IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+        child: InkWell(onTap: () {}, child: Icon(LineIcons.crown, color: Theme.of(context).colorScheme.secondary, size: 30)),
       )],
     );
   }

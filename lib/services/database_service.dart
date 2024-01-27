@@ -6,8 +6,6 @@ class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> setUserDataFromGoogle(User user) async {
-    // var uuid = const Uuid();
-    // String familyID = uuid.v4().substring(0, 6);
     var doc = await _db.collection('users_data').doc(user.email).get();
     if (doc.exists) return;
     await _db.collection('users_data').doc(user.email).set({
@@ -15,10 +13,10 @@ class DatabaseService {
       'email': user.email,
       'photoURL': user.photoURL,
       'morningRoutines':[
-        {'name': 'Prepare healthy breakfast', 'completed': false},
+        // {'name': 'Prepare healthy breakfast', 'completed': false},
       ],
       'nightRoutines':[
-        {'name': 'End of the day journal', 'completed': false, 'deletable':false},
+        // {'name': 'End of the day journal', 'completed': false, 'deletable':false},
       ],
       'journalEntries':[
       ],
@@ -40,16 +38,11 @@ class DatabaseService {
       ],
       'lastUpdate': FieldValue.serverTimestamp(),
     });
-    // await _db.collection('families').doc(familyID).set({
-    //   'familyID': familyID,
-    //   'membersEmails': [user.email],
-    // });
   }
 
   Future<void> setUserDataFromEmail(User user) async{
     var doc = await _db.collection('users_data').doc(user.email).get();
     if (doc.exists) return;
-    print(user);
     await _db.collection('users_data').doc(user.email).set({
       'displayName': user.email,
       'email': user.email,

@@ -6,6 +6,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Theme.of(context).colorScheme.background,
       automaticallyImplyLeading: false,
       title: Text('Settings', style: Theme.of(context).textTheme.bodyLarge),
       centerTitle: true,

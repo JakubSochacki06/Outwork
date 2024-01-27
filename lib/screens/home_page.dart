@@ -20,30 +20,27 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: true);
-    NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: true);
+    MorningRoutineProvider morningRoutineProvider =
+        Provider.of<MorningRoutineProvider>(context, listen: true);
+    NightRoutineProvider nightRoutineProvider =
+        Provider.of<NightRoutineProvider>(context, listen: true);
     DailyCheckinProvider dailyCheckinProvider =
-    Provider.of<DailyCheckinProvider>(context, listen: true);
+        Provider.of<DailyCheckinProvider>(context, listen: true);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     dailyCheckinProvider.setDailyCheckins(userProvider.user!);
     JournalEntryProvider journalEntryProvider =
-    Provider.of<JournalEntryProvider>(context, listen: true);
+        Provider.of<JournalEntryProvider>(context, listen: true);
     journalEntryProvider.setJournalEntries(userProvider.user!);
     List<Widget> checkinBoxes =
-    List.generate(dailyCheckinProvider.dailyCheckins.length, (index) {
+        List.generate(dailyCheckinProvider.dailyCheckins.length, (index) {
       return Row(
         children: [
           DailyCheckinBox(
-              index: index,),
+            index: index,
+          ),
           SizedBox(
             width: width * 0.05,
           )
@@ -73,10 +70,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: MainAppBar(),
-      backgroundColor: Theme
-          .of(context)
-          .colorScheme
-          .background,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -86,28 +80,31 @@ class HomePage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
-                    'Hello ${userProvider.user!.displayName}!',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyLarge,
-                    textAlign: TextAlign.left,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hello ${userProvider.user!.displayName}!',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Text(
+                          'I believe in you.',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
+                        ),
+                      ],
+                    ),
                   ),
-                  // Image.asset('assets/emojis/waving.png', scale: 6,)
+                  CircleAvatar(
+                    radius: 35,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: Image.asset('assets/images/jacob.png')),
+                  )
                 ],
-              ),
-              Text(
-                'I believe in you.',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .onPrimaryContainer),
               ),
               SizedBox(
                 height: height * 0.02,
@@ -159,10 +156,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   Text(
                     'Daily check-in',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   SizedBox(
                     width: width * 0.02,
@@ -171,39 +165,25 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Center(
                       child: Text(
-                        '${dailyCheckinProvider.countDoneCheckins(
-                            morningRoutineProvider
-                                .morningRoutineFinished(),
-                            nightRoutineProvider
-                                .nightRoutineFinished())}/${dailyCheckinProvider
-                            .dailyCheckins.length + 2}',
+                        '${dailyCheckinProvider.countDoneCheckins(morningRoutineProvider.morningRoutineFinished(), nightRoutineProvider.nightRoutineFinished())}/${dailyCheckinProvider.dailyCheckins.length + 2}',
                         style: dailyCheckinProvider.countDoneCheckins(
-                            morningRoutineProvider
-                                .morningRoutineFinished(),
-                            nightRoutineProvider
-                                .nightRoutineFinished()) !=
-                            dailyCheckinProvider
-                                .dailyCheckins.length + 2
-                            ? Theme
-                            .of(context)
-                            .primaryTextTheme
-                            .labelLarge
-                            : Theme
-                            .of(context)
-                            .primaryTextTheme
-                            .labelLarge!
-                            .copyWith(
-                            color: Theme
-                                .of(context)
-                                .colorScheme
-                                .secondary),
+                                    morningRoutineProvider
+                                        .morningRoutineFinished(),
+                                    nightRoutineProvider
+                                        .nightRoutineFinished()) !=
+                                dailyCheckinProvider.dailyCheckins.length + 2
+                            ? Theme.of(context).primaryTextTheme.labelLarge
+                            : Theme.of(context)
+                                .primaryTextTheme
+                                .labelLarge!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                       ),
                     ),
                     decoration: BoxDecoration(
-                        color: Theme
-                            .of(context)
-                            .colorScheme
-                            .primary,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(8)),
                   ),
                   Spacer(),
@@ -218,8 +198,10 @@ class HomePage extends StatelessWidget {
                             // height: height*0.1,
                             padding: EdgeInsets.only(
                                 bottom:
-                                MediaQuery.of(context).viewInsets.bottom),
-                            child: AddDailyCheckinPopup(buttonText: 'Add',),
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: AddDailyCheckinPopup(
+                              buttonText: 'Add',
+                            ),
                           ),
                         ),
                       );
@@ -249,6 +231,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-      ),);
+      ),
+    );
   }
 }

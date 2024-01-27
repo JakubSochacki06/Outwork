@@ -6,6 +6,7 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
       automaticallyImplyLeading: false,
       title: Text('My profile', style: Theme.of(context).textTheme.bodyLarge),
       centerTitle: true,

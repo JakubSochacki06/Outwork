@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
@@ -39,20 +41,29 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(userProvider.user!.displayName!, style: Theme.of(context).textTheme.bodyMedium,),
-                      Text('Outwork all of them', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.primary)),
-                      SizedBox(height: height*0.002,),
+                      Text(
+                        userProvider.user!.displayName!,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      Text(xpLevelProvider.getUserLevelDescription(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
+                      SizedBox(
+                        height: height * 0.005,
+                      ),
                       LinearPercentIndicator(
                         padding: EdgeInsets.symmetric(horizontal: 0),
                         barRadius: Radius.circular(15),
-                        progressColor:
-                        Theme.of(context).colorScheme.secondary,
-                        backgroundColor:
-                        Theme.of(context).colorScheme.primary,
+                        progressColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         percent: xpLevelProvider.levelProgress,
                         animation: true,
                         leading: Container(
-                          width: width*0.07,
+                          width: width * 0.07,
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
                             borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -60,31 +71,65 @@ class ProfilePage extends StatelessWidget {
                           child: Center(
                             child: Text(
                               xpLevelProvider.xpLevel.toString(),
-                              style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondaryContainer),
                             ),
                           ),
                         ),
                       ),
                       Align(
-                        alignment: Alignment.topRight,
-                        child: Text('${xpLevelProvider.xpAmount}/${xpLevelProvider.getNextLevelThreshold()}', style: Theme.of(context).primaryTextTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.primary),),
-                      ),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            '${xpLevelProvider.xpAmount}/${xpLevelProvider.getNextLevelThreshold()}',
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .labelMedium!
+                                .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                          )),
                     ],
                   ),
                 )
               ],
             ),
-            SizedBox(height: height*0.01,),
-            WorkedTimeInfo(),
-            SizedBox(height: height*0.01,),
-            Text('Your feeling charts', style: Theme.of(context).textTheme.bodyMedium,),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Text(
+              'Your feeling charts',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             MoodLinearChart(),
-            SizedBox(height: height*0.01,),
-            MostFeltEmotionInfo(),
-            SizedBox(height: height*0.01,),
-            StressLevelInfo(),
-            SizedBox(height: height*0.01,),
-            MoodChart(),
+            // SizedBox(
+            //   height: height * 0.01,
+            // ),
+            // PRO ACCESS
+            ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15, tileMode: TileMode.decal),
+              child: Column(
+                children: [
+                  WorkedTimeInfo(),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  MostFeltEmotionInfo(),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  StressLevelInfo(),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  MoodChart(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

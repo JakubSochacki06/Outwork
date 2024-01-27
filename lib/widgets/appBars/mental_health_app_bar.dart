@@ -10,7 +10,7 @@ class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget 
   Widget build(BuildContext context) {
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context);
     return AppBar(
-      // backgroundColor: ,
+      backgroundColor: Theme.of(context).colorScheme.background,
       automaticallyImplyLeading: false,
       // backgroundColor: Colors.white,
       centerTitle: true,
