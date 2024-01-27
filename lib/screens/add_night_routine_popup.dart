@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outwork/notifications/notifications.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
@@ -16,6 +17,7 @@ class AddNightRoutinePopup extends StatefulWidget {
 class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
   final _nightRoutineController = TextEditingController();
   String? errorText;
+  bool scheduleHasError = false;
 
   @override
   void dispose() {
@@ -26,18 +28,28 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: true);
 
-    bool checkIfValid(){
-      if(_nightRoutineController.text.length==0){
-        setState(() {
+    bool checkIfValid() {
+      bool isValid = true;
+      setState(() {
+        if(_nightRoutineController.text.length==0){
           errorText = 'Textfield can\'t be empty';
-        });
-        return false;
-      }
-      return true;
+          isValid = false;
+        } else {
+          errorText = null;
+        }
+        if(nightRoutineProvider.scheduledTime == null){
+          scheduleHasError = true;
+          isValid = false;
+        } else {
+          scheduleHasError = false;
+        }
+      });
+      return isValid;
     }
-    final nightRoutineProvider =
-    Provider.of<NightRoutineProvider>(context, listen: true);
+
+
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -101,7 +113,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             ),
             TimePickerTile(
               subject: nightRoutineProvider,
-              hasError: false,
+              hasError: scheduleHasError,
             ),
             SizedBox(
               height: height * 0.01,
@@ -109,8 +121,10 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             ElevatedButton(
               onPressed: () async{
                 if(checkIfValid()){
-                  final userProvider =
-                  Provider.of<UserProvider>(context, listen: false);
+                  final userProvider = Provider.of<UserProvider>(context, listen: false);
+                  if(nightRoutineProvider.scheduledTime!=null){
+                    await createRoutineReminderNotification(nightRoutineProvider.scheduledTime!, _nightRoutineController.text);
+                  }
                   await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
                   await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);

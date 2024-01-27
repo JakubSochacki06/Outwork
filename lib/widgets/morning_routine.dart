@@ -50,18 +50,13 @@ class MorningRoutine extends StatelessWidget {
 
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    double routineItemHeight = height * 0.06;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context);
-    int numberOfRoutines = morningRoutineProvider.morningRoutines.length;
     List<Routine> morningRoutines = morningRoutineProvider.morningRoutines;
-    double containerHeight =
-        height * 0.14 + numberOfRoutines * routineItemHeight;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      height: morningRoutines.length != 0 ? containerHeight : height * 0.16,
-      width: width * 0.9,
+      height: morningRoutines.length != 0 ? null : height * 0.16,
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
           border: themeProvider.isLightTheme()
@@ -138,62 +133,62 @@ class MorningRoutine extends StatelessWidget {
             height: height * 0.01,
           ),
           morningRoutines.length != 0
-              ? Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        bool isCompleted = morningRoutines[index].completed!;
-                        return InkWell(
-                          onTap: () async {
-                            isCompleted = !isCompleted;
-                            await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                            isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
-                          },
-                          child: Container(
-                            height: routineItemHeight,
-                            padding: EdgeInsets.symmetric(horizontal: width*0.015),
-                            decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: Theme.of(context).colorScheme.onPrimaryContainer),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '${morningRoutines[index].scheduledTime!['hour']}:${morningRoutines[index].scheduledTime!['minute']} | ${morningRoutines[index].name}',
-                                    style: Theme.of(context).primaryTextTheme.labelLarge,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                // Spacer(),
-                                Checkbox(
-                                  value: isCompleted,
-                                  onChanged: (checkboxValue) async {
-                                    isCompleted = !isCompleted;
-                                    await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                                    isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
-                                  },
-                                ),
-                                GestureDetector(
-                                  onTap: () async{
-                                    bool? wantToDelete = await wantToDeleteNoteAlert(context);
-                                    if(wantToDelete == true){
-                                      await morningRoutineProvider.removeMorningRoutineFromDatabase(morningRoutines[index].id!, userProvider.user!.email!);
-                                      await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
-                                    }
-                                  },
-                                  child: Icon(Icons.delete),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+              ? ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                  String minutes = morningRoutines[index].scheduledTime!['minute'].toString().length == 1? '0${morningRoutines[index].scheduledTime!['minute']}':morningRoutines[index].scheduledTime!['minute'].toString();
+                    bool isCompleted = morningRoutines[index].completed!;
+                    return InkWell(
+                      onTap: () async {
+                        isCompleted = !isCompleted;
+                        await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
+                        isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                       },
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: height*0.01,);
-                      },
-                      itemCount: morningRoutines.length),
-                )
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: width*0.015),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${morningRoutines[index].scheduledTime!['hour']}:$minutes | ${morningRoutines[index].name}',
+                                style: Theme.of(context).primaryTextTheme.labelLarge,
+                                maxLines: 1,
+                              ),
+                            ),
+                            // Spacer(),
+                            Checkbox(
+                              value: isCompleted,
+                              onChanged: (checkboxValue) async {
+                                isCompleted = !isCompleted;
+                                await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
+                                isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                              },
+                            ),
+                            GestureDetector(
+                              onTap: () async{
+                                bool? wantToDelete = await wantToDeleteNoteAlert(context);
+                                if(wantToDelete == true){
+                                  await morningRoutineProvider.removeMorningRoutineFromDatabase(morningRoutines[index].id!, userProvider.user!.email!);
+                                  await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
+                                }
+                              },
+                              child: Icon(Icons.delete),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: height*0.01,);
+                  },
+                  itemCount: morningRoutines.length)
               : Expanded(
                   child: Text(
                     'Add new morning routine',

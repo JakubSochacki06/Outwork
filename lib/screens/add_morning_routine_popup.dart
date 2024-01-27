@@ -31,6 +31,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: true);
+
     bool checkIfValid() {
       bool isValid = true;
       setState(() {
@@ -49,6 +50,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
       });
       return isValid;
     }
+
     return Container(
       color: Colors.transparent,
       child: Container(
@@ -120,8 +122,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
             ElevatedButton(
               onPressed: () async{
                 if(checkIfValid()){
-                  final userProvider =
-                  Provider.of<UserProvider>(context, listen: false);
+                  final userProvider = Provider.of<UserProvider>(context, listen: false);
                   if(morningRoutineProvider.scheduledTime!=null){
                     await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text);
                   }
