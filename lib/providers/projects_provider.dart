@@ -138,7 +138,7 @@ class ProjectsProvider extends ChangeNotifier {
     String projectID = uuid.v4().substring(0, 6);
     _newProject.id = projectID;
     _newProject.tasks = [];
-    // _newProject.requests = [];
+    _newProject.requests = [];
     _newProject.color = generateRandomPastelColor();
     await _db.collection('projects').doc(projectID).set(_newProject.toMap());
     _projectsIDList.add(projectID);

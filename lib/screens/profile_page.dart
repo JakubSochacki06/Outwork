@@ -111,7 +111,7 @@ class ProfilePage extends StatelessWidget {
             // ),
             // PRO ACCESS
             ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 15, sigmaY: 15, tileMode: TileMode.decal),
+              imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
               child: Column(
                 children: [
                   WorkedTimeInfo(),

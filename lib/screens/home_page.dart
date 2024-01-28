@@ -5,6 +5,7 @@ import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/add_daily_checkin_popup.dart';
+import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
@@ -98,11 +99,19 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 35,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(35),
-                        child: Image.asset('assets/images/jacob.png')),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChatPage()),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 35,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(35),
+                          child: Image.asset('assets/images/jacob.png')),
+                    ),
                   )
                 ],
               ),

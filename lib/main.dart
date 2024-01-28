@@ -1,6 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:outwork/notification_controller.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/end_of_the_day_journal_provider.dart';
@@ -27,6 +28,7 @@ import 'package:outwork/theme/light_theme.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await AwesomeNotifications()
       .initialize('resource://drawable/res_notification_icon', [
