@@ -32,6 +32,10 @@ ThemeData darkTheme = ThemeData(
   iconTheme: IconThemeData(
     color: Colors.white
   ),
+    textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Color(0xFFB2F042),
+        selectionColor: Color(0xFFB2F042),
+        selectionHandleColor: Color(0xFFB2F042),),
   timePickerTheme: _myTimePickerTheme(),
     // textButtonTheme: TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),)),
   // typography: Typography(),

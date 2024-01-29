@@ -51,7 +51,7 @@ class ProfilePage extends StatelessWidget {
                               .labelMedium!
                               .copyWith(
                                   color:
-                                      Theme.of(context).colorScheme.primary)),
+                                      Theme.of(context).colorScheme.onPrimaryContainer)),
                       SizedBox(
                         height: height * 0.005,
                       ),
@@ -91,8 +91,8 @@ class ProfilePage extends StatelessWidget {
                                 .labelMedium!
                                 .copyWith(
                                     color:
-                                        Theme.of(context).colorScheme.primary),
-                          )),
+                                        Theme.of(context).colorScheme.onPrimaryContainer),
+                          )v),
                     ],
                   ),
                 )
