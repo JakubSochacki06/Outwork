@@ -17,6 +17,20 @@ class Routine {
     );
   }
 
+  bool isLate() {
+    if (scheduledTime == null || scheduledTime!['hour'] == null || scheduledTime!['minute'] == null) {
+      return false; // Return false if scheduledTime or its components are missing
+    }
+
+    DateTime currentTime = DateTime.now();
+    int scheduledHour = scheduledTime!['hour'];
+    int scheduledMinute = scheduledTime!['minute'];
+
+    DateTime scheduledDateTime = DateTime(currentTime.year, currentTime.month, currentTime.day, scheduledHour, scheduledMinute);
+
+    return currentTime.isAfter(scheduledDateTime);
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

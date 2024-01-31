@@ -24,25 +24,25 @@ class TimePickerTile extends StatelessWidget {
               width: 2),
           color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(15)),
-      child: Row(
-        children: [
-          Text(subject.scheduledTime == null?'Schedule notification ->':'Scheduled at ${subject.scheduledTime.hour}:$minutes', style: Theme.of(context).primaryTextTheme.labelLarge,),
-          Spacer(),
-          subject.scheduledTime != null?InkWell(
-            child: Icon(Icons.delete),
-            onTap: () {
-              subject.setScheduledTime(null);
-            },
-          ):Container(),
-          SizedBox(width: width*0.01,),
-          InkWell(
-            child: Icon(subject.scheduledTime == null?Icons.notification_add:Icons.notifications_active),
-            onTap: () async{
-              TimeOfDay? scheduledTime = await pickSchedule(context, subject.runtimeType == MorningRoutineProvider?'Morning':'Night');
-              subject.setScheduledTime(scheduledTime);
-            },
-          ),
-        ],
+      child: InkWell(
+        onTap: () async{
+          TimeOfDay? scheduledTime = await pickSchedule(context, subject.runtimeType == MorningRoutineProvider?'Morning':'Night');
+          subject.setScheduledTime(scheduledTime);
+        },
+        child: Row(
+          children: [
+            Text(subject.scheduledTime == null?'Schedule notification ->':'Scheduled at ${subject.scheduledTime.hour}:$minutes', style: Theme.of(context).primaryTextTheme.labelLarge,),
+            Spacer(),
+            subject.scheduledTime != null?InkWell(
+              child: Icon(Icons.delete),
+              onTap: () {
+                subject.setScheduledTime(null);
+              },
+            ):Container(),
+            SizedBox(width: width*0.01,),
+            Icon(subject.scheduledTime == null?Icons.notification_add:Icons.notifications_active)
+          ],
+        ),
       ),
     );
   }

@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                                 .copyWith(
                                     color:
                                         Theme.of(context).colorScheme.onPrimaryContainer),
-                          )v),
+                          )),
                     ],
                   ),
                 )

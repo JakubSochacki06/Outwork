@@ -150,7 +150,7 @@ class MorningRoutine extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.transparent,
                           borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                          border: Border.all(color: isCompleted!=true?morningRoutines[index].isLate()?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.onPrimaryContainer:Theme.of(context).colorScheme.secondary, width: 2),
                         ),
                         child: Row(
                           children: [

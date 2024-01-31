@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/profile_page.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +25,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 58,
           child: GestureDetector(
             onTap: () {
-              NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context, listen: false);
-              navbarControllerProvider.jumpToTab(3);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatPage()),
+              );
             },
             child: CircleAvatar(
-              backgroundImage: NetworkImage(userProvider.user!.photoURL!),
+              backgroundImage: AssetImage('assets/images/jacob.png'),
             ),
           ),
         ),

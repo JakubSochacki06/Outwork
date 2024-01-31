@@ -21,6 +21,7 @@ Future<void> createRoutineReminderNotification(TimeOfDay timeOfDay, String name)
     ],
     schedule: NotificationCalendar(
       preciseAlarm: true,
+      allowWhileIdle: true,
       timeZone: await AwesomeNotifications().getLocalTimeZoneIdentifier(),
       hour: timeOfDay.hour,
       minute: timeOfDay.minute,

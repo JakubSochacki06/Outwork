@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
+import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/add_daily_checkin_popup.dart';
@@ -101,16 +102,14 @@ class HomePage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChatPage()),
-                      );
+                      NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context, listen: false);
+                      navbarControllerProvider.jumpToTab(3);
                     },
                     child: CircleAvatar(
                       radius: 35,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(35),
-                          child: Image.asset('assets/images/jacob.png')),
+                          child: Image.network(userProvider.user!.photoURL!)),
                     ),
                   )
                 ],
