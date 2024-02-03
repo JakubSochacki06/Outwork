@@ -5,6 +5,7 @@ import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/profile_page.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -25,9 +26,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 58,
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
+              PersistentNavBarNavigator.pushNewScreen(
                 context,
-                MaterialPageRoute(builder: (context) => ChatPage()),
+                screen: ChatPage(),
+                withNavBar: false,
               );
             },
             child: CircleAvatar(

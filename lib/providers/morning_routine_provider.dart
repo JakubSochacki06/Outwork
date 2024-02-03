@@ -26,8 +26,7 @@ class MorningRoutineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addMorningRoutineToDatabase(
-      String morningRoutine, String email) async {
+  Future<void> addMorningRoutineToDatabase(String morningRoutine, String email) async {
     _morningRoutines.add(
       Routine(
         name: morningRoutine,
@@ -38,6 +37,11 @@ class MorningRoutineProvider extends ChangeNotifier {
         id: morningRoutine.hashCode.abs(),
       ),
     );
+    _morningRoutines.sort((a, b) {
+      final aTime = DateTime(2022, 1, 1, a.scheduledTime!["hour"], a.scheduledTime!["minute"]);
+      final bTime = DateTime(2022, 1, 1, b.scheduledTime!["hour"], b.scheduledTime!["minute"]);
+      return aTime.compareTo(bTime);
+    });
     List<Map<String, dynamic>> routinesAsMap =
         _morningRoutines.map((entry) => entry.toMap()).toList();
     await _db

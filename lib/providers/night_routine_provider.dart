@@ -38,6 +38,15 @@ class NightRoutineProvider extends ChangeNotifier {
         id: nightRoutine.hashCode.abs(),
       ),
     );
+    _nightRoutines.sort((a, b) {
+      if(a.scheduledTime != null && b.scheduledTime != null){
+        final aTime = DateTime(2022, 1, 1, a.scheduledTime!["hour"], a.scheduledTime!["minute"]);
+        final bTime = DateTime(2022, 1, 1, b.scheduledTime!["hour"], b.scheduledTime!["minute"]);
+        return aTime.compareTo(bTime);
+      } else {
+        return -1;
+      }
+    });
     List<Map<String, dynamic>> routinesAsMap = _nightRoutines.map((entry) => entry.toMap()).toList();
     await _db
         .collection('users_data')

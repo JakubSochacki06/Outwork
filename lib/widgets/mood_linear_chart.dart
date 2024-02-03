@@ -173,9 +173,13 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
     return datesAndFeelings.length>=2?Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.7,
+          aspectRatio: 1.5,
           child: Column(
             children: [
+              Text(
+                'Your feeling charts',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               Expanded(
                 flex: 1,
                 child: SingleChildScrollView(
@@ -263,24 +267,29 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
           ),
         ),
       ],
-    ):Container(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.01),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        border: themeProvider.isLightTheme() ? Border.all(color: Color(0xFFEDEDED)) : null,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        boxShadow: themeProvider.isLightTheme()
-            ? [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 3,
-            offset: Offset(3, 3),
+    ):Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.01),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            border: themeProvider.isLightTheme() ? Border.all(color: Color(0xFFEDEDED)) : null,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            boxShadow: themeProvider.isLightTheme()
+                ? [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 2,
+                blurRadius: 3,
+                offset: Offset(3, 3),
+              ),
+            ]
+                : null,
           ),
-        ]
-            : null,
-      ),
-      child: Center(child: Text('Add atleast 2 notes to track your feelings!', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,)),
+          child: Center(child: Text('Add atleast 2 notes to track your feelings!', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,)),
+        ),
+        SizedBox(height: height*0.01,)
+      ],
     );
   }
 }

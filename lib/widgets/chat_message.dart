@@ -14,21 +14,22 @@ class ChatMessage extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: width*0.01, vertical: height*0.01),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(15)
+      ),
       child: Row(
         children: <Widget>[
-          isUser
-              ? Container(
+          Container(
             width: width * 0.12,
             child: CircleAvatar(
-                backgroundImage:
-                NetworkImage(userProvider.user!.photoURL!)),
-          )
-              : Container(
-            width: width * 0.12,
-            child: CircleAvatar(
-                backgroundImage: AssetImage('assets/images/jacob.png')),
+              backgroundImage: isUser
+                  ? NetworkImage(userProvider.user!.photoURL!)
+                  : Image.asset('assets/images/jacob.png').image,
+            ),
           ),
-          SizedBox(width: width*0.03,),
+          SizedBox(width: width*0.02,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,7 @@ class ChatMessage extends StatelessWidget {
                 Container(
                   child: Text(
                     text,
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: Theme.of(context).primaryTextTheme.labelLarge,
                   ),
                 ),
               ],

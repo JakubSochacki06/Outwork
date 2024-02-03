@@ -50,14 +50,24 @@ class ProjectsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Keep on grinding',
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Text(
-              'Outwork all of them.',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Keep on grinding',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    Text(
+                      'Outwork all of them.',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimaryContainer),
+                    ),
+                  ],
+                ),
+                // Container(width:width*0.3, child: Image.asset('assets/OW-white.png',width: width*0.1, fit: BoxFit.contain,)),
+              ],
             ),
             SizedBox(
               height: height * 0.01,

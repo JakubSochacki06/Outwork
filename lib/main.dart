@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:outwork/notification_controller.dart';
+import 'package:outwork/providers/chat_provider.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/end_of_the_day_journal_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
@@ -94,6 +95,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => XPLevelProvider()),
+        ChangeNotifierProvider(create: (context) => ChatProvider()),
         ChangeNotifierProvider(create: (context) => NavbarControllerProvider()),
         ChangeNotifierProvider(create: (context) => DailyCheckinProvider()),
         ChangeNotifierProvider(create: (context) => MorningRoutineProvider()),

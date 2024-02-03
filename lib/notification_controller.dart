@@ -9,7 +9,6 @@ class NotificationController{
 
   @pragma("vm:entry-point")
   static Future<void> onNotificationDisplayedMethod(ReceivedNotification receivedNotification) async{
-
   }
 
   @pragma("vm:entry-point")

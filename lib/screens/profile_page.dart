@@ -101,14 +101,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            Text(
-              'Your feeling charts',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
             MoodLinearChart(),
-            // SizedBox(
-            //   height: height * 0.01,
-            // ),
             // PRO ACCESS
             ImageFiltered(
               imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
