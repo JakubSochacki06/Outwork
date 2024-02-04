@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/screens/progress_page/money_page.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:outwork/widgets/carousel_item.dart';
 
@@ -56,7 +57,12 @@ class _ProgressPageState extends State<ProgressPage> {
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 // maximumSize: Size(width*0.1, height*0.03)
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => carouselElements[_currentIndex]['route']),
+                );
+              },
               child: Row(
                 children: [
                   Text(
@@ -75,17 +81,18 @@ class _ProgressPageState extends State<ProgressPage> {
   }
 }
 
-List<Map<String, String>> carouselElements = [
+List<Map<String, dynamic>> carouselElements = [
   {
     'title': 'Money',
     'imageName': 'money',
-    'description': 'Track your expenses'
+    'description': 'Track your expenses',
+    'route':const MoneyPage(),
   },
   {'title': 'Physique', 'imageName': 'money', 'description': 'Zyzz is proud'},
   {
     'title': 'Wisdom',
     'imageName': 'money',
-    'description': 'You are the smart one'
+    'description': 'You are the smart one',
   },
   {
     'title': 'Meditation',

@@ -5,7 +5,7 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/screens/add_daily_checkin_popup.dart';
+import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
@@ -158,6 +158,8 @@ class DailyCheckinBox extends StatelessWidget {
               // ),
               Expanded(
                 child: SfRadialGauge(
+                  // TODO: DECIDE IF IT LOOKS GOOD OR NO
+                  // enableLoadingAnimation: true,
                   axes: <RadialAxis>[
                     RadialAxis(
                       axisLineStyle: AxisLineStyle(

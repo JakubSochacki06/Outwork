@@ -100,6 +100,7 @@ class NewJournalEntryPopup extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
+            // TODO: [IMPORTANT] THINK ABOUT CHANING TO group_button or multi_select_flutter
             EmotionsList(
               emotions: ['Excited', 'Loved', 'Surprised'],
               subject: subject,

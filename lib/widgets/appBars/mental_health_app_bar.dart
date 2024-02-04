@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
-import 'package:outwork/screens/new_journal_entry_popup.dart';
+import 'package:outwork/screens/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 import 'package:provider/provider.dart';
 
 class MentalHealthAppBar extends StatelessWidget implements PreferredSizeWidget {
