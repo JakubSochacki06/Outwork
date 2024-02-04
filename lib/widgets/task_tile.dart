@@ -3,7 +3,7 @@ import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/screens/pomodoro_page.dart';
+import 'package:outwork/screens/projects_page/pomodoro_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 

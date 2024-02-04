@@ -6,9 +6,9 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
+import 'package:outwork/screens/login_page/login_page.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:outwork/page_navigator.dart';
-import 'package:outwork/screens/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 

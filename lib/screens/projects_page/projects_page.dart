@@ -3,8 +3,9 @@ import 'package:outwork/models/project_task.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/screens/add_project_page.dart';
-import 'package:outwork/screens/join_with_code_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/add_project_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/join_with_code_popup.dart';
+import 'package:outwork/screens/projects_page/project_info_page.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +38,7 @@ class ProjectsPage extends StatelessWidget {
                 // height: height*0.1,
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddProjectPage(mode: 'Add new',),
+                child: AddProjectPopup(mode: 'Add new',),
               ),
             ),
           );

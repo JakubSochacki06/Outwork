@@ -6,9 +6,9 @@ import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/screens/add_project_page.dart';
-import 'package:outwork/screens/add_task_popup.dart';
-import 'package:outwork/screens/project_requests_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/add_project_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/add_task_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/project_requests_popup.dart';
 import 'package:outwork/widgets/project_members_avatars.dart';
 import 'package:outwork/widgets/task_tile.dart';
 import 'package:provider/provider.dart';
@@ -221,7 +221,7 @@ class ProjectInfoPage extends StatelessWidget {
                                       // height: height*0.1,
                                       padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context).viewInsets.bottom),
-                                      child: AddProjectPage(mode: 'Edit existing'),
+                                      child: AddProjectPopup(mode: 'Edit existing'),
                                     ),
                                   ),
                                 );
@@ -529,4 +529,7 @@ class ProjectInfoPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class AddProjectPage {
 }

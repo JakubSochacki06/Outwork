@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:outwork/screens/add_morning_routine_popup.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/screens/home_page/pop_ups/add_morning_routine_popup.dart';
 import 'package:provider/provider.dart';
 
 class EditMorningRoutinePopup extends StatelessWidget {

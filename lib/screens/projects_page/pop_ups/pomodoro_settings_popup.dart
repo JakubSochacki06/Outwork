@@ -3,7 +3,6 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/screens/pomodoro_page.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:provider/provider.dart';
 

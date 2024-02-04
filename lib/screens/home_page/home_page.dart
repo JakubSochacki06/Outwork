@@ -5,8 +5,8 @@ import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
-import 'package:outwork/screens/add_daily_checkin_popup.dart';
 import 'package:outwork/screens/chat_page.dart';
+import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context, listen: false);
-                      navbarControllerProvider.jumpToTab(3);
+                      navbarControllerProvider.jumpToTab(4);
                     },
                     child: CircleAvatar(
                       radius: 35,

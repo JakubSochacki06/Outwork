@@ -8,16 +8,16 @@ import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:outwork/widgets/error_shake_text.dart';
 import 'package:provider/provider.dart';
 
-class AddProjectPage extends StatefulWidget {
+class AddProjectPopup extends StatefulWidget {
   final String mode;
 
-  const AddProjectPage({required this.mode});
+  const AddProjectPopup({required this.mode});
 
   @override
-  State<AddProjectPage> createState() => _AddProjectPageState();
+  State<AddProjectPopup> createState() => _AddProjectPopup();
 }
 
-class _AddProjectPageState extends State<AddProjectPage> {
+class _AddProjectPopup extends State<AddProjectPopup> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   String? titleError;

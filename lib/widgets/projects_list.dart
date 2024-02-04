@@ -3,7 +3,7 @@ import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/screens/project_info_page.dart';
+import 'package:outwork/screens/projects_page/project_info_page.dart';
 import 'package:outwork/widgets/project_members_avatars.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';

@@ -7,12 +7,8 @@ import 'package:outwork/widgets/chatbot_text_input.dart';
 import 'package:outwork/widgets/commonly_used_sentences.dart';
 import 'package:provider/provider.dart';
 
-class ChatPage extends StatefulWidget {
-  @override
-  State createState() => ChatPageState();
-}
-
-class ChatPageState extends State<ChatPage> {
+class ChatPage extends StatelessWidget {
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +28,7 @@ class ChatPageState extends State<ChatPage> {
           children: [
             Expanded(
               child: ListView.separated(
+                controller: _controller,
                 reverse: true,
                 itemCount: chatProvider.messages.length,
                 itemBuilder: (_, int index) => chatProvider.messages[index],
@@ -52,7 +49,7 @@ class ChatPageState extends State<ChatPage> {
             SizedBox(
               height: height * 0.005,
             ),
-            CommonlyUsedSentences(),
+            CommonlyUsedSentences(scrollController: _controller,),
             SizedBox(
               height: height * 0.01,
             ),
@@ -62,5 +59,5 @@ class ChatPageState extends State<ChatPage> {
       ),
     );
   }
-
 }
+

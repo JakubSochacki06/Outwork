@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/screens/pomodoro_settings_popup.dart';
+import 'package:outwork/screens/projects_page/pop_ups/pomodoro_settings_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 

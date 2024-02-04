@@ -4,7 +4,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
-import 'package:outwork/screens/profile_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 

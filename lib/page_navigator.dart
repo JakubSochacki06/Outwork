@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
-import 'package:outwork/screens/pomodoro_page.dart';
-import 'package:outwork/screens/projects_page.dart';
-import 'package:outwork/screens/profile_page.dart';
+import 'package:outwork/screens/profile_page/profile_page.dart';
+import 'package:outwork/screens/progress_page/progress_page.dart';
+import 'package:outwork/screens/projects_page/projects_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'providers/user_provider.dart';
-import 'screens/mental_health_page.dart';
-import 'screens/home_page.dart';
+import 'screens/mental_health_page/mental_health_page.dart';
+import 'screens/home_page/home_page.dart';
 
 class PageNavigator extends StatefulWidget {
   @override
@@ -23,6 +23,7 @@ class _PageNavigatorState extends State<PageNavigator> {
       HomePage(),
       ProjectsPage(),
       MentalHealthPage(),
+      ProgressPage(),
       ProfilePage(),
     ];
   }
@@ -49,6 +50,12 @@ class _PageNavigatorState extends State<PageNavigator> {
           icon: Icon(LineIcons.bookOpen),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
           title: ('Journal'),
+          textStyle: Theme.of(context).textTheme.labelMedium),
+      PersistentBottomNavBarItem(
+          activeColorPrimary: Theme.of(context).colorScheme.secondary,
+          icon: Icon(Icons.show_chart),
+          inactiveColorPrimary: Theme.of(context).iconTheme.color,
+          title: ('Progress'),
           textStyle: Theme.of(context).textTheme.labelMedium),
       PersistentBottomNavBarItem(
           activeColorPrimary: Theme.of(context).colorScheme.secondary,

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/screens/profile_page/settings_page.dart';
 
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ProfileAppBar({super.key});
@@ -13,7 +15,10 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: (){
-            Navigator.pushNamed(context, '/settings');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SettingsPage()),
+            );
           },
           icon: Icon(Icons.settings),
         ),
