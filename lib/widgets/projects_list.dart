@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
@@ -78,12 +79,13 @@ class ProjectsList extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(
+                      child: AutoSizeText(
                         projectsProvider
                             .projectsList[index].title!,
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge,
+                        maxLines: 3,
                       ),
                     ),
                     SizedBox(

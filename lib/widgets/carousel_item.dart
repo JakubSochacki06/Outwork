@@ -34,7 +34,7 @@ class CarouselItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AutoSizeText(title, style: Theme.of(context).textTheme.displaySmall, maxLines: 1,),
-          Image.asset('assets/images/$imageName.png', height: height*0.1,),
+          Image.asset('assets/images/$imageName.png',),
           Text(description, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,)
         ],
       ),

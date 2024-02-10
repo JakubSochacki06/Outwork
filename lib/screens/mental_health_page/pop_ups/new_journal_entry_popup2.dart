@@ -144,7 +144,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
                   journalEntryProvider.setHasNote(true, widget.subject);
                   journalEntryProvider.addJournalEntryToDatabase(userProvider.user!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(15, userProvider.user!.email!);
+                  await xpLevelProvider.addXpAmount(15, userProvider.user!.email!, context);
                 } else {
                   journalEntryProvider.existingEntry.noteDescription = _descriptionController.text;
                   journalEntryProvider.existingEntry.noteTitle = _titleController.text;

@@ -4,6 +4,8 @@ import 'package:outwork/models/journal_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/project.dart';
 
+import 'book.dart';
+
 class FirebaseUser {
   String? displayName;
   String? email;
@@ -16,6 +18,7 @@ class FirebaseUser {
   List<dynamic>? nightRoutines;
   List<DailyCheckin>? dailyCheckins;
   List<JournalEntry>? journalEntries;
+  List<Book>? books;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
   Map<dynamic, dynamic>? pomodoroSettings;
@@ -31,6 +34,7 @@ class FirebaseUser {
       this.endOfTheDayJournal,
       this.projectsIDList,
       this.xpAmount,
+        this.books,
       this.workedSeconds,
       this.pomodoroSettings});
 
@@ -43,6 +47,10 @@ class FirebaseUser {
     data['dailyCheckins'].forEach((unorganizedDailyCheckin) =>
         {dailyCheckins.add(DailyCheckin.fromMap(unorganizedDailyCheckin))});
 
+    List<Book> books = [];
+    data['books'].forEach((unorganizedBook) =>
+    {books.add(Book.fromMap(unorganizedBook))});
+
     FirebaseUser user = FirebaseUser(
       displayName: data['displayName'],
       email: data['email'],
@@ -54,6 +62,7 @@ class FirebaseUser {
       journalEntries: journalEntries,
       workedSeconds: data['workedSeconds'],
       dailyCheckins: dailyCheckins,
+      books: books,
       projectsIDList: data['projectsIDList'],
       endOfTheDayJournal: data['endOfTheDayJournal'],
       pomodoroSettings: data['pomodoroSettings'],

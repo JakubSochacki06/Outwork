@@ -128,7 +128,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                   }
                   await morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                   Navigator.pop(context);
                 }
               },

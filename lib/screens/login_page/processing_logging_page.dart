@@ -12,6 +12,8 @@ import 'package:outwork/page_navigator.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
+import '../../providers/progress_provider.dart';
+
 class ProcessingLoggingPage extends StatefulWidget {
   @override
   State<ProcessingLoggingPage> createState() => _LoggingPageState();
@@ -26,6 +28,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     MorningRoutineProvider morningRoutineProvider = Provider.of<MorningRoutineProvider>(context, listen: false);
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: false);
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
+    ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(
         context, listen: false);
 
@@ -38,6 +41,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
       morningRoutineProvider.setMorningRoutines(userProvider.user!);
       journalEntryProvider.setJournalEntries(userProvider.user!);
       nightRoutineProvider.setNightRoutines(userProvider.user!);
+      progressProvider.setProgressFields(userProvider.user!);
       xpLevelProvider.setXPAmount(userProvider.user!);
     }
 

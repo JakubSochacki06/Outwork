@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/screens/progress_page/books_page.dart';
 import 'package:outwork/screens/progress_page/money_page.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:outwork/widgets/carousel_item.dart';
@@ -90,18 +91,19 @@ List<Map<String, dynamic>> carouselElements = [
   },
   {'title': 'Physique', 'imageName': 'money', 'description': 'Zyzz is proud'},
   {
-    'title': 'Wisdom',
+    'title': 'Books',
     'imageName': 'money',
-    'description': 'You are the smart one',
+    'description': 'Read all of them!',
+    'route':const BooksPage(),
   },
   {
     'title': 'Meditation',
-    'imageName': 'money',
+    'imageName': 'meditation',
     'description': 'Clear your mind'
   },
   {
     'title': 'Sleep',
-    'imageName': 'money',
+    'imageName': 'meditation2',
     'description': 'Keep a good sleeping schedule'
   },
   {

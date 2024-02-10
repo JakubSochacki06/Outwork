@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/project_task.dart';
 import 'package:outwork/providers/projects_provider.dart';
@@ -128,12 +129,14 @@ class ProjectsPage extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(width: width*0.03,),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(upcomingTasks[index].title!, style: Theme.of(context).textTheme.labelLarge!),
-                                        Text(upcomingTasks[index].countTimeLeft(), style: Theme.of(context).primaryTextTheme.labelSmall!.copyWith(color: upcomingTasks[index].colorOfDaysLeft(context)),),
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          AutoSizeText(upcomingTasks[index].title!, style: Theme.of(context).textTheme.labelLarge!, maxLines: 1,),
+                                          Text(upcomingTasks[index].countTimeLeft(), style: Theme.of(context).primaryTextTheme.labelSmall!.copyWith(color: upcomingTasks[index].colorOfDaysLeft(context)),),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 );

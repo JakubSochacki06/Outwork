@@ -354,7 +354,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                   await projectProvider
                       .addProjectToDatabase(userProvider.user!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(20, userProvider.user!.email!);
+                  await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
                 }
                 Navigator.pop(context);
               }

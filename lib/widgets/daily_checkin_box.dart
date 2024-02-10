@@ -244,7 +244,7 @@ class DailyCheckinBox extends StatelessWidget {
                         await dailyCheckinProvider.addDailyCheckinProgressToFirebase(
                             dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
                         XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                        await xpLevelProvider.addXpAmount(5, userProvider.user!.email!);
+                        await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context);
                       },
                       child: Container(
                         child: Icon(

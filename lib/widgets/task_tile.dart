@@ -78,7 +78,7 @@ class TaskTile extends StatelessWidget {
               value: project.tasks![taskIndex].completed,
               onChanged: (checkboxValue) async{
                 XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                checkboxValue == true?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                checkboxValue == true?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                 await projectProvider.updateTaskCompletionStatus(project, taskIndex);
               },
             ),
@@ -117,7 +117,7 @@ class TaskTile extends StatelessWidget {
                     if(wantToDelete == true){
                       await projectProvider.deleteTask(taskIndex, project.id!, userProvider.user!.email!);
                       XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                     }
                   },
                   icon: Icon(Icons.delete),

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
 
+import '../widgets/snackBars/earned_xp_snackbar.dart';
+
 class XPLevelProvider extends ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   int _xpAmount = 0;
@@ -18,7 +20,8 @@ class XPLevelProvider extends ChangeNotifier {
     _updateLevel();
   }
 
-  Future<void> addXpAmount(int amount, String userEmail) async {
+  Future<void> addXpAmount(int amount, String userEmail, context) async {
+    EarnedXPSnackbar.show(context, amount);
     _xpAmount += amount;
     await _db.collection('users_data').doc(userEmail).update({
       'xpAmount': FieldValue.increment(amount),

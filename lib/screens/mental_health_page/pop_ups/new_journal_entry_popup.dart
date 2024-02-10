@@ -173,7 +173,7 @@ class NewJournalEntryPopup extends StatelessWidget {
                       await journalEntryProvider
                           .addJournalEntryToDatabase(userProvider.user!);
                       XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                      await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                     } else {
                       await journalEntryProvider
                           .editJournalEntryAndSubmit(userProvider.user!);

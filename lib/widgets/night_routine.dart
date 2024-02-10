@@ -145,7 +145,7 @@ class _NightRoutineState extends State<NightRoutine> {
 
                     isCompleted = !isCompleted;
                     await nightRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                    isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                    isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: width*0.015),
@@ -169,7 +169,7 @@ class _NightRoutineState extends State<NightRoutine> {
                           onChanged: (checkboxValue) async {
                             isCompleted = !isCompleted;
                             await nightRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                            isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                            isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                           },
                         ),
                         GestureDetector(

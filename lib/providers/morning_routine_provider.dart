@@ -13,7 +13,7 @@ class MorningRoutineProvider extends ChangeNotifier {
 
   TimeOfDay? get scheduledTime => _scheduledTime;
 
-  Future<void> setMorningRoutines(FirebaseUser user) async {
+  void setMorningRoutines(FirebaseUser user) {
     List<dynamic> routines = user.morningRoutines!;
     _morningRoutines = [];
     for (var routine in routines) {

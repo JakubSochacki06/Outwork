@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -64,6 +65,14 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: Icon(Icons.phone),
               title: Text('Phone'),
               // TODO: ADD PHONE AND VERIFICATION
+              // value: Text(userProvider.user!.email!),
+            ),
+            SettingsTile.navigation(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onPressed: (context) async{
+                await FirebaseAuth.instance.signOut();
+              },
               // value: Text(userProvider.user!.email!),
             ),
           ]),

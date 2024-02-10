@@ -478,7 +478,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                         userProvider.user!.email!,
                         selectedEmoji!);
                     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                    await xpLevelProvider.addXpAmount(20, userProvider.user!.email!);
+                    await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
                   } else {
                     await dailyCheckinProvider.editDailyCheckin(
                       _nameController.text,

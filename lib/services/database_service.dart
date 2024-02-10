@@ -23,6 +23,9 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
+      'books':[
+
+      ],
       'pomodoroSettings':{
         'Pomodoro':25,
         'ShortBreak':5,

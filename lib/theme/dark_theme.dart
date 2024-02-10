@@ -6,7 +6,8 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
     background: Color(0xFF101010),
     onBackground: Colors.white,
-    primary: Color(0xFF2B2B2B),
+    // primary: Color(0xFF2B2B2B),
+    primary: Color(0xFF1E1E1E),
     // onBackground: ,
     onPrimaryContainer: Color(0xFF404040),
     secondary: Color(0xFFB2F042),

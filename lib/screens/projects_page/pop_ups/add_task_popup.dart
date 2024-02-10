@@ -172,7 +172,7 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
                   projectProvider.newTask.completed = false;
                   await projectProvider.addTaskToDatabase(widget.project,);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                   Navigator.pop(context);
                 }
 

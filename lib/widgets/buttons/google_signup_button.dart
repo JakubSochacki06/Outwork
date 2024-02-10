@@ -7,32 +7,27 @@ class GoogleSignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: const StadiumBorder(),
-          backgroundColor: Colors.white,
-          minimumSize: Size(50, 60),
-          side: const BorderSide(
-            color: Colors.black26,
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        minimumSize: Size(50, 60),
+        elevation: 0,
+      ),
+      onPressed: () {
+        final provider = Provider.of<UserProvider>(context, listen: false);
+        provider.signInWithGoogle();
+        Navigator.pushNamed(context, '/processingLogging');
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), radius: 13,),
+          SizedBox(
+            width: 10,
           ),
-          elevation: 0,
-        ),
-        onPressed: () {
-          final provider = Provider.of<UserProvider>(context, listen: false);
-          provider.signInWithGoogle();
-          Navigator.pushNamed(context, '/processingLogging');
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), backgroundColor: Color(0x100FFFFF), radius: 13,),
-            SizedBox(
-              width: 10,
-            ),
-            Text('Google', style: Theme.of(context).textTheme.bodyMedium,)
-          ],
-        ),
+          Text('Continue with google', style: Theme.of(context).textTheme.bodySmall,)
+        ],
       ),
     );
   }

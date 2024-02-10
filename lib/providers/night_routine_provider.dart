@@ -13,7 +13,7 @@ class NightRoutineProvider extends ChangeNotifier {
 
   TimeOfDay? get scheduledTime => _scheduledTime;
 
-  Future<void> setNightRoutines(FirebaseUser user) async {
+  void setNightRoutines(FirebaseUser user) {
     List<dynamic> routines = user.nightRoutines!;
     _nightRoutines = [];
     for (var routine in routines) {

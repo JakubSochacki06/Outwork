@@ -142,7 +142,7 @@ class MorningRoutine extends StatelessWidget {
                       onTap: () async {
                         isCompleted = !isCompleted;
                         await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                        isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                        isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: width*0.015),
@@ -153,9 +153,14 @@ class MorningRoutine extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
+                            Text(
+                              '${morningRoutines[index].scheduledTime!['hour']}:$minutes | ',
+                              style: Theme.of(context).primaryTextTheme.labelLarge,
+                              maxLines: 1,
+                            ),
                             Expanded(
-                              child: Text(
-                                '${morningRoutines[index].scheduledTime!['hour']}:$minutes | ${morningRoutines[index].name}',
+                              child: AutoSizeText(
+                                morningRoutines[index].name!,
                                 style: Theme.of(context).primaryTextTheme.labelLarge,
                                 maxLines: 1,
                               ),
@@ -166,7 +171,7 @@ class MorningRoutine extends StatelessWidget {
                               onChanged: (checkboxValue) async {
                                 isCompleted = !isCompleted;
                                 await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
-                                isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                                isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                               },
                             ),
                             GestureDetector(

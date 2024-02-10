@@ -2,7 +2,9 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/projects_page/pop_ups/pomodoro_settings_popup.dart';
+import 'package:outwork/widgets/snackBars/earned_xp_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 
@@ -58,6 +60,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context);
 
 
     void getNextMode(){
@@ -266,6 +269,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     onPressed: () async{
                       int workedSeconds = calculateTimeDifference(pomodoroTimer, pomodoroController.getTime()!);
                       await userProvider.addWorkedSecondsToDatabase(workedSeconds);
+                      xpLevelProvider.addXpAmount((workedSeconds*0.10).toInt(), userProvider.user!.email!, context);
                       setState(() {
                         interval++;
                         getNextMode();

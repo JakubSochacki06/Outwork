@@ -9,6 +9,7 @@ import 'package:outwork/providers/end_of_the_day_journal_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+import 'package:outwork/providers/progress_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -97,6 +98,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => DailyCheckinProvider()),
         ChangeNotifierProvider(create: (context) => MorningRoutineProvider()),
         ChangeNotifierProvider(create: (context) => NightRoutineProvider()),
+        ChangeNotifierProvider(create: (context) => ProgressProvider()),
         ChangeNotifierProvider(create: (context) => JournalEntryProvider()),
         ChangeNotifierProvider(
             create: (context) => EndOfTheDayJournalProvider()),

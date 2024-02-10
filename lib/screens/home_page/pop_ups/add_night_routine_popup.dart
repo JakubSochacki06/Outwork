@@ -127,7 +127,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
                   }
                   await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!);
+                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                   Navigator.pop(context);
                 }
               },
