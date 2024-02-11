@@ -76,6 +76,7 @@ class _PageNavigatorState extends State<PageNavigator> {
     // final userProvider =
     // Provider.of<UserProvider>(context, listen: true);
     return PersistentTabView(
+      resizeToAvoidBottomInset: false,
       context,
       controller: navbarControllerProvider.controller,
       screens: _buildScreens(),

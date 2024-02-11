@@ -97,7 +97,7 @@ class DailyCheckinBox extends StatelessWidget {
             blurRadius: 3,
             offset: Offset(3, 3),
           ),
-        ]:null,
+        ]:null
       ),
       height: height * 0.32,
       width: width * 0.50,
