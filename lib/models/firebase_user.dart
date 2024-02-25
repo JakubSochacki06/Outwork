@@ -67,7 +67,6 @@ class FirebaseUser {
       endOfTheDayJournal: data['endOfTheDayJournal'],
       pomodoroSettings: data['pomodoroSettings'],
     );
-
     return user;
   }
 

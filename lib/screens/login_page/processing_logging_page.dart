@@ -43,6 +43,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
       nightRoutineProvider.setNightRoutines(userProvider.user!);
       progressProvider.setProgressFields(userProvider.user!);
       xpLevelProvider.setXPAmount(userProvider.user!);
+
     }
 
     return Scaffold(

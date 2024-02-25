@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/daily_checkin.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
@@ -107,6 +108,7 @@ class DailyCheckinBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleAvatar(
                     backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -117,12 +119,11 @@ class DailyCheckinBox extends StatelessWidget {
                       child: Image.asset('assets/emojis/dailycheckin/${dailyCheckin.emojiName}.png'),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      dailyCheckin.name!,
-                      style: Theme.of(context).textTheme.labelLarge,
-                      textAlign: TextAlign.center,
-                    ),
+                  AutoSizeText(
+                    dailyCheckin.name!,
+                    style: Theme.of(context).textTheme.labelLarge,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
                   ),
                   CircleAvatar(
                     radius: 20,

@@ -17,7 +17,10 @@ class ChatPage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Talk with Jacob Bot', style: Theme.of(context).textTheme.bodyMedium,),
+        title: Text(
+          'Talk with Jacob Bot',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -42,14 +45,12 @@ class ChatPage extends StatelessWidget {
             SizedBox(
               height: height * 0.015,
             ),
-            Text(
-              'Commonly used',
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),
+            Visibility(
+              visible: chatProvider.messages.length == 2,
+              child: CommonlyUsedSentences(
+                scrollController: _controller,
+              ),
             ),
-            SizedBox(
-              height: height * 0.005,
-            ),
-            CommonlyUsedSentences(scrollController: _controller,),
             SizedBox(
               height: height * 0.01,
             ),
@@ -60,4 +61,3 @@ class ChatPage extends StatelessWidget {
     );
   }
 }
-

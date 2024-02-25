@@ -100,8 +100,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => NightRoutineProvider()),
         ChangeNotifierProvider(create: (context) => ProgressProvider()),
         ChangeNotifierProvider(create: (context) => JournalEntryProvider()),
-        ChangeNotifierProvider(
-            create: (context) => EndOfTheDayJournalProvider()),
+        ChangeNotifierProvider(create: (context) => EndOfTheDayJournalProvider()),
         ChangeNotifierProvider(create: (context) => ProjectsProvider()),
       ],
       child: MaterialApp(

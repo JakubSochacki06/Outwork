@@ -20,66 +20,81 @@ class CommonlyUsedSentences extends StatelessWidget {
     //   );
     // }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(10)
-            ),
-            child: TextButton(
-              onPressed: (){
-                chatProvider.handleSubmitted('I\'m not feeling alright');
-              },
-              child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Commonly used',
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: Theme.of(context).colorScheme.secondary),
+        ),
+        SizedBox(
+          height: height * 0.005,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: TextButton(
+                  onPressed: (){
+                    chatProvider.handleSubmitted('I\'m not feeling alright');
+                  },
+                  child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
+                ),
+              ),
+              SizedBox(width: width*0.01,),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: TextButton(
+                  onPressed: (){
+                    chatProvider.handleSubmitted('I don\'t have motivation');
+                    // _scrollDown();
+                  },
+                  child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
+                ),
+              ),
+              SizedBox(width: width*0.01,),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: TextButton(
+                  onPressed: (){
+                    chatProvider.handleSubmitted('I\'m tired');
+                    // _scrollDown();
+                  },
+                  child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
+                ),
+              ),
+              SizedBox(width: width*0.01,),
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: TextButton(
+                  onPressed: (){
+                    chatProvider.handleSubmitted('I might give up soon');
+                    // _scrollDown();
+                  },
+                  child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),
+                ),
+              ),
+            ],
           ),
-          SizedBox(width: width*0.01,),
-          Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(10)
-            ),
-            child: TextButton(
-              onPressed: (){
-                chatProvider.handleSubmitted('I don\'t have motivation');
-                // _scrollDown();
-              },
-              child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
-            ),
-          ),
-          SizedBox(width: width*0.01,),
-          Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(10)
-            ),
-            child: TextButton(
-              onPressed: (){
-                chatProvider.handleSubmitted('I\'m tired');
-                // _scrollDown();
-              },
-              child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
-            ),
-          ),
-          SizedBox(width: width*0.01,),
-          Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(10)
-            ),
-            child: TextButton(
-              onPressed: (){
-                chatProvider.handleSubmitted('I might give up soon');
-                // _scrollDown();
-              },
-              child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

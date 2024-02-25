@@ -24,6 +24,7 @@ class ProjectsProvider extends ChangeNotifier {
   Future<void> setProjectsList(FirebaseUser user) async {
     _projectsIDList = user.projectsIDList!;
     _projectsList = [];
+
     for (int i = 0; i < _projectsIDList.length; i++) {
       Project? project = await getProjectById(_projectsIDList[i]);
       _projectsList.add(project!);
