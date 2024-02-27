@@ -5,9 +5,10 @@ import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/screens/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
+
+import '../screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 
 class NoteTile extends StatelessWidget {
   final JournalEntry note;

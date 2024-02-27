@@ -9,7 +9,6 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'providers/user_provider.dart';
-import 'screens/mental_health_page/mental_health_page.dart';
 import 'screens/home_page/home_page.dart';
 
 class PageNavigator extends StatefulWidget {
@@ -22,7 +21,6 @@ class _PageNavigatorState extends State<PageNavigator> {
     return [
       HomePage(),
       ProjectsPage(),
-      MentalHealthPage(),
       ProgressPage(),
       ProfilePage(),
     ];
@@ -44,12 +42,6 @@ class _PageNavigatorState extends State<PageNavigator> {
           icon: Icon(LineIcons.calendarCheck),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
           title: ('Projects'),
-          textStyle: Theme.of(context).textTheme.labelMedium),
-      PersistentBottomNavBarItem(
-          activeColorPrimary: Theme.of(context).colorScheme.secondary,
-          icon: Icon(LineIcons.bookOpen),
-          inactiveColorPrimary: Theme.of(context).iconTheme.color,
-          title: ('Journal'),
           textStyle: Theme.of(context).textTheme.labelMedium),
       PersistentBottomNavBarItem(
           activeColorPrimary: Theme.of(context).colorScheme.secondary,

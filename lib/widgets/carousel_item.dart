@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:outwork/screens/progress_page/money_page/money_page.dart';
 
-class CarouselItem extends StatelessWidget {
+class ProgressCard extends StatelessWidget {
   final String title;
   final String description;
   final String imageName;
-  final bool isSelected;
-  CarouselItem({required this.title, required this.description, required this.imageName, required this.isSelected});
+  ProgressCard({required this.title, required this.description, required this.imageName});
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +18,15 @@ class CarouselItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(width: 2, color: isSelected?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary),
-        boxShadow: isSelected
-            ? [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.secondary,
-            blurRadius: 12,
-            spreadRadius: 2,
-            offset: Offset(0, 0),
-          ),
-        ]
-            : [],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AutoSizeText(title, style: Theme.of(context).textTheme.displaySmall, maxLines: 1,),
-          Image.asset('assets/images/$imageName.png',),
-          Text(description, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,)
+          AutoSizeText(title, style: Theme.of(context).textTheme.bodyLarge, maxLines: 1,),
+          SizedBox(height: height*0.01,),
+          Expanded(child: Image.asset('assets/images/$imageName.png',)),
+          SizedBox(height: height*0.01,),
+          AutoSizeText(description, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center, maxLines: 2,)
         ],
       ),
     );

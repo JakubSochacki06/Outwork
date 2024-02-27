@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
-import 'package:outwork/widgets/appBars/mental_health_app_bar.dart';
+import 'package:outwork/screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/note_tile.dart';
 import 'package:intl/intl.dart';
+
+import '../../../widgets/appBars/main_app_bar.dart';
 
 class MentalHealthPage extends StatelessWidget {
   const MentalHealthPage({super.key});
@@ -64,10 +66,35 @@ class MentalHealthPage extends StatelessWidget {
     }
 
     List<Widget> noteTiles = buildNoteTiles();
-    return SafeArea(
-      child: Scaffold(
-        appBar: MentalHealthAppBar(),
-        body: Padding(
+    return Scaffold(
+      appBar: MainAppBar(),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        label: Text('Add new Entry',
+            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onSecondaryContainer)),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            useRootNavigator: true,
+            isScrollControlled: true,
+            builder: (context) =>
+                SingleChildScrollView(
+                  child: Container(
+                    // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery
+                            .of(context)
+                            .viewInsets
+                            .bottom),
+                    child: NewJournalEntryPopup(subject: journalEntryProvider.journalEntry,),
+                  ),
+                ),
+          );
+        },
+      ),
+      body: SafeArea(
+        child: Padding(
             padding: EdgeInsets.only(
                 left: width * 0.04, right: width * 0.04, top: height * 0.02),
             child: journalEntryProvider.journalEntries.length != 0
