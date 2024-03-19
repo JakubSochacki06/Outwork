@@ -199,7 +199,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                               amountOfMoods = 14;
                             });
                           }:null,
-                          child: Text('Last 14 moods', style: datesAndFeelings.length>14?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.primary),)),
+                          child: Text('Last 14 moods', style: datesAndFeelings.length>14?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),)),
                       TextButton(
                           onPressed: () {
                             setState(() {
@@ -224,7 +224,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                               }
                             });
                           },
-                          child: Text('Last 30 moods', style: datesAndFeelings.length>30?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.primary),)),
+                          child: Text('Last 30 moods', style: datesAndFeelings.length>30?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),)),
                       TextButton(
                           onPressed: () {
                             setState(() {
@@ -249,7 +249,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                               }
                             });
                           },
-                          child: Text('Last 90 moods', style: datesAndFeelings.length>90?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.primary),)),
+                          child: Text('Last 90 moods', style: datesAndFeelings.length>90?Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.secondary):Theme.of(context).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),)),
                     ],
                   ),
                 ),

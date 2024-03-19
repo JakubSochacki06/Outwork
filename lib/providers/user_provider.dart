@@ -34,6 +34,28 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> restartDailyData() async{
+    _user!.dailyCheckins!.forEach((element) {
+      element.value = 0;
+    });
+    _user!.morningRoutines!.forEach((element) {
+      element['completed'] = false;
+    });
+    _user!.nightRoutines!.forEach((element) {
+      element['completed'] = false;
+    });
+    List<dynamic> rawDailyCheckins = [];
+    _user!.dailyCheckins!.forEach((dailyCheckin) {
+      rawDailyCheckins.add(dailyCheckin.toMap());
+    });
+    await _db.collection('users_data').doc(_user!.email).update({
+      'lastUpdate':DateTime.now(),
+      'dailyCheckins': rawDailyCheckins,
+      'morningRoutines':_user!.morningRoutines,
+      'nightRoutines':_user!.nightRoutines,
+    });
+  }
+
   // Login user with email and password
   Future<void> loginWithEmailPassword(String email, String password) async {
     try {

@@ -111,11 +111,11 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  MostFeltEmotionInfo(),
+                  StressLevelInfo(),
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  StressLevelInfo(),
+                  MostFeltEmotionInfo(),
                   SizedBox(
                     height: height * 0.01,
                   ),

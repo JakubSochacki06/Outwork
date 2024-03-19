@@ -56,6 +56,13 @@ class ProjectsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateProjectData(int projectIndex) async{
+    print(projectsList[projectIndex].requests);
+    projectsList[projectIndex] = (await getProjectById(projectsList[projectIndex].id!))!;
+    print(projectsList[projectIndex].requests);
+    notifyListeners();
+  }
+
   Future<void> saveEditedChanges() async{
     int indexOfEditedProject = _projectsList.indexWhere((project) => project.id == editableDummyProject.id);
     _projectsList[indexOfEditedProject].title = editableDummyProject.title;
@@ -219,15 +226,27 @@ class ProjectsProvider extends ChangeNotifier {
   }
 
   Future<void> addUserToProject(
-      FirebaseUser addedUser, String projectID) async {
-    await _db.collection('projects').doc(projectID).update({
+      FirebaseUser addedUser, Project project) async {
+    await _db.collection('projects').doc(project.id).update({
       'membersEmails': FieldValue.arrayUnion([addedUser.email]),
       'requests': FieldValue.arrayRemove([addedUser.email])
     });
     await _db.collection('users_data').doc(addedUser.email).update({
-      'projectsIDList': FieldValue.arrayUnion([projectID])
+      'projectsIDList': FieldValue.arrayUnion([project.id])
     });
-    _projectsIDList.remove(projectID);
+    int projectIndex = projectsList.indexWhere((element) => element.id == project.id);
+    projectsList[projectIndex].requests!.remove(addedUser.email);
+    projectsList[projectIndex].membersData!.add(addedUser);
+    projectsList[projectIndex].membersEmails!.add(addedUser.email);
+    notifyListeners();
+  }
+
+  Future<void> deleteUserRequest(FirebaseUser requestedUser, Project project) async{
+    await _db.collection('projects').doc(project.id).update({
+      'requests': FieldValue.arrayRemove([requestedUser.email])
+    });
+    int projectIndex = projectsList.indexWhere((element) => element.id == project.id);
+    projectsList[projectIndex].requests!.remove(requestedUser.email);
     notifyListeners();
   }
 

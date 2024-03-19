@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
-import 'package:outwork/screens/progress_page/add_new_expense_popup.dart';
+import 'package:outwork/screens/progress_page/money_page/add_expense_page.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:outwork/widgets/subs_container.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -39,19 +40,10 @@ class MoneyPage extends StatelessWidget {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      useRootNavigator: true,
-                      builder: (context) => SingleChildScrollView(
-                        child: Container(
-                          // height: height*0.1,
-                          padding: EdgeInsets.only(
-                              bottom:
-                              MediaQuery.of(context).viewInsets.bottom),
-                          child: AddNewExpensePopup(),
-                        ),
-                      ),
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: AddExpensePage(),
+                      withNavBar: true,
                     );
                   },
                 ),
@@ -129,7 +121,7 @@ class MoneyPage extends StatelessWidget {
                 SubsContainer(title: 'Highest sub', amount: '\$19.99', color: Theme.of(context).colorScheme.error),
               ],
             ),
-            Text('Track your expenses')
+            Center(child: Text('(Subscriptions added by user)'))
           ],
         ),
       ),

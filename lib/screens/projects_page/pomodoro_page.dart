@@ -279,7 +279,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 ],
               ),
               SizedBox(height: height*0.01,),
-              Text('#$interval You are doing great.', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary),),
+              Text('#$interval You are doing great.', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),),
               Text(pomodoroStatus=='Pomodoro'?'It\'s time to ':'It\'s time for a ', style: Theme.of(context).textTheme.displayMedium),
               Text(pomodoroStatus=='Pomodoro'?'FOCUS':'BREAK', style: pomodoroStatus=='Pomodoro'?Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.error):Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
             ],

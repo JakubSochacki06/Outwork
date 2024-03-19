@@ -69,7 +69,8 @@ class HomePage extends StatelessWidget {
           routineName: 'Night',
           index: -1,
         ));
-
+    print(userProvider.user!.morningRoutines);
+    userProvider.user!.dailyCheckins!.forEach((element) {print(element.toMap());});
     return Scaffold(
       appBar: MainAppBar(),
       backgroundColor: Theme.of(context).colorScheme.background,

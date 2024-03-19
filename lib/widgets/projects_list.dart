@@ -48,7 +48,7 @@ class ProjectsList extends StatelessWidget {
             PersistentNavBarNavigator.pushNewScreen(
               context,
               screen: ProjectInfoPage(
-                  project: projectsProvider.projectsList[index]),
+                  projectIndex: index),
               withNavBar: true, // OPTIONAL VALUE. True by default.
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );

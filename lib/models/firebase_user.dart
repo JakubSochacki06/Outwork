@@ -19,6 +19,7 @@ class FirebaseUser {
   List<DailyCheckin>? dailyCheckins;
   List<JournalEntry>? journalEntries;
   List<Book>? books;
+  DateTime? lastUpdated;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
   Map<dynamic, dynamic>? pomodoroSettings;
@@ -32,6 +33,7 @@ class FirebaseUser {
       this.journalEntries,
       this.dailyCheckins,
       this.endOfTheDayJournal,
+        this.lastUpdated,
       this.projectsIDList,
       this.xpAmount,
         this.books,
@@ -66,6 +68,7 @@ class FirebaseUser {
       projectsIDList: data['projectsIDList'],
       endOfTheDayJournal: data['endOfTheDayJournal'],
       pomodoroSettings: data['pomodoroSettings'],
+      lastUpdated: data['lastUpdate'].toDate()
     );
     return user;
   }

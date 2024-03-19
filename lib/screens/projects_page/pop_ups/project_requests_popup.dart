@@ -92,7 +92,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                                   onPressed: userProvider.user!.email ==
                                           project.membersEmails![0]
                                       ? () async{
-                                    await projectsProvider.addUserToProject(requestedUser, project.id!);
+                                    await projectsProvider.addUserToProject(requestedUser, project);
                                     Navigator.pop(context);
                                   }
                                       : () {
@@ -104,7 +104,16 @@ class ProjectRequestsPopup extends StatelessWidget {
                                       Theme.of(context).colorScheme.secondary,
                                 ),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: userProvider.user!.email ==
+                                        project.membersEmails![0]
+                                        ? () async{
+                                      await projectsProvider.deleteUserRequest(requestedUser, project);
+                                      Navigator.pop(context);
+                                    }
+                                        : () {
+                                      print('nie masz admina');
+                                      Navigator.pop(context);
+                                    },
                                     icon: Icon(Icons.close),
                                     color: Theme.of(context).colorScheme.error)
                               ],
