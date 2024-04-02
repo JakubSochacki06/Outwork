@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -12,7 +11,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -30,7 +28,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 withNavBar: false,
               );
             },
-            child: CircleAvatar(
+            child: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/jacob.png'),
             ),
           ),

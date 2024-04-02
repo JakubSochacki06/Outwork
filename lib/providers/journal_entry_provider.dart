@@ -204,7 +204,7 @@ class JournalEntryProvider extends ChangeNotifier {
     _journalEntries!.forEach((entry) {
       sum+=entry.stressLevel;
     });
-    return double.parse((sum/_journalEntries!.length).toStringAsFixed(2));
+    return sum==0?0:double.parse((sum/_journalEntries!.length).toStringAsFixed(2));
   }
 
   List<MapEntry<String, int>> getMostFeltEmotions() {

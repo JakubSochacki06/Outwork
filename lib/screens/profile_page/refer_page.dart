@@ -29,8 +29,8 @@ class _ReferPageState extends State<ReferPage> {
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
             int seriesIndex) {
           return Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
                 color: Color(0xFF1E1E1E),
               ),
               child: Text(
@@ -49,7 +49,7 @@ class _ReferPageState extends State<ReferPage> {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return SafeArea(
         child: Scaffold(
-      appBar: ReferAppBar(),
+      appBar: const ReferAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           left: width * 0.04,
@@ -64,16 +64,16 @@ class _ReferPageState extends State<ReferPage> {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
                 border: themeProvider.isLightTheme()
-                    ? Border.all(color: Color(0xFFEDEDED))
+                    ? Border.all(color: const Color(0xFFEDEDED))
                     : null,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
                 boxShadow: themeProvider.isLightTheme()
                     ? [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.3),
                           spreadRadius: 2,
                           blurRadius: 3,
-                          offset: Offset(3, 3),
+                          offset: const Offset(3, 3),
                         ),
                       ]
                     : null,
@@ -130,11 +130,11 @@ class _ReferPageState extends State<ReferPage> {
                     primaryXAxis: CategoryAxis(),
                     primaryYAxis: NumericAxis(
                         labelFormat: '\${value}',
-                        majorTickLines: MajorTickLines(size: 1)),
+                        majorTickLines: const MajorTickLines(size: 1)),
                     title: ChartTitle(
                         text: 'Monthly revenue',
                         textStyle: Theme.of(context).textTheme.bodyLarge),
-                    legend: Legend(isVisible: false),
+                    legend: const Legend(isVisible: false),
                     series: <ColumnSeries<MonthlyRevenue, String>>[
                       ColumnSeries<MonthlyRevenue, String>(
                         enableTooltip: true,
@@ -149,7 +149,7 @@ class _ReferPageState extends State<ReferPage> {
                         dataLabelSettings: const DataLabelSettings(),
                         color: Theme.of(context).colorScheme.secondary,
                         width: 0.3,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(5),
                             topRight: Radius.circular(5)),
                         xValueMapper: (MonthlyRevenue revenue, _) =>
@@ -168,17 +168,17 @@ class _ReferPageState extends State<ReferPage> {
                       .displaySmall!
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
-                Spacer(),
+                const Spacer(),
                 InkWell(
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       border: themeProvider.isLightTheme()
-                          ? Border.all(color: Color(0xFFEDEDED))
+                          ? Border.all(color: const Color(0xFFEDEDED))
                           : null,
                       // color: Color(0xFFF0F2F5),
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
                       boxShadow: themeProvider.isLightTheme()
                           ? [
                               BoxShadow(
@@ -186,12 +186,12 @@ class _ReferPageState extends State<ReferPage> {
                                 spreadRadius: 2,
                                 blurRadius: 3,
                                 // blurRadius: 10,
-                                offset: Offset(3, 3),
+                                offset: const Offset(3, 3),
                               )
                             ]
                           : null,
                     ),
-                    child: Text('Withdraw'),
+                    child: const Text('Withdraw'),
                   ),
                 ),
               ],
@@ -232,15 +232,15 @@ class _ReferPageState extends State<ReferPage> {
                         });
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
                           color:
                               Theme.of(context).colorScheme.onPrimaryContainer,
                           border: themeProvider.isLightTheme()
-                              ? Border.all(color: Color(0xFFEDEDED))
+                              ? Border.all(color: const Color(0xFFEDEDED))
                               : null,
                           // color: Color(0xFFF0F2F5),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
                                   BoxShadow(
@@ -248,12 +248,12 @@ class _ReferPageState extends State<ReferPage> {
                                     spreadRadius: 2,
                                     blurRadius: 3,
                                     // blurRadius: 10,
-                                    offset: Offset(3, 3),
+                                    offset: const Offset(3, 3),
                                   )
                                 ]
                               : null,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Copy',
                           textAlign: TextAlign.center,
                         ),
@@ -300,7 +300,7 @@ class _ReferPageState extends State<ReferPage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               InkWell(
                 child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Theme.of(context).colorScheme.primary),
@@ -313,7 +313,7 @@ class _ReferPageState extends State<ReferPage> {
               ),
               InkWell(
                 child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
@@ -326,7 +326,7 @@ class _ReferPageState extends State<ReferPage> {
               ),
               InkWell(
                 child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
@@ -339,7 +339,7 @@ class _ReferPageState extends State<ReferPage> {
               ),
               InkWell(
                 child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
@@ -352,7 +352,7 @@ class _ReferPageState extends State<ReferPage> {
               ),
               InkWell(
                 child: Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
@@ -391,7 +391,7 @@ class _ReferPageState extends State<ReferPage> {
             SizedBox(
               height: height * 0.01,
             ),
-            ReferTile(
+            const ReferTile(
               imagePath: 'refer',
               title: 'Step 1',
               description: 'Share your referral link/code with your friends',
@@ -399,7 +399,7 @@ class _ReferPageState extends State<ReferPage> {
             SizedBox(
               height: height * 0.01,
             ),
-            ReferTile(
+            const ReferTile(
               imagePath: 'sub',
               title: 'Step 2',
               description: 'Your friend upgrades his subscription to PRO',
@@ -407,7 +407,7 @@ class _ReferPageState extends State<ReferPage> {
             SizedBox(
               height: height * 0.01,
             ),
-            ReferTile(
+            const ReferTile(
               imagePath: 'earn',
               title: 'Step 3',
               description:

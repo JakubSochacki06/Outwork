@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:outwork/screens/login_page/processing_logging_page.dart';
+import 'package:outwork/services/database_service.dart';
 import 'package:outwork/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/constants/constants.dart';
@@ -16,6 +19,7 @@ class AccountCreationSlides extends StatefulWidget {
 
 class _AccountCreationSlidesState extends State<AccountCreationSlides> {
   bool toughModeSelected = false;
+  List<String> habitsSelected = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,50 +47,6 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                 imagePadding: EdgeInsets.symmetric(
                     horizontal: width * 0.03, vertical: height * 0.02),
                 bodyTextStyle: Theme.of(context).primaryTextTheme.bodyMedium!),
-          ),
-          PageViewModel(
-            title: 'End bad habits',
-            bodyWidget: Container(
-              height: height*0.6,
-              child: GridView.builder(
-                // physics: NeverScrollableScrollPhysics(),
-                itemCount: badHabits.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: width / (height / 1.6),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10),
-                itemBuilder: (context, index){
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      boxShadow: themeProvider.isLightTheme()
-                          ? [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(3, 3),
-                        ),
-                      ]
-                          : null,
-                    ),
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset('assets/bad habits/${badHabits[index].toLowerCase()}.png'),
-                        Text(badHabits[index])
-                      ],
-                    ),
-                    );
-                },
-              ),
-            ),
-            decoration: PageDecoration(
-              titleTextStyle: Theme.of(context).textTheme.displaySmall!,
-            ),
           ),
           PageViewModel(
             image: Image.asset(
@@ -124,26 +84,26 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                         width: width * 0.4,
                         height: height * 0.05,
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                         decoration: BoxDecoration(
                           color: toughModeSelected == false
                               ? Theme.of(context).colorScheme.secondary
                               : Theme.of(context).colorScheme.primary,
                           border: themeProvider.isLightTheme()
-                              ? Border.all(color: Color(0xFFEDEDED))
+                              ? Border.all(color: const Color(0xFFEDEDED))
                               : null,
                           // color: Color(0xFFF0F2F5),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    // blurRadius: 10,
-                                    offset: Offset(3, 3),
-                                  )
-                                ]
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              // blurRadius: 10,
+                              offset: const Offset(3, 3),
+                            )
+                          ]
                               : null,
                         ),
                         child: Align(
@@ -153,9 +113,9 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondaryContainer),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
                           ),
                           alignment: Alignment.bottomCenter,
                         ),
@@ -174,63 +134,63 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                         width: width * 0.4,
                         height: height * 0.05,
                         padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                         decoration: BoxDecoration(
                           color: toughModeSelected == true
                               ? Theme.of(context).colorScheme.secondary
                               : Theme.of(context).colorScheme.primary,
                           border: themeProvider.isLightTheme()
-                              ? Border.all(color: Color(0xFFEDEDED))
+                              ? Border.all(color: const Color(0xFFEDEDED))
                               : null,
                           // color: Color(0xFFF0F2F5),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    // blurRadius: 10,
-                                    offset: Offset(3, 3),
-                                  )
-                                ]
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              // blurRadius: 10,
+                              offset: const Offset(3, 3),
+                            )
+                          ]
                               : null,
                         ),
                         child: toughModeSelected
                             ? Row(
-                                children: [
-                                  Expanded(
-                                      child: Lottie.asset('assets/fire.json')),
-                                  Align(
-                                    child: Text(
-                                      'Tough',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSecondaryContainer),
-                                    ),
-                                    alignment: Alignment.bottomCenter,
-                                  ),
-                                  Expanded(
-                                      child: Lottie.asset('assets/fire.json')),
-                                ],
-                              )
-                            : Align(
-                                child: Text(
-                                  'Tough',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondaryContainer),
-                                ),
-                                alignment: Alignment.bottomCenter,
+                          children: [
+                            Expanded(
+                                child: Lottie.asset('assets/fire.json')),
+                            Align(
+                              child: Text(
+                                'Tough',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondaryContainer),
                               ),
+                              alignment: Alignment.bottomCenter,
+                            ),
+                            Expanded(
+                                child: Lottie.asset('assets/fire.json')),
+                          ],
+                        )
+                            : Align(
+                          child: Text(
+                            'Tough',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer),
+                          ),
+                          alignment: Alignment.bottomCenter,
+                        ),
                       ),
                     ),
                   ],
@@ -276,6 +236,68 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                 imageAlignment: Alignment.bottomCenter,
                 bodyTextStyle: Theme.of(context).primaryTextTheme.bodyMedium!),
           ),
+          PageViewModel(
+            title: 'End bad habits',
+            bodyWidget: Column(
+              children: [
+                Text('Select what habits you would like to quit. You will be able to change it later.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+                SizedBox(height: height*0.01,),
+                Container(
+                  height: height*0.6,
+                  child: GridView.builder(
+                    // physics: NeverScrollableScrollPhysics(),
+                    itemCount: badHabits.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: width / (height / 2),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10),
+                    itemBuilder: (context, index){
+                      return InkWell(
+                        splashFactory: NoSplash.splashFactory,
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        onTap:(){
+                          setState(() {
+                            habitsSelected.contains(badHabits[index])?habitsSelected.remove(badHabits[index]):habitsSelected.add(badHabits[index]);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                            border: Border.all(color: habitsSelected.contains(badHabits[index])?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary, width: 2),
+                            boxShadow: themeProvider.isLightTheme()
+                                ? [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: const Offset(3, 3),
+                              ),
+                            ]
+                                : null,
+                          ),
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            children: [
+                              Expanded(child: Image.asset('assets/bad habits/${badHabits[index].toLowerCase()}.png')),
+                              SizedBox(height: height*0.02,),
+                              Text(badHabits[index], style: Theme.of(context).textTheme.bodyMedium,)
+                            ],
+                          ),
+                          ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            decoration: PageDecoration(
+              titleTextStyle: Theme.of(context).textTheme.displaySmall!,
+            ),
+          ),
         ],
         next: Text(
           'Next',
@@ -295,7 +317,19 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
         ),
         showDoneButton: true,
         showBackButton: true,
-        onDone: () {},
+        onDone: () async{
+          DatabaseService _dbS = DatabaseService();
+          if(FirebaseAuth.instance.currentUser!.photoURL!=null){
+            await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+          } else{
+            await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+          }
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ProcessingLoggingPage()),
+          );
+        },
         dotsDecorator: DotsDecorator(
           size: const Size.square(10.0),
           activeSize: const Size(20.0, 10.0),

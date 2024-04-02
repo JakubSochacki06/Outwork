@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
@@ -9,7 +8,6 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -28,7 +26,7 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
                   withNavBar: false,
                 );
               },
-              child: CircleAvatar(
+              child: const CircleAvatar(
                 backgroundImage: AssetImage('assets/images/jacob.png'),
               ),
             ),
@@ -42,12 +40,12 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
               MaterialPageRoute(builder: (context) => const SettingsPage()),
             );
           },
-          icon: Icon(Icons.settings),
+          icon: const Icon(Icons.settings),
         ),
       ]
     );
   }
 
   @override
-  Size get preferredSize =>  new Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>  const Size.fromHeight(kToolbarHeight);
 }

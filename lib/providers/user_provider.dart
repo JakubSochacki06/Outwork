@@ -1,17 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:outwork/providers/projects_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:outwork/widgets/snackBars/error_login_snackbar.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:outwork/services/database_service.dart';
 
 class UserProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final DatabaseService _dbS = DatabaseService();
   FirebaseUser? _user;
 
 
@@ -24,8 +20,6 @@ class UserProvider extends ChangeNotifier {
         email: email,
         password: password,
       );
-
-      await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!);
       await fetchUserData(email);
       notifyListeners();
     } catch (e) {
@@ -54,10 +48,6 @@ class UserProvider extends ChangeNotifier {
     _user!.dailyCheckins!.forEach((dailyCheckin) {
       rawDailyCheckins.add(dailyCheckin.toMap());
     });
-    print(morningDone==_user!.morningRoutines!.length);
-    print(checkinsDone);
-    print(checkinsDone == _user!.dailyCheckins!.length);
-    print(nightDone==_user!.nightRoutines!.length);
     await _db.collection('users_data').doc(_user!.email).update({
       'lastUpdate':DateTime.now(),
       'dailyCheckins': rawDailyCheckins,
@@ -68,7 +58,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   // Login user with email and password
-  Future<void> loginWithEmailPassword(String email, String password) async {
+  Future<void> loginWithEmailPassword(String email, String password, context) async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,
@@ -78,7 +68,7 @@ class UserProvider extends ChangeNotifier {
       await fetchUserData(email);
       notifyListeners();
     } catch (e) {
-      // Handle login errors
+      ErrorLoginSnackBar.show(context);
       print(e.toString());
     }
   }
@@ -159,6 +149,15 @@ class UserProvider extends ChangeNotifier {
         .collection('users_data')
         .doc(user!.email)
         .update({'pomodoroSettings': newSettings});
+    notifyListeners();
+  }
+
+  Future<void> updateMode(bool newMode) async{
+    _user!.toughModeSelected = newMode;
+    await _db
+        .collection('users_data')
+        .doc(user!.email)
+        .update({'toughMode': newMode});
     notifyListeners();
   }
 }

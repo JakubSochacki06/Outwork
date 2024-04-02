@@ -6,13 +6,13 @@ import '../widgets/snackBars/earned_xp_snackbar.dart';
 
 class XPLevelProvider extends ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  int _xpAmount = 0;
-  int _xpLevel = 0;
+  int? _xpAmount;
+  int? _xpLevel;
   double _levelProgress = 0.0;
   List<int> levelThresholds = [0, 30, 70, 130, 200, 280, 370, 470, 580, 700, 830, 970, 1120, 1280, 1450, 1630, 1820];
 
-  int get xpAmount => _xpAmount;
-  int get xpLevel => _xpLevel;
+  int get xpAmount => _xpAmount!;
+  int get xpLevel => _xpLevel!;
   double get levelProgress => _levelProgress;
 
   void setXPAmount(FirebaseUser user) {
@@ -22,7 +22,7 @@ class XPLevelProvider extends ChangeNotifier {
 
   Future<void> addXpAmount(int amount, String userEmail, context) async {
     EarnedXPSnackbar.show(context, amount);
-    _xpAmount += amount;
+    _xpAmount = _xpAmount! + amount;
     await _db.collection('users_data').doc(userEmail).update({
       'xpAmount': FieldValue.increment(amount),
     });
@@ -32,8 +32,10 @@ class XPLevelProvider extends ChangeNotifier {
 
   String getUserLevelDescription() {
     switch (_xpLevel) {
-      case 1:
+      case 0:
         return 'Weak procrastinator';
+      case 1:
+        return 'Self-improvement newbie';
       case 2:
         return 'They are laughing at you';
       case 3:
@@ -72,7 +74,7 @@ class XPLevelProvider extends ChangeNotifier {
   }
 
   Future<void> removeXpAmount(int amount, String userEmail) async {
-    _xpAmount -= amount;
+    _xpAmount = _xpAmount! - amount;
     await _db.collection('users_data').doc(userEmail).update({
       'xpAmount': FieldValue.increment(-amount),
     });
@@ -82,11 +84,11 @@ class XPLevelProvider extends ChangeNotifier {
 
   void _updateLevel() {
     for (int i = 0; i < levelThresholds.length; i++) {
-      if (_xpAmount < levelThresholds[i]) {
+      if (_xpAmount! < levelThresholds[i]) {
         _xpLevel = i;
         int currentLevelThreshold = i > 0 ? levelThresholds[i - 1] : 0;
         int nextLevelThreshold = levelThresholds[i];
-        int xpInRange = _xpAmount - currentLevelThreshold;
+        int xpInRange = _xpAmount! - currentLevelThreshold;
         int xpRange = nextLevelThreshold - currentLevelThreshold;
         _levelProgress = xpInRange / xpRange;
         break;
@@ -95,8 +97,8 @@ class XPLevelProvider extends ChangeNotifier {
   }
 
   int getNextLevelThreshold() {
-    if (_xpLevel < levelThresholds.length) {
-      return levelThresholds[_xpLevel];
+    if (_xpLevel! < levelThresholds.length) {
+      return levelThresholds[_xpLevel!];
     } else {
       return 0;
     }

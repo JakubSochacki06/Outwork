@@ -21,11 +21,11 @@ class ProjectRequestsPopup extends StatelessWidget {
       color: Colors.transparent,
       child: Container(
         height: height * 0.3,
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           border: Border.all(color: Colors.transparent),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -87,7 +87,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .labelLarge),
-                                Spacer(),
+                                const Spacer(),
                                 IconButton(
                                   onPressed: userProvider.user!.email ==
                                           project.membersEmails![0]
@@ -99,7 +99,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                                           print('nie masz admina');
                                           Navigator.pop(context);
                                         },
-                                  icon: Icon(Icons.done),
+                                  icon: const Icon(Icons.done),
                                   color:
                                       Theme.of(context).colorScheme.secondary,
                                 ),
@@ -114,7 +114,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                                       print('nie masz admina');
                                       Navigator.pop(context);
                                     },
-                                    icon: Icon(Icons.close),
+                                    icon: const Icon(Icons.close),
                                     color: Theme.of(context).colorScheme.error)
                               ],
                             ),
@@ -135,10 +135,10 @@ class ProjectRequestsPopup extends StatelessWidget {
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .labelLarge),
-                                Spacer(),
+                                const Spacer(),
                                 IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.close),
+                                    icon: const Icon(Icons.close),
                                     color: Theme.of(context).colorScheme.error)
                               ],
                             ),
@@ -146,7 +146,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                         }
                       } else {
                         // Handle other connection states (e.g., loading)
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     },
                   );

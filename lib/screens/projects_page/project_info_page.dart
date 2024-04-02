@@ -1,8 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:outwork/models/firebase_user.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
@@ -109,13 +107,13 @@ class ProjectInfoPage extends StatelessWidget {
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .labelLarge),
-                        Spacer(),
+                        const Spacer(),
                         userProvider.user!.email != project.membersData![index].email?IconButton(
                             onPressed: () async{
                               await projectsProvider.deleteUserFromProject(project.membersData![index], project.id!);
                               Navigator.pop(context);
                             },
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                             color: Theme.of(context).colorScheme.error):Container()
                       ],
                     ),
@@ -162,13 +160,13 @@ class ProjectInfoPage extends StatelessWidget {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            icon: Icon(Icons.navigate_before),
+                            icon: const Icon(Icons.navigate_before),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Badge(
-                            badgeStyle: BadgeStyle(),
+                            badgeStyle: const BadgeStyle(),
                             position: BadgePosition.topEnd(end: 3, top: 0),
-                            badgeAnimation: BadgeAnimation.fade(),
+                            badgeAnimation: const BadgeAnimation.fade(),
                             badgeContent: Text(
                               project.requests!.length.toString(),
                               style: Theme.of(context).textTheme.labelSmall,
@@ -191,7 +189,7 @@ class ProjectInfoPage extends StatelessWidget {
                                   ),
                                 );
                               },
-                              icon: Icon(Icons.people),
+                              icon: const Icon(Icons.people),
                             ),
                           ),
                           // TODO: ADD OPTION TO LEAVE PROJECT IF YOU ARE NOT OWNER
@@ -214,7 +212,7 @@ class ProjectInfoPage extends StatelessWidget {
                                     }
                                     Navigator.pop(context);
                                   },
-                                  icon: Icon(Icons.delete),
+                                  icon: const Icon(Icons.delete),
                                 ),
                               ),
                               SizedBox(
@@ -236,21 +234,21 @@ class ProjectInfoPage extends StatelessWidget {
                                         // height: height*0.1,
                                         padding: EdgeInsets.only(
                                             bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: AddProjectPopup(mode: 'Edit existing'),
+                                        child: const AddProjectPopup(mode: 'Edit existing'),
                                       ),
                                     ),
                                   );
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).colorScheme.primary,
                                     border: themeProvider.isLightTheme()
-                                        ? Border.all(color: Color(0xFFEDEDED))
+                                        ? Border.all(color: const Color(0xFFEDEDED))
                                         : null,
                                     // color: Color(0xFFF0F2F5),
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
+                                        const BorderRadius.all(Radius.circular(15)),
                                     boxShadow: themeProvider.isLightTheme()
                                         ? [
                                             BoxShadow(
@@ -258,14 +256,14 @@ class ProjectInfoPage extends StatelessWidget {
                                               spreadRadius: 2,
                                               blurRadius: 3,
                                               // blurRadius: 10,
-                                              offset: Offset(3, 3),
+                                              offset: const Offset(3, 3),
                                             )
                                           ]
                                         : null,
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.edit),
+                                      const Icon(Icons.edit),
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
@@ -288,10 +286,10 @@ class ProjectInfoPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: getColorBasedOnTask(),
                           border: themeProvider.isLightTheme()
-                              ? Border.all(color: Color(0xFFEDEDED))
+                              ? Border.all(color: const Color(0xFFEDEDED))
                               : null,
                           // color: Color(0xFFF0F2F5),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
                                   BoxShadow(
@@ -299,7 +297,7 @@ class ProjectInfoPage extends StatelessWidget {
                                     spreadRadius: 2,
                                     blurRadius: 3,
                                     // blurRadius: 10,
-                                    offset: Offset(3, 3),
+                                    offset: const Offset(3, 3),
                                   )
                                 ]
                               : null,
@@ -350,7 +348,7 @@ class ProjectInfoPage extends StatelessWidget {
                               )
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           CircleAvatar(
                             backgroundColor:
                                 Theme.of(context).colorScheme.onPrimaryContainer,
@@ -410,9 +408,9 @@ class ProjectInfoPage extends StatelessWidget {
                                 color:
                                 Theme.of(context).colorScheme.primary),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
-                            icon: Icon(Icons.list),
+                            icon: const Icon(Icons.list),
                             onPressed: (){
                               showMembers();
                             },
@@ -450,7 +448,7 @@ class ProjectInfoPage extends StatelessWidget {
                                 .copyWith(
                                     color: Theme.of(context).colorScheme.primary),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           InkWell(
                             onTap: () {
                               showModalBottomSheet(
@@ -472,16 +470,16 @@ class ProjectInfoPage extends StatelessWidget {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 15),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).colorScheme.primary,
                                 border: themeProvider.isLightTheme()
-                                    ? Border.all(color: Color(0xFFEDEDED))
+                                    ? Border.all(color: const Color(0xFFEDEDED))
                                     : null,
                                 // color: Color(0xFFF0F2F5),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                                    const BorderRadius.all(Radius.circular(15)),
                                 boxShadow: themeProvider.isLightTheme()
                                     ? [
                                         BoxShadow(
@@ -489,7 +487,7 @@ class ProjectInfoPage extends StatelessWidget {
                                           spreadRadius: 2,
                                           blurRadius: 3,
                                           // blurRadius: 10,
-                                          offset: Offset(3, 3),
+                                          offset: const Offset(3, 3),
                                         )
                                       ]
                                     : null,
@@ -498,7 +496,7 @@ class ProjectInfoPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.add),
+                                  const Icon(Icons.add),
                                   SizedBox(
                                     width: width * 0.01,
                                   ),

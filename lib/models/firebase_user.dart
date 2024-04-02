@@ -25,6 +25,7 @@ class FirebaseUser {
   List<Book>? books;
   DateTime? lastUpdated;
   int? streak;
+  bool? toughModeSelected;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
   Map<dynamic, dynamic>? pomodoroSettings;
@@ -33,6 +34,7 @@ class FirebaseUser {
       {this.displayName,
       this.email,
       this.photoURL,
+        this.toughModeSelected,
       this.morningRoutines,
       this.nightRoutines,
       this.journalEntries,
@@ -62,14 +64,14 @@ class FirebaseUser {
     data['books'].forEach((unorganizedBook) =>
     {books.add(Book.fromMap(unorganizedBook))});
     // TODO: MAKE USER FROM PROJECTS CREATE ONLY SIMPLE USER WITH DISPLAY NAME AND AVATAR, ADD REST WHEN USER CLICKS ON print(data['displayName']);
-
     FirebaseUser user = FirebaseUser(
       displayName: data['displayName'],
       email: data['email'],
       xpAmount: data['xpAmount'],
       // familyID: data['familyID'],
       photoURL: data['photoURL'],
-      refBalance: data['refBalance'],
+      refBalance: data['refBalance']==0?data['refBalance'].toDouble():data['refBalance'],
+      toughModeSelected: data['toughMode'],
       referrals: data['referrals'],
       morningRoutines: data['morningRoutines'],
       nightRoutines: data['nightRoutines'],

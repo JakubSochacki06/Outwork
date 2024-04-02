@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
-import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -221,36 +219,36 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
     }
 
     List<Color> colors = [
-      Color(0xFF80BCBD),
-      Color(0xFFD5F0C1),
-      Color(0xFF756AB6),
-      Color(0xFFAC87C5),
-      Color(0xFF71C9CE),
-      Color(0xFFA6E3E9),
-      Color(0xFF8785A2),
-      Color(0xFFFFC7C7),
-      Color(0xFF95E1D3),
-      Color(0xFFF38181),
-      Color(0xFF424874),
-      Color(0xFFDCD6F7),
-      Color(0xFFA6B1E1),
-      Color(0xFF0F4C75),
-      Color(0xFF3282B8),
-      Color(0xFFB1B2FF),
-      Color(0xFFAAC4FF),
-      Color(0xFF798777),
-      Color(0xFFBDD2B6)
+      const Color(0xFF80BCBD),
+      const Color(0xFFD5F0C1),
+      const Color(0xFF756AB6),
+      const Color(0xFFAC87C5),
+      const Color(0xFF71C9CE),
+      const Color(0xFFA6E3E9),
+      const Color(0xFF8785A2),
+      const Color(0xFFFFC7C7),
+      const Color(0xFF95E1D3),
+      const Color(0xFFF38181),
+      const Color(0xFF424874),
+      const Color(0xFFDCD6F7),
+      const Color(0xFFA6B1E1),
+      const Color(0xFF0F4C75),
+      const Color(0xFF3282B8),
+      const Color(0xFFB1B2FF),
+      const Color(0xFFAAC4FF),
+      const Color(0xFF798777),
+      const Color(0xFFBDD2B6)
     ];
 
     return Container(
       color: Colors.transparent,
       child: Container(
         width: width,
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           border: Border.all(color: Colors.transparent),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -278,7 +276,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                   '${widget.buttonText} daily check-in',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Spacer(),
+                const Spacer(),
                 widget.buttonText == 'Edit existing'?Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.error,
@@ -293,7 +291,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                             await xpLevelProvider.removeXpAmount(20, userProvider.user!.email!);
                           }
                           Navigator.pop(context);
-                        }, icon: Icon(Icons.delete),),):Container()
+                        }, icon: const Icon(Icons.delete),),):Container()
               ]
             ),
             SizedBox(
@@ -501,7 +499,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
-                shape: StadiumBorder(),
+                shape: const StadiumBorder(),
                 minimumSize: Size(width * 0.8, height * 0.05),
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 elevation: 0,

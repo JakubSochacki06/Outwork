@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/project_task.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
-import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/projects_page/pop_ups/add_project_popup.dart';
 import 'package:outwork/screens/projects_page/pop_ups/join_with_code_popup.dart';
-import 'package:outwork/screens/projects_page/project_info_page.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +21,7 @@ class ProjectsPage extends StatelessWidget {
     ProjectsProvider projectsProvider = Provider.of<ProjectsProvider>(context);
     List<ProjectTask> upcomingTasks = projectsProvider.upcomingTasks();
     return Scaffold(
-      appBar: MainAppBar(),
+      appBar: const MainAppBar(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).colorScheme.secondary,
         label: Text('Add new project',
@@ -39,7 +37,7 @@ class ProjectsPage extends StatelessWidget {
                 // height: height*0.1,
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddProjectPopup(mode: 'Add new',),
+                child: const AddProjectPopup(mode: 'Add new',),
               ),
             ),
           );
@@ -80,17 +78,17 @@ class ProjectsPage extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   border: themeProvider.isLightTheme()
-                      ? Border.all(color: Color(0xFFEDEDED))
+                      ? Border.all(color: const Color(0xFFEDEDED))
                       : null,
                   // color: Color(0xFFF0F2F5),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
                   boxShadow: themeProvider.isLightTheme()
                       ? [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.3),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: Offset(3, 3),
+                            offset: const Offset(3, 3),
                           )
                         ]
                       : null),
@@ -98,7 +96,8 @@ class ProjectsPage extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Text('${DateTime.now().day}',
+                      Text(
+                          DateTime.now().day.toString().length==1?'0${DateTime.now().day}':DateTime.now().day.toString(),
                           style: Theme.of(context).textTheme.displayLarge),
                       Text(
                           DateFormat('MMMM')
@@ -163,7 +162,7 @@ class ProjectsPage extends StatelessWidget {
                     'Your projects',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   InkWell(
                     onTap: () {
                       showModalBottomSheet(
@@ -175,21 +174,21 @@ class ProjectsPage extends StatelessWidget {
                             padding: EdgeInsets.only(
                                 bottom:
                                 MediaQuery.of(context).viewInsets.bottom),
-                            child: JoinWithCodePopup(),
+                            child: const JoinWithCodePopup(),
                           ),
                         ),
                       );
                     },
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
                         border: themeProvider.isLightTheme()
-                            ? Border.all(color: Color(0xFFEDEDED))
+                            ? Border.all(color: const Color(0xFFEDEDED))
                             : null,
                         // color: Color(0xFFF0F2F5),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
                         boxShadow: themeProvider.isLightTheme()
                             ? [
                           BoxShadow(
@@ -197,7 +196,7 @@ class ProjectsPage extends StatelessWidget {
                             spreadRadius: 2,
                             blurRadius: 3,
                             // blurRadius: 10,
-                            offset: Offset(3, 3),
+                            offset: const Offset(3, 3),
                           )
                         ]
                             : null,
@@ -206,7 +205,7 @@ class ProjectsPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.add),
+                          const Icon(Icons.add),
                           SizedBox(
                             width: width * 0.01,
                           ),
@@ -222,7 +221,7 @@ class ProjectsPage extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            Expanded(child: ProjectsList())
+            const Expanded(child: ProjectsList())
           ],
         ),
       ),

@@ -48,7 +48,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
       children: [
         ToggleSwitch(
           minWidth: double.infinity,
-          minHeight: height*0.06,
+          minHeight: height * 0.06,
           cornerRadius: 15,
           activeBgColors: [
             [Theme.of(context).colorScheme.secondary],
@@ -104,6 +104,11 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
                   color: Theme.of(context).colorScheme.secondary, width: 2),
               borderRadius: BorderRadius.circular(15.0),
             ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary, width: 2),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.0),
               borderSide: BorderSide(
@@ -154,8 +159,13 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
               Icons.lock_outline_rounded,
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.secondary, width: 2),
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary, width: 2),
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary, width: 2),
               borderRadius: BorderRadius.circular(15.0),
             ),
             errorBorder: OutlineInputBorder(
@@ -191,7 +201,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
                   Provider.of<UserProvider>(context, listen: false);
               if (loginActive) {
                 await provider.loginWithEmailPassword(
-                    _emailController.text, _passwordController.text);
+                    _emailController.text, _passwordController.text, context);
               } else {
                 await provider.registerWithEmailPassword(
                     _emailController.text, _passwordController.text);
@@ -226,7 +236,10 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
             SizedBox(
               width: width * 0.025,
             ),
-            Text(loginActive ? 'or login with' : 'or register with', style: Theme.of(context).primaryTextTheme.labelLarge,),
+            Text(
+              loginActive ? 'or login with' : 'or register with',
+              style: Theme.of(context).primaryTextTheme.labelLarge,
+            ),
             SizedBox(
               width: width * 0.025,
             ),

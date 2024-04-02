@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/progress_provider.dart';
-import 'package:outwork/providers/projects_provider.dart';
-import 'package:outwork/services/database_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -34,11 +31,11 @@ class _AddMorningRoutinePopupState extends State<EditExpensesPopup> {
       color: Colors.transparent,
       child: Container(
         width: width,
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           border: Border.all(color: Colors.transparent),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -105,7 +102,7 @@ class _AddMorningRoutinePopupState extends State<EditExpensesPopup> {
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
-                shape: StadiumBorder(),
+                shape: const StadiumBorder(),
                 minimumSize: Size(width * 0.8, height * 0.05),
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 elevation: 0,

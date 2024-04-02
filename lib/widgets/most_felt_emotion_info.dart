@@ -106,7 +106,7 @@ class MostFeltEmotionInfo extends StatelessWidget {
             ),
             child: Center(
                 child: Text(
-              'Add atleast 1 note to track your most frequently felt emotion!',
+              'Add atleast 1 note with emotions to track your most frequently felt emotion!',
               style: Theme.of(context).primaryTextTheme.bodyMedium,
               textAlign: TextAlign.center,
             )),

@@ -7,7 +7,6 @@ import 'package:outwork/widgets/error_shake_text.dart';
 import 'package:outwork/widgets/main_feelings_row.dart';
 import 'package:outwork/widgets/stress_slider.dart';
 import 'new_journal_entry_popup2.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -39,11 +38,11 @@ class NewJournalEntryPopup extends StatelessWidget {
     return Container(
       color: Colors.transparent,
       child: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           border: Border.all(color: Colors.transparent),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -102,19 +101,19 @@ class NewJournalEntryPopup extends StatelessWidget {
             ),
             // TODO: [IMPORTANT] THINK ABOUT CHANING TO group_button or multi_select_flutter
             EmotionsList(
-              emotions: ['Excited', 'Loved', 'Surprised'],
+              emotions: const ['Excited', 'Loved', 'Surprised'],
               subject: subject,
             ),
             EmotionsList(
-              emotions: ['Angry', 'Anxious', 'Lonely'],
+              emotions: const ['Angry', 'Anxious', 'Lonely'],
               subject: subject,
             ),
             EmotionsList(
-              emotions: ['Calm', 'Fascinated', 'Tired'],
+              emotions: const ['Calm', 'Fascinated', 'Tired'],
               subject: subject,
             ),
             EmotionsList(
-              emotions: ['Frustrated', 'Relaxed', 'Bored'],
+              emotions: const ['Frustrated', 'Relaxed', 'Bored'],
               subject: subject,
             ),
             SizedBox(
@@ -189,7 +188,7 @@ class NewJournalEntryPopup extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),
               style: ElevatedButton.styleFrom(
-                shape: StadiumBorder(),
+                shape: const StadiumBorder(),
                 minimumSize: Size(width * 0.8, height * 0.05),
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 elevation: 0,

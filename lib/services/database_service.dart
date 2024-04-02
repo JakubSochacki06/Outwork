@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
@@ -11,7 +10,7 @@ class DatabaseService {
     var doc = await _db.collection('users_data').doc(user.email).get();
     return doc.exists;
   }
-  Future<void> setUserDataFromGoogle(User user) async {
+  Future<void> setUserDataFromGoogle(User user, List<String> badHabits, bool toughModeActivated) async {
     var uuid = const Uuid();
     String refCode = uuid.v4().substring(0, 7);
     await _db.collection('users_data').doc(user.email).set({
@@ -29,6 +28,8 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
+      'toughMode':toughModeActivated,
+      'badHabits':badHabits,
       'books':[
 
       ],
@@ -40,7 +41,7 @@ class DatabaseService {
       ],
       'refBalance':0,
       'refCode':refCode,
-      'subscriptionLimit':30,
+      'subLimit':30,
       'streak':0,
       'pomodoroSettings':{
         'Pomodoro':25,
@@ -59,16 +60,55 @@ class DatabaseService {
     });
   }
 
-  Future<void> setUserDataFromEmail(User user) async{
+  Future<void> setUserDataFromEmail(User user, List<String> badHabits, bool toughModeActivated) async{
     var doc = await _db.collection('users_data').doc(user.email).get();
     if (doc.exists) return;
+    var uuid = const Uuid();
+    String refCode = uuid.v4().substring(0, 7);
     await _db.collection('users_data').doc(user.email).set({
       'displayName': user.email,
       'email': user.email,
       'photoURL': 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg',
       'morningRoutines':[
-        'Prepare healthy breakfast',
-      ]
+        // {'name': 'Prepare healthy breakfast', 'completed': false},
+      ],
+      'nightRoutines':[
+        // {'name': 'End of the day journal', 'completed': false, 'deletable':false},
+      ],
+      'journalEntries':[
+      ],
+      'projectsIDList':[
+
+      ],
+      'toughMode':toughModeActivated,
+      'badHabits':badHabits,
+      'books':[
+
+      ],
+      'subscriptions':[
+
+      ],
+      'referrals':[
+
+      ],
+      'refBalance':0,
+      'refCode':refCode,
+      'subLimit':30,
+      'streak':0,
+      'pomodoroSettings':{
+        'Pomodoro':25,
+        'ShortBreak':5,
+        'LongBreak':15,
+      },
+      'xpAmount':0,
+      'workedSeconds':0,
+      'endOfTheDayJournal':{},
+      'dailyCheckins':[
+        {'name':'Water', 'goal':8, 'unit':'glasses', 'value':0, 'color':'FF0083B0', 'step':1, 'emojiName':'water', 'id':'EXAMP1'},
+        {'name':'Meditation', 'goal':15, 'unit':'minutes', 'value':0, 'color':'FFec2F4B', 'step':5, 'emojiName':'meditation', 'id':'EXAMP2'},
+        {'name':'Exercises', 'goal':60, 'unit':'minutes', 'value':0, 'color':'FF89216B', 'step':15, 'emojiName':'exercises', 'id':'EXAMP3'},
+      ],
+      'lastUpdate': FieldValue.serverTimestamp(),
     });
   }
 

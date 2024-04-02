@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class EarnedXPSnackbar {
+class ErrorLoginSnackBar {
 
-  const EarnedXPSnackbar();
+  const ErrorLoginSnackBar();
 
-  static show(BuildContext context, int amount) {
+  static show(BuildContext context) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -12,20 +12,19 @@ class EarnedXPSnackbar {
         content: Row(
           children: [
             Text(
-              'You just earned $amount XP!',
-              style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondaryContainer),
+              'This user doesn\'t exist!',
+              style: Theme.of(context).primaryTextTheme.bodySmall,
             ),
             const Spacer(),
             Icon(
-              Icons.show_chart,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              Icons.close,
+              color: Theme.of(context).iconTheme.color,
             ),
           ],
         ),
         duration: const Duration(seconds: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ),
     );
   }

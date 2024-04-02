@@ -11,7 +11,7 @@ class GoogleSignupButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        minimumSize: Size(50, 60),
+        minimumSize: const Size(50, 60),
         elevation: 0,
       ),
       onPressed: () {
@@ -22,8 +22,8 @@ class GoogleSignupButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), radius: 13,),
-          SizedBox(
+          const CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), radius: 13,),
+          const SizedBox(
             width: 10,
           ),
           Text('Continue with google', style: Theme.of(context).textTheme.bodySmall,)

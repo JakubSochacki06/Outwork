@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/progress_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,7 @@ class BooksPage extends StatelessWidget {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: MainAppBar(),
+      appBar: const MainAppBar(),
       body: Padding(
           padding: EdgeInsets.symmetric(
               vertical: height * 0.02, horizontal: width * 0.04),
@@ -39,7 +38,7 @@ class BooksPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.navigate_before),
+                    icon: const Icon(Icons.navigate_before),
                   ),
                   Text('Your bookshelf', style: Theme.of(context).textTheme.bodySmall,),
                   IconButton(
@@ -50,7 +49,7 @@ class BooksPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.star),
+                    icon: const Icon(Icons.star),
                   ),
                 ],
               ),
@@ -76,7 +75,7 @@ class BooksPage extends StatelessWidget {
                   onChanged: (_) {
                     controller.openView();
                   },
-                  trailing: [Icon(Icons.search)],
+                  trailing: [const Icon(Icons.search)],
                 );
               }, suggestionsBuilder:
                   (BuildContext context, SearchController controller) async {

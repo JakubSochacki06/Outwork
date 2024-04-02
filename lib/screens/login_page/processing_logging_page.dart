@@ -2,12 +2,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
-import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/login_page/account_creation_slides.dart';
 import 'package:outwork/screens/login_page/login_page.dart';
@@ -48,11 +46,11 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         }
         await LocalNotifications.showOngoingNotifications();
         await projectsProvider.setProjectsList(userProvider.user!);
+        xpLevelProvider.setXPAmount(userProvider.user!);
         morningRoutineProvider.setMorningRoutines(userProvider.user!);
         journalEntryProvider.setJournalEntries(userProvider.user!);
         nightRoutineProvider.setNightRoutines(userProvider.user!);
         progressProvider.setProgressFields(userProvider.user!);
-        xpLevelProvider.setXPAmount(userProvider.user!);
       } else {
         Navigator.push(
           context,
@@ -73,7 +71,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                 Lottie.asset('assets/loader.json', height: 150, width: 150),
                 AnimatedTextKit(
                   animatedTexts: [
-                    TyperAnimatedText('Loading...', speed: Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                    TyperAnimatedText('Loading...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
                   ],
                 )
               ],
@@ -92,21 +90,26 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                       AnimatedTextKit(
                         repeatForever: true,
                         animatedTexts: [
-                          TyperAnimatedText('Loading...', speed: Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                          TyperAnimatedText('Loading...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
                         ],
                       )
                     ],
                   ));
                 } else if (snapshot.connectionState == ConnectionState.done) {
                   if (userProvider.user == null) {
-                    return Column(
+                    return Center(child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Center(child: Lottie.asset('assets/loader.json')),
-                        Text('Loading user', style: Theme.of(context).textTheme.headlineMedium,)
+                        Lottie.asset('assets/loader.json', height: 150, width: 150),
+                        AnimatedTextKit(
+                          repeatForever: true,
+                          animatedTexts: [
+                            TyperAnimatedText('Creating user...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                          ],
+                        )
                       ],
-                    );
+                    ));
                   }
                   return PageNavigator();
                 } else {
@@ -117,7 +120,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went Wrong!'));
           } else {
-            return LoginPage();
+            return const LoginPage();
           }
         },
       ),

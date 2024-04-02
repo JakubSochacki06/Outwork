@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
@@ -244,7 +242,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor: widget.mode != 'Edit existing' &&
                               projectProvider.newProject.projectType ==
@@ -279,7 +277,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor: widget.mode != 'Edit existing' &&
                               projectProvider.newProject.projectType ==
@@ -314,7 +312,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                         : Theme.of(context).textTheme.labelMedium),
                 style: ElevatedButton.styleFrom(
                   // maximumSize: Size(40,20),
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
                   backgroundColor: widget.mode != 'Edit existing' &&
                               projectProvider.newProject.projectType ==
@@ -364,7 +362,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer)),
             style: ElevatedButton.styleFrom(
-              shape: StadiumBorder(),
+              shape: const StadiumBorder(),
               minimumSize: Size(width * 0.8, height * 0.05),
               backgroundColor: Theme.of(context).colorScheme.secondary,
               elevation: 0,

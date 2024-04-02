@@ -1,5 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
 int createUniqueId() {
@@ -19,7 +17,7 @@ Future<TimeOfDay?> pickSchedule(BuildContext context, String dayTime) async {
       context: context,
       initialTime: TimeOfDay.fromDateTime(
         now.add(
-          Duration(minutes: 1),
+          const Duration(minutes: 1),
         ),
       ),
   );

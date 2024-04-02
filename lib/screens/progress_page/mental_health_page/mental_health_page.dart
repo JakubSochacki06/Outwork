@@ -1,14 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
-import 'package:outwork/screens/chat_page.dart';
-import 'package:outwork/screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
+import 'package:outwork/widgets/appBars/journal_app_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/note_tile.dart';
 import 'package:intl/intl.dart';
 
-import '../../../widgets/appBars/main_app_bar.dart';
 
 class MentalHealthPage extends StatelessWidget {
   const MentalHealthPage({super.key});
@@ -45,7 +44,7 @@ class MentalHealthPage extends StatelessWidget {
                         ),
                         TextSpan(
                           text: '${currentEntry.date!.year}',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).primaryTextTheme.bodyLarge,
                         )
                       ]),
                 ),
@@ -67,32 +66,7 @@ class MentalHealthPage extends StatelessWidget {
 
     List<Widget> noteTiles = buildNoteTiles();
     return Scaffold(
-      appBar: MainAppBar(),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        label: Text('Add new Entry',
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onSecondaryContainer)),
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            useRootNavigator: true,
-            isScrollControlled: true,
-            builder: (context) =>
-                SingleChildScrollView(
-                  child: Container(
-                    // height: MediaQuery.of(context).viewInsets.bottom == 0 ? 350 : MediaQuery.of(context).viewInsets.bottom + 200,
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery
-                            .of(context)
-                            .viewInsets
-                            .bottom),
-                    child: NewJournalEntryPopup(subject: journalEntryProvider.journalEntry,),
-                  ),
-                ),
-          );
-        },
-      ),
+      appBar: const JournalAppBar(),
       body: SafeArea(
         child: Padding(
             padding: EdgeInsets.only(
@@ -106,9 +80,13 @@ class MentalHealthPage extends StatelessWidget {
                       return noteTiles[index];
                     },
                   )
-                : Center(
-                    child: Text('no notes'),
-                  )),
+                : Column(
+              children: [
+                AutoSizeText('No notes found!', style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
+                Text('Add new note to start tracking your mental health.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+                Lottie.asset('assets/noData.json', height: height*0.3),
+              ],
+            ),),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
@@ -158,6 +159,12 @@ class ProjectsList extends StatelessWidget {
           ),
         );
       },
-    ):Text('Add new project or join to existing one with the code. Plan and create small tasks to achieve greatness!', style: Theme.of(context).primaryTextTheme.displaySmall, textAlign: TextAlign.center,);
+    ):Column(
+      children: [
+        AutoSizeText('No projects found!', style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
+        Text('Add new project or join to existing one with the code.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+        Lottie.asset('assets/noData.json', height: height*0.3),
+      ],
+    );
   }
 }

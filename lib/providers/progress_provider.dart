@@ -54,6 +54,7 @@ class ProgressProvider with ChangeNotifier {
   }
 
   double findLowestSub(){
+    if(_subscriptions.length == 0) return 0;
     double lowest = _subscriptions[0]['price'];
     _subscriptions.forEach((element) {
       if(element['price']<lowest){
@@ -64,6 +65,7 @@ class ProgressProvider with ChangeNotifier {
   }
 
   double findHighestSub(){
+    if(_subscriptions.length == 0) return 0;
     double highest = _subscriptions[0]['price'];
     _subscriptions.forEach((element) {
       if(element['price']>highest){

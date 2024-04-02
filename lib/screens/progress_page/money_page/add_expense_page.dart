@@ -45,7 +45,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: Icon(Icons.navigate_before),
+                icon: const Icon(Icons.navigate_before),
               ),
             ),
             Text('Add new subscription', style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center,),
@@ -77,7 +77,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,7 +97,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                           },
                           icon: Icon(Icons.remove, color: Theme.of(context).colorScheme.onBackground,),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(18),
+                            padding: const EdgeInsets.all(18),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                             ),
@@ -106,7 +106,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                           ),
                         ),
                         AnimatedFlipCounter(
-                          duration: Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 500),
                           textStyle: Theme.of(context).textTheme.displayMedium,
                           fractionDigits: 2,
                           suffix: '\$',
@@ -120,7 +120,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                           },
                           icon: Icon(Icons.add, color: Theme.of(context).colorScheme.onBackground,),
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(18),
+                            padding: const EdgeInsets.all(18),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ),
@@ -167,7 +167,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                             color: Theme.of(context).colorScheme.onSecondaryContainer),
                       ),
                       style: ElevatedButton.styleFrom(
-                        shape: StadiumBorder(),
+                        shape: const StadiumBorder(),
                         minimumSize: Size(width * 0.8, height * 0.05),
                         backgroundColor: Theme.of(context).colorScheme.secondary,
                         elevation: 0,

@@ -32,7 +32,6 @@ class _BookContainerState extends State<BookContainer> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context);
@@ -96,7 +95,6 @@ class _BookContainerState extends State<BookContainer> {
                     onPressed: () async {
                       try {
                         if (int.parse(_amountController.text) + widget.book.readPages! > widget.book.totalPages!) {
-                          print('error');
                           setState(() {
                             amountError = 'Make sure the amount is correct!';
                           });
@@ -128,10 +126,10 @@ class _BookContainerState extends State<BookContainer> {
     }
 
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         border: Border.all(color: widget.book.readPages==widget.book.totalPages?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary, width: 2),
         boxShadow: themeProvider.isLightTheme()
             ? [
@@ -139,7 +137,7 @@ class _BookContainerState extends State<BookContainer> {
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 2,
                   blurRadius: 3,
-                  offset: Offset(3, 3),
+                  offset: const Offset(3, 3),
                 ),
               ]
             : null,
@@ -160,9 +158,9 @@ class _BookContainerState extends State<BookContainer> {
             children: [
               InkWell(
                 onTap: _showAddPagesDialog,
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               ),
-              Spacer(),
+              const Spacer(),
               Text('${widget.book.readPages}/',
                   style: Theme.of(context)
                       .textTheme
@@ -175,13 +173,13 @@ class _BookContainerState extends State<BookContainer> {
                       .labelMedium!
                       .copyWith(
                           color: Theme.of(context).colorScheme.secondary)),
-              Spacer(),
+              const Spacer(),
               InkWell(
                 onTap: () async {
                   await progressProvider.removeBookFromDatabase(
                       widget.book, userProvider.user!.email!);
                 },
-                child: Icon(Icons.delete),
+                child: const Icon(Icons.delete),
               ),
             ],
           )

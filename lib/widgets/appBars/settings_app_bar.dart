@@ -10,10 +10,10 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Text('Settings', style: Theme.of(context).textTheme.bodyLarge),
       centerTitle: true,
-      leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.navigate_before)),
+      leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.navigate_before)),
     );
   }
 
   @override
-  Size get preferredSize =>  new Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>  const Size.fromHeight(kToolbarHeight);
 }

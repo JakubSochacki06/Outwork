@@ -1,12 +1,9 @@
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:outwork/string_extension.dart';
-import 'package:provider/provider.dart';
 import 'package:outwork/models/daily_checkin.dart';
-import 'package:outwork/string_extension.dart';
 import 'package:uuid/uuid.dart';
 
 class DailyCheckinProvider extends ChangeNotifier {

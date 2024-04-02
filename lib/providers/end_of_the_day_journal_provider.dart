@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
-import 'package:provider/provider.dart';
 
 class EndOfTheDayJournalProvider extends ChangeNotifier {
   // TODO: CLEAR DATA AT THE END OF THE DAY

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:outwork/widgets/appBars/settings_app_bar.dart';
 
+import '../../providers/chat_provider.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -16,11 +18,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: true);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: true);
+    print(userProvider.user!.toughModeSelected);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SettingsAppBar(),
+      appBar: const SettingsAppBar(),
       body: SettingsList(
         // TODO: CHECK IF THIS IS ANDROID OR IOS AND CUSTOMIZE IT
         darkTheme: SettingsThemeData(
@@ -29,48 +34,57 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         sections: [
           SettingsSection(
-            title: Text('Common'),
+            title: const Text('Common'),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                leading: Icon(Icons.language),
-                title: Text('Language'),
-                value: Text('English'),
+                leading: const Icon(Icons.language),
+                title: const Text('Language'),
+                value: const Text('English'),
               ),
+              // SettingsTile.switchTile(
+              //   onToggle: (value) {
+              //     setState(() {
+              //       themeProvider.enableLightTheme(value);
+              //     });
+              //   },
+              //   initialValue: themeProvider.isLightTheme(),
+              //   leading: Icon(Icons.format_paint),
+              //   title: Text('Enable light theme'),
+              // ),
               SettingsTile.switchTile(
-                onToggle: (value) {
-                  print(value);
-                  setState(() {
-                    themeProvider.enableLightTheme(value);
-                  });
+                onToggle: (value) async{
+                  await userProvider.updateMode(value);
+                  ChatProvider chatProvider = Provider.of<ChatProvider>(context, listen: false);
+                  chatProvider.resetConversation(context);
                 },
-                initialValue: themeProvider.isLightTheme(),
-                leading: Icon(Icons.format_paint),
-                title: Text('Enable light theme'),
+                initialValue: userProvider.user!.toughModeSelected,
+                leading: const Icon(Icons.local_fire_department),
+                title: const Text('Turn on tough mode'),
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {},
                 initialValue: true,
-                leading: Icon(Icons.notifications_active),
-                title: Text('Enable notifications'),
+                leading: const Icon(Icons.notifications_active),
+                title: const Text('Enable notifications'),
               ),
             ],
           ),
-          SettingsSection(title: Text('Account'), tiles: <SettingsTile>[
+          SettingsSection(title: const Text('Account'), tiles: <SettingsTile>[
             SettingsTile.navigation(
-              leading: Icon(Icons.email),
-              title: Text('Email'),
+              leading: const Icon(Icons.email),
+              title: const Text('Email'),
               value: Text(userProvider.user!.email!),
             ),
             SettingsTile.navigation(
-              leading: Icon(Icons.phone),
-              title: Text('Phone'),
+              leading: const Icon(Icons.phone),
+              title: const Text('Phone'),
               // TODO: ADD PHONE AND VERIFICATION
               // value: Text(userProvider.user!.email!),
             ),
             SettingsTile.navigation(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onPressed: (context) async{
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onPressed: (context) async {
                 await FirebaseAuth.instance.signOut();
               },
               // value: Text(userProvider.user!.email!),

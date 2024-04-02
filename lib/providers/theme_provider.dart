@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:outwork/theme/dark_theme.dart';
 import 'package:outwork/theme/light_theme.dart';
 

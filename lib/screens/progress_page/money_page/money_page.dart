@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/progress_provider.dart';
-import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/progress_page/money_page/add_expense_page.dart';
 import 'package:outwork/screens/progress_page/money_page/popups/edit_expenses_settings_popup.dart';
@@ -19,7 +18,6 @@ class MoneyPage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context);
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    print(progressProvider.subLimit);
 
     Future<bool?> wantToDeleteSubAlert(BuildContext context) async {
       bool? deleteSub = await showDialog(
@@ -54,8 +52,9 @@ class MoneyPage extends StatelessWidget {
       return deleteSub;
     }
 
+    // print((progressProvider.sumExpenses()/progressProvider.subLimit * 100).toInt());
     return Scaffold(
-      appBar: MainAppBar(),
+      appBar: const MainAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(
             vertical: height * 0.02, horizontal: width * 0.04),
@@ -72,7 +71,7 @@ class MoneyPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.navigate_before),
+                  icon: const Icon(Icons.navigate_before),
                 ),
                 TextButton(
                   child: Text('Add new',
@@ -83,7 +82,7 @@ class MoneyPage extends StatelessWidget {
                   onPressed: () {
                     PersistentNavBarNavigator.pushNewScreen(
                       context,
-                      screen: AddExpensePage(),
+                      screen: const AddExpensePage(),
                       withNavBar: true,
                     );
                   },
@@ -99,12 +98,12 @@ class MoneyPage extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom:
                               MediaQuery.of(context).viewInsets.bottom),
-                          child: EditExpensesPopup(),
+                          child: const EditExpensesPopup(),
                         ),
                       ),
                     );
                   },
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                 )
               ],
             ),
@@ -123,7 +122,7 @@ class MoneyPage extends StatelessWidget {
               axes: <RadialAxis>[
                 RadialAxis(
                   canScaleToFit: true,
-                  axisLineStyle: AxisLineStyle(
+                  axisLineStyle: const AxisLineStyle(
                     cornerStyle: CornerStyle.bothCurve,
                     thickness: 0.12,
                     thicknessUnit: GaugeSizeUnit.factor,
@@ -237,7 +236,7 @@ class MoneyPage extends StatelessWidget {
                             await progressProvider.removeSubscriptionFromDatabase(progressProvider.subscriptions[index], userProvider.user!.email!);
                           }
                         },
-                        child: Icon(Icons.delete),
+                        child: const Icon(Icons.delete),
                       )
                     ]),
                   );

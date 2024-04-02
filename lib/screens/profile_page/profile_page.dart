@@ -10,7 +10,6 @@ import 'package:outwork/widgets/stress_level_info.dart';
 import 'package:outwork/widgets/work_time_info.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:outwork/widgets/mood_chart.dart';
 
 import '../../widgets/refer_box.dart';
 
@@ -23,9 +22,8 @@ class ProfilePage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context);
-    print(userProvider.user!.streak);
     return Scaffold(
-      appBar: ProfileAppBar(),
+      appBar: const ProfileAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
             vertical: height * 0.02, horizontal: width * 0.04),
@@ -73,8 +71,8 @@ class ProfilePage extends StatelessWidget {
                         height: height * 0.005,
                       ),
                       LinearPercentIndicator(
-                        padding: EdgeInsets.symmetric(horizontal: 0),
-                        barRadius: Radius.circular(15),
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        barRadius: const Radius.circular(15),
                         progressColor: Theme.of(context).colorScheme.secondary,
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         percent: xpLevelProvider.levelProgress,
@@ -83,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                           width: width * 0.07,
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            borderRadius: const BorderRadius.all(Radius.circular(50)),
                           ),
                           child: Center(
                             child: Text(
@@ -119,8 +117,8 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            MoodLinearChart(),
-            ReferBox(),
+            const MoodLinearChart(),
+            const ReferBox(),
             SizedBox(
               height: height * 0.01,
             ),
@@ -130,15 +128,15 @@ class ProfilePage extends StatelessWidget {
                   sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
               child: Column(
                 children: [
-                  WorkedTimeInfo(),
+                  const WorkedTimeInfo(),
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  StressLevelInfo(),
+                  const StressLevelInfo(),
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  MostFeltEmotionInfo(),
+                  const MostFeltEmotionInfo(),
                   SizedBox(
                     height: height * 0.01,
                   ),

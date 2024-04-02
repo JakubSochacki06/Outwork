@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/projects_page/pop_ups/pomodoro_settings_popup.dart';
-import 'package:outwork/widgets/snackBars/earned_xp_snackbar.dart';
 import 'package:provider/provider.dart';
-import 'package:outwork/widgets/appBars/main_app_bar.dart';
 
 class PomodoroPage extends StatefulWidget {
   // need to pass userProvider in order to access it in dispose method.
@@ -146,14 +144,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.navigate_before),
+                    icon: const Icon(Icons.navigate_before),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   SizedBox(
                     width: width * 0.015,
                   ),
                   IconButton(
-                    icon: Icon(Icons.settings),
+                    icon: const Icon(Icons.settings),
                     onPressed: () async{
                       await showModalBottomSheet(
                         context: context,
@@ -265,7 +263,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 children: [
                   generateTextButton()!,
                   pomodoroTimerStatus != 'Not started'?IconButton(
-                    icon: Icon(Icons.skip_next),
+                    icon: const Icon(Icons.skip_next),
                     onPressed: () async{
                       int workedSeconds = calculateTimeDifference(pomodoroTimer, pomodoroController.getTime()!);
                       await userProvider.addWorkedSecondsToDatabase(workedSeconds);

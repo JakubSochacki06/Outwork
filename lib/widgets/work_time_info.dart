@@ -18,6 +18,21 @@ class WorkedTimeInfo extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    String evaluateWorkStatus(int minutesWorked) {
+      if (minutesWorked <= 0) {
+        return "You haven't started working yet. Get going!";
+      } else if (minutesWorked <= 10) {
+        return "You're just getting started. Keep it up!";
+      } else if (minutesWorked <= 30) {
+        return "You're making progress. Keep up the good work!";
+      } else if (minutesWorked <= 50) {
+        return "I see you working hard. Take a short break and then get back to it!";
+      } else if (minutesWorked <= 70) {
+        return "You're putting in serious effort. Keep pushing forward!";
+      } else {
+        return "Wow! You're really committed. Take a break if you need one!";
+      }
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -43,7 +58,7 @@ class WorkedTimeInfo extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-                'I see you working hard. Head down and keep on going, your time to shine will come.',
+              evaluateWorkStatus((userProvider.user!.workedSeconds!/60).round()),
               style: Theme.of(context).primaryTextTheme.bodySmall,
               textAlign: TextAlign.center,
             ),

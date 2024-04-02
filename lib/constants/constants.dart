@@ -9,29 +9,29 @@ const List<Map<String, dynamic>> progressFields = [
     'description': 'Track your expenses',
     'route': MoneyPage(),
   },
-  {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
+  {
+    'title': 'Journal',
+    'imageName': 'meditation',
+    'description': 'Track your feelings',
+    'route': MentalHealthPage(),
+  },
+  // {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
   {
     'title': 'Books',
     'imageName': 'money',
     'description': 'Read all of them!',
     'route': BooksPage(),
   },
-  {
-    'title': 'Meditation',
-    'imageName': 'meditation',
-    'description': 'Clear your mind'
-  },
-  {
-    'title': 'Sleep',
-    'imageName': 'meditation2',
-    'description': 'Keep your sleeping schedule'
-  },
-  {
-    'title': 'Journal',
-    'imageName': 'money',
-    'description': 'Track your feelings',
-    'route': MentalHealthPage(),
-  },
+  // {
+  //   'title': 'Meditation',
+  //   'imageName': 'meditation',
+  //   'description': 'Clear your mind'
+  // },
+  // {
+  //   'title': 'Sleep',
+  //   'imageName': 'meditation2',
+  //   'description': 'Keep your sleeping schedule'
+  // },
 ];
 
 const List<Map<String, dynamic>> subscriptions = [

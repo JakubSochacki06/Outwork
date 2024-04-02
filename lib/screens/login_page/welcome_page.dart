@@ -17,8 +17,8 @@ class WelcomePage extends StatelessWidget {
               Container(
                 width: width,
                 height: height / 2.3,
-                decoration: BoxDecoration(
-                  color: Color(0xFF080e1c),
+                decoration: const BoxDecoration(
+                  color: const Color(0xFF080e1c),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(100),
                     bottomLeft: Radius.circular(100),
@@ -29,7 +29,7 @@ class WelcomePage extends StatelessWidget {
                 top: height / 3,
                 left: width / 3.15,
                 // W razie potrzeby usunięcia bordera z avatara należy usunąć pierwszy CircleAvatar
-                child: CircleAvatar(
+                child: const CircleAvatar(
                   radius: 80,
                   backgroundColor: Color(0xFFF6F7F9),
                   child: CircleAvatar(
@@ -43,7 +43,7 @@ class WelcomePage extends StatelessWidget {
           SizedBox(
             height: height*0.02,
           ),
-          Text(
+          const Text(
             'Outwork',
             style: TextStyle(fontSize: 50, fontWeight: FontWeight.w700),
             textAlign: TextAlign.center,
@@ -51,7 +51,7 @@ class WelcomePage extends StatelessWidget {
           SizedBox(
             height: height*0.1,
           ),
-          Text(
+          const Text(
             'Outwork all of them\nStop procrastinating\nMake it f*cking happen.',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
@@ -59,14 +59,14 @@ class WelcomePage extends StatelessWidget {
           SizedBox(
             height: height*0.01,
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, '/register');
             },
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -81,8 +81,8 @@ class WelcomePage extends StatelessWidget {
               ],
             ),
             style: ElevatedButton.styleFrom(
-                shape: StadiumBorder(),
-                primary: Color(0xFF71C9CE),
+                shape: const StadiumBorder(),
+                backgroundColor: const Color(0xFF71C9CE),
                 elevation: 0,
                 fixedSize: Size(width = 200, height = 50)),
           )

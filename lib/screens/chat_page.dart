@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/chat_provider.dart';
-import 'package:outwork/providers/user_provider.dart';
-import 'package:outwork/screens/chat_page.dart';
-import 'package:outwork/widgets/chat_message.dart';
 import 'package:outwork/widgets/chatbot_text_input.dart';
 import 'package:outwork/widgets/commonly_used_sentences.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +51,7 @@ class ChatPage extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
-            ChatbotTextInput()
+            const ChatbotTextInput()
           ],
         ),
       ),
