@@ -41,27 +41,29 @@ const List<Map<String, dynamic>> subscriptions = [
   },
   {
     'name':'Netflix',
-    'price':5.99,
+    'price':6.99,
   },
   {
     'name':'Youtube Premium',
-    'price':5.99,
+    'price':13.99,
   },
   {
     'name':'HBO MAX',
-    'price':5.99,
+    'price':9.99,
   },
   {
     'name':'Disney+',
-    'price':5.99,
+    'price':9.99,
   },
   {
     'name':'Hulu',
-    'price':5.99,
+    'price':7.99,
   },
   {
     'name':'Gym membership',
-    'price':5.99,
+    'price':29.99,
   },
 ];
+
+List<String> badHabits = ['Junk Food', 'Pornography', 'Gambling', 'Gaming','Alcohol', 'Overspending', 'Partying', 'Drugs', 'Smoking', 'Social Media', 'Swearing'];
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:outwork/notifications/notifications.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/services/database_service.dart';
@@ -7,6 +6,8 @@ import 'package:outwork/utilities/utilities.dart';
 import 'package:outwork/widgets/time_picker_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+
+import '../../../services/notifications_service.dart';
 
 class AddMorningRoutinePopup extends StatefulWidget {
   const AddMorningRoutinePopup({super.key});
@@ -124,7 +125,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                 if(checkIfValid()){
                   final userProvider = Provider.of<UserProvider>(context, listen: false);
                   if(morningRoutineProvider.scheduledTime!=null){
-                    await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text);
+                    await LocalNotifications().createRoutineReminder(title:'🚨 Do you remember about ${_morningRoutineController.text}?', body: 'Stay consistent and you will win!', notificationHour: morningRoutineProvider.scheduledTime!.hour, notificationMinute: morningRoutineProvider.scheduledTime!.minute);
                   }
                   await morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);

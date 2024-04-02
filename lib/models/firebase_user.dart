@@ -16,10 +16,15 @@ class FirebaseUser {
   int? workedSeconds;
   List<dynamic>? morningRoutines;
   List<dynamic>? nightRoutines;
+  List<dynamic>? subscriptions;
+  List<dynamic>? referrals;
+  int? subLimit;
+  double? refBalance;
   List<DailyCheckin>? dailyCheckins;
   List<JournalEntry>? journalEntries;
   List<Book>? books;
   DateTime? lastUpdated;
+  int? streak;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
   Map<dynamic, dynamic>? pomodoroSettings;
@@ -32,10 +37,15 @@ class FirebaseUser {
       this.nightRoutines,
       this.journalEntries,
       this.dailyCheckins,
+        this.refBalance,
+        this.referrals,
       this.endOfTheDayJournal,
         this.lastUpdated,
+        this.subLimit,
+  this.subscriptions,
       this.projectsIDList,
       this.xpAmount,
+        this.streak,
         this.books,
       this.workedSeconds,
       this.pomodoroSettings});
@@ -48,10 +58,10 @@ class FirebaseUser {
     List<DailyCheckin> dailyCheckins = [];
     data['dailyCheckins'].forEach((unorganizedDailyCheckin) =>
         {dailyCheckins.add(DailyCheckin.fromMap(unorganizedDailyCheckin))});
-
     List<Book> books = [];
     data['books'].forEach((unorganizedBook) =>
     {books.add(Book.fromMap(unorganizedBook))});
+    // TODO: MAKE USER FROM PROJECTS CREATE ONLY SIMPLE USER WITH DISPLAY NAME AND AVATAR, ADD REST WHEN USER CLICKS ON print(data['displayName']);
 
     FirebaseUser user = FirebaseUser(
       displayName: data['displayName'],
@@ -59,12 +69,17 @@ class FirebaseUser {
       xpAmount: data['xpAmount'],
       // familyID: data['familyID'],
       photoURL: data['photoURL'],
+      refBalance: data['refBalance'],
+      referrals: data['referrals'],
       morningRoutines: data['morningRoutines'],
       nightRoutines: data['nightRoutines'],
       journalEntries: journalEntries,
+        subLimit: data['subLimit'],
+        subscriptions: data['subscriptions'],
       workedSeconds: data['workedSeconds'],
       dailyCheckins: dailyCheckins,
       books: books,
+      streak: data['streak'],
       projectsIDList: data['projectsIDList'],
       endOfTheDayJournal: data['endOfTheDayJournal'],
       pomodoroSettings: data['pomodoroSettings'],

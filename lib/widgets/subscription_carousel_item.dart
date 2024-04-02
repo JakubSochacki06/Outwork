@@ -28,11 +28,15 @@ class SubscriptionCarouselItem extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            name,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          )
+          Expanded(
+            child: Center(
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ],
       ),
     );

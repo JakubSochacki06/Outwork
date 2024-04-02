@@ -35,24 +35,35 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> restartDailyData() async{
+    int checkinsDone = 0;
     _user!.dailyCheckins!.forEach((element) {
+      element.value == element.goal?checkinsDone++:null;
       element.value = 0;
     });
+    int morningDone = 0;
     _user!.morningRoutines!.forEach((element) {
+      element['completed'] == true? morningDone++:null;
       element['completed'] = false;
     });
+    int nightDone = 0;
     _user!.nightRoutines!.forEach((element) {
+      element['completed'] == true? nightDone++:null;
       element['completed'] = false;
     });
     List<dynamic> rawDailyCheckins = [];
     _user!.dailyCheckins!.forEach((dailyCheckin) {
       rawDailyCheckins.add(dailyCheckin.toMap());
     });
+    print(morningDone==_user!.morningRoutines!.length);
+    print(checkinsDone);
+    print(checkinsDone == _user!.dailyCheckins!.length);
+    print(nightDone==_user!.nightRoutines!.length);
     await _db.collection('users_data').doc(_user!.email).update({
       'lastUpdate':DateTime.now(),
       'dailyCheckins': rawDailyCheckins,
       'morningRoutines':_user!.morningRoutines,
       'nightRoutines':_user!.nightRoutines,
+      'streak':morningDone==_user!.morningRoutines!.length && nightDone==_user!.nightRoutines!.length && checkinsDone == _user!.dailyCheckins!.length?FieldValue.increment(1):0,
     });
   }
 

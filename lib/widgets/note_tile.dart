@@ -46,8 +46,8 @@ class NoteTile extends StatelessWidget {
       );
     }
 
-    Future<bool> wantToDeleteNoteAlert() async {
-      bool deleteNote = await showDialog(
+    Future<bool?> wantToDeleteNoteAlert() async {
+      bool? deleteNote = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -169,9 +169,9 @@ class NoteTile extends StatelessWidget {
                               Icons.delete,
                             ),
                             onTap: () async {
-                              bool wantToDelete =
+                              bool? wantToDelete =
                               await wantToDeleteNoteAlert();
-                              if (wantToDelete) {
+                              if (wantToDelete == true) {
                                 await xpLevelProvider.removeXpAmount(15, userProvider.user!.email!);
                                 await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
                                 note.hasPhoto!?await journalEntryProvider.deletePhoto(note.date!, userProvider.user!):null;
@@ -284,8 +284,8 @@ class NoteTile extends StatelessWidget {
                 Spacer(),
                 GestureDetector(
                   onTap: () async {
-                    bool wantToDelete = await wantToDeleteNoteAlert();
-                    if(wantToDelete){
+                    bool? wantToDelete = await wantToDeleteNoteAlert();
+                    if(wantToDelete == true){
                       await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
                       await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
                     }

@@ -263,6 +263,7 @@ class DailyCheckinBox extends StatelessWidget {
                 child: Text(
                   values['hasRoutines'] == true?values['value']==values['maximum']?'Great job!':'You can do it!':'Add new routine',
                   style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
                 ),
                 height: height * 0.04,
               ),

@@ -77,8 +77,8 @@ class _PageNavigatorState extends State<PageNavigator> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       decoration: NavBarDecoration(boxShadow: [
         BoxShadow(
-          spreadRadius: 30,
-          blurRadius: 50,
+          spreadRadius: 15,
+          blurRadius: 25,
           color: Colors.black,
         )
       ]),

@@ -12,6 +12,8 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/mood_chart.dart';
 
+import '../../widgets/refer_box.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -21,11 +23,12 @@ class ProfilePage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context);
+    print(userProvider.user!.streak);
     return Scaffold(
       appBar: ProfileAppBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-            top: height * 0.02, left: width * 0.04, right: width * 0.04),
+        padding: EdgeInsets.symmetric(
+            vertical: height * 0.02, horizontal: width * 0.04),
         child: Column(
           children: [
             Row(
@@ -41,17 +44,31 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        userProvider.user!.displayName!,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userProvider.user!.displayName!,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              Text(
+                                xpLevelProvider.getUserLevelDescription(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer),
+                              ),
+                            ],
+                          ),
+                          buildStreakWidget(userProvider.user!.streak!, context)
+                        ],
                       ),
-                      Text(xpLevelProvider.getUserLevelDescription(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimaryContainer)),
                       SizedBox(
                         height: height * 0.005,
                       ),
@@ -90,8 +107,9 @@ class ProfilePage extends StatelessWidget {
                                 .primaryTextTheme
                                 .labelMedium!
                                 .copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimaryContainer),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer),
                           )),
                     ],
                   ),
@@ -102,9 +120,14 @@ class ProfilePage extends StatelessWidget {
               height: height * 0.01,
             ),
             MoodLinearChart(),
+            ReferBox(),
+            SizedBox(
+              height: height * 0.01,
+            ),
             // PRO ACCESS
             ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
+              imageFilter: ImageFilter.blur(
+                  sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
               child: Column(
                 children: [
                   WorkedTimeInfo(),
@@ -119,7 +142,6 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  MoodChart(),
                 ],
               ),
             ),
@@ -127,5 +149,40 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Widget buildStreakWidget(int streakAmount, context) {
+  if (streakAmount == 0) {
+    return Image.asset(
+      'assets/images/streaks/nostreak.png',
+      scale: 9,
+    );
+  } else if (streakAmount > 9) {
+    return Image.asset(
+      'assets/images/streaks/superstreak.png',
+      scale: 9,
+    );
+  } else {
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/streaks/streak.png',
+          scale: 9,
+        ),
+        Positioned.fill(
+          top: 15,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              streakAmount.toString(),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ),
+      ],
+    );
+
+
   }
 }

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/screens/progress_page/books_page.dart';
 import 'package:outwork/screens/progress_page/money_page/money_page.dart';
+import 'package:outwork/services/notifications_service.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:outwork/widgets/carousel_item.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';

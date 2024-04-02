@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
+  bool shouldShowIntro = false;
 
-  Future<void> setUserDataFromGoogle(User user) async {
+  Future<bool> userExists(User user) async{
     var doc = await _db.collection('users_data').doc(user.email).get();
-    if (doc.exists) return;
+    return doc.exists;
+  }
+  Future<void> setUserDataFromGoogle(User user) async {
+    var uuid = const Uuid();
+    String refCode = uuid.v4().substring(0, 7);
     await _db.collection('users_data').doc(user.email).set({
       'displayName': user.displayName,
       'email': user.email,
@@ -26,6 +32,16 @@ class DatabaseService {
       'books':[
 
       ],
+      'subscriptions':[
+
+      ],
+      'referrals':[
+
+      ],
+      'refBalance':0,
+      'refCode':refCode,
+      'subscriptionLimit':30,
+      'streak':0,
       'pomodoroSettings':{
         'Pomodoro':25,
         'ShortBreak':5,

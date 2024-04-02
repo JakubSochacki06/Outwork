@@ -219,6 +219,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
             Expanded(
               child: Divider(
                 height: 1,
+                thickness: 2,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
@@ -232,7 +233,8 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
             Expanded(
               child: Divider(
                 height: 1,
-                color: Colors.black26,
+                thickness: 2,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],

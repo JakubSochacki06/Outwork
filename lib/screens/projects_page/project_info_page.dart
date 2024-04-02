@@ -143,7 +143,7 @@ class ProjectInfoPage extends StatelessWidget {
             indicatorBuilder: (context, controller) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color: Theme.of(context).colorScheme.onBackground, backgroundColor: Theme.of(context).colorScheme.primary,),
               );
             },
             child: CustomScrollView(

@@ -76,6 +76,7 @@ class Project {
   }
 
   String countTaskDonePercentText(){
+    // TODO: CHECK IF IT IS NOT 100%, CUZ IT LEAVES 100.%
     return countTaskDonePercent() != 0? (countTaskDonePercent() * 100).toString().substring(0,4): (countTaskDonePercent() * 100).toString().substring(0,3);
   }
 

@@ -1,8 +1,6 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:outwork/notification_controller.dart';
 import 'package:outwork/providers/chat_provider.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/end_of_the_day_journal_provider.dart';
@@ -16,6 +14,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
+import 'package:outwork/services/notifications_service.dart';
 import 'package:outwork/theme/dark_theme.dart';
 import 'screens/login_page/welcome_page.dart';
 import 'screens/login_page/login_page.dart';
@@ -24,36 +23,14 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/theme/light_theme.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
+  await LocalNotifications.init();
+  tz.initializeTimeZones();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await AwesomeNotifications()
-      .initialize('resource://drawable/notification_icon', [
-    NotificationChannel(
-        channelKey: 'basic_channel',
-        channelName: 'Basic Notification',
-        channelDescription: 'Basic notifications channel',
-        channelGroupKey: 'basic_channel_group',
-        importance: NotificationImportance.High,
-        channelShowBadge: true),
-    NotificationChannel(
-      channelKey: 'scheduled_channel',
-      channelName: 'Scheduled Notifications',
-      channelDescription: 'Scheduled notifications channel',
-      importance: NotificationImportance.High,
-      channelShowBadge: true
-    ),
-  ], channelGroups: [
-    NotificationChannelGroup(
-        channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
-  ]);
-  bool isAllowedToSendNotification =
-      await AwesomeNotifications().isNotificationAllowed();
-  if (!isAllowedToSendNotification) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
-  }
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
@@ -70,16 +47,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-      onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
-      onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

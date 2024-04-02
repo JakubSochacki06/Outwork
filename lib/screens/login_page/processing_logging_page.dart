@@ -9,9 +9,11 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
+import 'package:outwork/screens/login_page/account_creation_slides.dart';
 import 'package:outwork/screens/login_page/login_page.dart';
 import 'package:outwork/services/database_service.dart';
 import 'package:outwork/page_navigator.dart';
+import 'package:outwork/services/notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
@@ -38,18 +40,25 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
 
     Future<void> setUpData() async{
       DatabaseService _dbS = DatabaseService();
-      await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!);
-      await userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!);
-      DateTime now = DateTime.now();
-      if(userProvider.user!.lastUpdated!.day != now.day){
-        await userProvider.restartDailyData();
+      if(await _dbS.userExists(FirebaseAuth.instance.currentUser!)){
+        await userProvider.fetchUserData(FirebaseAuth.instance.currentUser!.email!);
+        DateTime now = DateTime.now();
+        if(userProvider.user!.lastUpdated!.day != now.day){
+          await userProvider.restartDailyData();
+        }
+        await LocalNotifications.showOngoingNotifications();
+        await projectsProvider.setProjectsList(userProvider.user!);
+        morningRoutineProvider.setMorningRoutines(userProvider.user!);
+        journalEntryProvider.setJournalEntries(userProvider.user!);
+        nightRoutineProvider.setNightRoutines(userProvider.user!);
+        progressProvider.setProgressFields(userProvider.user!);
+        xpLevelProvider.setXPAmount(userProvider.user!);
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AccountCreationSlides()),
+        );
       }
-      await projectsProvider.setProjectsList(userProvider.user!);
-      morningRoutineProvider.setMorningRoutines(userProvider.user!);
-      journalEntryProvider.setJournalEntries(userProvider.user!);
-      nightRoutineProvider.setNightRoutines(userProvider.user!);
-      progressProvider.setProgressFields(userProvider.user!);
-      xpLevelProvider.setXPAmount(userProvider.user!);
     }
 
     return Scaffold(

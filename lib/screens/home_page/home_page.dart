@@ -7,6 +7,7 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
+import 'package:outwork/services/notifications_service.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
@@ -69,7 +70,7 @@ class HomePage extends StatelessWidget {
           routineName: 'Night',
           index: -1,
         ));
-    print(userProvider.user!.morningRoutines);
+    print(LocalNotifications.showOngoingNotifications());
     userProvider.user!.dailyCheckins!.forEach((element) {print(element.toMap());});
     return Scaffold(
       appBar: MainAppBar(),

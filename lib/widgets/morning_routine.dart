@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_morning_routine_popup.dart';
+import 'package:outwork/services/notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
@@ -99,7 +99,7 @@ class MorningRoutine extends StatelessWidget {
               ),
               Spacer(),
               IconButton(
-                  onPressed: () {
+                  onPressed: () async{
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
