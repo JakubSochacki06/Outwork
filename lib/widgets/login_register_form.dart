@@ -59,7 +59,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
           inactiveFgColor: Colors.white,
           initialLabelIndex: loginActive ? 0 : 1,
           totalSwitches: 2,
-          labels: ['Login', 'Register'],
+          labels: const ['Login', 'Register'],
           radiusStyle: true,
           onToggle: (index) {
             if (index == 0) {
@@ -96,7 +96,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
                     color: _emailFocus.hasFocus
                         ? Theme.of(context).colorScheme.secondary
                         : Theme.of(context).colorScheme.primary),
-            prefixIcon: Icon(
+            prefixIcon: const Icon(
               Icons.email_outlined,
             ),
             focusedBorder: OutlineInputBorder(
@@ -146,8 +146,8 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
             errorText: passwordError,
             suffixIcon: IconButton(
               icon: !showPassword == false
-                  ? Icon(Icons.visibility)
-                  : Icon(Icons.visibility_off),
+                  ? const Icon(Icons.visibility)
+                  : const Icon(Icons.visibility_off),
               onPressed: () {
                 setState(() {
                   showPassword = !showPassword;
@@ -155,7 +155,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
               },
             ),
             labelText: 'Password',
-            prefixIcon: Icon(
+            prefixIcon: const Icon(
               Icons.lock_outline_rounded,
             ),
             focusedBorder: OutlineInputBorder(
@@ -215,7 +215,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
                   color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),
             style: ElevatedButton.styleFrom(
-              shape: StadiumBorder(),
+              shape: const StadiumBorder(),
               backgroundColor: Theme.of(context).colorScheme.secondary,
               elevation: 0,
             ),
@@ -255,7 +255,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
         SizedBox(
           height: height * 0.015,
         ),
-        GoogleSignupButton(),
+        const GoogleSignupButton(),
       ],
     );
   }

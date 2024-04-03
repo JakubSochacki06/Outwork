@@ -103,7 +103,7 @@ class ProjectMembersAvatars extends StatelessWidget {
               radius: avatarSize,
               child: IconButton(
                 onPressed: showProjectID,
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
               ),
             ),
           ),
@@ -123,7 +123,7 @@ class ProjectMembersAvatars extends StatelessWidget {
             children: generateAvatars(),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         progressVisible
             ? CircularPercentIndicator(
                 animateFromLastPercent: true,

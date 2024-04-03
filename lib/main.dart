@@ -15,14 +15,12 @@ import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:outwork/services/notifications_service.dart';
-import 'package:outwork/theme/dark_theme.dart';
 import 'screens/login_page/welcome_page.dart';
 import 'screens/login_page/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
-import 'package:outwork/theme/light_theme.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 Future main() async {
@@ -34,7 +32,7 @@ Future main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -77,9 +75,9 @@ class _MyAppState extends State<MyApp> {
         // themeMode: ThemeMode.dark,
         routes: {
           '/welcome': (context) => WelcomePage(),
-          '/login': (context) => LoginPage(),
+          '/login': (context) => const LoginPage(),
           '/processingLogging': (context) => ProcessingLoggingPage(),
-          '/settings': (context) => SettingsPage(),
+          '/settings': (context) => const SettingsPage(),
         },
         initialRoute: FirebaseAuth.instance.currentUser != null
             ? '/processingLogging'

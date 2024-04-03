@@ -1,4 +1,4 @@
-package com.example.outwork
+package com.sohatzky.outwork
 
 import io.flutter.embedding.android.FlutterActivity
 

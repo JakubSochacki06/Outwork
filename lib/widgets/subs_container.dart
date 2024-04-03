@@ -12,20 +12,20 @@ class SubsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
         // border: themeProvider.isLightTheme()
         //     ? Border.all(color: Color(0xFFEDEDED))
         //     : Border(top:BorderSide(color: color, width: 4)),
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         boxShadow: themeProvider.isLightTheme()
             ? [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 3,
-            offset: Offset(3, 3),
+            offset: const Offset(3, 3),
           ),
         ]
             : null,
@@ -37,7 +37,7 @@ class SubsContainer extends StatelessWidget {
             height: 3,
             color: color,
           ),
-          SizedBox(height: 15,),
+          const SizedBox(height: 15,),
           Center(child: Text(title, style: Theme.of(context).primaryTextTheme.labelLarge,)),
           Center(child: Text(amount, style: Theme.of(context).textTheme.bodyMedium,))
         ],

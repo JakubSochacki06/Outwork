@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -61,19 +60,19 @@ class ProjectsList extends StatelessWidget {
                   .projectsList[index].countTaskDonePercent() == 1?Theme.of(context).colorScheme.secondary:projectsProvider
                   .projectsList[index].colorOfDaysLeft(context)==Theme.of(context).colorScheme.onSurface?Theme.of(context).colorScheme.primary:projectsProvider
                   .projectsList[index].colorOfDaysLeft(context), width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 2,
                   blurRadius: 3,
-                  offset: Offset(3, 3),
+                  offset: const Offset(3, 3),
                 ),
               ]
                   : null,
             ),
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,11 +110,11 @@ class ProjectsList extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: getColorBasedOnTask(),
                     border: themeProvider.isLightTheme()
-                        ? Border.all(color: Color(0xFFEDEDED))
+                        ? Border.all(color: const Color(0xFFEDEDED))
                         : null,
                     // color: Color(0xFFF0F2F5),
                     borderRadius:
-                    BorderRadius.all(Radius.circular(15)),
+                    const BorderRadius.all(Radius.circular(15)),
                     boxShadow: themeProvider.isLightTheme()
                         ? [
                       BoxShadow(
@@ -123,7 +122,7 @@ class ProjectsList extends StatelessWidget {
                         spreadRadius: 2,
                         blurRadius: 3,
                         // blurRadius: 10,
-                        offset: Offset(3, 3),
+                        offset: const Offset(3, 3),
                       )
                     ]
                         : null,

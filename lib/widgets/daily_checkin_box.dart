@@ -38,7 +38,7 @@ class DailyCheckinBox extends StatelessWidget {
         dailyCheckin.emojiName = 'morning';
         dailyCheckin.step = 1;
         dailyCheckin.unit = 'routines';
-        dailyCheckin.color = Color(0xFF6096B4);
+        dailyCheckin.color = const Color(0xFF6096B4);
         morningRoutineProvider.morningRoutines.length != 0 ?
         currentValue = morningRoutineProvider.countProgress() : 0;
         currentMaximum = morningRoutineProvider.morningRoutines.length != 0
@@ -54,7 +54,7 @@ class DailyCheckinBox extends StatelessWidget {
         dailyCheckin.emojiName = 'bed';
         dailyCheckin.step = 1;
         dailyCheckin.unit = 'routines';
-        dailyCheckin.color = Color(0xFFAC87C5);
+        dailyCheckin.color = const Color(0xFFAC87C5);
         currentValue =
         nightRoutineProvider.nightRoutines.length != 0 ? nightRoutineProvider
             .countProgress() : 0;
@@ -86,17 +86,17 @@ class DailyCheckinBox extends StatelessWidget {
         .width;
 
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
-        border: themeProvider.isLightTheme()?Border.all(color: Color(0xFFEDEDED)):null,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        border: themeProvider.isLightTheme()?Border.all(color: const Color(0xFFEDEDED)):null,
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         boxShadow: themeProvider.isLightTheme()?[
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 3,
-            offset: Offset(3, 3),
+            offset: const Offset(3, 3),
           ),
         ]:null
       ),
@@ -163,7 +163,7 @@ class DailyCheckinBox extends StatelessWidget {
                   // enableLoadingAnimation: true,
                   axes: <RadialAxis>[
                     RadialAxis(
-                      axisLineStyle: AxisLineStyle(
+                      axisLineStyle: const AxisLineStyle(
                         thickness: 0.07,
                         thicknessUnit: GaugeSizeUnit.factor,
                       ),
@@ -214,7 +214,7 @@ class DailyCheckinBox extends StatelessWidget {
                 decoration: BoxDecoration(
                     // color: Colors.black26,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                    borderRadius: const BorderRadius.all(Radius.circular(15))),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   // crossAxisAlignment: CrossAxisAlignment.center,
@@ -227,7 +227,7 @@ class DailyCheckinBox extends StatelessWidget {
                         await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
                       },
                       child: Container(
-                        child: Icon(
+                        child: const Icon(
                           Icons.remove,
                           color: Colors.white,
                         ),

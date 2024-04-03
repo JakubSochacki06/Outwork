@@ -17,8 +17,8 @@ class ReferTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('$title', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
-              Text('$description', style: Theme.of(context).primaryTextTheme.bodySmall,)
+              Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
+              Text(description, style: Theme.of(context).primaryTextTheme.bodySmall,)
             ],
           ),
         ),

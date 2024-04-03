@@ -30,7 +30,6 @@ class _MoodChartState extends State<MoodChart> {
         double fontSize = isTouched ? 20.0 : 16.0;
         double radius = isTouched ? 110.0 : 100.0;
         double widgetSize = isTouched ? 55.0 : 40.0;
-        const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
         index++;
         pieCharts.add(
           PieChartSectionData(
@@ -55,7 +54,7 @@ class _MoodChartState extends State<MoodChart> {
 
     return Column(
       children: [
-        Align(
+        const Align(
           alignment: Alignment.center,
           child: Text(
             'Total moods chart',
@@ -93,7 +92,7 @@ class _MoodChartState extends State<MoodChart> {
                   ),
                 ),
               )
-            : Text(
+            : const Text(
                 'Submit more day ratings and see stats about your main feelings!',
               ),
         averageMood.length != 0
@@ -105,7 +104,7 @@ class _MoodChartState extends State<MoodChart> {
                 ),
               )
             : Container(),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         // Align(

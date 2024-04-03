@@ -24,7 +24,7 @@ class NotificationLook extends StatelessWidget {
         children: <Widget>[
           Container(
             width: width * 0.12,
-            child: FittedBox(
+            child: const FittedBox(
               fit: BoxFit.contain,
               child: CircleAvatar(
                 radius: 60,

@@ -32,9 +32,9 @@ class TimePickerTile extends StatelessWidget {
         child: Row(
           children: [
             Text(subject.scheduledTime == null?'Schedule notification ->':'Scheduled at ${subject.scheduledTime.hour}:$minutes', style: Theme.of(context).primaryTextTheme.labelLarge,),
-            Spacer(),
+            const Spacer(),
             subject.scheduledTime != null?InkWell(
-              child: Icon(Icons.delete),
+              child: const Icon(Icons.delete),
               onTap: () {
                 subject.setScheduledTime(null);
               },

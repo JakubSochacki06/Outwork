@@ -66,7 +66,6 @@ class RotatingTextJournal extends StatelessWidget {
                       ' new experience you’ve had recently', alignment: Alignment.centerLeft),
                 ],
                 onTap: () {
-                  print("Tap Event");
                 },
               ),
             ),

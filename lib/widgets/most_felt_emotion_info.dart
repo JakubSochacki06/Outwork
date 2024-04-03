@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart';
 
 class MostFeltEmotionInfo extends StatelessWidget {
   const MostFeltEmotionInfo({super.key});
@@ -26,16 +24,16 @@ class MostFeltEmotionInfo extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 3,
-                        offset: Offset(3, 3),
+                        offset: const Offset(3, 3),
                       ),
                     ]
                   : null,
@@ -90,23 +88,23 @@ class MostFeltEmotionInfo extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 3,
-                        offset: Offset(3, 3),
+                        offset: const Offset(3, 3),
                       ),
                     ]
                   : null,
             ),
             child: Center(
                 child: Text(
-              'Add atleast 1 note with emotions to track your most frequently felt emotion!',
+              'Add at least 1 note with emotions to track your most frequently felt emotion!',
               style: Theme.of(context).primaryTextTheme.bodyMedium,
               textAlign: TextAlign.center,
             )),

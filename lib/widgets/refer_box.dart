@@ -24,7 +24,7 @@ class ReferBox extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Center(child: Text('Keep earning!', style: Theme.of(context).textTheme.displaySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),)),
-            contentPadding: EdgeInsets.only(left: 24, right: 24, top: 20),
+            contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 20),
             shape: RoundedRectangleBorder(
               side: BorderSide(
                 color: Theme.of(context).colorScheme.secondary,
@@ -89,16 +89,16 @@ class ReferBox extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 2,
                   blurRadius: 3,
-                  offset: Offset(3, 3),
+                  offset: const Offset(3, 3),
                 ),
               ]
                   : null,
@@ -121,16 +121,16 @@ class ReferBox extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
             border: themeProvider.isLightTheme()
-                ? Border.all(color: Color(0xFFEDEDED))
+                ? Border.all(color: const Color(0xFFEDEDED))
                 : null,
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
             boxShadow: themeProvider.isLightTheme()
                 ? [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 3,
-                offset: Offset(3, 3),
+                offset: const Offset(3, 3),
               ),
             ]
                 : null,
@@ -159,16 +159,16 @@ class ReferBox extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 2,
                   blurRadius: 3,
-                  offset: Offset(3, 3),
+                  offset: const Offset(3, 3),
                 ),
               ]
                   : null,
@@ -177,8 +177,9 @@ class ReferBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Spacer(),
                 Icon(LineIcons.userPlus, size: width*0.10, weight: 5, color: Theme.of(context).colorScheme.onSecondaryContainer,),
-                AutoSizeText('Invite a friend', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1)
+                Expanded(child: AutoSizeText('Invite a friend', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1,))
               ],
             ),
           ),

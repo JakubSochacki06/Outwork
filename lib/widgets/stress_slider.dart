@@ -30,9 +30,9 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
   @override
   Widget build(BuildContext context) {
     JournalEntryProvider diaryEntryProvider = Provider.of<JournalEntryProvider>(context);
-    final double _min = 0.0;
-    final double _max = 10.0;
-    double _value = widget.subject.stressLevel!.toDouble();
+    const double min = 0.0;
+    const double max = 10.0;
+    double value = widget.subject.stressLevel!.toDouble();
     return Scaffold(
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
@@ -47,20 +47,20 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
                       brightness: Brightness.light,
                     ),
                     child: SfSlider(
-                      min: _min,
-                      max: _max,
-                      value: _value,
+                      min: min,
+                      max: max,
+                      value: value,
                       interval: 2.0,
                       showLabels: true,
                       minorTicksPerInterval: 1,
                       stepSize: 1,
                       showTicks: true,
-                      trackShape: _SfTrackShape(_min, _max),
-                      thumbShape: _SfThumbShape(_min, _max),
+                      trackShape: _SfTrackShape(min, max),
+                      thumbShape: _SfThumbShape(min, max),
                       onChanged: (dynamic value) {
                         setState(() {
-                          _value = value as double;
-                          diaryEntryProvider.setStressLevel(_value.toInt(), widget.subject);
+                          value = value as double;
+                          diaryEntryProvider.setStressLevel(value.toInt(), widget.subject);
                         });
                       },
                     ),

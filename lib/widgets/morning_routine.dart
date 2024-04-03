@@ -4,7 +4,6 @@ import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_morning_routine_popup.dart';
-import 'package:outwork/services/notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
@@ -59,21 +58,21 @@ class MorningRoutine extends StatelessWidget {
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
           border: themeProvider.isLightTheme()
-              ? Border.all(color: Color(0xFFEDEDED))
+              ? Border.all(color: const Color(0xFFEDEDED))
               : null,
           // color: Color(0xFFF0F2F5),
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
           boxShadow: themeProvider.isLightTheme()
               ? [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 3,
-                    offset: Offset(3, 3),
+                    offset: const Offset(3, 3),
                   )
                 ]
               : null),
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         children: [
           Row(
@@ -97,7 +96,7 @@ class MorningRoutine extends StatelessWidget {
                 'Morning Routine',
                 style: Theme.of(context).primaryTextTheme.bodyMedium,
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                   onPressed: () async{
                     showModalBottomSheet(
@@ -109,12 +108,12 @@ class MorningRoutine extends StatelessWidget {
                           // height: height*0.1,
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: AddMorningRoutinePopup(),
+                          child: const AddMorningRoutinePopup(),
                         ),
                       ),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add,
                     size: 35,
                   ))
@@ -133,7 +132,7 @@ class MorningRoutine extends StatelessWidget {
           ),
           morningRoutines.length != 0
               ? ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                   itemBuilder: (context, index) {
                   String minutes = morningRoutines[index].scheduledTime!['minute'].toString().length == 1? '0${morningRoutines[index].scheduledTime!['minute']}':morningRoutines[index].scheduledTime!['minute'].toString();
@@ -182,7 +181,7 @@ class MorningRoutine extends StatelessWidget {
                                   await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
                                 }
                               },
-                              child: Icon(Icons.delete),
+                              child: const Icon(Icons.delete),
                             ),
                           ],
                         ),

@@ -13,8 +13,6 @@ class CalendarPickerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    final projectProvider = Provider.of<ProjectsProvider>(
-        context, listen: true);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height*0.01),
       decoration: BoxDecoration(
@@ -70,7 +68,7 @@ class CalendarPickerTile extends StatelessWidget {
                           // selectionShape: DateRangePickerSelectionShape.rectangle,
                           showNavigationArrow: true,
                           monthViewSettings:
-                          DateRangePickerMonthViewSettings(
+                          const DateRangePickerMonthViewSettings(
                               firstDayOfWeek: 1),
                           // onSelectionChanged: ,
                           selectionMode:
@@ -127,8 +125,8 @@ class CalendarPickerTile extends StatelessWidget {
               calendarSubject.dueDate==null?'Input due date':'Due ${calendarSubject.dueDate!.day} ${DateFormat('MMMM').format(calendarSubject.dueDate!)} ${calendarSubject.dueDate!.year}',
               style: Theme.of(context).primaryTextTheme.labelLarge,
             ),
-            Spacer(),
-            Icon(Icons.calendar_month),
+            const Spacer(),
+            const Icon(Icons.calendar_month),
           ],
         ),
       ),

@@ -34,7 +34,6 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
 
   CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +44,11 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
     ThemeProvider themeProvider =
     Provider.of<ThemeProvider>(context);
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        border: themeProvider.isLightTheme()?Border.all(color: Color(0xFFEDEDED)):null,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: themeProvider.isLightTheme()?Border.all(color: const Color(0xFFEDEDED)):null,
         // // color: Color(0xFFF0F2F5),
 
         boxShadow: themeProvider.isLightTheme()?[
@@ -67,7 +66,7 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
         // ),
         // headerVisible: false,
         headerStyle:
-            HeaderStyle(formatButtonVisible: false, titleCentered: true),
+            const HeaderStyle(formatButtonVisible: false, titleCentered: true),
         calendarBuilders: CalendarBuilders(
           todayBuilder: (context, date, date2) {
             if (journalEntryProvider.journalEntries.any((element) =>
@@ -93,7 +92,7 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
               return Container(
                 height: height * 0.06,
                 width: width * 0.1,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black12,
                 ),
@@ -140,11 +139,11 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
         ),
         // headerVisible: false,
         // weekNumbersVisible: true,
-        firstDay: DateTime.now().subtract(Duration(days: 30)),
-        lastDay: DateTime.now().add(Duration(days: 30)),
+        firstDay: DateTime.now().subtract(const Duration(days: 30)),
+        lastDay: DateTime.now().add(const Duration(days: 30)),
         focusedDay: _focusedDay,
         calendarFormat: _calendarFormat,
-        calendarStyle: CalendarStyle(
+        calendarStyle: const CalendarStyle(
             // defaultDecoration: BoxDecoration(
             //   color: Colors.red
             // )

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
-import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
@@ -51,8 +49,8 @@ class NoteTile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete note?'),
-            content: Text('Are you sure you want to delete this note?'),
+            title: const Text('Delete note?'),
+            content: const Text('Are you sure you want to delete this note?'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -75,14 +73,14 @@ class NoteTile extends StatelessWidget {
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
     return note.hasNote
         ? Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
               // color: Color(0xFFF0F2F5),
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                       BoxShadow(
@@ -90,7 +88,7 @@ class NoteTile extends StatelessWidget {
                         spreadRadius: 2,
                         blurRadius: 3,
                         // blurRadius: 10,
-                        offset: Offset(3, 3),
+                        offset: const Offset(3, 3),
                       )
                     ]
                   : null,
@@ -103,7 +101,7 @@ class NoteTile extends StatelessWidget {
                       width: width * 0.2,
                       height: height * 0.07,
                       child: Image.asset('assets/emojis/${note.feeling}.png'),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -191,7 +189,7 @@ class NoteTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Align(
@@ -217,20 +215,20 @@ class NoteTile extends StatelessWidget {
         // Journal entry without note
         Container(
             // height: height * 0.11,
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               border: themeProvider.isLightTheme()
-                  ? Border.all(color: Color(0xFFEDEDED))
+                  ? Border.all(color: const Color(0xFFEDEDED))
                   : null,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
               boxShadow: themeProvider.isLightTheme()
                   ? [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         spreadRadius: 2,
                         blurRadius: 3,
-                        offset: Offset(3, 3),
+                        offset: const Offset(3, 3),
                       ),
                     ]
                   : null,
@@ -281,7 +279,7 @@ class NoteTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () async {
                     bool? wantToDelete = await wantToDeleteNoteAlert();
@@ -290,7 +288,7 @@ class NoteTile extends StatelessWidget {
                       await journalEntryProvider.removeJournalEntryFromDatabase(note.date!, userProvider.user!);
                     }
                   },
-                  child: Icon(Icons.delete),
+                  child: const Icon(Icons.delete),
                 ),
                 SizedBox(width: width*0.03,),
                 GestureDetector(
@@ -326,7 +324,7 @@ class NoteTile extends StatelessWidget {
                           ),
                     );
                   },
-                  child: Icon(Icons.edit),
+                  child: const Icon(Icons.edit),
                 ),
               ],
             ),

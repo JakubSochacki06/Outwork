@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:outwork/screens/progress_page/money_page/money_page.dart';
 
 class ProgressCard extends StatelessWidget {
   final String title;

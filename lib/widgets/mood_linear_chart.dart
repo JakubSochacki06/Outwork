@@ -40,7 +40,6 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
     }
 
     double getInterval(){
-      print(amountOfMoods);
       switch(amountOfMoods){
         case 7:
           return 1;
@@ -60,7 +59,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
       if(value == 13){
         return SideTitleWidget(
           axisSide: meta.axisSide,
-          child: Text(''),
+          child: const Text(''),
         );
       }
       if (!(value > datesAndFeelings.keys.toList().length)) {
@@ -86,7 +85,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
         // width: 30,
         // height: 30,
         child: Image.asset('assets/emojis/${emojiNames[value.toInt()-1]}.png'),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
         ),
       );
@@ -94,15 +93,15 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
 
     LineChartData mainData() {
       return LineChartData(
-        lineTouchData: LineTouchData(
+        lineTouchData: const LineTouchData(
           enabled: false
         ),
         titlesData: FlTitlesData(
           show: true,
-          rightTitles: AxisTitles(
+          rightTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
-          topTitles: AxisTitles(
+          topTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
           bottomTitles: AxisTitles(
@@ -136,7 +135,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
             isCurved: true,
             curveSmoothness: 0.55,
             preventCurveOverShooting: true,
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               // stops: [1,3,5],
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
@@ -273,15 +272,15 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
           padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.01),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
-            border: themeProvider.isLightTheme() ? Border.all(color: Color(0xFFEDEDED)) : null,
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            border: themeProvider.isLightTheme() ? Border.all(color: const Color(0xFFEDEDED)) : null,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
             boxShadow: themeProvider.isLightTheme()
                 ? [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.3),
                 spreadRadius: 2,
                 blurRadius: 3,
-                offset: Offset(3, 3),
+                offset: const Offset(3, 3),
               ),
             ]
                 : null,

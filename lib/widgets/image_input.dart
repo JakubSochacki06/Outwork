@@ -27,7 +27,7 @@ class ImageInput extends StatelessWidget {
       if (imageFile == null) {
         return;
       }
-      final croppedImage = await ImageCropper().cropImage(sourcePath: imageFile.path, aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1));
+      final croppedImage = await ImageCropper().cropImage(sourcePath: imageFile.path, aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1));
       if (croppedImage == null) {
         return;
       }
@@ -40,8 +40,6 @@ class ImageInput extends StatelessWidget {
       journalEntryProvider.setStoredImage(_storedImage!, subject);
       subject.hasPhoto = true;
     }
-    print('DATE IMAGE INPUT');
-    print(subject.date);
     return Row(
       children: [
         Container(
@@ -56,7 +54,7 @@ class ImageInput extends StatelessWidget {
             future: journalEntryProvider.retrievePhoto(subject.date!, userProvider.user!), // async work
             builder: (BuildContext context, snapshot) {
               switch (snapshot.connectionState) {
-                case ConnectionState.waiting: return CircularProgressIndicator();
+                case ConnectionState.waiting: return const CircularProgressIndicator();
                 default:
                   if (snapshot.hasError)
                     return Text('Error: ${snapshot.error}');
@@ -80,7 +78,7 @@ class ImageInput extends StatelessWidget {
               : Text('No image taken', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,),
           alignment: Alignment.center,
         ),
-        SizedBox(
+        const SizedBox(
           width: 10.0,
         ),
         Expanded(
@@ -92,14 +90,14 @@ class ImageInput extends StatelessWidget {
                 onPressed: () {
                   _pickImage(ImageSource.camera);
                 },
-                icon: Icon(Icons.camera_alt),
+                icon: const Icon(Icons.camera_alt),
                 label: Text('Take picture', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
               TextButton.icon(
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
-                icon: Icon(Icons.photo),
+                icon: const Icon(Icons.photo),
                 label: Text('Choose from gallery', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
             ],

@@ -57,7 +57,7 @@ class TaskTile extends StatelessWidget {
         // collapsedShape: RoundedRectangleBorder(
         //   side: BorderSide.none,
         // ),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           side: BorderSide.none,
         ),
         controlAffinity: ListTileControlAffinity.leading,
@@ -120,7 +120,7 @@ class TaskTile extends StatelessWidget {
                       await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
                     }
                   },
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                 ),
               ),
             ],

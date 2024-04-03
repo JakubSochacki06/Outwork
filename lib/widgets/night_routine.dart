@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
@@ -63,21 +62,21 @@ class _NightRoutineState extends State<NightRoutine> {
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
           border: themeProvider.isLightTheme()
-              ? Border.all(color: Color(0xFFEDEDED))
+              ? Border.all(color: const Color(0xFFEDEDED))
               : null,
           // color: Color(0xFFF0F2F5),
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
           boxShadow: themeProvider.isLightTheme()
               ? [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 3,
-                    offset: Offset(3, 3),
+                    offset: const Offset(3, 3),
                   )
                 ]
               : null),
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: Column(
         children: [
           Row(
@@ -101,7 +100,7 @@ class _NightRoutineState extends State<NightRoutine> {
                 'Night Routine',
                 style: Theme.of(context).primaryTextTheme.bodyMedium,
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                   onPressed: () {
                     showModalBottomSheet(
@@ -113,12 +112,12 @@ class _NightRoutineState extends State<NightRoutine> {
                           // height: height*0.1,
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: AddNightRoutinePopup(),
+                          child: const AddNightRoutinePopup(),
                         ),
                       ),
                     );
                   },
-                  icon: Icon(Icons.add, size: 35))
+                  icon: const Icon(Icons.add, size: 35))
             ],
           ),
           SizedBox(
@@ -134,7 +133,7 @@ class _NightRoutineState extends State<NightRoutine> {
           ),
           nightRoutines.length != 0
               ? ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 String minutes = '';
@@ -180,7 +179,7 @@ class _NightRoutineState extends State<NightRoutine> {
                               await xpLevelProvider.removeXpAmount(10, userProvider.user!.email!);
                             }
                           },
-                          child: Icon(Icons.delete),
+                          child: const Icon(Icons.delete),
                         ),
                       ],
                     ),
