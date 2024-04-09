@@ -65,8 +65,10 @@ class DatabaseService {
     if (doc.exists) return;
     var uuid = const Uuid();
     String refCode = uuid.v4().substring(0, 7);
+    List<String> parts = user.email!.split("@");
+    String displayName = parts[0];
     await _db.collection('users_data').doc(user.email).set({
-      'displayName': user.email,
+      'displayName': displayName,
       'email': user.email,
       'photoURL': 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg',
       'morningRoutines':[

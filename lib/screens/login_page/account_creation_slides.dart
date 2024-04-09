@@ -37,7 +37,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                   'Welcome to',
                   style: Theme.of(context).primaryTextTheme.displayMedium,
                 ),
-                Image.asset('assets/images/logo_login.png'),
+                Image.asset('assets/logo_login.png'),
               ],
             ),
             body:
@@ -52,7 +52,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
             image: Image.asset(
               toughModeSelected
                   ? 'assets/images/tough.png'
-                  : 'assets/images/logo_login.png',
+                  : 'assets/logo_login.png',
               width: width * 0.8,
             ),
             titleWidget: Column(

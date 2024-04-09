@@ -15,6 +15,7 @@ import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:outwork/services/notifications_service.dart';
+import 'go_pro_page.dart';
 import 'screens/login_page/welcome_page.dart';
 import 'screens/login_page/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';

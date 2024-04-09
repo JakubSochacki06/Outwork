@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:outwork/go_pro_page.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -34,11 +35,25 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      title: Text('Outwork', style: Theme.of(context).textTheme.bodyLarge,),
-      actions: [Padding(
-        padding: EdgeInsets.only(right: width * 0.04),
-        child: InkWell(onTap: () {}, child: Icon(LineIcons.crown, color: Theme.of(context).colorScheme.secondary, size: 30)),
-      )],
+      title: Text(
+        'Outwork',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(right: width * 0.04),
+          child: InkWell(
+              onTap: () {
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: GoProPage(),
+                  withNavBar: false,
+                );
+              },
+              child: Icon(LineIcons.crown,
+                  color: Theme.of(context).colorScheme.secondary, size: 30)),
+        )
+      ],
     );
   }
 
