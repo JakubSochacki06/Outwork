@@ -16,7 +16,7 @@ class GoogleSignupButton extends StatelessWidget {
       ),
       onPressed: () {
         final provider = Provider.of<UserProvider>(context, listen: false);
-        provider.signInWithGoogle();
+        provider.signInWithGoogle(context);
         Navigator.pushNamed(context, '/processingLogging');
       },
       child: Row(

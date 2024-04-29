@@ -14,7 +14,9 @@ import 'package:outwork/page_navigator.dart';
 import 'package:outwork/services/notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../../constants/constants.dart';
 import '../../providers/progress_provider.dart';
 
 class ProcessingLoggingPage extends StatefulWidget {
@@ -34,8 +36,6 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(
         context, listen: false);
-
-
     Future<void> setUpData() async{
       DatabaseService _dbS = DatabaseService();
       if(await _dbS.userExists(FirebaseAuth.instance.currentUser!)){
@@ -44,6 +44,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         if(userProvider.user!.lastUpdated!.day != now.day){
           await userProvider.restartDailyData();
         }
+        print('JAPIERDOLELEEEE');
         await LocalNotifications.showOngoingNotifications();
         await projectsProvider.setProjectsList(userProvider.user!);
         xpLevelProvider.setXPAmount(userProvider.user!);
@@ -51,6 +52,22 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         journalEntryProvider.setJournalEntries(userProvider.user!);
         nightRoutineProvider.setNightRoutines(userProvider.user!);
         progressProvider.setProgressFields(userProvider.user!);
+        print('KURWA');
+        try {
+          print('CUSTOMER INFO');
+          CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+          print('AHA');
+          print(customerInfo.entitlements);
+          if (customerInfo.activeSubscriptions.length!=0) {
+            userProvider.user!.isPremiumUser = true;
+            print('USTAWIONO');
+          } else {
+            userProvider.user!.isPremiumUser = false;
+            print('KONIEC');
+          }
+          print('KONIEC');
+        } catch (e) {
+        }
       } else {
         Navigator.push(
           context,

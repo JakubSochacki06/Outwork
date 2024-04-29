@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
+import 'package:outwork/screens/select_plan_page.dart';
 import 'package:outwork/widgets/premium_feature.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class GoProPage extends StatelessWidget {
-  const GoProPage({super.key});
+  final Offerings offerings;
+  const GoProPage({required this.offerings});
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +65,6 @@ class GoProPage extends StatelessWidget {
                         SizedBox(height: height*0.01,),
                       ],
                     ),
-                    Lottie.asset('assets/upgrade.json'),
-                    Text(
-                      'more likely to no stop their Self-improvement journey!',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    )
                   ],
                 ),
               ),
@@ -92,9 +90,13 @@ class GoProPage extends StatelessWidget {
                     height: height * 0.07,
                     child: ElevatedButton(
                       onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SelectPlanPage(offerings: offerings!,)),
+                        );
                       },
                       child: Text(
-                        'TRY FOR \$0.00',
+                        'TRY FOR ${offerings.current!.monthly!.storeProduct.currencyCode}0.00',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).colorScheme.onSecondaryContainer),
@@ -107,7 +109,9 @@ class GoProPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: height*0.01,),
-                  TextButton(onPressed: (){}, child: Text('NO THANKS', style: Theme.of(context).textTheme.bodyMedium,))
+                  TextButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, child: Text('NO THANKS', style: Theme.of(context).textTheme.bodyMedium,))
                 ],
               ),
             )

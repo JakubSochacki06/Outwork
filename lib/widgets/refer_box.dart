@@ -179,7 +179,8 @@ class ReferBox extends StatelessWidget {
               children: [
                 Spacer(),
                 Icon(LineIcons.userPlus, size: width*0.10, weight: 5, color: Theme.of(context).colorScheme.onSecondaryContainer,),
-                Expanded(child: AutoSizeText('Invite a friend', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1,))
+                Spacer(),
+                AutoSizeText('Invite friend', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1,)
               ],
             ),
           ),

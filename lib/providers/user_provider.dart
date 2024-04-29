@@ -83,7 +83,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle(context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) return;
@@ -96,8 +96,13 @@ class UserProvider extends ChangeNotifier {
       );
       await _signInWithCredential(credential);
     } catch (e) {
-      // Handle error
-      print(e.toString());
+      showModalBottomSheet(
+          context: context,
+          builder: (builder) {
+        return Container(
+          child: Text(e.toString()),
+        );
+      },);
     }
   }
 
@@ -120,9 +125,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-
-
-
+  void upgradeAccount(){
+    _user!.isPremiumUser = true;
+    notifyListeners();
+  }
 
   Future<void> reloadData() async{
     await fetchUserData(user!.email!);

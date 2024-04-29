@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 class ChatMessage extends StatelessWidget {
   final String text;
   final bool isUser;
+  final bool isToughMode;
 
-  ChatMessage({required this.text, required this.isUser});
+  ChatMessage({required this.text, required this.isUser, required this.isToughMode});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class ChatMessage extends StatelessWidget {
                 isUser
                     ? Text(userProvider.user!.displayName!,
                     style: Theme.of(context).textTheme.bodyMedium)
-                    : Text('Jacob Bot',
+                    : Text(isToughMode?'Jacob Bot 🔥':'Jacob Bot 🎀',
                     style: Theme.of(context).textTheme.bodyMedium),
                 SizedBox(
                   height: height * 0.001,

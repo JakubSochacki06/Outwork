@@ -44,7 +44,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m not feeling alright');
+                    chatProvider.handleSubmitted('I\'m not feeling alright', context);
                   },
                   child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
                 ),
@@ -57,7 +57,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I don\'t have motivation');
+                    chatProvider.handleSubmitted('I don\'t have motivation', context);
                     // _scrollDown();
                   },
                   child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
@@ -71,7 +71,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m tired');
+                    chatProvider.handleSubmitted('I\'m tired', context);
                     // _scrollDown();
                   },
                   child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
@@ -85,7 +85,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I might give up soon');
+                    chatProvider.handleSubmitted('I might give up soon', context);
                     // _scrollDown();
                   },
                   child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),

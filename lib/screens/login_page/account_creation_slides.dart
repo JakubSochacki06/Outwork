@@ -211,7 +211,9 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                     text: toughModeSelected
                         ? 'Stop crying. Didn\'t you want to be great? You have to work harder.'
                         : 'Remember it\'s okay to not feel great everytime! Clear your mind and start working again <3!',
-                    isUser: false),
+                    isUser: false,
+                  isToughMode: toughModeSelected,
+                ),
                 SizedBox(
                   height: height * 0.01,
                 ),

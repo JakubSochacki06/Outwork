@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "77982820125-c23fidi9u3h84a3s0i4g9e9hemb8g3tu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.outwork",
+            "certificate_hash": "c8d79dce94ff00b1c77beb2f763f0334c8823bbf"
+          }
+        },
+        {
           "client_id": "77982820125-n0514r8ntnilvvreae5515a305era6o9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -27,6 +35,14 @@
           "android_info": {
             "package_name": "com.example.outwork",
             "certificate_hash": "2b4da46622b7dd04d19e359d3f440decd66c66f2"
+          }
+        },
+        {
+          "client_id": "77982820125-s85ls4rebdmifv2qv5f6t6v3vv8t5nlh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.outwork",
+            "certificate_hash": "33745db0a477f8b788e5fb72cfcdc6cc78135974"
           }
         },
         {

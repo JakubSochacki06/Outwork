@@ -23,6 +23,7 @@ class FirebaseUser {
   List<DailyCheckin>? dailyCheckins;
   List<JournalEntry>? journalEntries;
   List<Book>? books;
+  bool? isPremiumUser;
   DateTime? lastUpdated;
   int? streak;
   bool? toughModeSelected;
@@ -45,6 +46,7 @@ class FirebaseUser {
         this.lastUpdated,
         this.subLimit,
   this.subscriptions,
+        this.isPremiumUser,
       this.projectsIDList,
       this.xpAmount,
         this.streak,
@@ -53,6 +55,8 @@ class FirebaseUser {
       this.pomodoroSettings});
 
   factory FirebaseUser.fromMap(Map<String, dynamic> data) {
+    print('SUBSKRYPCE');
+    print(data['subscriptions']);
     List<JournalEntry> journalEntries = [];
     data['journalEntries'].forEach((unorganizedJournalEntry) =>
         {journalEntries.add(JournalEntry.fromMap(unorganizedJournalEntry))});

@@ -1,6 +1,9 @@
 import '../screens/progress_page/books_page.dart';
 import '../screens/progress_page/mental_health_page/mental_health_page.dart';
 import '../screens/progress_page/money_page/money_page.dart';
+const entitlementRCID = 'premium';
+
+const googleRCApiKey = 'goog_ggEEfTYXPRbHsURTdeKJDXvwUPO';
 
 const List<Map<String, dynamic>> progressFields = [
   {
@@ -15,23 +18,23 @@ const List<Map<String, dynamic>> progressFields = [
     'description': 'Track your feelings',
     'route': MentalHealthPage(),
   },
-  {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
+  // {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
   {
     'title': 'Books',
     'imageName': 'money',
     'description': 'Read all of them!',
     'route': BooksPage(),
   },
-  {
-    'title': 'Meditation',
-    'imageName': 'meditation',
-    'description': 'Clear your mind'
-  },
-  {
-    'title': 'Sleep',
-    'imageName': 'meditation',
-    'description': 'Keep your sleeping schedule'
-  },
+  // {
+  //   'title': 'Meditation',
+  //   'imageName': 'meditation',
+  //   'description': 'Clear your mind'
+  // },
+  // {
+  //   'title': 'Sleep',
+  //   'imageName': 'meditation',
+  //   'description': 'Keep your sleeping schedule'
+  // },
 ];
 
 const List<Map<String, dynamic>> subscriptions = [

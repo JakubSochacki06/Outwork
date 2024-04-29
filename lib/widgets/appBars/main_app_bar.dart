@@ -5,6 +5,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({super.key});
@@ -43,14 +44,22 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: EdgeInsets.only(right: width * 0.04),
           child: InkWell(
-              onTap: () {
-                PersistentNavBarNavigator.pushNewScreen(
-                  context,
-                  screen: GoProPage(),
-                  withNavBar: false,
-                );
-              },
-              child: Icon(LineIcons.crown,
+              onTap: userProvider.user!.isPremiumUser==false?() async{
+                Offerings? offerings;
+                try {
+                  offerings = await Purchases.getOfferings();
+                } catch (e) {
+                  print(e);
+                }
+                if(offerings != null){
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: GoProPage(offerings: offerings,),
+                    withNavBar: false,
+                  );
+                }
+              }:null,
+              child: Icon(userProvider.user!.isPremiumUser==false?LineIcons.crown:LineIcons.star,
                   color: Theme.of(context).colorScheme.secondary, size: 30)),
         )
       ],

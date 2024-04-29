@@ -18,13 +18,13 @@ class ChatProvider with ChangeNotifier {
     _handleAdminInstructions(context);
   }
 
-  void handleSubmitted(String text) {
+  void handleSubmitted(String text, context) {
     _messageController.clear();
-    ChatMessage message = ChatMessage(text: text, isUser: true);
+    ChatMessage message = ChatMessage(text: text, isUser: true, isToughMode: false,);
     _messages.insert(0, message);
     _conversationHistory.add({'role': 'user', 'content': text});
     notifyListeners(); // Notify listeners to rebuild UI
-    callOpenAPI();
+    callOpenAPI(context);
   }
 
   void resetConversation(context){
@@ -57,7 +57,7 @@ class ChatProvider with ChangeNotifier {
                 {
                   'role': 'user',
                   'content':
-                      'Act as a tough, hard (sometimes even aggresive) motivational bot named Jacob Bot. If a situation doesn\'t need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it! Main rules you have to know: Direct Communication: Be assertive and straightforward.Use Tough Language: Speak firmly to motivate.Empowerment: Tough love to empower action.Personal Responsibility: Encourage self-accountability.Goal Focus: Emphasize goals and growth.Avoid Coddling: Don\'t indulge negative emotions.Constructive Criticism: Provide practical feedback.Maintain Professionalism: Stay respectful.Encourage Action: Prompt user to take steps.Offer Resources: Provide helpful suggestions.'
+                      'Act as a very very tough, hard (even aggresive) motivational bot named Jacob Bot. Make him push thru his limits. If he is showing weakness encourage him. If a situation doesn\'t need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it! Main rules you have to know: Direct Communication: Be assertive and straightforward.Use Tough Language: Speak firmly to motivate.Empowerment: Tough love to empower action.Personal Responsibility: Encourage self-accountability.Goal Focus: Emphasize goals and growth.Avoid Coddling: Don\'t indulge negative emotions.Constructive Criticism: Provide practical feedback.Maintain Professionalism: Stay respectful.Encourage Action: Prompt user to take steps.Offer Resources: Provide helpful suggestions.'
                 },
                 {
                   'role': 'user',
@@ -66,27 +66,28 @@ class ChatProvider with ChangeNotifier {
                 {
                   'role': 'assistant',
                   'content':
-                      'Stop crying. Didn\'t you want to be great? You have to work harder'
+                      'Stop crying. Didn\'t you want to be great? You have to work harder. Shut up and work!'
                 },
               ]
             : [
                 {
                   'role': 'user',
                   'content':
-                      'Act as a friendly bot named Jacob Bot. Treat me like a best friend so I can trust you. If a situation doesn\'t need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it! Be the one who stretches out hand first, for example instead of asking me what I would like to talk about, just ask.'
+                      'Act as a friendly bot named Jacob Bot. Treat me like a best friend so I can trust you. If a situation doesn\'t need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it! Be the one who stretches out hand first, for example instead of asking me what I would like to talk about, just ask. ALWAYS answer in language that user speaks.'
                 },
               ];
 
     // Display introduction messages
     _messages.addAll(adminInstructions
-        .map((msg) => ChatMessage(text: msg['content']!, isUser: false)));
+        .map((msg) => ChatMessage(text: msg['content']!, isUser: false, isToughMode: userProvider.user!.toughModeSelected!,)));
 
     _conversationHistory.addAll(initialUserMessage);
     _conversationHistory.addAll(adminInstructions);
   }
 
-  Future<void> callOpenAPI() async {
-    _messages.insert(0, ChatMessage(text: 'typing...', isUser: false));
+  Future<void> callOpenAPI(context) async {
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    _messages.insert(0, ChatMessage(text: 'typing...', isUser: false, isToughMode: userProvider.user!.toughModeSelected!,));
     final response = await http.post(
       Uri.parse('https://api.openai.com/v1/chat/completions'),
       // Example endpoint for text-davinci-003'), // Example endpoint for text-davinci-003'),
@@ -106,7 +107,7 @@ class ChatProvider with ChangeNotifier {
           utf8.decode(data['choices'][0]['message']['content'].runes.toList());
       _conversationHistory
           .add({'role': 'assistant', 'content': assistantReply});
-      ChatMessage message = ChatMessage(text: assistantReply, isUser: false);
+      ChatMessage message = ChatMessage(text: assistantReply, isUser: false, isToughMode: userProvider.user!.toughModeSelected!,);
       _messages.removeAt(0);
       _messages.insert(0, message);
       notifyListeners();

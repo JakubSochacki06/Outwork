@@ -15,6 +15,7 @@ class ProgressProvider with ChangeNotifier {
   int get subLimit => _subLimit;
 
   void setProgressFields(FirebaseUser user) {
+    print('POCZATEK PROGRESS');
     _books = user.books!;
     _subscriptions = user.subscriptions!;
     _subLimit = user.subLimit!;
