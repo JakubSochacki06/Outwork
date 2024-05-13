@@ -47,7 +47,7 @@ class _ProgressPageState extends State<ProgressPage> {
               child: ProgressCard(
                   title: progressFields[index]['title']!,
                   description: progressFields[index]['description']!,
-                  imageName: progressFields[index]['imageName']!,
+                  icon: progressFields[index]['icon']!,
               ),
             );
           },),

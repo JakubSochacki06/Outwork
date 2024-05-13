@@ -1,3 +1,6 @@
+import 'package:line_icons/line_icons.dart';
+import 'package:outwork/screens/progress_page/bad_habits_page/bad_habits_page.dart';
+
 import '../screens/progress_page/books_page.dart';
 import '../screens/progress_page/mental_health_page/mental_health_page.dart';
 import '../screens/progress_page/money_page/money_page.dart';
@@ -8,20 +11,26 @@ const googleRCApiKey = 'goog_ggEEfTYXPRbHsURTdeKJDXvwUPO';
 const List<Map<String, dynamic>> progressFields = [
   {
     'title': 'Money',
-    'imageName': 'money',
+    'icon': LineIcons.wavyMoneyBill,
     'description': 'Track your expenses',
     'route': MoneyPage(),
   },
   {
     'title': 'Journal',
-    'imageName': 'meditation',
+    'icon': LineIcons.pen,
     'description': 'Track your feelings',
     'route': MentalHealthPage(),
+  },
+  {
+    'title': 'Bad habits',
+    'icon': LineIcons.timesCircleAlt,
+    'description': 'Stay clean',
+    'route': BadHabitsPage(),
   },
   // {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
   {
     'title': 'Books',
-    'imageName': 'money',
+    'icon': LineIcons.readme,
     'description': 'Read all of them!',
     'route': BooksPage(),
   },

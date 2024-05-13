@@ -118,7 +118,7 @@ class ProfilePage extends StatelessWidget {
               height: height * 0.01,
             ),
             const MoodLinearChart(),
-            const ReferBox(),
+            ReferBox(),
             SizedBox(
               height: height * 0.01,
             ),

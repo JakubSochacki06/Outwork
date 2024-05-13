@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -19,7 +20,8 @@ class AccountCreationSlides extends StatefulWidget {
 
 class _AccountCreationSlidesState extends State<AccountCreationSlides> {
   bool toughModeSelected = false;
-  List<String> habitsSelected = [];
+  Map<String, Map<String, dynamic>> habitsSelected = {};
+  DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +115,10 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                color: Theme.of(context)
+                                color: toughModeSelected == false
+                                    ?Theme.of(context)
                                     .colorScheme
-                                    .onSecondaryContainer),
+                                    .onSecondaryContainer:Colors.white),
                           ),
                           alignment: Alignment.bottomCenter,
                         ),
@@ -184,10 +187,6 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
-                                .copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer),
                           ),
                           alignment: Alignment.bottomCenter,
                         ),
@@ -261,15 +260,25 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         onTap:(){
+                          print(habitsSelected);
                           setState(() {
-                            habitsSelected.contains(badHabits[index])?habitsSelected.remove(badHabits[index]):habitsSelected.add(badHabits[index]);
+                            if(habitsSelected.containsKey(badHabits[index])){
+                              habitsSelected.remove(badHabits[index]);
+                            } else {
+                              habitsSelected[badHabits[index]] = {
+                                'startDate':now,
+                                'longestStreak':0,
+                                'description':null,
+                              };
+                            }
+                            // habitsSelected.contains(badHabits[index])?habitsSelected.remove(badHabits[index]):habitsSelected.add(badHabits[index]);
                           });
                         },
                         child: Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             borderRadius: const BorderRadius.all(Radius.circular(15)),
-                            border: Border.all(color: habitsSelected.contains(badHabits[index])?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary, width: 2),
+                            border: Border.all(color: habitsSelected.containsKey(badHabits[index])?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary, width: 2),
                             boxShadow: themeProvider.isLightTheme()
                                 ? [
                               BoxShadow(
@@ -286,7 +295,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                             children: [
                               Expanded(child: Image.asset('assets/bad habits/${badHabits[index].toLowerCase()}.png')),
                               SizedBox(height: height*0.02,),
-                              Text(badHabits[index], style: Theme.of(context).textTheme.bodyMedium,)
+                              AutoSizeText(badHabits[index], style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center, maxLines: 1,)
                             ],
                           ),
                           ),
@@ -326,7 +335,6 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
           } else{
             await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
           }
-
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => ProcessingLoggingPage()),

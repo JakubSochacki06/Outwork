@@ -24,6 +24,7 @@ class DailyCheckinBox extends StatelessWidget {
   Widget build(BuildContext context) {
 
     DailyCheckinProvider dailyCheckinProvider = Provider.of<DailyCheckinProvider>(context, listen: true);
+    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
     int currentMaximum = 0;
     int currentValue = 0;
     DailyCheckin dailyCheckin = DailyCheckin();
@@ -222,9 +223,8 @@ class DailyCheckinBox extends StatelessWidget {
                     InkWell(
                       onTap: () async {
                         await dailyCheckinProvider.removeDailyCheckinProgressToFirebase(
-                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
-                        XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                        await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!, xpLevelProvider);
+
                       },
                       child: Container(
                         child: const Icon(
@@ -243,9 +243,7 @@ class DailyCheckinBox extends StatelessWidget {
                     InkWell(
                       onTap: () async {
                         await dailyCheckinProvider.addDailyCheckinProgressToFirebase(
-                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!);
-                        XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                        await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context);
+                            dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!, context, xpLevelProvider);
                       },
                       child: Container(
                         child: Icon(

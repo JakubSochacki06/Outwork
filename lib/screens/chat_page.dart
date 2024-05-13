@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 class ChatPage extends StatelessWidget {
   final ScrollController _controller = ScrollController();
 
+  ChatPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);

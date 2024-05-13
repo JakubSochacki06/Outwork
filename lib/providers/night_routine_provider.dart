@@ -1,4 +1,5 @@
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
@@ -69,7 +70,7 @@ class NightRoutineProvider extends ChangeNotifier {
 
   Future<void> removeNightRoutineFromDatabase(int id, String email) async {
     _nightRoutines.removeWhere((routine) => routine.id == id);
-    await LocalNotifications.cancel(id);
+    await AwesomeNotifications().cancel(id);
     List<Map<String, dynamic>> routinesAsMap = _nightRoutines.map((entry) => entry.toMap()).toList();
     await _db
         .collection('users_data')

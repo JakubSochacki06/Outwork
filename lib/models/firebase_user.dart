@@ -27,6 +27,7 @@ class FirebaseUser {
   DateTime? lastUpdated;
   int? streak;
   bool? toughModeSelected;
+  Map<dynamic, dynamic>? badHabits;
   List<dynamic>? projectsIDList;
   Map<dynamic, dynamic>? endOfTheDayJournal;
   Map<dynamic, dynamic>? pomodoroSettings;
@@ -48,6 +49,7 @@ class FirebaseUser {
   this.subscriptions,
         this.isPremiumUser,
       this.projectsIDList,
+        this.badHabits,
       this.xpAmount,
         this.streak,
         this.books,
@@ -55,8 +57,6 @@ class FirebaseUser {
       this.pomodoroSettings});
 
   factory FirebaseUser.fromMap(Map<String, dynamic> data) {
-    print('SUBSKRYPCE');
-    print(data['subscriptions']);
     List<JournalEntry> journalEntries = [];
     data['journalEntries'].forEach((unorganizedJournalEntry) =>
         {journalEntries.add(JournalEntry.fromMap(unorganizedJournalEntry))});
@@ -80,6 +80,7 @@ class FirebaseUser {
       morningRoutines: data['morningRoutines'],
       nightRoutines: data['nightRoutines'],
       journalEntries: journalEntries,
+        badHabits: data['badHabits'],
         subLimit: data['subLimit'],
         subscriptions: data['subscriptions'],
       workedSeconds: data['workedSeconds'],

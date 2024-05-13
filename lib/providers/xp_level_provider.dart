@@ -64,8 +64,10 @@ class XPLevelProvider extends ChangeNotifier {
         return 'Iron mindset';
       case 15:
         return 'Gigachad';
+      // case 16:
+      //   return 'It doesn\'t hurt anymore';
       case 16:
-        return 'It doesn\'t hurt anymore';
+        return 'They don\'t know me son!';
       case 17:
         return 'You are HIM';
       default:

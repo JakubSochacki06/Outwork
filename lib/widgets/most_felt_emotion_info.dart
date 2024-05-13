@@ -50,6 +50,7 @@ class MostFeltEmotionInfo extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 RichText(
+                  textAlign: TextAlign.center,
                   text: TextSpan(
                       text:
                           '${mostFrequentlyFeltEmotions[0].key} is your most frequently felt emotion. ',

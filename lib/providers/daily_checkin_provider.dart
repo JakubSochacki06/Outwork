@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
+import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:outwork/models/daily_checkin.dart';
 import 'package:uuid/uuid.dart';
@@ -16,19 +17,39 @@ class DailyCheckinProvider extends ChangeNotifier {
     _dailyCheckins = user.dailyCheckins!;
   }
 
+  // bool shouldRemoveXP(int step, String name){
+  //   int indexToUpdate = _dailyCheckins.indexWhere((dailyCheckin) => dailyCheckin.name == name);
+  //   if(_dailyCheckins[indexToUpdate].value == 0){
+  //     print('nie zabieramy');
+  //     return false;
+  //   }
+  //   print('zabieramy');
+  //   return true;
+  // }
+  //
+  // bool shouldAddXP(int step, String name){
+  //   int indexToUpdate = _dailyCheckins.indexWhere((dailyCheckin) => dailyCheckin.name == name);
+  //   if(_dailyCheckins[indexToUpdate].value == _dailyCheckins[indexToUpdate].goal){
+  //     print('nie dodajemy');
+  //     return false;
+  //   }
+  //   print('dodajemy');
+  //   return true;
+  // }
+
   Future<void> removeDailyCheckinProgressToFirebase(
-      int step, String name, String userEmail) async {
-    int indexToUpdate =
-        _dailyCheckins.indexWhere((dailyCheckin) => dailyCheckin.name == name);
+      int step, String name, String userEmail, XPLevelProvider xpLevelProvider) async {
+    int indexToUpdate = _dailyCheckins.indexWhere((dailyCheckin) => dailyCheckin.name == name);
     if(_dailyCheckins[indexToUpdate].value != 0){
 
       if(_dailyCheckins[indexToUpdate].value! - step <= 0){
         // IF ADDING WOULD CAUSE GOING OVER GOAL, FOR EXAMPLE STEP = 2, VALUE = 1. THIS SETS VALUE AS 0 SO IT DOESNT BUG AT -1/x
         _dailyCheckins[indexToUpdate].value = 0;
+        await xpLevelProvider.removeXpAmount(5, userEmail);
       } else {
         _dailyCheckins[indexToUpdate].value = _dailyCheckins[indexToUpdate].value! - step;
+        await xpLevelProvider.removeXpAmount(5, userEmail);
       }
-
     } else {
       return;
     }
@@ -41,7 +62,7 @@ class DailyCheckinProvider extends ChangeNotifier {
   }
 
   Future<void> addDailyCheckinProgressToFirebase(
-      int step, String name, String userEmail) async {
+      int step, String name, String userEmail, context, XPLevelProvider xpLevelProvider) async {
     int indexToUpdate =
         _dailyCheckins.indexWhere((dailyCheckin) => dailyCheckin.name == name);
     if(_dailyCheckins[indexToUpdate].goal! > _dailyCheckins[indexToUpdate].value!){
@@ -49,8 +70,10 @@ class DailyCheckinProvider extends ChangeNotifier {
       if(_dailyCheckins[indexToUpdate].value! + step > _dailyCheckins[indexToUpdate].goal!){
         // IF ADDING WOULD CAUSE GOING OVER GOAL, FOR EXAMPLE STEP = 3, VALUE = 6, GOAL = 8. THIS SETS VALUE AS GOAL SO IT DOESNT BUG AT 9/8
         _dailyCheckins[indexToUpdate].value = _dailyCheckins[indexToUpdate].goal;
+        await xpLevelProvider.addXpAmount(5, userEmail, context);
       } else {
         _dailyCheckins[indexToUpdate].value = _dailyCheckins[indexToUpdate].value! + step;
+        await xpLevelProvider.addXpAmount(5, userEmail, context);
       }
 
     } else {

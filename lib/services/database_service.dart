@@ -10,7 +10,7 @@ class DatabaseService {
     var doc = await _db.collection('users_data').doc(user.email).get();
     return doc.exists;
   }
-  Future<void> setUserDataFromGoogle(User user, List<String> badHabits, bool toughModeActivated) async {
+  Future<void> setUserDataFromGoogle(User user, Map<String, Map<String, dynamic>> badHabits, bool toughModeActivated) async {
     var uuid = const Uuid();
     String refCode = uuid.v4().substring(0, 7);
     await _db.collection('users_data').doc(user.email).set({
@@ -60,7 +60,7 @@ class DatabaseService {
     });
   }
 
-  Future<void> setUserDataFromEmail(User user, List<String> badHabits, bool toughModeActivated) async{
+  Future<void> setUserDataFromEmail(User user, Map<String, Map<String, dynamic>> badHabits, bool toughModeActivated) async{
     var doc = await _db.collection('users_data').doc(user.email).get();
     if (doc.exists) return;
     var uuid = const Uuid();

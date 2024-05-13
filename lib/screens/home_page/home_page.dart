@@ -64,6 +64,8 @@ class HomePage extends StatelessWidget {
           routineName: 'Night',
           index: -1,
         ));
+
+
     return Scaffold(
       appBar: const MainAppBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -97,7 +99,7 @@ class HomePage extends StatelessWidget {
                   InkWell(
                     onTap: (){
                       NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context, listen: false);
-                      navbarControllerProvider.jumpToTab(4);
+                      navbarControllerProvider.jumpToTab(3);
                     },
                     child: CircleAvatar(
                       radius: 35,

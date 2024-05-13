@@ -44,8 +44,6 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         if(userProvider.user!.lastUpdated!.day != now.day){
           await userProvider.restartDailyData();
         }
-        print('JAPIERDOLELEEEE');
-        await LocalNotifications.showOngoingNotifications();
         await projectsProvider.setProjectsList(userProvider.user!);
         xpLevelProvider.setXPAmount(userProvider.user!);
         morningRoutineProvider.setMorningRoutines(userProvider.user!);

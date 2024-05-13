@@ -96,6 +96,7 @@ class UserProvider extends ChangeNotifier {
       );
       await _signInWithCredential(credential);
     } catch (e) {
+      print(e);
       showModalBottomSheet(
           context: context,
           builder: (builder) {
@@ -125,8 +126,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void upgradeAccount(){
+  void upgradeAccount(context){
     _user!.isPremiumUser = true;
+    Navigator.pop(context);
+    Navigator.pop(context);
     notifyListeners();
   }
 

@@ -56,7 +56,7 @@ class ProjectsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Keep on grinding',
+                      'Keep on grinding.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
