@@ -96,7 +96,7 @@ class ChatProvider with ChangeNotifier {
         'Authorization': 'Bearer ${dotenv.env['token']}',
       },
       body: jsonEncode({
-        'model': 'gpt-4-turbo',
+        'model': 'gpt-4o',
         'messages': _conversationHistory,
         'max_tokens': 150
       }),

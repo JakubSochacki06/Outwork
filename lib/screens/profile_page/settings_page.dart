@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:outwork/widgets/appBars/settings_app_bar.dart';
 
@@ -85,6 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onPressed: (context) async {
+                await Purchases.logOut();
                 await FirebaseAuth.instance.signOut();
               },
               // value: Text(userProvider.user!.email!),

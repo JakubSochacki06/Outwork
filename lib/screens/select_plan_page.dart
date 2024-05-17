@@ -106,7 +106,6 @@ class _SelectPlanPageState extends State<SelectPlanPage> {
                     child: ElevatedButton(
                       onPressed: () async{
                         try {
-                          await Purchases.logIn(userProvider.user!.email!);
                           CustomerInfo customerInfo = await Purchases.purchasePackage(widget.offerings.current!.availablePackages[selectedOffering]);
                           if (customerInfo.entitlements.all[entitlementRCID]!.isActive) {
                             userProvider.upgradeAccount(context);

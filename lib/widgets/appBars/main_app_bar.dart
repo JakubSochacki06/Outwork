@@ -23,7 +23,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           width: 58,
           child: GestureDetector(
-            onTap: () {
+            onTap: () async{
               PersistentNavBarNavigator.pushNewScreen(
                 context,
                 screen: ChatPage(),

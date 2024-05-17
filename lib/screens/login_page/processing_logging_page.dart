@@ -44,26 +44,20 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         if(userProvider.user!.lastUpdated!.day != now.day){
           await userProvider.restartDailyData();
         }
+        await Purchases.logIn(userProvider.user!.email!);
         await projectsProvider.setProjectsList(userProvider.user!);
         xpLevelProvider.setXPAmount(userProvider.user!);
         morningRoutineProvider.setMorningRoutines(userProvider.user!);
         journalEntryProvider.setJournalEntries(userProvider.user!);
         nightRoutineProvider.setNightRoutines(userProvider.user!);
         progressProvider.setProgressFields(userProvider.user!);
-        print('KURWA');
         try {
-          print('CUSTOMER INFO');
           CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-          print('AHA');
-          print(customerInfo.entitlements);
-          if (customerInfo.activeSubscriptions.length!=0) {
+          if (customerInfo.entitlements.all['premium']!.isActive) {
             userProvider.user!.isPremiumUser = true;
-            print('USTAWIONO');
           } else {
             userProvider.user!.isPremiumUser = false;
-            print('KONIEC');
           }
-          print('KONIEC');
         } catch (e) {
         }
       } else {

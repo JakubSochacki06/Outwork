@@ -8,6 +8,7 @@ import 'package:outwork/services/database_service.dart';
 import 'package:outwork/widgets/chat_message.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/constants/constants.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/notification_look.dart';
 
@@ -332,8 +333,12 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
           DatabaseService _dbS = DatabaseService();
           if(FirebaseAuth.instance.currentUser!.photoURL!=null){
             await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+            await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
+            print('stworzono AHA');
           } else{
             await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+            await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
+            print('stworzono AH2A');
           }
           Navigator.push(
             context,

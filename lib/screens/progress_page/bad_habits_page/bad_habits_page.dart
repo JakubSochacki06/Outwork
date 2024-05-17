@@ -28,14 +28,21 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Restart timer?', style: Theme.of(context).textTheme.bodySmall,),
-          content: Text('Are you sure you want to restart timer for this bad habit? You can\'t retrieve it after', style: Theme.of(context).primaryTextTheme.bodySmall),
+          title: Text(
+            'Restart timer?',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          content: Text(
+              'Are you sure you want to restart timer for this bad habit? You can\'t retrieve it after',
+              style: Theme.of(context).primaryTextTheme.bodySmall),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+              child: Text('No',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Theme.of(context).colorScheme.secondary)),
             ),
             TextButton(
               onPressed: () {
@@ -51,16 +58,27 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
   }
 
   @override
+  void dispose() {
+    currentIndex = 0;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context);
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     DateTime? selectedStartDate;
     List<dynamic>? keys;
-    if(progressProvider.badHabits.length!=0){
-        keys = progressProvider.badHabits.keys.toList();
-      selectedStartDate = progressProvider.badHabits[keys[currentIndex]]['startDate'].runtimeType != DateTime? progressProvider.badHabits[keys[currentIndex]]['startDate'].toDate():progressProvider.badHabits[keys[currentIndex]]['startDate'];
+    if (progressProvider.badHabits.length != 0) {
+      keys = progressProvider.badHabits.keys.toList();
+      selectedStartDate = progressProvider
+                  .badHabits[keys[currentIndex]]['startDate'].runtimeType !=
+              DateTime
+          ? progressProvider.badHabits[keys[currentIndex]]['startDate'].toDate()
+          : progressProvider.badHabits[keys[currentIndex]]['startDate'];
     }
     return Scaffold(
       appBar: BadHabitsAppBar(),
@@ -120,165 +138,223 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
               SizedBox(
                 height: height * 0.015,
               ),
-              progressProvider.badHabits.length!=0?Container(
-                height: height*0.3,
-                child: CarouselSlider.builder(
-                  itemCount: progressProvider.badHabits.length,
-                  itemBuilder: (context, index, pageViewIndex) {
-                    return Image.asset(
-                        'assets/bad habits/${keys![index].toLowerCase()}.png');
-                  },
-                  options: CarouselOptions(
-                    height: height * 0.4,
-                    viewportFraction: 0.66,
-                    enlargeCenterPage: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        currentIndex = index;
-                      });
-                    },
-                  ),
-                ),
-              ):Text('Add new'),
-              SizedBox(
-                height: height * 0.015,
-              ),
-              progressProvider.badHabits.length!=0?AnimatedSmoothIndicator(
-                activeIndex: currentIndex,
-                count: keys!.length,
-                effect: SlideEffect(
-
-                    dotColor: Theme.of(context).colorScheme.primary,
-                    activeDotColor: Theme.of(context).colorScheme.secondary),
-              ):Container(),
-              SizedBox(
-                height: height * 0.015,
-              ),
-              progressProvider.badHabits.length!=0?Row(
-                children: [
-                  Text(
-                    '${keys![currentIndex]} free for:',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    maxLines: 1,
-                  ),
-                  Spacer(),
-                  InkWell(
-                    onTap: () async{
-                      bool? wantToRestart = await wantToRestartHabit(context);
-                      if(wantToRestart == true){
-                        progressProvider.restartBadHabit(keys![currentIndex], userProvider.user!.email!);
-                      }
-                    },
-                    child: Icon(Icons.restart_alt),
-                  ),
-                  SizedBox(width: width*0.02,),
-                  InkWell(
-                    onTap: (){
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Center(
-                              child: Text(
-                                'Select date',
-                                style:
-                                Theme.of(context).textTheme.bodyLarge,
-                              ),
+              progressProvider.badHabits.length != 0
+                  ? Column(
+                      children: [
+                        Container(
+                          height: height * 0.3,
+                          child: CarouselSlider.builder(
+                            itemCount: progressProvider.badHabits.length,
+                            itemBuilder: (context, index, pageViewIndex) {
+                              return Image.asset(
+                                  'assets/bad habits/${keys![index].toLowerCase()}.png');
+                            },
+                            options: CarouselOptions(
+                              height: height * 0.4,
+                              viewportFraction: 0.66,
+                              enlargeCenterPage: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  currentIndex = index;
+                                });
+                              },
                             ),
-                            content: StatefulBuilder(
-                                builder: (context, setState) {
-                                return Container(
-                                  height: height * 0.4,
-                                  width: width * 0.8,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: height*0.33,
-                                        width: width*0.8,
-                                        child: SfDateRangePicker(
-                                          initialSelectedDate: selectedStartDate,
-                                          initialDisplayDate: selectedStartDate,
-                                          todayHighlightColor: Theme.of(context).colorScheme.secondary,
-                                          selectableDayPredicate: (DateTime dateTime) {
-                                            if (dateTime.isAfter(DateTime.now())) {
-                                              return false;
-                                            }
-                                            return true;
-                                          },
-                                          onCancel: () {
-                                            Navigator.pop(context);
-                                          },
-                                          selectionColor: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          onSelectionChanged: (arg) {
-                                            setState(() {
-                                              selectedStartDate = arg.value;
-                                            });
-                                          },
-                                          // selectionShape: DateRangePickerSelectionShape.rectangle,
-                                          showNavigationArrow: true,
-                                          monthViewSettings:
-                                          const DateRangePickerMonthViewSettings(
-                                              firstDayOfWeek: 1),
-                                          // onSelectionChanged: ,
-                                          selectionMode:
-                                          DateRangePickerSelectionMode.single,
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        AnimatedSmoothIndicator(
+                          activeIndex: currentIndex,
+                          count: keys!.length,
+                          effect: SlideEffect(
+                              dotColor: Theme.of(context).colorScheme.primary,
+                              activeDotColor:
+                                  Theme.of(context).colorScheme.secondary),
+                        ),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '${keys![currentIndex]} free for:',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              maxLines: 1,
+                            ),
+                            Spacer(),
+                            InkWell(
+                              onTap: () async {
+                                bool? wantToRestart =
+                                    await wantToRestartHabit(context);
+                                if (wantToRestart == true) {
+                                  progressProvider.restartBadHabit(
+                                      keys![currentIndex],
+                                      userProvider.user!.email!);
+                                }
+                              },
+                              child: Icon(Icons.restart_alt),
+                            ),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Center(
+                                        child: Text(
+                                          'Select date',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                'Cancel',
-                                                style: Theme.of(context).primaryTextTheme.labelLarge,
-                                              )),
-                                          TextButton(
-                                              onPressed:
-                                              selectedStartDate !=
-                                                  null
-                                                  ? () async{
-                                                await progressProvider.changeBadHabitStart(keys![currentIndex], userProvider.user!.email!, selectedStartDate!);
-                                                Navigator.pop(context);
-                                              }
-                                                  : null,
-                                              child: Text(
-                                                'Submit',
-                                                style: selectedStartDate !=
-                                                    null
-                                                    ? Theme.of(context).primaryTextTheme.labelLarge!
-                                                    .copyWith(
-                                                    color:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary)
-                                                    : Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .labelLarge!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
-                                              )),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                      content: StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return Container(
+                                          height: height * 0.4,
+                                          width: width * 0.8,
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height: height * 0.33,
+                                                width: width * 0.8,
+                                                child: SfDateRangePicker(
+                                                  initialSelectedDate:
+                                                      selectedStartDate,
+                                                  initialDisplayDate:
+                                                      selectedStartDate,
+                                                  todayHighlightColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                  selectableDayPredicate:
+                                                      (DateTime dateTime) {
+                                                    if (dateTime.isAfter(
+                                                        DateTime.now())) {
+                                                      return false;
+                                                    }
+                                                    return true;
+                                                  },
+                                                  onCancel: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  selectionColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
+                                                  onSelectionChanged: (arg) {
+                                                    setState(() {
+                                                      selectedStartDate =
+                                                          arg.value;
+                                                    });
+                                                  },
+                                                  // selectionShape: DateRangePickerSelectionShape.rectangle,
+                                                  showNavigationArrow: true,
+                                                  monthViewSettings:
+                                                      const DateRangePickerMonthViewSettings(
+                                                          firstDayOfWeek: 1),
+                                                  // onSelectionChanged: ,
+                                                  selectionMode:
+                                                      DateRangePickerSelectionMode
+                                                          .single,
+                                                ),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        'Cancel',
+                                                        style: Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .labelLarge,
+                                                      )),
+                                                  TextButton(
+                                                      onPressed:
+                                                          selectedStartDate !=
+                                                                  null
+                                                              ? () async {
+                                                                  await progressProvider.changeBadHabitStart(
+                                                                      keys![
+                                                                          currentIndex],
+                                                                      userProvider
+                                                                          .user!
+                                                                          .email!,
+                                                                      selectedStartDate!);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                }
+                                                              : null,
+                                                      child: Text(
+                                                        'Submit',
+                                                        style: selectedStartDate !=
+                                                                null
+                                                            ? Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .labelLarge!
+                                                                .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .secondary)
+                                                            : Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .labelLarge!
+                                                                .copyWith(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .onPrimaryContainer),
+                                                      )),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                    );
+                                  },
                                 );
-                              }
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: Icon(Icons.settings),
-                  )
-                ],
-              ):Container(),
-              SizedBox(height: height*0.015,),
-              progressProvider.badHabits.length!=0?SobrietyTimer(sobrietyDate: progressProvider.badHabits[keys![currentIndex]]['startDate'].runtimeType == DateTime?progressProvider.badHabits[keys[currentIndex]]['startDate']:progressProvider.badHabits[keys[currentIndex]]['startDate'].toDate()):Container(),
+                              },
+                              child: Icon(Icons.settings),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        SobrietyTimer(
+                            sobrietyDate: progressProvider
+                                        .badHabits[keys![currentIndex]]
+                                            ['startDate']
+                                        .runtimeType ==
+                                    DateTime
+                                ? progressProvider.badHabits[keys[currentIndex]]
+                                    ['startDate']
+                                : progressProvider.badHabits[keys[currentIndex]]
+                                        ['startDate']
+                                    .toDate())
+                      ],
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text('No habits found!', style: Theme.of(context).textTheme.displaySmall,),
+                          Text('Add new by clicking "+" in top right corner!', style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
