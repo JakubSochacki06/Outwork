@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:outwork/constants/constants.dart';
 import 'package:outwork/notification_controller.dart';
@@ -29,7 +30,7 @@ import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   await AwesomeNotifications()
       .initialize('resource://drawable/notification_icon', [
@@ -59,6 +60,7 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   PurchasesConfiguration configuration = PurchasesConfiguration(googleRCApiKey);
   await Purchases.configure(configuration);
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
@@ -67,6 +69,7 @@ Future main() async {
         child: const MyApp(),
       ),
     );
+    FlutterNativeSplash.remove();
   });
 }
 
