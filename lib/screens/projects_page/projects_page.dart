@@ -144,7 +144,7 @@ class ProjectsPage extends StatelessWidget {
                                 return SizedBox(height: height*0.01,);
                               },
                               itemCount: upcomingTasks.length>=5?5:upcomingTasks.length),
-                        ):Text('Add new tasks to projects and track it here!', style: Theme.of(context).textTheme.labelLarge, textAlign: TextAlign.center,),
+                        ):Expanded(child: Text('Add new tasks to projects and track it here!', style: Theme.of(context).textTheme.labelLarge, textAlign: TextAlign.center,)),
                       ],
                     ),
                   )

@@ -194,7 +194,8 @@ class MorningRoutine extends StatelessWidget {
                   itemCount: morningRoutines.length)
               : Expanded(
                   child: Text(
-                    'Add new morning routine',
+                    'Click "+" to add new routine',
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).primaryTextTheme.bodyMedium,
                   ),
                 ),

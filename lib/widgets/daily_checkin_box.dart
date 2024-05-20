@@ -39,7 +39,7 @@ class DailyCheckinBox extends StatelessWidget {
         dailyCheckin.emojiName = 'morning';
         dailyCheckin.step = 1;
         dailyCheckin.unit = 'routines';
-        dailyCheckin.color = const Color(0xFF6096B4);
+        dailyCheckin.color = Theme.of(context).colorScheme.secondary;
         morningRoutineProvider.morningRoutines.length != 0 ?
         currentValue = morningRoutineProvider.countProgress() : 0;
         currentMaximum = morningRoutineProvider.morningRoutines.length != 0

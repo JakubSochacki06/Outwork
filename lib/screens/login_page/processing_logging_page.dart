@@ -59,6 +59,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
             userProvider.user!.isPremiumUser = false;
           }
         } catch (e) {
+          userProvider.user!.isPremiumUser = false;
         }
       } else {
         Navigator.push(

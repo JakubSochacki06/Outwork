@@ -192,7 +192,8 @@ class _NightRoutineState extends State<NightRoutine> {
               itemCount: nightRoutines.length)
               : Expanded(
             child: Text(
-              'Add new night routine',
+              'Click "+" to add new routine',
+              textAlign: TextAlign.center,
               style: Theme.of(context).primaryTextTheme.bodyMedium,
             ),
           ),

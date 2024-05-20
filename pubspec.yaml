@@ -55,6 +55,7 @@ dependencies:
   awesome_notifications: ^0.8.2
   smooth_page_indicator: ^1.1.0
   time_machine: ^0.9.17
+  jiffy: ^6.2.1
 
 dev_dependencies:
   flutter_test:

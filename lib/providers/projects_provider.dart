@@ -25,10 +25,13 @@ class ProjectsProvider extends ChangeNotifier {
     _projectsIDList = user.projectsIDList!;
     _projectsList = [];
 
+
     for (int i = 0; i < _projectsIDList.length; i++) {
       Project? project = await getProjectById(_projectsIDList[i]);
+      print(project!.title);
       _projectsList.add(project!);
     }
+    print('aha 2');
   }
 
   void setNewProjectDueDate(DateTime? dueDate) {

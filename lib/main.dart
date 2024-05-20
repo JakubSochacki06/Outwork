@@ -142,6 +142,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: 'Outwork',
         theme: Provider.of<ThemeProvider>(context, listen: false).themeData,
+        debugShowCheckedModeBanner: false,
         // darkTheme: darkTheme,
         // themeMode: ThemeMode.dark,
         routes: {
