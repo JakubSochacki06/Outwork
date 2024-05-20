@@ -3,6 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:outwork/go_pro_page.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
+import 'package:outwork/screens/upgrade_your_plan_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -24,11 +25,23 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 58,
           child: GestureDetector(
             onTap: () async{
-              PersistentNavBarNavigator.pushNewScreen(
-                context,
-                screen: ChatPage(),
-                withNavBar: false,
-              );
+                Offerings? offerings;
+                try {
+                  offerings = await Purchases.getOfferings();
+                } catch (e) {
+                  print(e);
+                }
+                if(offerings != null){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpgradeYourPlanPage(offerings: offerings!,)),
+                  );
+                }
+              // PersistentNavBarNavigator.pushNewScreen(
+              //   context,
+              //   screen: ChatPage(),
+              //   withNavBar: false,
+              // );
             },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/jacob.png'),
