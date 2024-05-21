@@ -25,23 +25,23 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 58,
           child: GestureDetector(
             onTap: () async{
-                Offerings? offerings;
-                try {
-                  offerings = await Purchases.getOfferings();
-                } catch (e) {
-                  print(e);
-                }
-                if(offerings != null){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UpgradeYourPlanPage(offerings: offerings!,)),
-                  );
-                }
-              // PersistentNavBarNavigator.pushNewScreen(
-              //   context,
-              //   screen: ChatPage(),
-              //   withNavBar: false,
-              // );
+                // Offerings? offerings;
+                // try {
+                //   offerings = await Purchases.getOfferings();
+                // } catch (e) {
+                //   print(e);
+                // }
+                // if(offerings != null){
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => UpgradeYourPlanPage(offerings: offerings!,)),
+                //   );
+                // }
+              PersistentNavBarNavigator.pushNewScreen(
+                context,
+                screen: ChatPage(),
+                withNavBar: false,
+              );
             },
             child: const CircleAvatar(
               backgroundImage: AssetImage('assets/images/jacob.png'),

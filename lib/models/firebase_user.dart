@@ -25,6 +25,7 @@ class FirebaseUser {
   List<Book>? books;
   bool? isPremiumUser;
   DateTime? lastUpdated;
+  int? freeMessages;
   int? streak;
   bool? toughModeSelected;
   Map<dynamic, dynamic>? badHabits;
@@ -40,6 +41,7 @@ class FirebaseUser {
       this.morningRoutines,
       this.nightRoutines,
       this.journalEntries,
+        this.freeMessages,
       this.dailyCheckins,
         this.refBalance,
         this.referrals,
@@ -84,6 +86,7 @@ class FirebaseUser {
         subLimit: data['subLimit'],
         subscriptions: data['subscriptions'],
       workedSeconds: data['workedSeconds'],
+      freeMessages: data['freeMessages'],
       dailyCheckins: dailyCheckins,
       books: books,
       streak: data['streak'],

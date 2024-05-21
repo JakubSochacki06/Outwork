@@ -11,6 +11,7 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('chat page built');
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;

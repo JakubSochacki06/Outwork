@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/chat_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class CommonlyUsedSentences extends StatelessWidget {
@@ -9,6 +10,7 @@ class CommonlyUsedSentences extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -44,7 +46,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m not feeling alright', context);
+                    chatProvider.handleSubmitted('I\'m not feeling alright', userProvider.user!.email!, context);
                   },
                   child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
                 ),
@@ -57,7 +59,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I don\'t have motivation', context);
+                    chatProvider.handleSubmitted('I don\'t have motivation', userProvider.user!.email!, context);
                     // _scrollDown();
                   },
                   child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
@@ -71,7 +73,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m tired', context);
+                    chatProvider.handleSubmitted('I\'m tired', userProvider.user!.email!, context);
                     // _scrollDown();
                   },
                   child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
@@ -85,7 +87,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I might give up soon', context);
+                    chatProvider.handleSubmitted('I might give up soon', userProvider.user!.email!, context);
                     // _scrollDown();
                   },
                   child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),

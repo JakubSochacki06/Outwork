@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/chat_message.dart';
@@ -7,34 +8,52 @@ import 'dart:convert';
 
 import 'package:provider/provider.dart';
 
+import '../models/firebase_user.dart';
+
 class ChatProvider with ChangeNotifier {
   TextEditingController _messageController = TextEditingController();
   List<ChatMessage> _messages = [];
   List<Map<String, String>> _conversationHistory = [];
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+  int _freeMessages = 0;
 
   List<ChatMessage> get messages => _messages;
+  int get freeMessages => _freeMessages;
 
   ChatProvider(context) {
-    _handleAdminInstructions(context);
+    print('handled this thing');
+    _handleAdminInstructionsAndSetMessages(context);
   }
 
-  void handleSubmitted(String text, context) {
-    _messageController.clear();
-    ChatMessage message = ChatMessage(text: text, isUser: true, isToughMode: false,);
-    _messages.insert(0, message);
-    _conversationHistory.add({'role': 'user', 'content': text});
-    notifyListeners(); // Notify listeners to rebuild UI
-    callOpenAPI(context);
+  Future<void> handleSubmitted(String text, String userEmail, context) async{
+    if(_freeMessages != 0){
+      _freeMessages -= 1;
+      notifyListeners();
+      await _db.collection('users_data').doc(userEmail).update({
+        'freeMessages': FieldValue.increment(-1),
+      });
+      _messageController.clear();
+      ChatMessage message = ChatMessage(text: text, isUser: true, isToughMode: false,);
+      _messages.insert(0, message);
+      _conversationHistory.add({'role': 'user', 'content': text});
+      notifyListeners(); // Notify listeners to rebuild UI
+      callOpenAPI(context);
+      print(messages);
+    } else {
+
+    }
+
   }
 
   void resetConversation(context){
     _messages = [];
     _conversationHistory = [];
-    _handleAdminInstructions(context);
+    _handleAdminInstructionsAndSetMessages(context);
   }
 
-  void _handleAdminInstructions(context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+  void _handleAdminInstructionsAndSetMessages(context) {
+    UserProvider userProvider = Provider.of(context, listen: false);
+    _freeMessages = userProvider.user!.freeMessages!;
     List<Map<String, String>> adminInstructions = [
       {
         'role': 'assistant',

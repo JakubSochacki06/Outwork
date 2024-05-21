@@ -28,6 +28,7 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
+      'freeMessages':10,
       'toughMode':toughModeActivated,
       'badHabits':badHabits,
       'books':[
@@ -82,6 +83,7 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
+      'freeMessages':10,
       'toughMode':toughModeActivated,
       'badHabits':badHabits,
       'books':[
