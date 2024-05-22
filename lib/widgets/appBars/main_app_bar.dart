@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:outwork/go_pro_page.dart';
+import 'package:outwork/screens/go_pro_page.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/upgrade_your_plan_page.dart';

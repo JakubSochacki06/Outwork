@@ -32,14 +32,14 @@ class OfferingTab extends StatelessWidget {
             children: [
               Text(planName, style: Theme.of(context).textTheme.bodyLarge,),
               const Spacer(),
-              Text('$currencyCode$priceMonthly / MO'),
+              Text('$currencyCode$priceMonthly / MO', style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
           priceMonthly!=priceTotal?Row(
             children: [
               Text(
                 '$currencyCode${basicMonthlyPrice*int.parse(planName.split(' ')[0])}',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough, color: Theme.of(context).colorScheme.onPrimaryContainer, decorationColor: Theme.of(context).colorScheme.onPrimaryContainer),
               ),
               Text(' $currencyCode$priceTotal', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),)
             ],

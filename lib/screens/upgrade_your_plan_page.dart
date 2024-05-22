@@ -55,6 +55,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 maxLines: 1,
                 textAlign: TextAlign.center,
               ),
+              // Column
               SizedBox(
                 height: height * 0.025,
               ),
