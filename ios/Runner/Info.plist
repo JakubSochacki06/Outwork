@@ -71,5 +71,7 @@
 		<string>Used to capture audio for image picker plugin</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>GADApplicationIdentifier</key>
+        <string>ca-app-pub-2256050648476899~5348169522</string>
 	</dict>
 </plist>

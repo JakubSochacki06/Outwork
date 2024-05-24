@@ -21,6 +21,7 @@ Future<TimeOfDay?> pickSchedule(BuildContext context, String dayTime) async {
         ),
       ),
   );
+
   if(timeOfDay!.hour <= 14 && dayTime == 'Morning' || timeOfDay.hour > 14 && dayTime == 'Night'){
     return timeOfDay;
   } else {

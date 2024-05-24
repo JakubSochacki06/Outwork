@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+import 'package:outwork/services/admob_service.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
@@ -13,8 +15,51 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  InterstitialAd? _fullScreenAd;
+  @override
+  void initState() {
+    super.initState();
+    _createFullScreenAD();
+  }
+
+  void _createFullScreenAD() {
+    InterstitialAd.load(
+      adUnitId: AdMobService.fullScreenAdUnitID!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) => _fullScreenAd = ad,
+        onAdFailedToLoad: (LoadAdError error) {
+          print(error);
+      _fullScreenAd = null;
+      }
+      ),
+    );
+  }
+
+  void _showFullScreenAd(){
+    if (_fullScreenAd != null){
+      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error){
+          ad.dispose();
+          _createFullScreenAD();
+      },
+      );
+      _fullScreenAd!.show();
+      _fullScreenAd = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +110,6 @@ class HomePage extends StatelessWidget {
           index: -1,
         ));
 
-
     return Scaffold(
       appBar: const MainAppBar(),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -88,17 +132,22 @@ class HomePage extends StatelessWidget {
                         ),
                         Text(
                           'I believe in you.',
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer),
                         ),
                       ],
                     ),
                   ),
                   InkWell(
-                    onTap: (){
-                      NavbarControllerProvider navbarControllerProvider = Provider.of<NavbarControllerProvider>(context, listen: false);
+                    onTap: () {
+                      NavbarControllerProvider navbarControllerProvider =
+                          Provider.of<NavbarControllerProvider>(context,
+                              listen: false);
                       navbarControllerProvider.jumpToTab(3);
                     },
                     child: CircleAvatar(
@@ -154,22 +203,23 @@ class HomePage extends StatelessWidget {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        useRootNavigator: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            // height: height*0.1,
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: AddDailyCheckinPopup(
-                              buttonText: 'Add',
-                            ),
-                          ),
-                        ),
-                      );
+                      _showFullScreenAd();
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   isScrollControlled: true,
+                      //   useRootNavigator: true,
+                      //   builder: (context) => SingleChildScrollView(
+                      //     child: Container(
+                      //       // height: height*0.1,
+                      //       padding: EdgeInsets.only(
+                      //           bottom:
+                      //               MediaQuery.of(context).viewInsets.bottom),
+                      //       child: AddDailyCheckinPopup(
+                      //         buttonText: 'Add',
+                      //       ),
+                      //     ),
+                      //   ),
+                      // );
                     },
                     child: const Icon(
                       Icons.add,

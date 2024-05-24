@@ -15,6 +15,7 @@ class TimePickerTile extends StatelessWidget {
     if(subject.scheduledTime != null){
       subject.scheduledTime.minute.toString().length == 1? minutes = '0${subject.scheduledTime.minute}': minutes = subject.scheduledTime.minute.toString();
     }
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.04, vertical: height*0.01),
       decoration: BoxDecoration(

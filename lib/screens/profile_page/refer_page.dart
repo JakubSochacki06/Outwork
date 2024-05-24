@@ -139,12 +139,12 @@ class _ReferPageState extends State<ReferPage> {
                       ColumnSeries<MonthlyRevenue, String>(
                         enableTooltip: true,
                         dataSource: <MonthlyRevenue>[
-                          MonthlyRevenue(0, 'Nov'),
-                          MonthlyRevenue(0, 'Dec'),
-                          MonthlyRevenue(0, 'Jan'),
-                          MonthlyRevenue(0, 'Feb'),
-                          MonthlyRevenue(0, 'Mar'),
-                          MonthlyRevenue(0, 'Apr'),
+                          MonthlyRevenue(20, 'Dec'),
+                          MonthlyRevenue(30, 'Jan'),
+                          MonthlyRevenue(15, 'Feb'),
+                          MonthlyRevenue(40, 'Mar'),
+                          MonthlyRevenue(60, 'Apr'),
+                          MonthlyRevenue(110, 'May'),
                         ],
                         dataLabelSettings: const DataLabelSettings(),
                         color: Theme.of(context).colorScheme.secondary,

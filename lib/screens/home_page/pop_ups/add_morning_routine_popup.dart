@@ -123,7 +123,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                 if(checkIfValid()){
                   final userProvider = Provider.of<UserProvider>(context, listen: false);
                   if(morningRoutineProvider.scheduledTime!=null){
-                    await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text);
+                    await LocalNotifications().createRoutineReminder(title:'🚨 Do you remember about ${_morningRoutineController.text}?', body: 'Stay consistent and you will win!', notificationHour: morningRoutineProvider.scheduledTime!.hour, notificationMinute: morningRoutineProvider.scheduledTime!.minute);
                   }
                   await morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
