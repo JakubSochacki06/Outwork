@@ -1,108 +1,33 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:timezone/timezone.dart' as tz;
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:outwork/utilities/utilities.dart';
 
-class LocalNotifications {
-  static final FlutterLocalNotificationsPlugin
-  _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  static final onClickNotification = BehaviorSubject<String>();
-
-// on tap on any notification
-  static void onNotificationTap(NotificationResponse notificationResponse) {
-    onClickNotification.add(notificationResponse.payload!);
-  }
-
-// initialize the local notifications
-  static Future init() async {
-    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('notification_icon');
-    final DarwinInitializationSettings initializationSettingsDarwin =
-    DarwinInitializationSettings(
-      onDidReceiveLocalNotification: (id, title, body, payload) => null,
-    );
-    final LinuxInitializationSettings initializationSettingsLinux =
-    LinuxInitializationSettings(defaultActionName: 'Open notification');
-    final InitializationSettings initializationSettings =
-    InitializationSettings(
-        android: initializationSettingsAndroid,
-        iOS: initializationSettingsDarwin,
-        linux: initializationSettingsLinux);
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: onNotificationTap,
-        onDidReceiveBackgroundNotificationResponse: onNotificationTap);
-  }
-
-  static Future showOngoingNotifications() async {
-    print('NOTIFICATIONS');
-    print(await _flutterLocalNotificationsPlugin.pendingNotificationRequests());
-    List<
-        PendingNotificationRequest> requestList = await _flutterLocalNotificationsPlugin
-        .pendingNotificationRequests();
-  }
-
-  static Future showDummy() async {
-    const AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('your channel id', 'your channel name',
-        channelDescription: 'your channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-    const NotificationDetails notificationDetails =
-    NotificationDetails(android: androidNotificationDetails);
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-    tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour, 26);
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-      2115, 'test', 'pls work', scheduledDate, notificationDetails,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
-          .absoluteTime,);
-  }
-
-  // to show periodic notification at regular interval
-  Future createRoutineReminder({
-    required String title,
-    required String body,
-    required int notificationHour,
-    required int notificationMinute,
-  }) async {
-    const AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('ScheduledID', 'scheduledChannel',
-        channelDescription: 'Scheduled Routines notifications',
-        importance: Importance.max,
-        priority: Priority.high,
-        category: AndroidNotificationCategory.reminder,
-        ticker: 'ticker');
-    print('scheduled at ');
-    print(_nextInstanceOfTenAM(notificationHour, notificationMinute));
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-      title.hashCode.abs(),
-      title,
-      body,
-      _nextInstanceOfTenAM(notificationHour, notificationMinute),
-      NotificationDetails(android: androidNotificationDetails),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,);
-  }
-
-  tz.TZDateTime _nextInstanceOfTenAM(int hour, int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-    tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  // close a specific channel notification
-  static Future cancel(int id) async {
-    await _flutterLocalNotificationsPlugin.cancel(id);
-  }
-
-  // close all the notifications available
-  static Future cancelAll() async {
-    await _flutterLocalNotificationsPlugin.cancelAll();
-  }
+Future<void> createRoutineReminderNotification(TimeOfDay timeOfDay, String name, bool toughModeActivated) async {
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: name.hashCode.abs(),
+      channelKey: 'scheduled_channel',
+      title: '${Emojis.time_alarm_clock} Do you remember about $name?',
+      body: toughModeActivated?'Stop procrastinating and do it now ${Emojis.smile_clown_face}':'Stay consistent and you will win! ${Emojis.symbols_sparkle}',
+      notificationLayout: NotificationLayout.Default,
+      wakeUpScreen: true,
+      category: NotificationCategory.Reminder,
+    ),
+    // actionButtons: [
+    //   NotificationActionButton(
+    //     key: 'MARK_DONE',
+    //     label: 'Mark Done',
+    //   ),
+    // ],
+    schedule: NotificationCalendar(
+      preciseAlarm: true,
+      allowWhileIdle: true,
+      timeZone: await AwesomeNotifications().getLocalTimeZoneIdentifier(),
+      hour: timeOfDay.hour,
+      minute: timeOfDay.minute,
+      second: 0,
+      millisecond: 0,
+      repeats: true,
+    ),
+  );
 }

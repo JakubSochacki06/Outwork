@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:outwork/models/monthlyRevenue.dart';
@@ -123,42 +126,78 @@ class _ReferPageState extends State<ReferPage> {
                 ],
               ),
             ),
-            Container(
-                height: height * 0.23,
-                child: SfCartesianChart(
-                    tooltipBehavior: _tooltipBehavior,
-                    primaryXAxis: CategoryAxis(),
-                    primaryYAxis: NumericAxis(
-                        labelFormat: '\${value}',
-                        majorTickLines: const MajorTickLines(size: 1)),
-                    title: ChartTitle(
-                        text: 'Monthly revenue',
-                        textStyle: Theme.of(context).textTheme.bodyLarge),
-                    legend: const Legend(isVisible: false),
-                    series: <ColumnSeries<MonthlyRevenue, String>>[
-                      ColumnSeries<MonthlyRevenue, String>(
-                        enableTooltip: true,
-                        dataSource: <MonthlyRevenue>[
-                          MonthlyRevenue(20, 'Dec'),
-                          MonthlyRevenue(30, 'Jan'),
-                          MonthlyRevenue(15, 'Feb'),
-                          MonthlyRevenue(40, 'Mar'),
-                          MonthlyRevenue(60, 'Apr'),
-                          MonthlyRevenue(110, 'May'),
-                        ],
-                        dataLabelSettings: const DataLabelSettings(),
-                        color: Theme.of(context).colorScheme.secondary,
-                        width: 0.3,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5)),
-                        xValueMapper: (MonthlyRevenue revenue, _) =>
-                            revenue.month,
-                        yValueMapper: (MonthlyRevenue revenue, _) =>
-                            revenue.amount,
-                        // Enable data labe
-                      )
-                    ])),
+            ImageFiltered(
+              imageFilter: ImageFilter.blur(
+                  sigmaX: 0, sigmaY: 0, tileMode: TileMode.decal),
+              child: Stack(
+                children: [
+                  Container(
+                    height: height * 0.23,
+                    child: SfCartesianChart(
+                      tooltipBehavior: _tooltipBehavior,
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis: NumericAxis(
+                          labelFormat: '\${value}',
+                          majorTickLines: const MajorTickLines(size: 1)),
+                      title: ChartTitle(
+                          text: 'Monthly revenue',
+                          textStyle: Theme.of(context).textTheme.bodyLarge),
+                      legend: const Legend(isVisible: false),
+                      series: <ColumnSeries<MonthlyRevenue, String>>[
+                        ColumnSeries<MonthlyRevenue, String>(
+                          enableTooltip: true,
+                          dataSource: <MonthlyRevenue>[
+                            MonthlyRevenue(20, 'Dec'),
+                            MonthlyRevenue(30, 'Jan'),
+                            MonthlyRevenue(15, 'Feb'),
+                            MonthlyRevenue(40, 'Mar'),
+                            MonthlyRevenue(60, 'Apr'),
+                            MonthlyRevenue(110, 'May'),
+                          ],
+                          dataLabelSettings: const DataLabelSettings(),
+                          color: Theme.of(context).colorScheme.secondary,
+                          width: 0.3,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5)),
+                          xValueMapper: (MonthlyRevenue revenue, _) =>
+                              revenue.month,
+                          yValueMapper: (MonthlyRevenue revenue, _) =>
+                              revenue.amount,
+                          // Enable data labe
+                        )
+                      ],
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: width*0.65,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.03, vertical: height * 0.01),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.error.withOpacity(0.45),
+                          border: Border.all(color: Theme.of(context).colorScheme.error),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          boxShadow: themeProvider.isLightTheme()
+                              ? [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(3, 3),
+                            ),
+                          ]
+                              : null,
+                        ),
+                        child: Text('This is preview of referral program. It doesn\'t work for now!!', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodySmall,),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Row(
               children: [
                 Text(
@@ -171,7 +210,8 @@ class _ReferPageState extends State<ReferPage> {
                 const Spacer(),
                 InkWell(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
                       border: themeProvider.isLightTheme()
@@ -240,7 +280,8 @@ class _ReferPageState extends State<ReferPage> {
                               ? Border.all(color: const Color(0xFFEDEDED))
                               : null,
                           // color: Color(0xFFF0F2F5),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
                                   BoxShadow(
@@ -300,16 +341,15 @@ class _ReferPageState extends State<ReferPage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               InkWell(
                 child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Theme.of(context).colorScheme.primary),
-                  child: Icon(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Theme.of(context).colorScheme.primary),
+                    child: Icon(
                       LineIcons.facebookF,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: height * 0.035,
-                  )
-                ),
+                      color: Theme.of(context).colorScheme.secondary,
+                      size: height * 0.035,
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -318,11 +358,10 @@ class _ReferPageState extends State<ReferPage> {
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
                     child: Icon(
-                        LineIcons.linkedinIn,
+                      LineIcons.linkedinIn,
                       size: height * 0.035,
                       color: Theme.of(context).colorScheme.secondary,
-                    )
-                ),
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -331,11 +370,10 @@ class _ReferPageState extends State<ReferPage> {
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
                     child: Icon(
-                        LineIcons.instagram,
+                      LineIcons.instagram,
                       size: height * 0.035,
                       color: Theme.of(context).colorScheme.secondary,
-                    )
-                ),
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -344,11 +382,10 @@ class _ReferPageState extends State<ReferPage> {
                         borderRadius: BorderRadius.circular(15),
                         color: Theme.of(context).colorScheme.primary),
                     child: Icon(
-                        LineIcons.whatSApp,
+                      LineIcons.whatSApp,
                       size: height * 0.035,
                       color: Theme.of(context).colorScheme.secondary,
-                    )
-                ),
+                    )),
               ),
               InkWell(
                 child: Container(
@@ -360,8 +397,7 @@ class _ReferPageState extends State<ReferPage> {
                       LineIcons.facebookMessenger,
                       color: Theme.of(context).colorScheme.secondary,
                       size: height * 0.035,
-                    )
-                ),
+                    )),
               ),
             ]),
             SizedBox(

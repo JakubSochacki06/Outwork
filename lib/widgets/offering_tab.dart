@@ -28,6 +28,17 @@ class OfferingTab extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: Container(
+          //     padding: const EdgeInsets.all(5),
+          //     decoration: BoxDecoration(
+          //       color: Theme.of(context).colorScheme.secondary,
+          //       borderRadius: BorderRadius.only(topRight: Radius.circular(15)),
+          //     ),
+          //     child: Text('25% off', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),),
+          //   ),
+          // ),
           Row(
             children: [
               Text(planName, style: Theme.of(context).textTheme.bodyLarge,),
@@ -45,7 +56,6 @@ class OfferingTab extends StatelessWidget {
             ],
           ):Container(),
         ],
-      ),
-    );
+      ),);
   }
 }

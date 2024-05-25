@@ -1,19 +1,23 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/navbar_controller_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+import 'package:outwork/screens/upgrade_your_plan_page.dart';
 import 'package:outwork/services/admob_service.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
 import 'package:outwork/widgets/night_routine.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -202,8 +206,22 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {
-                      _showFullScreenAd();
+                    onTap: () async{
+                      Offerings? offerings;
+                      try {
+                        offerings = await Purchases.getOfferings();
+                      } catch (e) {
+                        print(e);
+                      }
+                      if(offerings != null){
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: UpgradeYourPlanPage(offerings: offerings,),
+                          withNavBar: false,
+                        );
+                      }
+                      // List<NotificationModel> pending = await AwesomeNotifications().listScheduledNotifications();
+                      // _showFullScreenAd();
                       // showModalBottomSheet(
                       //   context: context,
                       //   isScrollControlled: true,

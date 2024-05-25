@@ -3,6 +3,7 @@ import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:outwork/widgets/carousel_item.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:outwork/constants/constants.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -37,12 +38,30 @@ class _ProgressPageState extends State<ProgressPage> {
           itemCount: progressFields.length,
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: (){
+              onTap: progressFields[index]['route']!=null?(){
                 PersistentNavBarNavigator.pushNewScreen(
                   context,
                   screen: progressFields[index]['route'],
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
+              }:() {
+                final snackBar = SnackBar(
+                  /// need to set following properties for best effect of awesome_snackbar_content
+                  elevation: 0,
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'On Snap!',
+                    message:
+                    'This feature is not ready yet :(\n We will add it soon!',
+                    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                    contentType: ContentType.failure,
+                  ),
+                );
+
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
               },
               child: ProgressCard(
                   title: progressFields[index]['title']!,

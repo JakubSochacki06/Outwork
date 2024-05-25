@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/models/offerings_wrapper.dart';
@@ -49,50 +50,172 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
               SizedBox(
                 height: height * 0.01,
               ),
-              AutoSizeText(
-                'Try Outwork for free',
-                style: Theme.of(context).textTheme.displaySmall,
-                maxLines: 1,
-                textAlign: TextAlign.center,
-              ),
+              Image.asset('assets/images/OutworkPro.png'),
+              // AutoSizeText(
+              //   'Try Outwork for free',
+              //   style: Theme.of(context).textTheme.displaySmall,
+              //   maxLines: 1,
+              //   textAlign: TextAlign.center,
+              // ),
               // Column
               SizedBox(
                 height: height * 0.025,
               ),
-              Flexible(
-                child: ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      splashFactory: NoSplash.splashFactory,
-                      onTap: () {
-                        setState(() {
-                          selectedOffering = index;
-                        });
-                      },
-                      child: OfferingTab(
-                        isSelected: index == selectedOffering,
-                        priceTotal: widget.offerings.current!
-                            .availablePackages[index].storeProduct.price,
-                        planName: widget.offerings.current!
-                            .availablePackages[index].storeProduct.description,
-                        currencyCode: widget.offerings.current!
-                            .availablePackages[index].storeProduct.currencyCode,
-                        basicMonthlyPrice: widget
-                            .offerings.current!.monthly!.storeProduct.price,
-                      ),
-                    );
-                  },
-                  itemCount: 3,
-                  separatorBuilder: (context, builder) {
-                    return SizedBox(
-                      height: height * 0.015,
-                    );
-                  },
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Change your life ', style: Theme.of(context).textTheme.bodyMedium,),
+                  Text('NOW ', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, decorationColor: Theme.of(context).colorScheme.secondary)),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 35,
+                  ),
+                  Text('Chat with Jacob without limits',
+                      style: Theme.of(context).primaryTextTheme.bodySmall)
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 35,
+                  ),
+                  Text('No more tracking limits',
+                      style: Theme.of(context).primaryTextTheme.bodySmall)
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 35,
+                  ),
+                  Text('Earn "Early Supporter" Trophy',
+                      style: Theme.of(context).primaryTextTheme.bodySmall)
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 35,
+                  ),
+                  Text('No ads',
+                      style: Theme.of(context).primaryTextTheme.bodySmall)
+                ],
+              ),
+              Spacer(),
+              InkWell(
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  setState(() {
+                    selectedOffering = 2;
+                  });
+                },
+                child: OfferingTab(
+                  isSelected: 2 == selectedOffering,
+                  priceTotal: widget.offerings.current!.availablePackages[2]
+                      .storeProduct.price,
+                  planName: widget.offerings.current!.availablePackages[2]
+                      .storeProduct.description,
+                  currencyCode: widget.offerings.current!.availablePackages[2]
+                      .storeProduct.currencyCode,
+                  basicMonthlyPrice:
+                      widget.offerings.current!.monthly!.storeProduct.price,
                 ),
               ),
+              SizedBox(
+                height: height * 0.015,
+              ),
+              InkWell(
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  setState(() {
+                    selectedOffering = 1;
+                  });
+                },
+                child: OfferingTab(
+                  isSelected: 1 == selectedOffering,
+                  priceTotal: widget
+                      .offerings.current!.availablePackages[1].storeProduct.price,
+                  planName: widget.offerings.current!.availablePackages[1]
+                      .storeProduct.description,
+                  currencyCode: widget.offerings.current!.availablePackages[1]
+                      .storeProduct.currencyCode,
+                  basicMonthlyPrice:
+                      widget.offerings.current!.monthly!.storeProduct.price,
+                ),
+              ),
+              SizedBox(
+                height: height * 0.015,
+              ),
+              InkWell(
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  setState(() {
+                    selectedOffering = 0;
+                  });
+                },
+                child: OfferingTab(
+                  isSelected: 0 == selectedOffering,
+                  priceTotal: widget
+                      .offerings.current!.availablePackages[0].storeProduct.price,
+                  planName: widget.offerings.current!.availablePackages[0]
+                      .storeProduct.description,
+                  currencyCode: widget.offerings.current!.availablePackages[0]
+                      .storeProduct.currencyCode,
+                  basicMonthlyPrice:
+                      widget.offerings.current!.monthly!.storeProduct.price,
+                ),
+              ),
+
+              // Expanded(
+              //   child: ListView.separated(
+              //     physics: NeverScrollableScrollPhysics(),
+              //     reverse: true,
+              //     shrinkWrap: true,
+              //     itemBuilder: (context, index) {
+              //       return InkWell(
+              //         splashFactory: NoSplash.splashFactory,
+              //         onTap: () {
+              //           setState(() {
+              //             selectedOffering = index;
+              //           });
+              //         },
+              //         child: OfferingTab(
+              //           isSelected: index == selectedOffering,
+              //           priceTotal: widget.offerings.current!
+              //               .availablePackages[index].storeProduct.price,
+              //           planName: widget.offerings.current!
+              //               .availablePackages[index].storeProduct.description,
+              //           currencyCode: widget.offerings.current!
+              //               .availablePackages[index].storeProduct.currencyCode,
+              //           basicMonthlyPrice: widget
+              //               .offerings.current!.monthly!.storeProduct.price,
+              //         ),
+              //       );
+              //     },
+              //     itemCount: 3,
+              //     separatorBuilder: (context, builder) {
+              //       return SizedBox(
+              //         height: height * 0.015,
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(
                 height: height * 0.02,
               ),
@@ -132,8 +255,11 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
               SizedBox(
                 height: height * 0.01,
               ),
-              Text('Recurring billing, cancel anytime. ',
-                  style: Theme.of(context).primaryTextTheme.labelMedium, textAlign: TextAlign.center,),
+              Text(
+                'Recurring billing, cancel anytime. ',
+                style: Theme.of(context).primaryTextTheme.labelMedium,
+                textAlign: TextAlign.center,
+              ),
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [

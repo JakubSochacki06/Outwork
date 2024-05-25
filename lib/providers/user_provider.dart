@@ -29,6 +29,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> restartDailyData() async{
+    DateTime now = DateTime.now();
     int checkinsDone = 0;
     _user!.dailyCheckins!.forEach((element) {
       element.value == element.goal?checkinsDone++:null;
@@ -53,7 +54,7 @@ class UserProvider extends ChangeNotifier {
       'dailyCheckins': rawDailyCheckins,
       'morningRoutines':_user!.morningRoutines,
       'nightRoutines':_user!.nightRoutines,
-      'streak':morningDone==_user!.morningRoutines!.length && nightDone==_user!.nightRoutines!.length && checkinsDone == _user!.dailyCheckins!.length?FieldValue.increment(1):0,
+      'streak':morningDone==_user!.morningRoutines!.length && nightDone==_user!.nightRoutines!.length && checkinsDone == _user!.dailyCheckins!.length && now.subtract(Duration(days: 1)).day == _user!.lastUpdated!.day?FieldValue.increment(1):0,
     });
   }
 

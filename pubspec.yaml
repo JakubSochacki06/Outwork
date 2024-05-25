@@ -56,7 +56,7 @@ dependencies:
   time_machine: ^0.9.17
   jiffy: ^6.2.1
   google_mobile_ads: ^5.1.0
-  flutter_local_notifications: ^17.1.2
+  awesome_notifications: ^0.8.2
 
 dev_dependencies:
   flutter_test:

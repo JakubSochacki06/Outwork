@@ -123,7 +123,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
                 if(checkIfValid()){
                   final userProvider = Provider.of<UserProvider>(context, listen: false);
                   if(nightRoutineProvider.scheduledTime!=null){
-                    await LocalNotifications().createRoutineReminder(title:'🚨 Do you remember about ${_nightRoutineController.text}?', body: 'Stay consistent and you will win!', notificationHour: nightRoutineProvider.scheduledTime!.hour, notificationMinute: nightRoutineProvider.scheduledTime!.minute);
+                    await createRoutineReminderNotification(nightRoutineProvider.scheduledTime!, _nightRoutineController.text, userProvider.user!.toughModeSelected!);
                   }
                   await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
                   XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);

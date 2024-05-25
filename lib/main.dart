@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,13 +23,13 @@ import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:outwork/services/notifications_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'notification_controller.dart';
 import 'screens/login_page/welcome_page.dart';
 import 'screens/login_page/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
 
 
@@ -39,8 +40,31 @@ Future main() async {
       RequestConfiguration(testDeviceIds: ['BF39F4EB121478D2876344D1BF1E3091']));
   await MobileAds.instance.initialize();
   await dotenv.load();
-  await LocalNotifications.init();
-  tz.initializeTimeZones();
+  await AwesomeNotifications()
+      .initialize('resource://drawable/notification_icon', [
+    NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic Notification',
+        channelDescription: 'Basic notifications channel',
+        channelGroupKey: 'basic_channel_group',
+        importance: NotificationImportance.High,
+        channelShowBadge: true),
+    NotificationChannel(
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled Notifications',
+        channelDescription: 'Scheduled notifications channel',
+        importance: NotificationImportance.High,
+        channelShowBadge: true
+    ),
+  ], channelGroups: [
+    NotificationChannelGroup(
+        channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
+  ]);
+  bool isAllowedToSendNotification =
+  await AwesomeNotifications().isNotificationAllowed();
+  if (!isAllowedToSendNotification) {
+    AwesomeNotifications().requestPermissionToSendNotifications();
+  }
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   PurchasesConfiguration configuration = PurchasesConfiguration(googleRCApiKey);
   await Purchases.configure(configuration);
@@ -68,6 +92,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+      onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
+      onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
+      onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
+    );
     checkForUpdate();
     super.initState();
   }

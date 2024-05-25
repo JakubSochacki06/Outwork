@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
-import 'package:outwork/screens/select_plan_page.dart';
+import 'package:outwork/screens/upgrade_your_plan_page.dart';
 import 'package:outwork/widgets/premium_feature.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
@@ -56,7 +56,7 @@ class GoProPage extends StatelessWidget {
                         PremiumFeature(
                             leftIcon: LineIcons.trophy,
                             title: 'Earn trophies',
-                            description: 'Showcase them in your profile!'),
+                            description: 'Showcase them in your profile! (soon)'),
                         SizedBox(height: height*0.01,),
                         PremiumFeature(
                             leftIcon: LineIcons.ban,
@@ -92,7 +92,7 @@ class GoProPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SelectPlanPage(offerings: offerings!,)),
+                          MaterialPageRoute(builder: (context) => UpgradeYourPlanPage(offerings: offerings,)),
                         );
                       },
                       child: Text(
