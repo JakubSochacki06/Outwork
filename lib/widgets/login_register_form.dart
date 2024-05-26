@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:outwork/widgets/buttons/google_signup_button.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+
+import 'buttons/apple_signup_button.dart';
 
 class LoginRegisterForm extends StatefulWidget {
   const LoginRegisterForm({super.key});
@@ -256,6 +260,8 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
           height: height * 0.015,
         ),
         const GoogleSignupButton(),
+        Platform.isIOS?SizedBox(height: height*0.01,):Container(),
+        Platform.isIOS?const AppleSignupButton():Container(),
       ],
     );
   }

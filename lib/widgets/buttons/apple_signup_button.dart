@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 
-class GoogleSignupButton extends StatelessWidget {
-  const GoogleSignupButton({super.key});
+class AppleSignupButton extends StatelessWidget {
+  const AppleSignupButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +23,12 @@ class GoogleSignupButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircleAvatar(backgroundImage: AssetImage('assets/images/googleLogo.png'), radius: 13,),
+          Icon(Icons.apple, color: Colors.white, size: 35,),
+          // const CircleAvatar(backgroundImage: AssetImage('assets/images/appleLogo.png'), radius: 13,),
           const SizedBox(
             width: 10,
           ),
-          Text('Continue with Google', style: Theme.of(context).textTheme.bodySmall,)
+          Text('Continue with Apple', style: Theme.of(context).textTheme.bodySmall,)
         ],
       ),
     );
