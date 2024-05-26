@@ -4,7 +4,11 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:outwork/widgets/error_shake_text.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
+import '../../upgrade_your_plan_page.dart';
 
 class AddProjectPopup extends StatefulWidget {
   final String mode;
@@ -342,19 +346,37 @@ class _AddProjectPopup extends State<AddProjectPopup> {
           ),
           ElevatedButton(
             onPressed: () async {
-              if (validateInput()) {
-                if (widget.mode == 'Edit existing') {
-                  await projectProvider.saveEditedChanges();
-                } else {
-                  projectProvider.newProject.membersEmails = [
-                    userProvider.user!.email!
-                  ];
-                  await projectProvider
-                      .addProjectToDatabase(userProvider.user!);
-                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
+              if(userProvider.user!.isPremiumUser! || projectProvider.projectsList.length < 3){
+                if (validateInput()) {
+                  if (widget.mode == 'Edit existing') {
+                    await projectProvider.saveEditedChanges();
+                  } else {
+                    projectProvider.newProject.membersEmails = [
+                      userProvider.user!.email!
+                    ];
+                    await projectProvider
+                        .addProjectToDatabase(userProvider.user!);
+                    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                    await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
+                  }
+                  Navigator.pop(context);
                 }
-                Navigator.pop(context);
+              } else {
+                Offerings? offerings;
+                try {
+                  offerings = await Purchases.getOfferings();
+                } catch (e) {
+                  print(e);
+                }
+                if (offerings != null) {
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: UpgradeYourPlanPage(
+                      offerings: offerings,
+                    ),
+                    withNavBar: false,
+                  );
+                }
               }
             },
             child: Text('Submit',

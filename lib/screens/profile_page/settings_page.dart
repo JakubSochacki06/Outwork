@@ -62,12 +62,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.local_fire_department),
                 title: const Text('Turn on tough mode'),
               ),
-              SettingsTile.switchTile(
-                onToggle: (value) {},
-                initialValue: true,
-                leading: const Icon(Icons.notifications_active),
-                title: const Text('Enable notifications'),
-              ),
+              // SettingsTile.switchTile(
+              //   onToggle: (value) {},
+              //   initialValue: true,
+              //   leading: const Icon(Icons.notifications_active),
+              //   title: const Text('Enable notifications'),
+              // ),
             ],
           ),
           SettingsSection(title: const Text('Account'), tiles: <SettingsTile>[

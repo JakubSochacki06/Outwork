@@ -206,38 +206,25 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () async{
-                      Offerings? offerings;
-                      try {
-                        offerings = await Purchases.getOfferings();
-                      } catch (e) {
-                        print(e);
-                      }
-                      if(offerings != null){
-                        PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: UpgradeYourPlanPage(offerings: offerings,),
-                          withNavBar: false,
-                        );
-                      }
+                    onTap: () {
                       // List<NotificationModel> pending = await AwesomeNotifications().listScheduledNotifications();
                       // _showFullScreenAd();
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   useRootNavigator: true,
-                      //   builder: (context) => SingleChildScrollView(
-                      //     child: Container(
-                      //       // height: height*0.1,
-                      //       padding: EdgeInsets.only(
-                      //           bottom:
-                      //               MediaQuery.of(context).viewInsets.bottom),
-                      //       child: AddDailyCheckinPopup(
-                      //         buttonText: 'Add',
-                      //       ),
-                      //     ),
-                      //   ),
-                      // );
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            // height: height*0.1,
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: AddDailyCheckinPopup(
+                              buttonText: 'Add',
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     child: const Icon(
                       Icons.add,

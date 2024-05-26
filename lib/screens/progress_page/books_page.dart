@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/progress_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../models/book.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/appBars/main_app_bar.dart';
 import '../../widgets/book_container.dart';
 import '../../widgets/book_tile.dart';
+import '../upgrade_your_plan_page.dart';
 
 class BooksPage extends StatelessWidget {
   const BooksPage({super.key});
@@ -101,10 +104,28 @@ class BooksPage extends StatelessWidget {
                       BookTile(
                         book: book,
                         onAddClicked: () async {
-                          await progressProvider.addBookToDatabase(
-                              book, userProvider.user!.email!);
-                          FocusScope.of(context).unfocus();
-                          controller.closeView('');
+                          if(userProvider.user!.isPremiumUser! || progressProvider.books.length < 3){
+                            await progressProvider.addBookToDatabase(
+                                book, userProvider.user!.email!);
+                            FocusScope.of(context).unfocus();
+                            controller.closeView('');
+                          } else {
+                            Offerings? offerings;
+                            try {
+                              offerings = await Purchases.getOfferings();
+                            } catch (e) {
+                              print(e);
+                            }
+                            if (offerings != null) {
+                              PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: UpgradeYourPlanPage(
+                                  offerings: offerings,
+                                ),
+                                withNavBar: false,
+                              );
+                            }
+                          }
                         },
                       ),
                       SizedBox(height: height * 0.015),

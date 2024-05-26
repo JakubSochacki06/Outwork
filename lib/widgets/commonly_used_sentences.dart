@@ -46,7 +46,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m not feeling alright', userProvider.user!.email!, context);
+                    chatProvider.handleSubmitted('I\'m not feeling alright', userProvider.user!.email!, userProvider.user!.isPremiumUser!,context);
                   },
                   child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
                 ),
@@ -59,7 +59,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I don\'t have motivation', userProvider.user!.email!, context);
+                    chatProvider.handleSubmitted('I don\'t have motivation', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
                   child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
@@ -73,7 +73,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m tired', userProvider.user!.email!, context);
+                    chatProvider.handleSubmitted('I\'m tired', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
                   child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
@@ -87,7 +87,7 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I might give up soon', userProvider.user!.email!, context);
+                    chatProvider.handleSubmitted('I might give up soon', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
                   child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),

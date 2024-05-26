@@ -5,7 +5,11 @@ import 'package:outwork/providers/progress_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/subscription_carousel_item.dart';
 import 'package:outwork/constants/constants.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
+import '../../upgrade_your_plan_page.dart';
 
 class AddExpensePage extends StatefulWidget {
   const AddExpensePage({super.key});
@@ -30,6 +34,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
     double basePrice = subscriptions[_currentIndex]['price'];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -151,14 +158,30 @@ class _AddExpensePageState extends State<AddExpensePage> {
                     ),
                     ElevatedButton(
                       onPressed: () async{
-                        ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
-                        UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-                        await progressProvider.addSubscriptionToDatabase(
-                        {
-                          'name':subscriptions[_currentIndex]['name'],
-                          'price':basePrice+increment,
-                        }, userProvider.user!.email!);
-                        Navigator.pop(context);
+                        if(userProvider.user!.isPremiumUser! || progressProvider.subscriptions.length < 2){
+                          await progressProvider.addSubscriptionToDatabase(
+                              {
+                                'name':subscriptions[_currentIndex]['name'],
+                                'price':basePrice+increment,
+                              }, userProvider.user!.email!);
+                          Navigator.pop(context);
+                        } else {
+                          Offerings? offerings;
+                          try {
+                            offerings = await Purchases.getOfferings();
+                          } catch (e) {
+                            print(e);
+                          }
+                          if (offerings != null) {
+                            PersistentNavBarNavigator.pushNewScreen(
+                              context,
+                              screen: UpgradeYourPlanPage(
+                                offerings: offerings,
+                              ),
+                              withNavBar: false,
+                            );
+                          }
+                        }
                       },
                       child: Text(
                         'Add this subscription',

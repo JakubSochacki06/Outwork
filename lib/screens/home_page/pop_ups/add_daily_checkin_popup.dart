@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
+import '../../upgrade_your_plan_page.dart';
 
 class AddDailyCheckinPopup extends StatefulWidget {
   final String name;
@@ -460,36 +464,56 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
             ),
             ElevatedButton(
               onPressed: () async {
-                if (validateTextFields() == true) {
-                  if (widget.buttonText != 'Edit existing') {
-                    String hexColor = colors[Random().nextInt(colors.length)]
-                        .value
-                        .toRadixString(16)
-                        .padLeft(8, '0')
-                        .toUpperCase();
-                    await dailyCheckinProvider.addDailyCheckinToFirebase(
+                print('UWAGA');
+                print(dailyCheckinProvider.dailyCheckins.length);
+                if(userProvider.user!.isPremiumUser! || dailyCheckinProvider.dailyCheckins.length < 5){
+                  if (validateTextFields() == true) {
+                    if (widget.buttonText != 'Edit existing') {
+                      String hexColor = colors[Random().nextInt(colors.length)]
+                          .value
+                          .toRadixString(16)
+                          .padLeft(8, '0')
+                          .toUpperCase();
+                      await dailyCheckinProvider.addDailyCheckinToFirebase(
+                          _nameController.text,
+                          _unitController.text,
+                          int.parse(_goalController.text),
+                          int.parse(_stepController.text),
+                          hexColor,
+                          userProvider.user!.email!,
+                          selectedEmoji!);
+                      XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                      await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
+                    } else {
+                      await dailyCheckinProvider.editDailyCheckin(
                         _nameController.text,
                         _unitController.text,
                         int.parse(_goalController.text),
                         int.parse(_stepController.text),
-                        hexColor,
                         userProvider.user!.email!,
-                        selectedEmoji!);
-                    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                    await xpLevelProvider.addXpAmount(20, userProvider.user!.email!, context);
-                  } else {
-                    await dailyCheckinProvider.editDailyCheckin(
-                      _nameController.text,
-                      _unitController.text,
-                      int.parse(_goalController.text),
-                      int.parse(_stepController.text),
-                      userProvider.user!.email!,
-                      selectedEmoji!,
-                      widget.id,
+                        selectedEmoji!,
+                        widget.id,
+                      );
+                    }
+
+                    Navigator.pop(context);
+                  }
+                } else {
+                  Offerings? offerings;
+                  try {
+                    offerings = await Purchases.getOfferings();
+                  } catch (e) {
+                    print(e);
+                  }
+                  if (offerings != null) {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: UpgradeYourPlanPage(
+                        offerings: offerings,
+                      ),
+                      withNavBar: false,
                     );
                   }
-
-                  Navigator.pop(context);
                 }
               },
               child: Text(

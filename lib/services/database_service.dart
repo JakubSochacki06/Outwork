@@ -28,7 +28,7 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
-      'freeMessages':10,
+      'freeMessages':5,
       'toughMode':toughModeActivated,
       'badHabits':badHabits,
       'books':[
@@ -71,7 +71,7 @@ class DatabaseService {
     await _db.collection('users_data').doc(user.email).set({
       'displayName': displayName,
       'email': user.email,
-      'photoURL': 'https://img.freepik.com/premium-vector/account-icon-user-icon-vector-graphics_292645-552.jpg',
+      'photoURL': 'https://i.pinimg.com/280x280_RS/66/ce/c1/66cec18796d258bffde99945565481a7.jpg',
       'morningRoutines':[
         // {'name': 'Prepare healthy breakfast', 'completed': false},
       ],
@@ -83,7 +83,7 @@ class DatabaseService {
       'projectsIDList':[
 
       ],
-      'freeMessages':10,
+      'freeMessages':5,
       'toughMode':toughModeActivated,
       'badHabits':badHabits,
       'books':[

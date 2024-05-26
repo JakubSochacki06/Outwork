@@ -6,10 +6,13 @@ import 'package:flutter/widgets.dart';
 import 'package:outwork/providers/progress_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/appBars/basic_app_bar.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../constants/constants.dart';
 import '../../../providers/theme_provider.dart';
+import '../../upgrade_your_plan_page.dart';
 
 class ManageHabitsPage extends StatefulWidget {
   final Map<dynamic, dynamic> startingHabits;
@@ -67,19 +70,38 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
                 customBorder: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-                onTap: () {
-                  print(progressProvider.badHabits);
-                  setState(() {
-                    if (widget.startingHabits.containsKey(badHabits[index])) {
+                onTap: () async{
+                  if (widget.startingHabits.containsKey(badHabits[index])) {
+                    setState(() {
                       widget.startingHabits.remove(badHabits[index]);
+                    });
+                  } else {
+                    if(userProvider.user!.isPremiumUser! || widget.startingHabits.length < 2){
+                      setState(() {
+                        widget.startingHabits[badHabits[index]] = {
+                          'description': null,
+                          'longestStreak': 0,
+                          'startDate': DateTime.now(),
+                        };
+                      });
                     } else {
-                      widget.startingHabits[badHabits[index]] = {
-                        'description': null,
-                        'longestStreak': 0,
-                        'startDate': DateTime.now(),
-                      };
+                      Offerings? offerings;
+                      try {
+                        offerings = await Purchases.getOfferings();
+                      } catch (e) {
+                        print(e);
+                      }
+                      if (offerings != null) {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: UpgradeYourPlanPage(
+                            offerings: offerings,
+                          ),
+                          withNavBar: false,
+                        );
+                      }
                     }
-                  });
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

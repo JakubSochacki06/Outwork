@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/time_picker_tile.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../../services/notifications_service.dart';
+import '../../upgrade_your_plan_page.dart';
 
 class AddNightRoutinePopup extends StatefulWidget {
   const AddNightRoutinePopup({super.key});
@@ -28,6 +31,7 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     NightRoutineProvider nightRoutineProvider = Provider.of<NightRoutineProvider>(context, listen: true);
 
     bool checkIfValid() {
@@ -120,15 +124,32 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
             ),
             ElevatedButton(
               onPressed: () async{
-                if(checkIfValid()){
-                  final userProvider = Provider.of<UserProvider>(context, listen: false);
-                  if(nightRoutineProvider.scheduledTime!=null){
-                    await createRoutineReminderNotification(nightRoutineProvider.scheduledTime!, _nightRoutineController.text, userProvider.user!.toughModeSelected!);
+                if(userProvider.user!.isPremiumUser! || nightRoutineProvider.nightRoutines.length < 3){
+                  if(checkIfValid()){
+                    if(nightRoutineProvider.scheduledTime!=null){
+                      await createRoutineReminderNotification(nightRoutineProvider.scheduledTime!, _nightRoutineController.text, userProvider.user!.toughModeSelected!);
+                    }
+                    await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
+                    XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
+                    await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
+                    Navigator.pop(context);
                   }
-                  await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
-                  XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
-                  await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
-                  Navigator.pop(context);
+                } else {
+                  Offerings? offerings;
+                  try {
+                    offerings = await Purchases.getOfferings();
+                  } catch (e) {
+                    print(e);
+                  }
+                  if (offerings != null) {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: UpgradeYourPlanPage(
+                        offerings: offerings,
+                      ),
+                      withNavBar: false,
+                    );
+                  }
                 }
               },
               child: Text(

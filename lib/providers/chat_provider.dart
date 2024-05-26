@@ -4,11 +4,14 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/chat_message.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'dart:convert';
 
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../models/firebase_user.dart';
+import '../screens/upgrade_your_plan_page.dart';
 
 class ChatProvider with ChangeNotifier {
   TextEditingController _messageController = TextEditingController();
@@ -18,6 +21,7 @@ class ChatProvider with ChangeNotifier {
   int _freeMessages = 0;
 
   List<ChatMessage> get messages => _messages;
+
   int get freeMessages => _freeMessages;
 
   ChatProvider(context) {
@@ -25,27 +29,45 @@ class ChatProvider with ChangeNotifier {
     _handleAdminInstructionsAndSetMessages(context);
   }
 
-  Future<void> handleSubmitted(String text, String userEmail, context) async{
-    if(_freeMessages != 0){
-      _freeMessages -= 1;
-      notifyListeners();
-      await _db.collection('users_data').doc(userEmail).update({
-        'freeMessages': FieldValue.increment(-1),
-      });
+  Future<void> handleSubmitted(String text, String userEmail, bool isPremiumUser, context) async {
+    if (isPremiumUser || _freeMessages > 0) {
       _messageController.clear();
-      ChatMessage message = ChatMessage(text: text, isUser: true, isToughMode: false,);
+      ChatMessage message = ChatMessage(
+        text: text,
+        isUser: true,
+        isToughMode: false,
+      );
       _messages.insert(0, message);
       _conversationHistory.add({'role': 'user', 'content': text});
       notifyListeners(); // Notify listeners to rebuild UI
       callOpenAPI(context);
-      print(messages);
+      if (!isPremiumUser) {
+        _freeMessages -= 1;
+        notifyListeners();
+        await _db.collection('users_data').doc(userEmail).update({
+          'freeMessages': FieldValue.increment(-1),
+        });
+      }
     } else {
-
+      Offerings? offerings;
+      try {
+        offerings = await Purchases.getOfferings();
+      } catch (e) {
+        print(e);
+      }
+      if (offerings != null) {
+        PersistentNavBarNavigator.pushNewScreen(
+          context,
+          screen: UpgradeYourPlanPage(
+            offerings: offerings,
+          ),
+          withNavBar: false,
+        );
+      }
     }
-
   }
 
-  void resetConversation(context){
+  void resetConversation(context) {
     _messages = [];
     _conversationHistory = [];
     _handleAdminInstructionsAndSetMessages(context);
@@ -61,13 +83,16 @@ class ChatProvider with ChangeNotifier {
             'I\'m here to chat with you about anything and provide a listening ear. Feel free to share your thoughts, ask questions, or just chat away!'
       },
       userProvider.user!.toughModeSelected!
-          ?{
-        'role': 'assistant',
-        'content': 'Hey there! I\'m Jacob Bot, your tough motivational brother.'
-      }:{
-        'role': 'assistant',
-        'content': 'Hey there! I\'m Jacob Bot, your friendly chat companion.'
-      },
+          ? {
+              'role': 'assistant',
+              'content':
+                  'Hey there! I\'m Jacob Bot, your tough motivational brother.'
+            }
+          : {
+              'role': 'assistant',
+              'content':
+                  'Hey there! I\'m Jacob Bot, your friendly chat companion.'
+            },
     ];
 
     List<Map<String, String>> initialUserMessage =
@@ -76,7 +101,7 @@ class ChatProvider with ChangeNotifier {
                 {
                   'role': 'user',
                   'content':
-                      'Act as a very very tough, hard, aggressive motivational bot named Jacob Bot. You can swear to make him more motivated. Make him push thru his limits. If he is showing weakness encourage him. If a situation doesnt need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it! Main rules you have to know: Direct Communication: Be assertive and straightforward.Use Tough Language: Speak firmly to motivate.Empowerment: Tough love to empower action.Personal Responsibility: Encourage self-accountability.Goal Focus: Emphasize goals and growth.Avoid Coddling: Don\'t indulge negative emotions.Constructive Criticism: Provide practical feedback.Maintain Professionalism: Stay respectful.Encourage Action: Prompt user to take steps.Offer Resources: Provide helpful suggestions. ALWAYS answer in language that user speaks.'
+                      'Act as a very very tough, hard, aggressive motivational bot named Jacob Bot. You can swear to make him more motivated. Make him push thru his limits. If he is showing weakness encourage him. If a situation doesnt need it answer as short as possible, but it still should be meaningful. You can use emojis, because it creates positive vibe, but dont overuse it!Jacob, listen up. I need you to push me like never before. I want no excuses, no holding back. If I slack off, tear into me. I need that tough, aggressive motivation you\'re known for. Swear at me, but make sure I hit my limits and then go beyond. Let\'s crush this!'
                 },
                 {
                   'role': 'user',
@@ -97,16 +122,26 @@ class ChatProvider with ChangeNotifier {
               ];
 
     // Display introduction messages
-    _messages.addAll(adminInstructions
-        .map((msg) => ChatMessage(text: msg['content']!, isUser: false, isToughMode: userProvider.user!.toughModeSelected!,)));
+    _messages.addAll(adminInstructions.map((msg) => ChatMessage(
+          text: msg['content']!,
+          isUser: false,
+          isToughMode: userProvider.user!.toughModeSelected!,
+        )));
 
     _conversationHistory.addAll(initialUserMessage);
     _conversationHistory.addAll(adminInstructions);
   }
 
   Future<void> callOpenAPI(context) async {
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
-    _messages.insert(0, ChatMessage(text: 'typing...', isUser: false, isToughMode: userProvider.user!.toughModeSelected!,));
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    _messages.insert(
+        0,
+        ChatMessage(
+          text: 'typing...',
+          isUser: false,
+          isToughMode: userProvider.user!.toughModeSelected!,
+        ));
     final response = await http.post(
       Uri.parse('https://api.openai.com/v1/chat/completions'),
       // Example endpoint for text-davinci-003'), // Example endpoint for text-davinci-003'),
@@ -126,7 +161,11 @@ class ChatProvider with ChangeNotifier {
           utf8.decode(data['choices'][0]['message']['content'].runes.toList());
       _conversationHistory
           .add({'role': 'assistant', 'content': assistantReply});
-      ChatMessage message = ChatMessage(text: assistantReply, isUser: false, isToughMode: userProvider.user!.toughModeSelected!,);
+      ChatMessage message = ChatMessage(
+        text: assistantReply,
+        isUser: false,
+        isToughMode: userProvider.user!.toughModeSelected!,
+      );
       _messages.removeAt(0);
       _messages.insert(0, message);
       notifyListeners();

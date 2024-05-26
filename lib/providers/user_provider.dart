@@ -54,6 +54,7 @@ class UserProvider extends ChangeNotifier {
       'dailyCheckins': rawDailyCheckins,
       'morningRoutines':_user!.morningRoutines,
       'nightRoutines':_user!.nightRoutines,
+      'freeMessages':5,
       'streak':morningDone==_user!.morningRoutines!.length && nightDone==_user!.nightRoutines!.length && checkinsDone == _user!.dailyCheckins!.length && now.subtract(Duration(days: 1)).day == _user!.lastUpdated!.day?FieldValue.increment(1):0,
     });
   }
