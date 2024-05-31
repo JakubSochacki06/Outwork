@@ -122,8 +122,9 @@ class MoneyPage extends StatelessWidget {
               axes: <RadialAxis>[
                 RadialAxis(
                   canScaleToFit: true,
-                  axisLineStyle: const AxisLineStyle(
+                  axisLineStyle: AxisLineStyle(
                     cornerStyle: CornerStyle.bothCurve,
+                    color: Theme.of(context).colorScheme.primary,
                     thickness: 0.12,
                     thicknessUnit: GaugeSizeUnit.factor,
                   ),

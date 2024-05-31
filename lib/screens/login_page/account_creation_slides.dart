@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -334,16 +335,19 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
           if(FirebaseAuth.instance.currentUser!.photoURL!=null){
             await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
             await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
-            print('stworzono AHA');
           } else{
             await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
             await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
-            print('stworzono AH2A');
           }
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => ProcessingLoggingPage()),
           );
+          bool isAllowedToSendNotification =
+          await AwesomeNotifications().isNotificationAllowed();
+          if (!isAllowedToSendNotification) {
+            AwesomeNotifications().requestPermissionToSendNotifications();
+          }
         },
         dotsDecorator: DotsDecorator(
           size: const Size.square(10.0),

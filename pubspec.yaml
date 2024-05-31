@@ -1,7 +1,7 @@
 name: outwork
 description: Outwork all of them
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.0+24
+version: 1.2.0+27
 
 environment:
   sdk: '>=3.1.4 <4.0.0'
@@ -14,30 +14,30 @@ dependencies:
   firebase_auth: ^4.15.0
   google_sign_in: ^6.1.6
   google_nav_bar: ^5.0.6
-  cloud_firestore: ^4.13.3
+  cloud_firestore: ^4.17.4
   animated_text_kit: ^4.2.2
-  image_cropper: ^5.0.1
+  image_cropper: ^6.0.0
   image_picker: ^1.0.4
   path_provider: ^2.1.1
-  syncfusion_flutter_sliders: ^23.2.7
+  syncfusion_flutter_sliders: ^25.2.5
   auto_size_text: ^3.0.0
   table_calendar: ^3.0.9
-  syncfusion_flutter_gauges: ^23.2.7
+  syncfusion_flutter_gauges: ^25.2.5
   step_progress_indicator: ^1.0.2
   sleek_circular_slider: ^2.0.1
   firebase_storage: ^11.5.6
   adaptive_dialog: ^2.0.0
-  syncfusion_flutter_datepicker: ^23.2.7
+  syncfusion_flutter_datepicker: ^25.2.5
   uuid: ^4.2.2
-  fl_chart: ^0.66.0
-  syncfusion_flutter_charts: ^23.2.7
+  fl_chart: ^0.68.0
+  syncfusion_flutter_charts: ^25.2.5
   percent_indicator: ^4.2.3
   badges: ^3.1.2
   settings_ui: ^2.0.2
   circular_countdown_timer: ^0.2.3
   persistent_bottom_nav_bar: ^5.0.2
   numberpicker: ^2.1.2
-  audioplayers: ^5.2.1
+  audioplayers: ^6.0.0
   flutter_launcher_icons: ^0.13.1
   awesome_snackbar_content: ^0.1.1
   line_icons: ^2.0.3
@@ -48,7 +48,7 @@ dependencies:
   url_launcher: ^6.2.5
   lottie: ^3.1.0
   rxdart: ^0.27.7
-  animated_flip_counter: ^0.2.6
+  animated_flip_counter: ^0.3.4
   introduction_screen: ^3.1.14
   purchases_flutter: ^6.25.0
   in_app_update: ^4.2.2
@@ -56,15 +56,19 @@ dependencies:
   time_machine: ^0.9.17
   jiffy: ^6.2.1
   google_mobile_ads: ^5.1.0
-  awesome_notifications: ^0.8.2
+  awesome_notifications: ^0.9.3+1
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.13.1
   change_app_package_name: ^1.1.0
   flutter_native_splash: ^2.4.0
+
+#dependency_overrides:
+#  intl: ^0.18.0
 
 
 flutter_launcher_icons:

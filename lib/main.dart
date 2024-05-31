@@ -41,7 +41,7 @@ Future main() async {
   await MobileAds.instance.initialize();
   await dotenv.load();
   await AwesomeNotifications()
-      .initialize('resource://drawable/notification_icon', [
+      .initialize('resource://drawable/notification_icon',[
     NotificationChannel(
         channelKey: 'basic_channel',
         channelName: 'Basic Notification',
@@ -60,11 +60,6 @@ Future main() async {
     NotificationChannelGroup(
         channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
   ]);
-  bool isAllowedToSendNotification =
-  await AwesomeNotifications().isNotificationAllowed();
-  if (!isAllowedToSendNotification) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
-  }
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   PurchasesConfiguration configuration = PurchasesConfiguration(googleRCApiKey);
   await Purchases.configure(configuration);

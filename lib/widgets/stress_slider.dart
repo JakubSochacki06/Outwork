@@ -44,7 +44,6 @@ class ShapeCustomizedSliderPageState extends State<ShapeCustomizedSliderPage> {
                 children: <Widget>[
                   SfSliderTheme(
                     data: SfSliderThemeData(
-                      brightness: Brightness.light,
                     ),
                     child: SfSlider(
                       min: min,

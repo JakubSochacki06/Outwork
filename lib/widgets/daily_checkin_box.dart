@@ -164,7 +164,8 @@ class DailyCheckinBox extends StatelessWidget {
                   // enableLoadingAnimation: true,
                   axes: <RadialAxis>[
                     RadialAxis(
-                      axisLineStyle: const AxisLineStyle(
+                      axisLineStyle: AxisLineStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
                         thickness: 0.07,
                         thicknessUnit: GaugeSizeUnit.factor,
                       ),
