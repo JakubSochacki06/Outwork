@@ -11,6 +11,7 @@ import 'package:outwork/constants/constants.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/notification_look.dart';
+import 'login_page.dart';
 
 class AccountCreationSlides extends StatefulWidget {
   const AccountCreationSlides({super.key});
@@ -331,19 +332,26 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
         showBackButton: true,
         onDone: () async{
           DatabaseService _dbS = DatabaseService();
-          if(FirebaseAuth.instance.currentUser!.photoURL!=null){
-            await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
-            await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
-            print('stworzono AHA');
-          } else{
-            await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
-            await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
-            print('stworzono AH2A');
+          if(FirebaseAuth.instance.currentUser!.email == null){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
           }
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProcessingLoggingPage()),
-          );
+          // print(FirebaseAuth.instance.currentUser);
+          // if(FirebaseAuth.instance.currentUser!.photoURL!=null){
+          //   await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+          //   await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
+          //   print('stworzono AHA');
+          // } else{
+          //   await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
+          //   await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
+          //   print('stworzono AH2A');
+          // }
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => ProcessingLoggingPage()),
+          // );
         },
         dotsDecorator: DotsDecorator(
           size: const Size.square(10.0),

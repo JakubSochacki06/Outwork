@@ -62,9 +62,11 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
           userProvider.user!.isPremiumUser = false;
         }
       } else {
+        print(FirebaseAuth.instance.currentUser);
+        FirebaseAuth.instance.signOut();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const AccountCreationSlides()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
     }

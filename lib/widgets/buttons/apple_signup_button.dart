@@ -15,10 +15,11 @@ class AppleSignupButton extends StatelessWidget {
         minimumSize: const Size(50, 60),
         elevation: 0,
       ),
-      onPressed: () {
+      onPressed: () async{
         final provider = Provider.of<UserProvider>(context, listen: false);
-        provider.signInWithGoogle(context);
-        Navigator.pushNamed(context, '/processingLogging');
+        provider.githubApple();
+        // Navigator.pushNamed(context, '/processingLogging');
+        print('not doing anything more');
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
