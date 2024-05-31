@@ -12,6 +12,7 @@ import 'package:outwork/constants/constants.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/notification_look.dart';
+import 'login_page.dart';
 
 class AccountCreationSlides extends StatefulWidget {
   const AccountCreationSlides({super.key});

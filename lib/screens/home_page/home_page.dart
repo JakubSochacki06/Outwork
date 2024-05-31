@@ -208,23 +208,23 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                     onTap: () {
                       // List<NotificationModel> pending = await AwesomeNotifications().listScheduledNotifications();
-                      // _showFullScreenAd();
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        useRootNavigator: true,
-                        builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            // height: height*0.1,
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
-                            child: AddDailyCheckinPopup(
-                              buttonText: 'Add',
-                            ),
-                          ),
-                        ),
-                      );
+                      _showFullScreenAd();
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   isScrollControlled: true,
+                      //   useRootNavigator: true,
+                      //   builder: (context) => SingleChildScrollView(
+                      //     child: Container(
+                      //       // height: height*0.1,
+                      //       padding: EdgeInsets.only(
+                      //           bottom:
+                      //               MediaQuery.of(context).viewInsets.bottom),
+                      //       child: AddDailyCheckinPopup(
+                      //         buttonText: 'Add',
+                      //       ),
+                      //     ),
+                      //   ),
+                      // );
                     },
                     child: const Icon(
                       Icons.add,
