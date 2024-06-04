@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:outwork/widgets/snackBars/error_login_snackbar.dart';
@@ -93,113 +96,56 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<User> signInWithApple({List<Scope> scopes = const [Scope.email, Scope.fullName]}) async {
-  //   final result = await TheAppleSignIn.performRequests(
-  //       [AppleIdRequest(requestedScopes: scopes)]);
-  //   switch (result.status) {
-  //     case AuthorizationStatus.authorized:
-  //       final AppleIdCredential = result.credential!;
-  //       final oAuthCredential = OAuthProvider('apple.com');
-  //       final credential = oAuthCredential.credential(
-  //           idToken: String.fromCharCodes(AppleIdCredential.identityToken!));
-  //       final UserCredential = await _auth.signInWithCredential(credential);
-  //       final firebaseUser = UserCredential.user!;
-  //       if (scopes.contains(Scope.fullName)) {
-  //         final fullName = AppleIdCredential.fullName;
-  //         if (fullName != null &&
-  //             fullName.givenName != null &&
-  //             fullName.familyName != null) {
-  //           print(fullName);
-  //           final displayName = '${fullName.givenName}${fullName.familyName}';
-  //           await firebaseUser.updateDisplayName(displayName);
-  //         }
-  //       }
-  //       print(firebaseUser.email);
-  //       return firebaseUser;
-  //     case AuthorizationStatus.error:
-  //       throw PlatformException(
-  //           code: 'ERROR_AUTHORIZATION_DENIED',
-  //           message: result.error.toString());
-  //
-  //     case AuthorizationStatus.cancelled:
-  //       throw PlatformException(
-  //           code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
-  //     default:
-  //       throw UnimplementedError();
-  //   }
-  // }
-
-  Future<void> githubApple() async{
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
-    );
-
-// Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential = OAuthProvider("apple.com").credential(
-      idToken: appleCredential.identityToken,
-    );
-    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-
-    if (userCredential.user?.displayName == null ||
-        (userCredential.user?.displayName != null && userCredential.user!.displayName!.isEmpty)) {
-      final fixDisplayNameFromApple = [
-        appleCredential.givenName ?? '',
-        appleCredential.familyName ?? '',
-      ].join(' ').trim();
-      await userCredential.user?.updateDisplayName(fixDisplayNameFromApple);
-    }
-    if (userCredential.user?.email == null ||
-        (userCredential.user?.email != null && userCredential.user!.email!.isEmpty)) {
-      await userCredential.user?.updateEmail(appleCredential.email ?? '');
-    }
-    print(userCredential.user!);
+  String sha256OfString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 
-  // Future<void> signUpWithApple() async{
-  //   final appleProvider = AppleAuthProvider();
-  //   appleProvider.addScope('email');
-  //   var credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
-  //   print(FirebaseAuth.instance.currentUser!.email);
-  //   print(credential.user);
-  // }
+  Future<void> signInWithAppleCHATCIK() async {
+    final rawNonce = generateNonce();
+    final hashedNonce = sha256OfString(rawNonce);
 
-  // void appleSign() async {
-  //   AuthorizationResult authorizationResult =
-  //   await TheAppleSignIn.performRequests([
-  //     const AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
-  //   ]);
-  //
-  //   switch (authorizationResult.status) {
-  //     case AuthorizationStatus.authorized:
-  //       print("authorized");
-  //       try {
-  //         AppleIdCredential? appleCredentials = authorizationResult.credential;
-  //         OAuthProvider oAuthProvider = OAuthProvider("apple.com");
-  //         OAuthCredential oAuthCredential = oAuthProvider.credential(
-  //             idToken: String.fromCharCodes(appleCredentials!.identityToken!),
-  //             accessToken:
-  //             String.fromCharCodes(appleCredentials.authorizationCode!));
-  //         print(appleCredentials.email);
-  //         print(appleCredentials.fullName.givenName);
-  //         UserCredential userCredential =
-  //         await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-  //         print(userCredential.user!.email);
-  //       } catch (e) {
-  //         print("apple auth failed $e");
-  //       }
-  //
-  //       break;
-  //     case AuthorizationStatus.error:
-  //       print("error" + authorizationResult.error.toString());
-  //       break;
-  //     case AuthorizationStatus.cancelled:
-  //       print("cancelled");
-  //       break;
-  //     default:
-  //       print("none of the above: default");
-  //       break;
-  //   }
-  // }
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final oauthCredential = OAuthProvider("apple.com").credential(
+      idToken: appleCredential.identityToken,
+      rawNonce: rawNonce,
+    );
+
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    print('ZALOGOWANE DANE');
+    print(userCredential.user!.email);
+    print(appleCredential.email);
+    print(userCredential.additionalUserInfo!.isNewUser);
+    // Check if the user is new and if the email is null
+    if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+      // Retrieve the email and full name if available
+      String? email = appleCredential.email;
+      String? displayName = appleCredential.givenName != null && appleCredential.familyName != null
+          ? '${appleCredential.givenName} ${appleCredential.familyName}'
+          : null;
+
+      if (email == null) {
+        // Prompt the user to enter their email manually
+        print('GRATULUJE KURWA MOZGU');
+        // email = await promptForEmail(context);
+      }
+
+      if (email != null && displayName != null) {
+        await FirebaseAuth.instance.currentUser?.updateProfile(displayName: displayName);
+        await FirebaseAuth.instance.currentUser?.updateEmail(email);
+      }
+
+      // Store the email and display name in your database for future use
+    }
+  }
 
   Future<void> signInWithGoogle(context) async {
     try {

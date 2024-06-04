@@ -76,12 +76,14 @@ class XPLevelProvider extends ChangeNotifier {
   }
 
   Future<void> removeXpAmount(int amount, String userEmail) async {
-    _xpAmount = _xpAmount! - amount;
-    await _db.collection('users_data').doc(userEmail).update({
-      'xpAmount': FieldValue.increment(-amount),
-    });
-    _updateLevel();
-    notifyListeners();
+    if((_xpAmount! - amount) >= 0){
+      _xpAmount = _xpAmount! - amount;
+      await _db.collection('users_data').doc(userEmail).update({
+        'xpAmount': FieldValue.increment(-amount),
+      });
+      _updateLevel();
+      notifyListeners();
+    }
   }
 
   void _updateLevel() {

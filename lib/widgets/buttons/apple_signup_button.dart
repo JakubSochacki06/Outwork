@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -17,9 +18,8 @@ class AppleSignupButton extends StatelessWidget {
       ),
       onPressed: () async{
         final provider = Provider.of<UserProvider>(context, listen: false);
-        provider.githubApple();
-        // Navigator.pushNamed(context, '/processingLogging');
-        print('not doing anything more');
+        await provider.signInWithAppleCHATCIK();
+        Navigator.pushNamed(context, '/processingLogging');
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
