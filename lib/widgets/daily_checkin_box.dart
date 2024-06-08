@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/models/daily_checkin.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
@@ -11,7 +14,9 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 
-class DailyCheckinBox extends StatelessWidget {
+import '../services/admob_service.dart';
+
+class DailyCheckinBox extends StatefulWidget {
   final int index;
   String? routineName;
 
@@ -19,6 +24,50 @@ class DailyCheckinBox extends StatelessWidget {
     required this.index,
     this.routineName,
   });
+
+  @override
+  State<DailyCheckinBox> createState() => _DailyCheckinBoxState();
+}
+
+class _DailyCheckinBoxState extends State<DailyCheckinBox> {
+
+  InterstitialAd? _fullScreenAd;
+  @override
+  void initState() {
+    super.initState();
+    _createFullScreenAD();
+  }
+
+  void _createFullScreenAD() {
+    InterstitialAd.load(
+      adUnitId: AdMobService.fullScreenAdUnitID!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _fullScreenAd = ad,
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error);
+            _fullScreenAd = null;
+          }
+      ),
+    );
+  }
+
+  void _showFullScreenAd(){
+    if (_fullScreenAd != null){
+      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+      );
+      _fullScreenAd!.show();
+      _fullScreenAd = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +81,7 @@ class DailyCheckinBox extends StatelessWidget {
     Map<String, dynamic> _getValues(BuildContext context) {
 
       bool hasRoutines = true;
-      if (routineName == 'Morning') {
+      if (widget.routineName == 'Morning') {
         final morningRoutineProvider =
         Provider.of<MorningRoutineProvider>(context, listen: true);
         dailyCheckin.name = 'Morning';
@@ -48,7 +97,7 @@ class DailyCheckinBox extends StatelessWidget {
         morningRoutineProvider.morningRoutines.length == 0
             ? hasRoutines = false
             : null;
-      } else if (routineName == 'Night') {
+      } else if (widget.routineName == 'Night') {
         final nightRoutineProvider =
         Provider.of<NightRoutineProvider>(context, listen: true);
         dailyCheckin.name = 'Night';
@@ -66,9 +115,9 @@ class DailyCheckinBox extends StatelessWidget {
             ? hasRoutines = false
             : null;
       } else {
-        dailyCheckin = dailyCheckinProvider.dailyCheckins[index];
-        currentValue = dailyCheckinProvider.dailyCheckins[index].value!;
-        currentMaximum = dailyCheckinProvider.dailyCheckins[index].goal!;
+        dailyCheckin = dailyCheckinProvider.dailyCheckins[widget.index];
+        currentValue = dailyCheckinProvider.dailyCheckins[widget.index].value!;
+        currentMaximum = dailyCheckinProvider.dailyCheckins[widget.index].goal!;
       }
 
       return {'maximum': currentMaximum, 'value': currentValue, 'hasRoutines':hasRoutines};
@@ -128,7 +177,7 @@ class DailyCheckinBox extends StatelessWidget {
                   ),
                   CircleAvatar(
                     radius: 20,
-                    child: routineName == null?IconButton(
+                    child: widget.routineName == null?IconButton(
                       onPressed: (){
                         showModalBottomSheet(
                           context: context,
@@ -140,7 +189,7 @@ class DailyCheckinBox extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   bottom:
                                   MediaQuery.of(context).viewInsets.bottom),
-                              child: AddDailyCheckinPopup(buttonText: 'Edit existing', name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[index].emojiName!, id: dailyCheckinProvider.dailyCheckins[index].id!,),
+                              child: AddDailyCheckinPopup(buttonText: 'Edit existing', name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[widget.index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[widget.index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[widget.index].emojiName!, id: dailyCheckinProvider.dailyCheckins[widget.index].id!,),
                             ),
                           ),
                         );
@@ -209,7 +258,7 @@ class DailyCheckinBox extends StatelessWidget {
                   ],
                 ),
               ),
-              routineName == null
+              widget.routineName == null
                   ? Container(
                 height: height * 0.04,
                 width: width * 0.25,
@@ -225,7 +274,13 @@ class DailyCheckinBox extends StatelessWidget {
                       onTap: () async {
                         await dailyCheckinProvider.removeDailyCheckinProgressToFirebase(
                             dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!, xpLevelProvider);
-
+                        // IF USER IS FREE USER HE SEES AD IF IT ROLLS ON 0 (0 to 9 RANGE, 10%)
+                        if(userProvider.user!.isPremiumUser != true){
+                          Random random = Random();
+                          if(random.nextInt(9) == 0){
+                            _showFullScreenAd();
+                          }
+                        }
                       },
                       child: Container(
                         child: const Icon(
@@ -245,6 +300,13 @@ class DailyCheckinBox extends StatelessWidget {
                       onTap: () async {
                         await dailyCheckinProvider.addDailyCheckinProgressToFirebase(
                             dailyCheckin.step!, dailyCheckin.name!, userProvider.user!.email!, context, xpLevelProvider);
+                        // IF USER IS FREE USER HE SEES AD IF IT ROLLS ON 0 (0 to 9 RANGE, 10%)
+                        if(userProvider.user!.isPremiumUser != true){
+                          Random random = Random();
+                          if(random.nextInt(9) == 0){
+                            _showFullScreenAd();
+                          }
+                        }
                       },
                       child: Container(
                         child: Icon(

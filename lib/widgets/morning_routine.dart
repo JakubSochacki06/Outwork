@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
@@ -8,8 +11,54 @@ import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 
-class MorningRoutine extends StatelessWidget {
+import '../services/admob_service.dart';
+
+class MorningRoutine extends StatefulWidget {
   const MorningRoutine({super.key});
+
+  @override
+  State<MorningRoutine> createState() => _MorningRoutineState();
+}
+
+class _MorningRoutineState extends State<MorningRoutine> {
+
+  InterstitialAd? _fullScreenAd;
+  @override
+  void initState() {
+    super.initState();
+    _createFullScreenAD();
+  }
+
+  void _createFullScreenAD() {
+    InterstitialAd.load(
+      adUnitId: AdMobService.fullScreenAdUnitID!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _fullScreenAd = ad,
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error);
+            _fullScreenAd = null;
+          }
+      ),
+    );
+  }
+
+  void _showFullScreenAd(){
+    if (_fullScreenAd != null){
+      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+      );
+      _fullScreenAd!.show();
+      _fullScreenAd = null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +191,12 @@ class MorningRoutine extends StatelessWidget {
                         isCompleted = !isCompleted;
                         await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
                         isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                        if(userProvider.user!.isPremiumUser != true){
+                          Random random = Random();
+                          if(random.nextInt(7) == 0){
+                            _showFullScreenAd();
+                          }
+                        }
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: width*0.015),
@@ -171,6 +226,12 @@ class MorningRoutine extends StatelessWidget {
                                 isCompleted = !isCompleted;
                                 await morningRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
                                 isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                                if(userProvider.user!.isPremiumUser != true){
+                                  Random random = Random();
+                                  if(random.nextInt(7) == 0){
+                                    _showFullScreenAd();
+                                  }
+                                }
                               },
                             ),
                             GestureDetector(

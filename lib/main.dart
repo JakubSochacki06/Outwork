@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +63,7 @@ Future main() async {
         channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  PurchasesConfiguration configuration = PurchasesConfiguration(googleRCApiKey);
+  PurchasesConfiguration configuration = PurchasesConfiguration(Platform.isIOS?appleRCApiKey:googleRCApiKey);
   await Purchases.configure(configuration);
   FlutterNativeSplash.preserve(widgetsBinding: binding);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

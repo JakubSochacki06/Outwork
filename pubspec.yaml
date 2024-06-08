@@ -1,7 +1,7 @@
 name: outwork
 description: Outwork all of them
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.2.0+27
+version: 1.2.0+28
 
 environment:
   sdk: '>=3.1.4 <4.0.0'

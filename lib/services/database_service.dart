@@ -66,8 +66,13 @@ class DatabaseService {
     if (doc.exists) return;
     var uuid = const Uuid();
     String refCode = uuid.v4().substring(0, 7);
-    List<String> parts = user.email!.split("@");
-    String displayName = parts[0];
+    String displayName;
+    if(user.displayName!=null){
+      displayName = user.displayName!;
+    } else {
+      List<String> parts = user.email!.split("@");
+      displayName = parts[0];
+    }
     await _db.collection('users_data').doc(user.email).set({
       'displayName': displayName,
       'email': user.email,

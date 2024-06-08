@@ -27,43 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  InterstitialAd? _fullScreenAd;
-  @override
-  void initState() {
-    super.initState();
-    _createFullScreenAD();
-  }
-
-  void _createFullScreenAD() {
-    InterstitialAd.load(
-      adUnitId: AdMobService.fullScreenAdUnitID!,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) => _fullScreenAd = ad,
-        onAdFailedToLoad: (LoadAdError error) {
-          print(error);
-      _fullScreenAd = null;
-      }
-      ),
-    );
-  }
-
-  void _showFullScreenAd(){
-    if (_fullScreenAd != null){
-      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad){
-          ad.dispose();
-          _createFullScreenAD();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error){
-          ad.dispose();
-          _createFullScreenAD();
-      },
-      );
-      _fullScreenAd!.show();
-      _fullScreenAd = null;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,24 +170,22 @@ class _HomePageState extends State<HomePage> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      // List<NotificationModel> pending = await AwesomeNotifications().listScheduledNotifications();
-                      _showFullScreenAd();
-                      // showModalBottomSheet(
-                      //   context: context,
-                      //   isScrollControlled: true,
-                      //   useRootNavigator: true,
-                      //   builder: (context) => SingleChildScrollView(
-                      //     child: Container(
-                      //       // height: height*0.1,
-                      //       padding: EdgeInsets.only(
-                      //           bottom:
-                      //               MediaQuery.of(context).viewInsets.bottom),
-                      //       child: AddDailyCheckinPopup(
-                      //         buttonText: 'Add',
-                      //       ),
-                      //     ),
-                      //   ),
-                      // );
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            // height: height*0.1,
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: AddDailyCheckinPopup(
+                              buttonText: 'Add',
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     child: const Icon(
                       Icons.add,

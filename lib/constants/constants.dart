@@ -8,6 +8,8 @@ const entitlementRCID = 'premium';
 
 const googleRCApiKey = 'goog_ggEEfTYXPRbHsURTdeKJDXvwUPO';
 
+const appleRCApiKey = 'appl_hKiQmmQATydpshNQCqbKptQcfEh';
+
 const List<Map<String, dynamic>> progressFields = [
   {
     'title': 'Money',

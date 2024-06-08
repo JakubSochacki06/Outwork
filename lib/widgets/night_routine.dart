@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/models/routine.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
@@ -6,6 +9,8 @@ import 'package:outwork/screens/home_page/pop_ups/add_night_routine_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
+
+import '../services/admob_service.dart';
 
 class NightRoutine extends StatefulWidget {
   const NightRoutine({super.key});
@@ -15,6 +20,45 @@ class NightRoutine extends StatefulWidget {
 }
 
 class _NightRoutineState extends State<NightRoutine> {
+
+  InterstitialAd? _fullScreenAd;
+  @override
+  void initState() {
+    super.initState();
+    _createFullScreenAD();
+  }
+
+  void _createFullScreenAD() {
+    InterstitialAd.load(
+      adUnitId: AdMobService.fullScreenAdUnitID!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _fullScreenAd = ad,
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error);
+            _fullScreenAd = null;
+          }
+      ),
+    );
+  }
+
+  void _showFullScreenAd(){
+    if (_fullScreenAd != null){
+      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+      );
+      _fullScreenAd!.show();
+      _fullScreenAd = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<bool?> wantToDeleteNoteAlert(BuildContext context) async {
@@ -141,7 +185,12 @@ class _NightRoutineState extends State<NightRoutine> {
                 bool isCompleted = nightRoutines[index].completed!;
                 return InkWell(
                   onTap: () async {
-
+                    if(userProvider.user!.isPremiumUser != true){
+                      Random random = Random();
+                      if(random.nextInt(7) == 0){
+                        _showFullScreenAd();
+                      }
+                    }
                     isCompleted = !isCompleted;
                     await nightRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
                     isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
@@ -169,6 +218,12 @@ class _NightRoutineState extends State<NightRoutine> {
                             isCompleted = !isCompleted;
                             await nightRoutineProvider.updateRoutineCompletionStatus(index, isCompleted, userProvider.user!.email!);
                             isCompleted?await xpLevelProvider.addXpAmount(5, userProvider.user!.email!, context):await xpLevelProvider.removeXpAmount(5, userProvider.user!.email!);
+                            if(userProvider.user!.isPremiumUser != true){
+                              Random random = Random();
+                              if(random.nextInt(7) == 0){
+                                _showFullScreenAd();
+                              }
+                            }
                           },
                         ),
                         GestureDetector(

@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/time_picker_tile.dart';
@@ -7,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../../../services/admob_service.dart';
 import '../../../services/notifications_service.dart';
 import '../../upgrade_your_plan_page.dart';
 
@@ -21,6 +26,44 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
   final _nightRoutineController = TextEditingController();
   String? errorText;
   bool scheduleHasError = false;
+
+  InterstitialAd? _fullScreenAd;
+  @override
+  void initState() {
+    super.initState();
+    _createFullScreenAD();
+  }
+
+  void _createFullScreenAD() {
+    InterstitialAd.load(
+      adUnitId: AdMobService.fullScreenAdUnitID!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) => _fullScreenAd = ad,
+          onAdFailedToLoad: (LoadAdError error) {
+            print(error);
+            _fullScreenAd = null;
+          }
+      ),
+    );
+  }
+
+  void _showFullScreenAd(){
+    if (_fullScreenAd != null){
+      _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error){
+          ad.dispose();
+          _createFullScreenAD();
+        },
+      );
+      _fullScreenAd!.show();
+      _fullScreenAd = null;
+    }
+  }
 
   @override
   void dispose() {
@@ -127,11 +170,23 @@ class _AddNightRoutinePopupState extends State<AddNightRoutinePopup> {
                 if(userProvider.user!.isPremiumUser! || nightRoutineProvider.nightRoutines.length < 3){
                   if(checkIfValid()){
                     if(nightRoutineProvider.scheduledTime!=null){
+                      bool isAllowedToSendNotification =
+                      await AwesomeNotifications().isNotificationAllowed();
+                      if (!isAllowedToSendNotification) {
+                        await AwesomeNotifications().requestPermissionToSendNotifications();
+                      }
                       await createRoutineReminderNotification(nightRoutineProvider.scheduledTime!, _nightRoutineController.text, userProvider.user!.toughModeSelected!);
                     }
                     await nightRoutineProvider.addNightRoutineToDatabase(_nightRoutineController.text, userProvider.user!.email!);
                     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
                     await xpLevelProvider.addXpAmount(10, userProvider.user!.email!, context);
+                    // IF USER IS FREE USER HE SEES AD IF IT ROLLS ON 0 (0 to 4 RANGE, 20%)
+                    if(userProvider.user!.isPremiumUser != true){
+                      Random random = Random();
+                      if(random.nextInt(5) == 0){
+                        _showFullScreenAd();
+                      }
+                    }
                     Navigator.pop(context);
                   }
                 } else {
