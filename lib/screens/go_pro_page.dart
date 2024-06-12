@@ -96,7 +96,7 @@ class GoProPage extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'TRY FOR ${offerings.current!.monthly!.storeProduct.currencyCode}0.00',
+                        'CHANGE YOUR LIFE',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).colorScheme.onSecondaryContainer),

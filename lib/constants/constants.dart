@@ -36,18 +36,18 @@ const List<Map<String, dynamic>> progressFields = [
     'description': 'Read all of them!',
     'route': BooksPage(),
   },
-  {
-    'title': 'Physique',
-    'icon': LineIcons.hourglassHalf,
-    'description': 'Track your physique (soon)',
-    'route': null,
-  },
-  {
-    'title': 'Challenges',
-    'icon': LineIcons.hourglassHalf,
-    'description': 'Show you are the best! (soon)',
-    'route': null,
-  },
+  // {
+  //   'title': 'Physique',
+  //   'icon': LineIcons.hourglassHalf,
+  //   'description': 'Track your physique (soon)',
+  //   'route': null,
+  // },
+  // {
+  //   'title': 'Challenges',
+  //   'icon': LineIcons.hourglassHalf,
+  //   'description': 'Show you are the best! (soon)',
+  //   'route': null,
+  // },
   // {
   //   'title': 'Meditation',
   //   'imageName': 'meditation',
