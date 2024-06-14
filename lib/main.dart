@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -25,11 +26,13 @@ import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:outwork/services/notifications_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'l10n/l10n.dart';
 import 'notification_controller.dart';
 import 'screens/login_page/welcome_page.dart';
 import 'screens/login_page/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 
@@ -148,6 +151,14 @@ class _MyAppState extends State<MyApp> {
         title: 'Outwork',
         theme: Provider.of<ThemeProvider>(context, listen: false).themeData,
         debugShowCheckedModeBanner: false,
+        locale: const Locale('pl'),
+        supportedLocales: L10n.all,
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         // darkTheme: darkTheme,
         // themeMode: ThemeMode.dark,
         routes: {

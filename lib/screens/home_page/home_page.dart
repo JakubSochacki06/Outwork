@@ -18,6 +18,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,17 +35,17 @@ class _HomePageState extends State<HomePage> {
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     MorningRoutineProvider morningRoutineProvider =
-        Provider.of<MorningRoutineProvider>(context, listen: true);
+    Provider.of<MorningRoutineProvider>(context, listen: true);
     NightRoutineProvider nightRoutineProvider =
-        Provider.of<NightRoutineProvider>(context, listen: true);
+    Provider.of<NightRoutineProvider>(context, listen: true);
     DailyCheckinProvider dailyCheckinProvider =
-        Provider.of<DailyCheckinProvider>(context, listen: true);
+    Provider.of<DailyCheckinProvider>(context, listen: true);
     dailyCheckinProvider.setDailyCheckins(userProvider.user!);
     JournalEntryProvider journalEntryProvider =
-        Provider.of<JournalEntryProvider>(context, listen: true);
+    Provider.of<JournalEntryProvider>(context, listen: true);
     journalEntryProvider.setJournalEntries(userProvider.user!);
     List<Widget> checkinBoxes =
-        List.generate(dailyCheckinProvider.dailyCheckins.length, (index) {
+    List.generate(dailyCheckinProvider.dailyCheckins.length, (index) {
       return Row(
         children: [
           DailyCheckinBox(
@@ -61,8 +62,9 @@ class _HomePageState extends State<HomePage> {
         Row(
           children: [
             DailyCheckinBox(
-              routineName: 'Morning',
+              routineName: AppLocalizations.of(context)!.morningRoutine,
               index: 0,
+              isMorningRoutine: true,
             ),
             SizedBox(
               width: width * 0.05,
@@ -73,8 +75,9 @@ class _HomePageState extends State<HomePage> {
     checkinBoxes.insert(
         checkinBoxes.length,
         DailyCheckinBox(
-          routineName: 'Night',
+          routineName: AppLocalizations.of(context)!.nightRoutine,
           index: -1,
+          isMorningRoutine: false,
         ));
 
     return Scaffold(
@@ -94,18 +97,18 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hello ${userProvider.user!.displayName}!',
+                          AppLocalizations.of(context)!.helloUser(userProvider.user!.displayName!),
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Text(
-                          'I believe in you.',
+                          AppLocalizations.of(context)!.believeInYou,
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
                               .copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                         ),
                       ],
                     ),
@@ -113,8 +116,8 @@ class _HomePageState extends State<HomePage> {
                   InkWell(
                     onTap: () {
                       NavbarControllerProvider navbarControllerProvider =
-                          Provider.of<NavbarControllerProvider>(context,
-                              listen: false);
+                      Provider.of<NavbarControllerProvider>(context,
+                          listen: false);
                       navbarControllerProvider.jumpToTab(3);
                     },
                     child: CircleAvatar(
@@ -136,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   Text(
-                    'Daily check-in',
+                    AppLocalizations.of(context)!.dailyCheckin,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   SizedBox(
@@ -148,19 +151,19 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         '${dailyCheckinProvider.countDoneCheckins(morningRoutineProvider.morningRoutineFinished(), nightRoutineProvider.nightRoutineFinished())}/${dailyCheckinProvider.dailyCheckins.length + 2}',
                         style: dailyCheckinProvider.countDoneCheckins(
-                                    morningRoutineProvider
-                                        .morningRoutineFinished(),
-                                    nightRoutineProvider
-                                        .nightRoutineFinished()) !=
-                                dailyCheckinProvider.dailyCheckins.length + 2
+                            morningRoutineProvider
+                                .morningRoutineFinished(),
+                            nightRoutineProvider
+                                .nightRoutineFinished()) !=
+                            dailyCheckinProvider.dailyCheckins.length + 2
                             ? Theme.of(context).primaryTextTheme.labelLarge
                             : Theme.of(context)
-                                .primaryTextTheme
-                                .labelLarge!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
+                            .primaryTextTheme
+                            .labelLarge!
+                            .copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary),
                       ),
                     ),
                     decoration: BoxDecoration(
@@ -179,9 +182,9 @@ class _HomePageState extends State<HomePage> {
                             // height: height*0.1,
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
+                                MediaQuery.of(context).viewInsets.bottom),
                             child: AddDailyCheckinPopup(
-                              buttonText: 'Add',
+                              buttonText: AppLocalizations.of(context)!.addButtonText,
                             ),
                           ),
                         ),
