@@ -69,6 +69,8 @@ class FirebaseUser {
     List<Book> books = [];
     data['books'].forEach((unorganizedBook) =>
     {books.add(Book.fromMap(unorganizedBook))});
+    print(data);
+    print(data['freeMessages']);
     // TODO: MAKE USER FROM PROJECTS CREATE ONLY SIMPLE USER WITH DISPLAY NAME AND AVATAR, ADD REST WHEN USER CLICKS ON print(data['displayName']);
     FirebaseUser user = FirebaseUser(
       displayName: data['displayName'],

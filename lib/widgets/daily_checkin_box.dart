@@ -53,6 +53,8 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
   }
 
   void _showFullScreenAd(){
+    print('REKLAMA');
+    print(_fullScreenAd);
     if (_fullScreenAd != null){
       _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad){

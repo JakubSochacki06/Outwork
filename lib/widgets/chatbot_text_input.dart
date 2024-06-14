@@ -49,8 +49,10 @@ class _ChatbotTextInputState extends State<ChatbotTextInput> {
           IconButton(
             icon: const Icon(Icons.send),
             onPressed: () async {
-              await chatProvider.handleSubmitted(_messageController.text, userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
-              _messageController.clear();
+              if(_messageController.text.length > 0){
+                await chatProvider.handleSubmitted(_messageController.text, userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
+                _messageController.clear();
+              }
             },
           ),
         ],

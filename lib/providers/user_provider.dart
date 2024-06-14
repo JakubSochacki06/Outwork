@@ -181,6 +181,8 @@ class UserProvider extends ChangeNotifier {
 
       if (querySnapshot.docs.isNotEmpty) {
         dynamic userData = querySnapshot.docs.first.data();
+        print("USER DATATATATATAT");
+        print(userData);
         FirebaseUser? newUser = FirebaseUser.fromMap(userData);
         _user = newUser;
         return;
