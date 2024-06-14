@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "morningRoutine": "Morning",
+  "nightRoutine": "Night",
+  "helloUser": "Hello {user}!",
+  "believeInYou": "I believe in you.",
+  "dailyCheckin": "Daily check-in",
+  "addButtonText": "Add",
+  "routinesUnit": "routines",
+  "noRoutinesText": "No",
+  "greatJob": "Great Job!",
+  "youCanDoIt": "You can do it!",
+  "addNewRoutine": "Add new routine"
+}

@@ -8,6 +8,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^6.1.1
   firebase_core: ^2.31.0
@@ -59,6 +61,7 @@ dependencies:
   awesome_notifications: ^0.9.3+1
   the_apple_sign_in: ^1.1.1
   sign_in_with_apple: ^6.1.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +94,7 @@ flutter_native_splash:
     image: assets/logo_foreground.png
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:

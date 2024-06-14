@@ -13,16 +13,18 @@ import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/admob_service.dart';
 
 class DailyCheckinBox extends StatefulWidget {
   final int index;
   String? routineName;
+  final bool? isMorningRoutine;
 
   DailyCheckinBox({
     required this.index,
     this.routineName,
+    this.isMorningRoutine,
   });
 
   @override
@@ -83,13 +85,13 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
     Map<String, dynamic> _getValues(BuildContext context) {
 
       bool hasRoutines = true;
-      if (widget.routineName == 'Morning') {
+      if (widget.isMorningRoutine == true) {
         final morningRoutineProvider =
         Provider.of<MorningRoutineProvider>(context, listen: true);
-        dailyCheckin.name = 'Morning';
+        dailyCheckin.name = AppLocalizations.of(context)!.morningRoutine;
         dailyCheckin.emojiName = 'morning';
         dailyCheckin.step = 1;
-        dailyCheckin.unit = 'routines';
+        dailyCheckin.unit = AppLocalizations.of(context)!.routinesUnit;
         dailyCheckin.color = Theme.of(context).colorScheme.secondary;
         morningRoutineProvider.morningRoutines.length != 0 ?
         currentValue = morningRoutineProvider.countProgress() : 0;
@@ -99,13 +101,13 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
         morningRoutineProvider.morningRoutines.length == 0
             ? hasRoutines = false
             : null;
-      } else if (widget.routineName == 'Night') {
+      } else if (widget.isMorningRoutine == false) {
         final nightRoutineProvider =
         Provider.of<NightRoutineProvider>(context, listen: true);
-        dailyCheckin.name = 'Night';
+        dailyCheckin.name = AppLocalizations.of(context)!.nightRoutine;
         dailyCheckin.emojiName = 'bed';
         dailyCheckin.step = 1;
-        dailyCheckin.unit = 'routines';
+        dailyCheckin.unit = AppLocalizations.of(context)!.routinesUnit;
         dailyCheckin.color = const Color(0xFFAC87C5);
         currentValue =
         nightRoutineProvider.nightRoutines.length != 0 ? nightRoutineProvider
@@ -231,10 +233,10 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
                             child:RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                                  text: values['hasRoutines'] == true?'${values['value']}/${values['maximum']}\n':'No\n',
+                                  text: values['hasRoutines'] == true?'${values['value']}/${values['maximum']}\n':'${AppLocalizations.of(context)!.noRoutinesText}\n',
                                   style: Theme.of(context).primaryTextTheme.displaySmall,
                                   children: <TextSpan>[
-                                    TextSpan(text: values['hasRoutines'] == true?dailyCheckin.unit:'routines',
+                                    TextSpan(text: values['hasRoutines'] == true?dailyCheckin.unit:AppLocalizations.of(context)!.routinesUnit,
                                         style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),
                                     )
                                   ]
@@ -324,7 +326,7 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
               )
                   : Container(
                 child: Text(
-                  values['hasRoutines'] == true?values['value']==values['maximum']?'Great job!':'You can do it!':'Add new routine',
+                  values['hasRoutines'] == true?values['value']==values['maximum']?AppLocalizations.of(context)!.greatJob:AppLocalizations.of(context)!.youCanDoIt:AppLocalizations.of(context)!.addNewRoutine,
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
