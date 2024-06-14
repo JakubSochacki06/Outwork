@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/daily_checkin_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
@@ -7,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../upgrade_your_plan_page.dart';
 
 class AddDailyCheckinPopup extends StatefulWidget {
@@ -77,31 +78,31 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
       bool isValid = true;
       setState(() {
         if (_nameController.text.isEmpty) {
-          nameErrorText = 'Name can\'t be empty';
+          nameErrorText = AppLocalizations.of(context)!.nameErrorText;
           isValid = false;
         } else {
           nameErrorText = null;
         }
         if (_unitController.text.isEmpty) {
-          unitErrorText = 'Unit can\'t be empty';
+          unitErrorText = AppLocalizations.of(context)!.unitErrorText;
           isValid = false;
         } else {
           unitErrorText = null;
         }
         if (_stepController.text.isEmpty) {
-          stepErrorText = 'Step can\'t be empty';
+          stepErrorText = AppLocalizations.of(context)!.stepErrorText;
           isValid = false;
         } else {
           stepErrorText = null;
         }
         if (_goalController.text.isEmpty) {
-          goalErrorText = 'Goal can\'t be empty';
+          goalErrorText = AppLocalizations.of(context)!.goalErrorText;
           isValid = false;
         } else {
           goalErrorText = null;
         }
         if (selectedEmoji == null) {
-          emojiErrorText = 'Select emoji';
+          emojiErrorText = AppLocalizations.of(context)!.chooseEmoji;
           isValid = false;
         } else {
           emojiErrorText = null;
@@ -110,25 +111,25 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
       return isValid;
     }
 
-    Future<bool?> wantToDeleteNoteAlert(BuildContext context) async {
+    Future<bool?> wantToDeleteCheckinAlert(BuildContext context) async {
       bool? deleteNote = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete morning routine?', style: Theme.of(context).textTheme.bodySmall,),
-            content: Text('Are you sure you want to delete this routine?', style: Theme.of(context).primaryTextTheme.bodySmall),
+            title: Text(AppLocalizations.of(context)!.deleteDailyCheckin, style: Theme.of(context).textTheme.bodySmall,),
+            content: Text(AppLocalizations.of(context)!.deleteDailyCheckinConfirm, style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+                child: Text(AppLocalizations.of(context)!.yes, style: Theme.of(context).textTheme.bodySmall),
               ),
             ],
           );
@@ -197,7 +198,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
 
           return AlertDialog(
             title: Text(
-              'Choose emoji',
+              AppLocalizations.of(context)!.chooseEmoji,
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
@@ -276,19 +277,20 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
             ),
             Row(
               children: [
-                Text(
-                  '${widget.buttonText} daily check-in',
+                AutoSizeText(
+                  '${widget.buttonText} ${AppLocalizations.of(context)!.dailyCheckin}',
                   style: Theme.of(context).textTheme.bodyMedium,
+                  maxLines: 1,
                 ),
                 const Spacer(),
-                widget.buttonText == 'Edit existing'?Container(
+                widget.buttonText == AppLocalizations.of(context)!.edit?Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.error,
                       borderRadius: BorderRadius.circular(15)
                     ),
                     child:
                         IconButton(onPressed: () async{
-                          bool? wantToDelete = await wantToDeleteNoteAlert(context);
+                          bool? wantToDelete = await wantToDeleteCheckinAlert(context);
                           if(wantToDelete == true){
                             await dailyCheckinProvider.deleteDailyCheckinFromFirebase(widget.id, userProvider.user!.email!);
                             XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);
@@ -316,9 +318,9 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
                     // alignLabelWithHint: true,
-                    labelText: 'Name',
+                    labelText: AppLocalizations.of(context)!.addDailyCheckinName,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Reading'),
+                    hintText: AppLocalizations.of(context)!.addDailyCheckinNameHint),
               ),
             ),
             SizedBox(
@@ -339,9 +341,9 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
                     // alignLabelWithHint: true,
-                    labelText: 'Unit',
+                    labelText: AppLocalizations.of(context)!.addDailyCheckinUnit,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Pages'),
+                    hintText: AppLocalizations.of(context)!.addDailyCheckinUnitHint),
               ),
             ),
             SizedBox(
@@ -379,7 +381,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                             // alignLabelWithHint: true,
                             label: Center(
                                 child: Text(
-                              'Goal',
+                                  AppLocalizations.of(context)!.addDailyCheckinGoal,
                               style:
                                   Theme.of(context).primaryTextTheme.bodyMedium,
                             )),
@@ -405,7 +407,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                     ),
                     child: selectedEmoji == null
                         ? Text(
-                            'Choose emoji',
+                      AppLocalizations.of(context)!.chooseEmoji,
                             style:
                                 Theme.of(context).primaryTextTheme.labelLarge,
                           )
@@ -450,7 +452,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                         // alignLabelWithHint: true,
                         label: Center(
                             child: Text(
-                          'Step',
+                              AppLocalizations.of(context)!.addDailyCheckinStep,
                           style: Theme.of(context).primaryTextTheme.bodyMedium,
                         )),
                         alignLabelWithHint: true,
@@ -464,11 +466,9 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
             ),
             ElevatedButton(
               onPressed: () async {
-                print('UWAGA');
-                print(dailyCheckinProvider.dailyCheckins.length);
                 if(userProvider.user!.isPremiumUser! || dailyCheckinProvider.dailyCheckins.length < 5){
                   if (validateTextFields() == true) {
-                    if (widget.buttonText != 'Edit existing') {
+                    if (widget.buttonText != AppLocalizations.of(context)!.edit) {
                       String hexColor = colors[Random().nextInt(colors.length)]
                           .value
                           .toRadixString(16)
@@ -517,7 +517,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                 }
               },
               child: Text(
-                '${widget.buttonText} daily check-in',
+                '${widget.buttonText} ${AppLocalizations.of(context)!.dailyCheckin}',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

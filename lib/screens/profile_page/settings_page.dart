@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:outwork/widgets/appBars/settings_app_bar.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../providers/chat_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -17,13 +17,44 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context);
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: true);
-    print(userProvider.user!.toughModeSelected);
+
+    Future<void> _showLanguageDialog() async{
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.chooseLanguage),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.english),
+                  onTap: () async{
+                    await themeProvider.setUserLocale(Locale('en'));
+                    Navigator.of(context).pop();
+                  },
+                ),
+                ListTile(
+                  title: Text(AppLocalizations.of(context)!.polish),
+                  onTap: () async {
+                    await themeProvider.setUserLocale(Locale('pl'));
+                    Navigator.of(context).pop();
+                  },
+                ),
+                // Add more languages here
+              ],
+            ),
+          );
+        },
+      );
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const SettingsAppBar(),
@@ -35,12 +66,15 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         sections: [
           SettingsSection(
-            title: const Text('Common'),
+            title: Text(AppLocalizations.of(context)!.common),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: const Icon(Icons.language),
-                title: const Text('Language'),
-                value: const Text('English'),
+                title: Text(AppLocalizations.of(context)!.language),
+                value: const Text('English (tap to change)'),
+                onPressed: (context) async{
+                  await _showLanguageDialog();
+                },
               ),
               // SettingsTile.switchTile(
               //   onToggle: (value) {
@@ -60,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
                 initialValue: userProvider.user!.toughModeSelected,
                 leading: const Icon(Icons.local_fire_department),
-                title: const Text('Turn on tough mode'),
+                title: Text(AppLocalizations.of(context)!.turnOnToughMode),
               ),
               // SettingsTile.switchTile(
               //   onToggle: (value) {},
@@ -78,13 +112,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SettingsTile.navigation(
               leading: const Icon(Icons.phone),
-              title: const Text('Phone'),
+              title: Text(AppLocalizations.of(context)!.phone),
               // TODO: ADD PHONE AND VERIFICATION
               // value: Text(userProvider.user!.email!),
             ),
             SettingsTile.navigation(
               leading: const Icon(Icons.logout),
-              title: const Text('Logout'),
+              title: Text(AppLocalizations.of(context)!.logout),
               onPressed: (context) async {
                 await Purchases.logOut();
                 await FirebaseAuth.instance.signOut();

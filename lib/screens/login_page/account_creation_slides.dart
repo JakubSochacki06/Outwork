@@ -13,6 +13,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/notification_look.dart';
 import 'login_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountCreationSlides extends StatefulWidget {
   const AccountCreationSlides({super.key});
@@ -39,14 +40,14 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
             titleWidget: Column(
               children: [
                 Text(
-                  'Welcome to',
+                  AppLocalizations.of(context)!.welcomeTo,
                   style: Theme.of(context).primaryTextTheme.displayMedium,
                 ),
                 Image.asset('assets/logo_login.png'),
               ],
             ),
             body:
-                'Outwork is revolutionizing self-improvement industry. Create better self, be better day by day. You were born to be great, so act like it.',
+            AppLocalizations.of(context)!.outworkDescription,
             image: Image.asset('assets/images/login.png'),
             decoration: PageDecoration(
                 imagePadding: EdgeInsets.symmetric(
@@ -62,11 +63,11 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
             ),
             titleWidget: Column(
               children: [
-                Text('Select Mode',
+                Text(AppLocalizations.of(context)!.selectMode,
                     style: Theme.of(context).textTheme.displaySmall,
                     textAlign: TextAlign.center),
                 Text(
-                  'You will be able to change it later.',
+                  AppLocalizations.of(context)!.changeLater,
                   style: Theme.of(context).primaryTextTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -113,7 +114,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                         ),
                         child: Align(
                           child: Text(
-                            'Basic',
+                            AppLocalizations.of(context)!.basicMode,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -169,7 +170,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                                 child: Lottie.asset('assets/fire.json')),
                             Align(
                               child: Text(
-                                'Tough',
+                                AppLocalizations.of(context)!.toughMode,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -186,7 +187,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                         )
                             : Align(
                           child: Text(
-                            'Tough',
+                              AppLocalizations.of(context)!.toughMode,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -202,35 +203,35 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
             bodyWidget: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Chat with Jacob Bot',
+                Text(AppLocalizations.of(context)!.chatWithJacob,
                     style: Theme.of(context).textTheme.bodyLarge),
-                Text('Your friendly (or not) AI',
+                Text(AppLocalizations.of(context)!.jacobDescription,
                     style: Theme.of(context).primaryTextTheme.bodySmall),
                 SizedBox(
                   height: height * 0.01,
                 ),
                 ChatMessage(
                     text: toughModeSelected
-                        ? 'Stop crying. Didn\'t you want to be great? You have to work harder.'
-                        : 'Remember it\'s okay to not feel great everytime! Clear your mind and start working again <3!',
+                        ? AppLocalizations.of(context)!.toughModeJacobExample
+                        : AppLocalizations.of(context)!.basicModeJacobExample,
                     isUser: false,
                   isToughMode: toughModeSelected,
                 ),
                 SizedBox(
                   height: height * 0.01,
                 ),
-                Text('Receive notifications',
+                Text(AppLocalizations.of(context)!.receiveNotifications,
                     style: Theme.of(context).textTheme.bodyLarge),
-                Text('Never forget about your routine or tasks',
+                Text(AppLocalizations.of(context)!.neverForgetRoutine,
                     style: Theme.of(context).primaryTextTheme.bodySmall),
                 SizedBox(
                   height: height * 0.01,
                 ),
                 NotificationLook(
-                  title: 'Skincare routine 🚨',
+                  title: AppLocalizations.of(context)!.notificationExampleTitle,
                   text: toughModeSelected
-                      ? 'Stop procrastinating and do it now 🤡.'
-                      : 'Stay consistent and you will win!',
+                      ? AppLocalizations.of(context)!.notificationExampleTextTough
+                      : AppLocalizations.of(context)!.notificationExampleTextBasic,
                 )
               ],
             ),
@@ -241,10 +242,10 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                 bodyTextStyle: Theme.of(context).primaryTextTheme.bodyMedium!),
           ),
           PageViewModel(
-            title: 'End bad habits',
+            title: AppLocalizations.of(context)!.endBadHabits,
             bodyWidget: Column(
               children: [
-                Text('Select what habits you would like to quit. You will be able to change it later.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+                Text(AppLocalizations.of(context)!.selectBadHabits, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
                 SizedBox(height: height*0.01,),
                 Container(
                   height: height*0.6,
@@ -263,7 +264,6 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         onTap:(){
-                          print(habitsSelected);
                           setState(() {
                             if(habitsSelected.containsKey(badHabits[index])){
                               habitsSelected.remove(badHabits[index]);
@@ -314,18 +314,18 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
           ),
         ],
         next: Text(
-          'Next',
+          AppLocalizations.of(context)!.next,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         done: Text(
-          'Done',
+          AppLocalizations.of(context)!.done,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
               .copyWith(color: Theme.of(context).colorScheme.secondary),
         ),
         back: Text(
-          'Back',
+          AppLocalizations.of(context)!.back,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Theme.of(context).colorScheme.onPrimaryContainer),
         ),

@@ -1,10 +1,10 @@
 {
   "@@locale": "pl",
-  "morningRoutine": "Poranek",
-  "nightRoutine": "Noc",
+  "morning": "Poranek",
+  "night": "Noc",
   "helloUser": "Cześć {user}!",
   "believeInYou": "Wierzę w Ciebie.",
-  "dailyCheckin": "Codzienne zadania",
+  "dailyCheckin": "codzienne zadania",
   "addButtonText": "Dodaj",
   "routinesUnit": "rutyn",
   "noRoutinesText": "Brak",

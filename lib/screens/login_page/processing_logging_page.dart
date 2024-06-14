@@ -16,7 +16,7 @@ import 'package:outwork/services/notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../constants/constants.dart';
 import '../../providers/progress_provider.dart';
 
@@ -81,7 +81,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                 Lottie.asset('assets/loader.json', height: 150, width: 150),
                 AnimatedTextKit(
                   animatedTexts: [
-                    TyperAnimatedText('Loading...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                    TyperAnimatedText(AppLocalizations.of(context)!.loading, speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
                   ],
                 )
               ],
@@ -100,7 +100,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                       AnimatedTextKit(
                         repeatForever: true,
                         animatedTexts: [
-                          TyperAnimatedText('Loading...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                          TyperAnimatedText(AppLocalizations.of(context)!.loading, speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
                         ],
                       )
                     ],
@@ -115,7 +115,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                         AnimatedTextKit(
                           repeatForever: true,
                           animatedTexts: [
-                            TyperAnimatedText('Creating user...', speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
+                            TyperAnimatedText(AppLocalizations.of(context)!.creatingUser, speed: const Duration(milliseconds: 100), textStyle: Theme.of(context).textTheme.bodyLarge)
                           ],
                         )
                       ],
@@ -123,12 +123,12 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
                   }
                   return PageNavigator();
                 } else {
-                  return const Center(child: Text('Something went Wrong!'));
+                  return Center(child: Text(AppLocalizations.of(context)!.somethingWentWrong));
                 }
               },
             );
           } else if (snapshot.hasError) {
-            return const Center(child: Text('Something went Wrong!'));
+            return Center(child: Text(AppLocalizations.of(context)!.somethingWentWrong));
           } else {
             return const LoginPage();
           }

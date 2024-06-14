@@ -88,7 +88,7 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
       if (widget.isMorningRoutine == true) {
         final morningRoutineProvider =
         Provider.of<MorningRoutineProvider>(context, listen: true);
-        dailyCheckin.name = AppLocalizations.of(context)!.morningRoutine;
+        dailyCheckin.name = AppLocalizations.of(context)!.morning;
         dailyCheckin.emojiName = 'morning';
         dailyCheckin.step = 1;
         dailyCheckin.unit = AppLocalizations.of(context)!.routinesUnit;
@@ -104,7 +104,7 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
       } else if (widget.isMorningRoutine == false) {
         final nightRoutineProvider =
         Provider.of<NightRoutineProvider>(context, listen: true);
-        dailyCheckin.name = AppLocalizations.of(context)!.nightRoutine;
+        dailyCheckin.name = AppLocalizations.of(context)!.night;
         dailyCheckin.emojiName = 'bed';
         dailyCheckin.step = 1;
         dailyCheckin.unit = AppLocalizations.of(context)!.routinesUnit;
@@ -179,28 +179,25 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
                     textAlign: TextAlign.center,
                     maxLines: 1,
                   ),
-                  CircleAvatar(
-                    radius: 20,
-                    child: widget.routineName == null?IconButton(
-                      onPressed: (){
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          useRootNavigator: true,
-                          builder: (context) => SingleChildScrollView(
-                            child: Container(
-                              // height: height*0.1,
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                  MediaQuery.of(context).viewInsets.bottom),
-                              child: AddDailyCheckinPopup(buttonText: 'Edit existing', name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[widget.index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[widget.index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[widget.index].emojiName!, id: dailyCheckinProvider.dailyCheckins[widget.index].id!,),
-                            ),
+                  widget.routineName == null?IconButton(
+                    onPressed: (){
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            // height: height*0.1,
+                            padding: EdgeInsets.only(
+                                bottom:
+                                MediaQuery.of(context).viewInsets.bottom),
+                            child: AddDailyCheckinPopup(buttonText: AppLocalizations.of(context)!.edit, name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[widget.index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[widget.index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[widget.index].emojiName!, id: dailyCheckinProvider.dailyCheckins[widget.index].id!,),
                           ),
-                        );
-                      },
-                      icon: Icon(Icons.settings, color: Theme.of(context).iconTheme.color,),
-                    ):Container(),
-                  )
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.settings, color: Theme.of(context).iconTheme.color,),
+                  ):Container(),
                 ],
               ),
               SizedBox(
@@ -325,10 +322,11 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
                 ),
               )
                   : Container(
-                child: Text(
+                child: AutoSizeText(
                   values['hasRoutines'] == true?values['value']==values['maximum']?AppLocalizations.of(context)!.greatJob:AppLocalizations.of(context)!.youCanDoIt:AppLocalizations.of(context)!.addNewRoutine,
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
+                  maxLines: 1,
                 ),
                 height: height * 0.04,
               ),

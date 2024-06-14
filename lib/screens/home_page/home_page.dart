@@ -8,6 +8,7 @@ import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/screens/upgrade_your_plan_page.dart';
 import 'package:outwork/services/admob_service.dart';
 import 'package:outwork/screens/home_page/pop_ups/add_daily_checkin_popup.dart';
+import 'package:outwork/string_extension.dart';
 import 'package:outwork/widgets/morning_routine.dart';
 import 'package:outwork/widgets/daily_checkin_box.dart';
 import 'package:outwork/widgets/home_page_calendar.dart';
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
         Row(
           children: [
             DailyCheckinBox(
-              routineName: AppLocalizations.of(context)!.morningRoutine,
+              routineName: AppLocalizations.of(context)!.morning,
               index: 0,
               isMorningRoutine: true,
             ),
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
     checkinBoxes.insert(
         checkinBoxes.length,
         DailyCheckinBox(
-          routineName: AppLocalizations.of(context)!.nightRoutine,
+          routineName: AppLocalizations.of(context)!.night,
           index: -1,
           isMorningRoutine: false,
         ));
@@ -139,7 +140,7 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.dailyCheckin,
+                    AppLocalizations.of(context)!.dailyCheckin.capitalize(),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   SizedBox(

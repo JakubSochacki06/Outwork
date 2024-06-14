@@ -9,7 +9,7 @@ import 'package:outwork/screens/home_page/pop_ups/add_night_routine_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/admob_service.dart';
 
 class NightRoutine extends StatefulWidget {
@@ -67,23 +67,23 @@ class _NightRoutineState extends State<NightRoutine> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              'Delete night routine?',
+              AppLocalizations.of(context)!.deleteNightRoutine,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            content: Text('Are you sure you want to delete this routine?',
+            content: Text(AppLocalizations.of(context)!.deleteRoutineConfirm,
                 style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes',
+                child: Text(AppLocalizations.of(context)!.yes,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Theme.of(context).colorScheme.secondary)),
               ),
@@ -141,7 +141,7 @@ class _NightRoutineState extends State<NightRoutine> {
                 width: width * 0.025,
               ),
               Text(
-                'Night Routine',
+                AppLocalizations.of(context)!.nightRoutine,
                 style: Theme.of(context).primaryTextTheme.bodyMedium,
               ),
               const Spacer(),
@@ -247,7 +247,7 @@ class _NightRoutineState extends State<NightRoutine> {
               itemCount: nightRoutines.length)
               : Expanded(
             child: Text(
-              'Click "+" to add new routine',
+              AppLocalizations.of(context)!.clickPlusToAddNewRoutine,
               textAlign: TextAlign.center,
               style: Theme.of(context).primaryTextTheme.bodyMedium,
             ),

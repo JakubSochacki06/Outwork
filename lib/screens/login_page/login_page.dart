@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/widgets/login_register_form.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -26,7 +27,7 @@ class LoginPage extends StatelessWidget {
                       children: [
                         Expanded(child: Image.asset('assets/logo_login.png',)),
                         SizedBox(height: height*0.005,),
-                        Text('#1 Self-improvement mobile app', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
+                        Text(AppLocalizations.of(context)!.number1App, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
                         SizedBox(height: height*0.02,),
                         const LoginRegisterForm(),
                         SizedBox(height: height*0.01,),
@@ -35,11 +36,11 @@ class LoginPage extends StatelessWidget {
                           text: TextSpan(
                               children: [
                                 TextSpan(
-                                    text: 'By creating an account, you are agreeing to our ',
+                                    text: AppLocalizations.of(context)!.byCreatingAccount,
                                     style: Theme.of(context).primaryTextTheme.labelMedium
                                 ),
                                 TextSpan(
-                                    text: 'Terms & Conditions',
+                                    text: AppLocalizations.of(context)!.terms,
                                     style: Theme.of(context).textTheme.labelMedium,
                                     recognizer: TapGestureRecognizer()..onTap = () async{
                                       String url = 'https://sites.google.com/view/outwork-terms-conditions/strona-g%C5%82%C3%B3wna';
@@ -47,11 +48,11 @@ class LoginPage extends StatelessWidget {
                                     }
                                 ),
                                 TextSpan(
-                                    text: ' and ',
+                                    text: ' ${AppLocalizations.of(context)!.and} ',
                                     style: Theme.of(context).primaryTextTheme.labelMedium
                                 ),
                                 TextSpan(
-                                    text: 'Privacy Policy',
+                                    text: AppLocalizations.of(context)!.privacy,
                                     style: Theme.of(context).textTheme.labelMedium,
                                     recognizer: TapGestureRecognizer()..onTap = () async{
                                       String url = 'https://sites.google.com/view/outwork-privacy-policy/strona-g%C5%82%C3%B3wna';

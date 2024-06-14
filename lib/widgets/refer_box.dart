@@ -4,7 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/screens/profile_page/refer_page.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/theme_provider.dart';
 
 class ReferBox extends StatelessWidget {
@@ -106,7 +106,7 @@ class ReferBox extends StatelessWidget {
             children: [
               Icon(Icons.account_balance_wallet, size: width*0.1,),
               Text('\$${userProvider.user!.refBalance}', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary), textAlign: TextAlign.left),
-              AutoSizeText('Balance', style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.left, maxLines: 1,),
+              AutoSizeText(AppLocalizations.of(context)!.balance, style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.left, maxLines: 1,),
             ],
           ),
         ),
@@ -137,7 +137,7 @@ class ReferBox extends StatelessWidget {
             children: [
               Icon(Icons.supervisor_account, size: width*0.1,),
               Text('${userProvider.user!.referrals!.length}', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary), textAlign: TextAlign.left),
-              Text( 'Friends', style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.left, maxLines: 1,)
+              Text( AppLocalizations.of(context)!.friends, style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.left, maxLines: 1,)
             ],
           ),
         ),
@@ -177,7 +177,7 @@ class ReferBox extends StatelessWidget {
                 Spacer(),
                 Icon(LineIcons.userPlus, size: width*0.10, weight: 5, color: Theme.of(context).colorScheme.onSecondaryContainer,),
                 Spacer(),
-                AutoSizeText('Invite friend', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1,)
+                AutoSizeText(AppLocalizations.of(context)!.inviteFriend, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer), maxLines: 1,)
               ],
             ),
           ),

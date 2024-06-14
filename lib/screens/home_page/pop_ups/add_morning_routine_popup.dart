@@ -14,6 +14,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../../services/admob_service.dart';
 import '../../../services/notifications_service.dart';
 import '../../upgrade_your_plan_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddMorningRoutinePopup extends StatefulWidget {
   const AddMorningRoutinePopup({super.key});
@@ -82,7 +83,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
       bool isValid = true;
       setState(() {
         if(_morningRoutineController.text.length==0){
-          errorText = 'Textfield can\'t be empty';
+          errorText = AppLocalizations.of(context)!.textFieldCantBeEmpty;
           isValid = false;
         } else {
           errorText = null;
@@ -128,7 +129,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
               height: height * 0.01,
             ),
             Text(
-              'Create morning routine',
+              AppLocalizations.of(context)!.createMorningRoutine,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             SizedBox(
@@ -150,9 +151,9 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
                     // alignLabelWithHint: true,
-                    labelText: 'Morning routine',
+                    labelText: AppLocalizations.of(context)!.morningRoutine,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Enter your morning routine name'),
+                    hintText: AppLocalizations.of(context)!.addMorningRoutineHint),
               ),
             ),
             SizedBox(
@@ -208,7 +209,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                 }
               },
               child: Text(
-                'Submit new routine',
+                AppLocalizations.of(context)!.submitNewRoutine,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

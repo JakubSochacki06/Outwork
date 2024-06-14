@@ -26,6 +26,7 @@ import 'package:outwork/screens/login_page/processing_logging_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:outwork/services/notifications_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'l10n/l10n.dart';
 import 'notification_controller.dart';
 import 'screens/login_page/welcome_page.dart';
@@ -69,12 +70,21 @@ Future main() async {
   PurchasesConfiguration configuration = PurchasesConfiguration(Platform.isIOS?appleRCApiKey:googleRCApiKey);
   await Purchases.configure(configuration);
   FlutterNativeSplash.preserve(widgetsBinding: binding);
+
+  Future<Locale> loadSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String languageCode = prefs.getString('languageCode') ?? 'en';
+    return Locale(languageCode);
+  }
+
+  Locale locale = await loadSelectedLanguage();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
       ChangeNotifierProvider(
         create: (context) => ThemeProvider(),
-        child: const MyApp(),
+        child: MyApp(locale: locale,),
       ),
     );
     FlutterNativeSplash.remove();
@@ -82,7 +92,8 @@ Future main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final Locale locale;
+  MyApp({required this.locale});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -132,7 +143,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
+    themeProvider.selectedLocale == null?themeProvider.setStartingLocale(widget.locale):null;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
@@ -149,9 +160,9 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: 'Outwork',
-        theme: Provider.of<ThemeProvider>(context, listen: false).themeData,
+        theme: themeProvider.themeData,
         debugShowCheckedModeBanner: false,
-        locale: const Locale('pl'),
+        locale: themeProvider.selectedLocale,
         supportedLocales: L10n.all,
         localizationsDelegates: [
           AppLocalizations.delegate,

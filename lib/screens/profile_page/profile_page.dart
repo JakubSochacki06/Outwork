@@ -10,7 +10,7 @@ import 'package:outwork/widgets/stress_level_info.dart';
 import 'package:outwork/widgets/work_time_info.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../widgets/refer_box.dart';
 
 class ProfilePage extends StatelessWidget {

@@ -12,6 +12,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter/services.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/refer_tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReferPage extends StatefulWidget {
   const ReferPage({super.key});
@@ -102,11 +103,11 @@ class _ReferPageState extends State<ReferPage> {
                   Expanded(
                     child: RichText(
                       text: TextSpan(
-                          text: 'Earn 30% for ',
+                          text: AppLocalizations.of(context)!.earn,
                           style: Theme.of(context).primaryTextTheme.bodyMedium,
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'EVERY ',
+                              text: AppLocalizations.of(context)!.every,
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .bodyMedium!
@@ -116,7 +117,7 @@ class _ReferPageState extends State<ReferPage> {
                                           .secondary),
                             ),
                             TextSpan(
-                              text: 'referral that has active subscription.',
+                              text: AppLocalizations.of(context)!.referralThatHas,
                               style:
                                   Theme.of(context).primaryTextTheme.bodyMedium,
                             ),
@@ -140,7 +141,7 @@ class _ReferPageState extends State<ReferPage> {
                           labelFormat: '\${value}',
                           majorTickLines: const MajorTickLines(size: 1)),
                       title: ChartTitle(
-                          text: 'Monthly revenue',
+                          text: AppLocalizations.of(context)!.monthlyRevenue,
                           textStyle: Theme.of(context).textTheme.bodyLarge),
                       legend: const Legend(isVisible: false),
                       series: <ColumnSeries<MonthlyRevenue, String>>[
@@ -191,7 +192,7 @@ class _ReferPageState extends State<ReferPage> {
                           ]
                               : null,
                         ),
-                        child: Text('This is preview of referral program. It doesn\'t work for now!!', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodySmall,),
+                        child: Text(AppLocalizations.of(context)!.previewOfRef, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodySmall,),
                       ),
                     ),
                   ),
@@ -231,7 +232,7 @@ class _ReferPageState extends State<ReferPage> {
                             ]
                           : null,
                     ),
-                    child: const Text('Withdraw'),
+                    child: Text(AppLocalizations.of(context)!.withdraw),
                   ),
                 ),
               ],
@@ -267,8 +268,8 @@ class _ReferPageState extends State<ReferPage> {
                                 text: "https://link.to/REFCODE"))
                             .then((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Copied to your clipboard !')));
+                               SnackBar(
+                                  content: Text(AppLocalizations.of(context)!.copied)));
                         });
                       },
                       child: Container(
@@ -294,8 +295,8 @@ class _ReferPageState extends State<ReferPage> {
                                 ]
                               : null,
                         ),
-                        child: const Text(
-                          'Copy',
+                        child: Text(
+                          AppLocalizations.of(context)!.copy,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -320,7 +321,7 @@ class _ReferPageState extends State<ReferPage> {
                   width: width * 0.05,
                 ),
                 Text(
-                  'Or share via',
+                  AppLocalizations.of(context)!.orShare,
                   style: Theme.of(context).primaryTextTheme.labelLarge,
                 ),
                 SizedBox(
@@ -406,7 +407,7 @@ class _ReferPageState extends State<ReferPage> {
             Row(
               children: [
                 Text(
-                  'How it works',
+                  AppLocalizations.of(context)!.howItWorks,
                   style: Theme.of(context)
                       .primaryTextTheme
                       .bodyLarge!
@@ -427,27 +428,27 @@ class _ReferPageState extends State<ReferPage> {
             SizedBox(
               height: height * 0.01,
             ),
-            const ReferTile(
+            ReferTile(
               imagePath: 'refer',
-              title: 'Step 1',
-              description: 'Share your referral link/code with your friends',
+              title: AppLocalizations.of(context)!.step(1),
+              description: AppLocalizations.of(context)!.step1Description,
             ),
             SizedBox(
               height: height * 0.01,
             ),
-            const ReferTile(
+            ReferTile(
               imagePath: 'sub',
-              title: 'Step 2',
-              description: 'Your friend upgrades his subscription to PRO',
+              title: AppLocalizations.of(context)!.step(2),
+              description: AppLocalizations.of(context)!.step2Description,
             ),
             SizedBox(
               height: height * 0.01,
             ),
-            const ReferTile(
+            ReferTile(
               imagePath: 'earn',
-              title: 'Step 3',
+              title: AppLocalizations.of(context)!.step(3),
               description:
-                  'You earn 30% for every friend with active subscription',
+              AppLocalizations.of(context)!.step3Description,
             ),
           ],
         ),

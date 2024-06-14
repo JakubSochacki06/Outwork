@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoodLinearChart extends StatefulWidget {
   const MoodLinearChart({super.key});
@@ -321,7 +322,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
           child: Column(
             children: [
               Text(
-                'Your feeling charts',
+                AppLocalizations.of(context)!.yourFeelingsChart,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               Expanded(
@@ -339,7 +340,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                           }
                               : null,
                           child: Text(
-                            'Last 7 moods',
+                            AppLocalizations.of(context)!.lastMoods(7),
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
@@ -357,7 +358,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                           }
                               : null,
                           child: Text(
-                            'Last 14 moods',
+                            AppLocalizations.of(context)!.lastMoods(14),
                             style: datesAndFeelings.length > 14
                                 ? Theme.of(context)
                                 .textTheme
@@ -399,7 +400,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             });
                           },
                           child: Text(
-                            'Last 30 moods',
+                            AppLocalizations.of(context)!.lastMoods(30),
                             style: datesAndFeelings.length > 30
                                 ? Theme.of(context)
                                 .textTheme
@@ -441,7 +442,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             });
                           },
                           child: Text(
-                            'Last 90 moods',
+                            AppLocalizations.of(context)!.lastMoods(90),
                             style: datesAndFeelings.length > 90
                                 ? Theme.of(context)
                                 .textTheme
@@ -488,7 +489,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                 child: Column(
                   children: [
                     Text(
-                      'Your feeling charts',
+                      AppLocalizations.of(context)!.yourFeelingsChart,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Expanded(
@@ -500,7 +501,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  'Last 7 moods',
+                                  AppLocalizations.of(context)!.lastMoods(7),
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge!
@@ -512,7 +513,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  'Last 14 moods',
+                                  AppLocalizations.of(context)!.lastMoods(14),
                                   style: datesAndFeelings.length > 14
                                       ? Theme.of(context)
                                       .textTheme
@@ -532,7 +533,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  'Last 30 moods',
+                                  AppLocalizations.of(context)!.lastMoods(30),
                                   style: datesAndFeelings.length > 30
                                       ? Theme.of(context)
                                       .textTheme
@@ -552,7 +553,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                             TextButton(
                                 onPressed: () {},
                                 child: Text(
-                                  'Last 90 moods',
+                                  AppLocalizations.of(context)!.lastMoods(90),
                                   style: datesAndFeelings.length > 90
                                       ? Theme.of(context)
                                       .textTheme
@@ -612,7 +613,7 @@ class _MoodLinearChartState extends State<MoodLinearChart> {
                 ]
                     : null,
               ),
-              child: Text('Add atleast 2 notes to track your feelings!', textAlign: TextAlign.center,),
+              child: Text(AppLocalizations.of(context)!.addAtleastNotes, textAlign: TextAlign.center,),
             ),
           ),
         ),
