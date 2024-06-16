@@ -12,6 +12,7 @@ import 'package:outwork/widgets/soberity_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BadHabitsPage extends StatefulWidget {
   const BadHabitsPage({super.key});
@@ -29,18 +30,18 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Restart timer?',
+            AppLocalizations.of(context)!.restartTimer,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           content: Text(
-              'Are you sure you want to restart timer for this bad habit? You can\'t retrieve it after',
+              AppLocalizations.of(context)!.restartTimerConfirm,
               style: Theme.of(context).primaryTextTheme.bodySmall),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('No',
+              child: Text(AppLocalizations.of(context)!.no,
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Theme.of(context).colorScheme.secondary)),
             ),
@@ -48,7 +49,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+              child: Text(AppLocalizations.of(context)!.yes, style: Theme.of(context).textTheme.bodySmall),
             ),
           ],
         );
@@ -116,10 +117,10 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Want to talk about it?',
+                            Text(AppLocalizations.of(context)!.wantToTalkAboutIt,
                                 style: Theme.of(context).textTheme.bodyLarge),
                             Text(
-                              'No matter what, I\'ll always will be proud of you!',
+                              AppLocalizations.of(context)!.noMatterWhat,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
@@ -178,7 +179,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                         Row(
                           children: [
                             Text(
-                              '${keys![currentIndex]} free for:',
+                              '${keys[currentIndex]} ${AppLocalizations.of(context)!.freeFor}',
                               style: Theme.of(context).textTheme.bodyLarge,
                               maxLines: 1,
                             ),
@@ -206,7 +207,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                                     return AlertDialog(
                                       title: Center(
                                         child: Text(
-                                          'Select date',
+                                          AppLocalizations.of(context)!.selectDate,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyLarge,
@@ -274,7 +275,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                                                         Navigator.pop(context);
                                                       },
                                                       child: Text(
-                                                        'Cancel',
+                                                        AppLocalizations.of(context)!.cancel,
                                                         style: Theme.of(context)
                                                             .primaryTextTheme
                                                             .labelLarge,
@@ -296,7 +297,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                                                                 }
                                                               : null,
                                                       child: Text(
-                                                        'Submit',
+                                                        AppLocalizations.of(context)!.submit,
                                                         style: selectedStartDate !=
                                                                 null
                                                             ? Theme.of(context)
@@ -315,7 +316,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                                                                             context)
                                                                         .colorScheme
                                                                         .onPrimaryContainer),
-                                                      )),
+                                                      ),),
                                                 ],
                                               )
                                             ],
@@ -335,7 +336,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                         ),
                         SobrietyTimer(
                             sobrietyDate: progressProvider
-                                        .badHabits[keys![currentIndex]]
+                                        .badHabits[keys[currentIndex]]
                                             ['startDate']
                                         .runtimeType ==
                                     DateTime
@@ -350,8 +351,8 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text('No habits found!', style: Theme.of(context).textTheme.displaySmall,),
-                          Text('Add new by clicking "+" in top right corner!', style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
+                          Text(AppLocalizations.of(context)!.noHabits, style: Theme.of(context).textTheme.displaySmall,),
+                          Text(AppLocalizations.of(context)!.addNew, style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
                         ],
                       ),
                     ),

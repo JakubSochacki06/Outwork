@@ -12,6 +12,7 @@ import '../../widgets/appBars/main_app_bar.dart';
 import '../../widgets/book_container.dart';
 import '../../widgets/book_tile.dart';
 import '../upgrade_your_plan_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BooksPage extends StatelessWidget {
   const BooksPage({super.key});
@@ -43,7 +44,7 @@ class BooksPage extends StatelessWidget {
                     },
                     icon: const Icon(Icons.navigate_before),
                   ),
-                  Text('Your bookshelf', style: Theme.of(context).textTheme.bodySmall,),
+                  Text(AppLocalizations.of(context)!.yourBookshelf, style: Theme.of(context).textTheme.bodySmall,),
                   IconButton(
                     iconSize: width * 0.07,
                     style: ButtonStyle(
@@ -60,14 +61,14 @@ class BooksPage extends StatelessWidget {
               SearchAnchor(
                   isFullScreen: false,
                   dividerColor: Theme.of(context).colorScheme.secondary,
-                  viewHintText: 'Search for a book',
+                  viewHintText: AppLocalizations.of(context)!.searchForABook,
                   headerHintStyle: Theme.of(context).primaryTextTheme.bodySmall,
                   headerTextStyle: Theme.of(context).primaryTextTheme.bodySmall,
                   builder:
                   (BuildContext context, SearchController controller) {
                 return SearchBar(
                   backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
-                  hintText: 'Search for a book',
+                  hintText: AppLocalizations.of(context)!.searchForABook,
                   hintStyle: MaterialStateProperty.all<TextStyle>(Theme.of(context).primaryTextTheme.bodySmall!),
                   controller: controller,
                   padding: const MaterialStatePropertyAll<EdgeInsets>(

@@ -6,6 +6,8 @@ import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/image_input.dart';
 import 'package:outwork/widgets/rotating_text_journal.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class NewJournalEntryPopup2 extends StatefulWidget {
   final JournalEntry subject;
   NewJournalEntryPopup2({required this.subject});
@@ -42,14 +44,14 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
       bool isValid = true;
       setState(() {
         if (_titleController.text.isEmpty) {
-          titleError = 'Title can\'t be empty';
+          titleError = AppLocalizations.of(context)!.titleError;
           isValid = false;
         } else {
           titleError = null;
         }
 
         if (_descriptionController.text.isEmpty) {
-          descriptionError = 'Description can\'t be empty';
+          descriptionError = AppLocalizations.of(context)!.descriptionError;
           isValid = false;
         } else {
           descriptionError = null;
@@ -98,9 +100,9 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
                       .labelLarge!
                       .copyWith(color: Theme.of(context).colorScheme.error),
                   // alignLabelWithHint: true,
-                  labelText: 'Title',
+                  labelText: AppLocalizations.of(context)!.title,
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                  hintText: 'Enter your title here'),
+                  hintText: AppLocalizations.of(context)!.enterTitle),
             ),
           ),
           const SizedBox(
@@ -122,9 +124,9 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
                       .primaryTextTheme
                       .labelLarge!
                       .copyWith(color: Theme.of(context).colorScheme.error),
-                  labelText: 'Description',
+                  labelText: AppLocalizations.of(context)!.description,
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                  hintText: 'Enter your description here'
+                  hintText: AppLocalizations.of(context)!.enterDescription
               ),
             ),
           ),
@@ -156,7 +158,7 @@ class _NewJournalEntryPopupState extends State<NewJournalEntryPopup2> {
               }
             },
             child: Text(
-              'Submit with note',
+              AppLocalizations.of(context)!.submitWithNote,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),

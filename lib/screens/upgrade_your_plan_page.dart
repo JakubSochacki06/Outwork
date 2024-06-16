@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:purchases_flutter/models/offerings_wrapper.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../constants/constants.dart';
 import '../providers/user_provider.dart';
 import '../widgets/offering_tab.dart';
@@ -65,8 +65,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Change your life ', style: Theme.of(context).textTheme.bodyMedium,),
-                  Text('NOW ', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, decorationColor: Theme.of(context).colorScheme.secondary)),
+                  Text(AppLocalizations.of(context)!.changeYourLifeNormal, style: Theme.of(context).textTheme.bodyMedium,),
+                  Text(AppLocalizations.of(context)!.now, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, decorationColor: Theme.of(context).colorScheme.secondary)),
                 ],
               ),
               Row(
@@ -77,7 +77,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     size: 35,
                   ),
-                  Text('Chat with Jacob without limits',
+                  Text(AppLocalizations.of(context)!.chatWithoutLimits,
                       style: Theme.of(context).primaryTextTheme.bodySmall)
                 ],
               ),
@@ -89,7 +89,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     size: 35,
                   ),
-                  Text('No more tracking limits',
+                  Text(AppLocalizations.of(context)!.noMoreTrackingLimits,
                       style: Theme.of(context).primaryTextTheme.bodySmall)
                 ],
               ),
@@ -101,7 +101,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     size: 35,
                   ),
-                  Text('Earn "Early Supporter" Trophy',
+                  Text(AppLocalizations.of(context)!.earnEarlySupporter,
                       style: Theme.of(context).primaryTextTheme.bodySmall)
                 ],
               ),
@@ -113,7 +113,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     color: Theme.of(context).colorScheme.secondary,
                     size: 35,
                   ),
-                  Text('No ads',
+                  Text(AppLocalizations.of(context)!.noAds,
                       style: Theme.of(context).primaryTextTheme.bodySmall)
                 ],
               ),
@@ -238,8 +238,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                   },
                   child: Text(
                     selectedOffering != 0
-                        ? '14 Days Free trial'
-                        : '7 Days Free trial',
+                        ? AppLocalizations.of(context)!.freeTrial(7)
+                        : AppLocalizations.of(context)!.freeTrial(3),
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color:
@@ -256,7 +256,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 height: height * 0.01,
               ),
               Text(
-                'Recurring billing, cancel anytime. ',
+                AppLocalizations.of(context)!.recurringBilling,
                 style: Theme.of(context).primaryTextTheme.labelMedium,
                 textAlign: TextAlign.center,
               ),
@@ -264,7 +264,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                      text: 'Terms & Conditions',
+                      text: AppLocalizations.of(context)!.terms,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Theme.of(context).colorScheme.secondary),
                       recognizer: TapGestureRecognizer()
@@ -277,7 +277,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                       text: ' • ',
                       style: Theme.of(context).primaryTextTheme.labelMedium),
                   TextSpan(
-                      text: 'Privacy Policy',
+                      text: AppLocalizations.of(context)!.privacy,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Theme.of(context).colorScheme.secondary),
                       recognizer: TapGestureRecognizer()

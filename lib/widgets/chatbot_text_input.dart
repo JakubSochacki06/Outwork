@@ -3,7 +3,7 @@ import 'package:outwork/providers/chat_provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/user_provider.dart';
 import '../screens/upgrade_your_plan_page.dart';
 
@@ -35,7 +35,7 @@ class _ChatbotTextInputState extends State<ChatbotTextInput> {
             child: TextField(
               controller: _messageController,
               decoration: InputDecoration.collapsed(
-                  hintText: 'Write Question',
+                  hintText: AppLocalizations.of(context)!.writeQuestion,
                   // hintTextDirection: TextDirection.rtl,
                   hintStyle: Theme.of(context).primaryTextTheme.labelLarge),
             ),

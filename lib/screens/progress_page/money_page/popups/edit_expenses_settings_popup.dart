@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/progress_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditExpensesPopup extends StatefulWidget {
   const EditExpensesPopup({super.key});
@@ -60,7 +61,7 @@ class _AddMorningRoutinePopupState extends State<EditExpensesPopup> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'Change Subscription limit',
+                AppLocalizations.of(context)!.changeSubscriptionLimit,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -82,9 +83,9 @@ class _AddMorningRoutinePopupState extends State<EditExpensesPopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
 // alignLabelWithHint: true,
-                    labelText: 'Subscription limit',
+                    labelText: AppLocalizations.of(context)!.subscriptionLimit,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'How much maximum you want to spend'),
+                    hintText: AppLocalizations.of(context)!.howMuchMaximum),
               ),
             ),
             SizedBox(
@@ -96,7 +97,7 @@ class _AddMorningRoutinePopupState extends State<EditExpensesPopup> {
                 Navigator.pop(context);
               },
               child: Text(
-                'Save settings',
+                AppLocalizations.of(context)!.saveSettings,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

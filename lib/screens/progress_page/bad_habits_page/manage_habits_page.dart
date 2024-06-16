@@ -9,7 +9,7 @@ import 'package:outwork/widgets/appBars/basic_app_bar.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../constants/constants.dart';
 import '../../../providers/theme_provider.dart';
 import '../../upgrade_your_plan_page.dart';
@@ -39,7 +39,7 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: BasicAppBar(title: 'Select bad habits'),
+      appBar: BasicAppBar(title: AppLocalizations.of(context)!.selectBadHabitsTitle),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: !mapsHaveSameKeys(progressProvider.badHabits,widget.startingHabits)?() async{
           await progressProvider.updateBadHabits(widget.startingHabits, userProvider.user!.email!);
@@ -47,7 +47,7 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
         }:null,
         backgroundColor: !mapsHaveSameKeys(progressProvider.badHabits,widget.startingHabits)?Theme.of(context).colorScheme.secondary:Colors.grey,
         label: Text(
-          'Submit changes',
+          AppLocalizations.of(context)!.submitChanges,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onSecondaryContainer),
         ),

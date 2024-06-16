@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/progress_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../models/book.dart';
 import '../providers/theme_provider.dart';
 
@@ -45,7 +45,7 @@ class _BookContainerState extends State<BookContainer> {
             return StatefulBuilder(builder: (context, setState) {
               return AlertDialog(
                 title: Text(
-                  'How many paged did you read?',
+                  AppLocalizations.of(context)!.howManyPages,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 content: Column(
@@ -68,7 +68,7 @@ class _BookContainerState extends State<BookContainer> {
                         decoration: InputDecoration(
                             hintStyle:
                                 Theme.of(context).primaryTextTheme.labelLarge!,
-                            hintText: 'Insert amount of pages'),
+                            hintText: AppLocalizations.of(context)!.insertAmountOfPages),
                       ),
                     ),
                     amountError != null
@@ -88,7 +88,7 @@ class _BookContainerState extends State<BookContainer> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Cancel',
+                    child: Text(AppLocalizations.of(context)!.cancel,
                         style: Theme.of(context).textTheme.bodySmall),
                   ),
                   TextButton(
@@ -96,7 +96,7 @@ class _BookContainerState extends State<BookContainer> {
                       try {
                         if (int.parse(_amountController.text) + widget.book.readPages! > widget.book.totalPages!) {
                           setState(() {
-                            amountError = 'Make sure the amount is correct!';
+                            amountError = AppLocalizations.of(context)!.amountError;
                           });
                         } else {
                           await progressProvider.addReadPagesToDatabase(
@@ -109,12 +109,12 @@ class _BookContainerState extends State<BookContainer> {
                       } catch (e) {
                         print(e);
                         setState(() {
-                          amountError = 'Make sure this is valid number';
+                          amountError = AppLocalizations.of(context)!.makeSureValidNumber;
                         });
                       }
                     },
                     child: Text(
-                      'Add',
+                      AppLocalizations.of(context)!.addButtonText,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Theme.of(context).colorScheme.secondary),
                     ),

@@ -9,6 +9,7 @@ import 'package:outwork/widgets/stress_slider.dart';
 import 'new_journal_entry_popup2.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewJournalEntryPopup extends StatelessWidget {
   final JournalEntry subject;
@@ -27,7 +28,7 @@ class NewJournalEntryPopup extends StatelessWidget {
     bool validateInput() {
       bool isValid = true;
       if (subject.feeling == null) {
-        journalEntryProvider.setFeelingError('Select one of the following feelings');
+        journalEntryProvider.setFeelingError(AppLocalizations.of(context)!.selectFeelings);
         isValid = false;
       } else {
         journalEntryProvider.setFeelingError(null);
@@ -65,7 +66,7 @@ class NewJournalEntryPopup extends StatelessWidget {
               height: height * 0.01,
             ),
             Text(
-              'How are you feeling?',
+              AppLocalizations.of(context)!.howAreYouFeeling,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
@@ -92,7 +93,7 @@ class NewJournalEntryPopup extends StatelessWidget {
               height: height * 0.01,
             ):Container(),
             Text(
-              'Emotions that you felt',
+              AppLocalizations.of(context)!.emotionsThatYouFelt,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
@@ -101,26 +102,26 @@ class NewJournalEntryPopup extends StatelessWidget {
             ),
             // TODO: [IMPORTANT] THINK ABOUT CHANING TO group_button or multi_select_flutter
             EmotionsList(
-              emotions: const ['Excited', 'Loved', 'Surprised'],
+              emotions: [AppLocalizations.of(context)!.excited, AppLocalizations.of(context)!.loved, AppLocalizations.of(context)!.surprised],
               subject: subject,
             ),
             EmotionsList(
-              emotions: const ['Angry', 'Anxious', 'Lonely'],
+              emotions: [AppLocalizations.of(context)!.angry, AppLocalizations.of(context)!.anxious, AppLocalizations.of(context)!.lonely],
               subject: subject,
             ),
             EmotionsList(
-              emotions: const ['Calm', 'Fascinated', 'Tired'],
+              emotions: [AppLocalizations.of(context)!.calm, AppLocalizations.of(context)!.fascinated, AppLocalizations.of(context)!.tired],
               subject: subject,
             ),
             EmotionsList(
-              emotions: const ['Frustrated', 'Relaxed', 'Bored'],
+              emotions: [AppLocalizations.of(context)!.frustrated, AppLocalizations.of(context)!.relaxed, AppLocalizations.of(context)!.bored],
               subject: subject,
             ),
             SizedBox(
               height: height * 0.01,
             ),
             Text(
-              'Stress level',
+              AppLocalizations.of(context)!.stressLevel,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
@@ -139,7 +140,7 @@ class NewJournalEntryPopup extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15)),
               child: CheckboxListTile(
                   title: Text(
-                    'Leave a note',
+                    AppLocalizations.of(context)!.leaveANote,
                     style: Theme.of(context).primaryTextTheme.bodyMedium,
                   ),
                   value: subject.hasNote,
@@ -182,7 +183,7 @@ class NewJournalEntryPopup extends StatelessWidget {
                 }
               },
               child: Text(
-                subject.hasNote ? 'Add note' : 'Submit',
+                subject.hasNote ? AppLocalizations.of(context)!.addNote : AppLocalizations.of(context)!.submit,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

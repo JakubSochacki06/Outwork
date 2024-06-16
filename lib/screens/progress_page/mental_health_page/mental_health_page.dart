@@ -7,6 +7,7 @@ import 'package:outwork/widgets/appBars/journal_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/note_tile.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class MentalHealthPage extends StatelessWidget {
@@ -82,8 +83,8 @@ class MentalHealthPage extends StatelessWidget {
                   )
                 : Column(
               children: [
-                AutoSizeText('No notes found!', style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
-                Text('Add new note to start tracking your mental health.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+                AutoSizeText(AppLocalizations.of(context)!.noNotes, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
+                Text(AppLocalizations.of(context)!.addNewNoteTo, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
                 Lottie.asset('assets/noData.json', height: height*0.3),
               ],
             ),),

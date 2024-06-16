@@ -8,6 +8,8 @@ import 'package:outwork/widgets/subs_container.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MoneyPage extends StatelessWidget {
   const MoneyPage({super.key});
@@ -25,23 +27,23 @@ class MoneyPage extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              'Delete this subscription?',
+              AppLocalizations.of(context)!.deleteSubscription,
               style: Theme.of(context).textTheme.bodySmall,
             ),
-            content: Text('Are you sure you want to delete this subscription?',
+            content: Text(AppLocalizations.of(context)!.deleteSubscriptionConfirm,
                 style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes',
+                child: Text(AppLocalizations.of(context)!.yes,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Theme.of(context).colorScheme.secondary)),
               ),
@@ -74,7 +76,7 @@ class MoneyPage extends StatelessWidget {
                   icon: const Icon(Icons.navigate_before),
                 ),
                 TextButton(
-                  child: Text('Add new',
+                  child: Text(AppLocalizations.of(context)!.addNew,
                       style: Theme.of(context).primaryTextTheme.bodyMedium),
                   style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
@@ -144,7 +146,7 @@ class MoneyPage extends StatelessWidget {
                       angle: 90,
                       positionFactor: 0.08,
                       widget: Text(
-                        'Spent this month',
+                        AppLocalizations.of(context)!.spentThisMonth,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context)
                                 .colorScheme
@@ -181,15 +183,15 @@ class MoneyPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SubsContainer(
-                    title: 'Lowest sub',
+                    title: AppLocalizations.of(context)!.lowestSub,
                     amount: '${progressProvider.findLowestSub()}\$',
                     color: Theme.of(context).colorScheme.error),
                 SubsContainer(
-                    title: 'Active subs',
+                    title: AppLocalizations.of(context)!.activeSub,
                     amount: progressProvider.subscriptions.length.toString(),
                     color: Theme.of(context).colorScheme.secondary),
                 SubsContainer(
-                    title: 'Highest sub',
+                    title: AppLocalizations.of(context)!.highestSub,
                     amount: '${progressProvider.findHighestSub()}\$',
                     color: Theme.of(context).colorScheme.error),
               ],

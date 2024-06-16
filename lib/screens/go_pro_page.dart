@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:outwork/screens/upgrade_your_plan_page.dart';
 import 'package:outwork/widgets/premium_feature.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GoProPage extends StatelessWidget {
   final Offerings offerings;
@@ -27,14 +28,14 @@ class GoProPage extends StatelessWidget {
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                          text: 'Premium users are',
+                          text: AppLocalizations.of(context)!.premiumUsersAre,
                           style: Theme.of(context).textTheme.bodyLarge,
                           children: <TextSpan>[
                             TextSpan(text: ' 3.7x ',
                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary)
                             ),
                             TextSpan(
-                              text: 'more likely to no stop their Self-improvement journey!',
+                              text: AppLocalizations.of(context)!.moreLikely,
                               style: Theme.of(context).textTheme.bodyLarge,
                             )
                           ]
@@ -45,23 +46,23 @@ class GoProPage extends StatelessWidget {
                       children: [
                         PremiumFeature(
                             leftIcon: LineIcons.comments,
-                            title: 'Unlimited chatting',
-                            description: 'Chat with Jacob as much as you want!'),
+                            title: AppLocalizations.of(context)!.unlimitedChatting,
+                            description: AppLocalizations.of(context)!.unlimitedChattingDescription),
                         SizedBox(height: height*0.01,),
                         PremiumFeature(
                             leftIcon: LineIcons.infinity,
-                            title: 'No limits',
-                            description: 'Track your routines and projects without limits'),
+                            title: AppLocalizations.of(context)!.noLimits,
+                            description: AppLocalizations.of(context)!.noLimitsDescription),
                         SizedBox(height: height*0.01,),
                         PremiumFeature(
                             leftIcon: LineIcons.trophy,
-                            title: 'Earn trophies',
-                            description: 'Showcase them in your profile! (soon)'),
+                            title: AppLocalizations.of(context)!.earnTrophies,
+                            description: AppLocalizations.of(context)!.earnTrophiesDescription),
                         SizedBox(height: height*0.01,),
                         PremiumFeature(
                             leftIcon: LineIcons.ban,
-                            title: 'No ads',
-                            description: 'Improve yourself with no interruptions'),
+                            title: AppLocalizations.of(context)!.noAds,
+                            description: AppLocalizations.of(context)!.noAdsDescription),
                         SizedBox(height: height*0.01,),
                       ],
                     ),
@@ -96,7 +97,7 @@ class GoProPage extends StatelessWidget {
                         );
                       },
                       child: Text(
-                        'CHANGE YOUR LIFE',
+                        AppLocalizations.of(context)!.changeYourLife,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).colorScheme.onSecondaryContainer),
@@ -111,7 +112,7 @@ class GoProPage extends StatelessWidget {
                   SizedBox(height: height*0.01,),
                   TextButton(onPressed: (){
                     Navigator.pop(context);
-                  }, child: Text('NO THANKS', style: Theme.of(context).textTheme.bodyMedium,))
+                  }, child: Text(AppLocalizations.of(context)!.noThanks, style: Theme.of(context).textTheme.bodyMedium,))
                 ],
               ),
             )

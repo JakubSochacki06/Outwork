@@ -3,6 +3,8 @@ import 'package:outwork/providers/chat_provider.dart';
 import 'package:outwork/widgets/chatbot_text_input.dart';
 import 'package:outwork/widgets/commonly_used_sentences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ChatPage extends StatelessWidget {
   final ScrollController _controller = ScrollController();
@@ -11,14 +13,13 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('chat page built');
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Talk with Jacob Bot',
+          AppLocalizations.of(context)!.talkWithJacob,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         centerTitle: true,
