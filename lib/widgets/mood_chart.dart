@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoodChart extends StatefulWidget {
   const MoodChart({super.key});
@@ -54,10 +55,10 @@ class _MoodChartState extends State<MoodChart> {
 
     return Column(
       children: [
-        const Align(
+        Align(
           alignment: Alignment.center,
           child: Text(
-            'Total moods chart',
+            AppLocalizations.of(context)!.totalMoodsChart,
             // style: kStatsPageTitle,
           ),
         ),
@@ -92,14 +93,14 @@ class _MoodChartState extends State<MoodChart> {
                   ),
                 ),
               )
-            : const Text(
-                'Submit more day ratings and see stats about your main feelings!',
+            : Text(
+          AppLocalizations.of(context)!.totalMoodsNote,
               ),
         averageMood.length != 0
             ? Align(
                 alignment: Alignment.center,
                 child: Text(
-                  'Average feeling: ${averageMood.capitalize()}\nHere is advice for you:',
+                  '${AppLocalizations.of(context)!.averageFeeling}: ${averageMood.capitalize()}\n${AppLocalizations.of(context)!.hereIsAdvice}:',
                   textAlign: TextAlign.center,
                 ),
               )
@@ -107,51 +108,6 @@ class _MoodChartState extends State<MoodChart> {
         const SizedBox(
           height: 10,
         ),
-        // Align(
-        //   alignment: Alignment.center,
-        //   child: Container(
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(15.0),
-        //       border: Border.all(color: adviceBorderColor, width: 1.5),
-        //       color: adviceBackgroundColor,
-        //     ),
-        //     child: adviceFuture != null
-        //         ? FutureBuilder(
-        //       future: adviceFuture,
-        //       builder: (context, snapshot) {
-        //         if (snapshot.hasData) {
-        //           return Padding(
-        //             padding: EdgeInsets.all(10.0),
-        //             child: Column(
-        //               children: [
-        //                 Text(
-        //                   '${snapshot.data}',
-        //                   style: kHomePageQuoteText,
-        //                 ),
-        //               ],
-        //             ),
-        //           );
-        //         } else {
-        //           return Padding(
-        //             padding: EdgeInsets.all(10.0),
-        //             child: Text('No internet connection'),
-        //           );
-        //         }
-        //       },
-        //     )
-        //         : Padding(
-        //       padding: EdgeInsets.all(10.0),
-        //       child: Column(
-        //         children: [
-        //           Text(
-        //             'Submit more day ratings and see the advice for you!',
-        //             style: kHomePageQuoteText,
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ],
     );
   }

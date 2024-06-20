@@ -5,10 +5,12 @@ import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/screens/projects_page/pop_ups/add_project_popup.dart';
 import 'package:outwork/screens/projects_page/pop_ups/join_with_code_popup.dart';
+import 'package:outwork/string_extension.dart';
 import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:outwork/widgets/projects_list.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectsPage extends StatelessWidget {
   const ProjectsPage({super.key});
@@ -24,7 +26,7 @@ class ProjectsPage extends StatelessWidget {
       appBar: const MainAppBar(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        label: Text('Add new project',
+        label: Text(AppLocalizations.of(context)!.addNewProject,
             style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onSecondaryContainer)),
         onPressed: () {
@@ -37,7 +39,7 @@ class ProjectsPage extends StatelessWidget {
                 // height: height*0.1,
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: const AddProjectPopup(mode: 'Add new',),
+                child: const AddProjectPopup(mode: 0,),
               ),
             ),
           );
@@ -56,11 +58,11 @@ class ProjectsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Keep on grinding.',
+                      AppLocalizations.of(context)!.keepOnGrinding,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
-                      'Outwork all of them.',
+                      AppLocalizations.of(context)!.outworkAllOfThem,
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           color: Theme.of(context).colorScheme.onPrimaryContainer),
                     ),
@@ -100,9 +102,8 @@ class ProjectsPage extends StatelessWidget {
                           DateTime.now().day.toString().length==1?'0${DateTime.now().day}':DateTime.now().day.toString(),
                           style: Theme.of(context).textTheme.displayLarge),
                       Text(
-                          DateFormat('MMMM')
-                              .format(DateTime.now())
-                              .toString(),
+                          DateFormat('MMMM', themeProvider.selectedLocale!.languageCode).format(DateTime.now())
+                              .toString().capitalize(),
                           style: Theme.of(context).textTheme.bodySmall)
                     ],
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +113,7 @@ class ProjectsPage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text('Upcoming tasks', style: Theme.of(context).textTheme.bodySmall,),
+                        AutoSizeText(AppLocalizations.of(context)!.upcomingTasks, style: Theme.of(context).textTheme.bodySmall, maxLines: 1),
                         SizedBox(height: height*0.01,),
                         upcomingTasks.length>0?Expanded(
                           child: ListView.separated(
@@ -144,7 +145,7 @@ class ProjectsPage extends StatelessWidget {
                                 return SizedBox(height: height*0.01,);
                               },
                               itemCount: upcomingTasks.length>=5?5:upcomingTasks.length),
-                        ):Expanded(child: Text('Add new tasks to projects and track it here!', style: Theme.of(context).textTheme.labelLarge, textAlign: TextAlign.center,)),
+                        ):Expanded(child: Text(AppLocalizations.of(context)!.addNewTasksToProjects, style: Theme.of(context).textTheme.labelLarge, textAlign: TextAlign.center,)),
                       ],
                     ),
                   )
@@ -159,7 +160,7 @@ class ProjectsPage extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    'Your projects',
+                    AppLocalizations.of(context)!.yourProjects,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const Spacer(),
@@ -209,7 +210,7 @@ class ProjectsPage extends StatelessWidget {
                           SizedBox(
                             width: width * 0.01,
                           ),
-                          Text('Join with code',
+                          Text(AppLocalizations.of(context)!.joinWithCode,
                               style: Theme.of(context).textTheme.labelSmall),
                         ],
                       ),

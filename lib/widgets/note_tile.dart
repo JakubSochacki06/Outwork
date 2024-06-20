@@ -5,7 +5,7 @@ import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 
 class NoteTile extends StatelessWidget {
@@ -27,7 +27,7 @@ class NoteTile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Photo you left', style: Theme.of(context).textTheme.bodyMedium),
+            title: Text(AppLocalizations.of(context)!.photoYouLeft, style: Theme.of(context).textTheme.bodyMedium),
             content: Image.network(url),
             actions: [
               Center(
@@ -35,7 +35,7 @@ class NoteTile extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('Close', style: Theme.of(context).textTheme.bodySmall,),
+                  child: Text(AppLocalizations.of(context)!.close, style: Theme.of(context).textTheme.bodySmall,),
                 ),
               ),
             ],
@@ -49,20 +49,20 @@ class NoteTile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Delete note?'),
-            content: const Text('Are you sure you want to delete this note?'),
+            title: Text(AppLocalizations.of(context)!.deleteNote),
+            content: Text(AppLocalizations.of(context)!.deleteNoteConfirmation),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).primaryTextTheme.labelMedium,),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).primaryTextTheme.labelMedium,),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).primaryTextTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
+                child: Text(AppLocalizations.of(context)!.yes, style: Theme.of(context).primaryTextTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
               ),
             ],
           );
@@ -109,11 +109,11 @@ class NoteTile extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(note.getFeelingAsTitle(),
+                        Text(note.getFeelingAsTitle(context),
                             style:
                                 Theme.of(context).textTheme.bodyMedium),
                         Text(
-                          note.getDateAsString(),
+                          note.getDateAsString(context, themeProvider.selectedLocale!),
                           style: Theme.of(context).primaryTextTheme.labelLarge,
                         ),
                       ],
@@ -261,10 +261,10 @@ class NoteTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        note.getDateAsString(),
+                        note.getDateAsString(context, themeProvider.selectedLocale!),
                         style: Theme.of(context).primaryTextTheme.labelLarge,
                       ),
-                      Text(note.getFeelingAsTitle(),
+                      Text(note.getFeelingAsTitle(context),
                           style: Theme.of(context).textTheme.headlineSmall),
                       SizedBox(width: width*0.02,),
                       SizedBox(

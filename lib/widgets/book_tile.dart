@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../models/book.dart';
 
 class BookTile extends StatelessWidget {
@@ -29,7 +29,7 @@ class BookTile extends StatelessWidget {
               children: [
                 Container(child: AutoSizeText(book.title!, style: Theme.of(context).textTheme.bodyMedium, maxLines: 2,)),
                 Container(child: AutoSizeText(book.author!, style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer), maxLines: 1,)),
-                Container(child: AutoSizeText('${book.totalPages} pages', style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer), maxLines: 1,)),
+                Container(child: AutoSizeText('${book.totalPages} ${AppLocalizations.of(context)!.pages}', style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer), maxLines: 1,)),
               ],
             ),
           ),

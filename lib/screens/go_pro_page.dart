@@ -31,7 +31,7 @@ class GoProPage extends StatelessWidget {
                           text: AppLocalizations.of(context)!.premiumUsersAre,
                           style: Theme.of(context).textTheme.bodyLarge,
                           children: <TextSpan>[
-                            TextSpan(text: ' 3.7x ',
+                            TextSpan(text: '3.7x ',
                                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary)
                             ),
                             TextSpan(

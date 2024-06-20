@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JoinWithCodePopup extends StatefulWidget {
   const JoinWithCodePopup({super.key});
@@ -59,7 +60,7 @@ class _AddMorningRoutinePopupState extends State<JoinWithCodePopup> {
             Align(
               alignment: Alignment.center,
               child: Text(
-                'Join with project code',
+                AppLocalizations.of(context)!.joinWithProjectCode,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -82,9 +83,9 @@ class _AddMorningRoutinePopupState extends State<JoinWithCodePopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
                     // alignLabelWithHint: true,
-                    labelText: 'Project code',
+                    labelText: AppLocalizations.of(context)!.projectCode,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Enter project code that you want to join'
+                    hintText: AppLocalizations.of(context)!.projectCodeHint
                 ),
               ),
             ),
@@ -95,14 +96,14 @@ class _AddMorningRoutinePopupState extends State<JoinWithCodePopup> {
               onPressed: () async {
                 if(! await projectsProvider.projectIDValid(_codeController.text, userProvider.user!)){
                   setState(() {
-                    errorMessage = 'Project ID must be valid!';
+                    errorMessage = AppLocalizations.of(context)!.projectIDError;
                   });
                 } else {
                   Navigator.pop(context);
                 }
               },
               child: Text(
-                'Join project',
+                AppLocalizations.of(context)!.joinProject,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer),
               ),

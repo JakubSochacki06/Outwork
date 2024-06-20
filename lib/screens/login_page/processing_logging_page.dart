@@ -45,7 +45,9 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
           await userProvider.restartDailyData();
         }
         await Purchases.logIn(userProvider.user!.email!);
+        print("BEFORE SETTINGS PROJECT LIST");
         await projectsProvider.setProjectsList(userProvider.user!);
+        print("AFTER SETTING PROJECT LIST");
         xpLevelProvider.setXPAmount(userProvider.user!);
         morningRoutineProvider.setMorningRoutines(userProvider.user!);
         journalEntryProvider.setJournalEntries(userProvider.user!);

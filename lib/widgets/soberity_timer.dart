@@ -9,6 +9,7 @@ import 'package:outwork/widgets/custom_linear_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SobrietyTimer extends StatefulWidget {
   final DateTime sobrietyDate;
@@ -103,7 +104,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
-                          text: ' Years',
+                          text: ' ${AppLocalizations.of(context)!.years}',
                           style: Theme.of(context).primaryTextTheme.bodyMedium)
                     ]),
               ),
@@ -135,7 +136,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
-                          text: ' Months',
+                          text: ' ${AppLocalizations.of(context)!.months}',
                           style: Theme.of(context).primaryTextTheme.bodyMedium)
                     ]),
               ),
@@ -167,7 +168,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
-                          text: ' Days',
+                          text: ' ${AppLocalizations.of(context)!.days}',
                           style: Theme.of(context).primaryTextTheme.bodyMedium)
                     ]),
               ),
@@ -199,7 +200,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
-                          text: ' Hours',
+                          text: ' ${AppLocalizations.of(context)!.hours}',
                           style: Theme.of(context).primaryTextTheme.bodyMedium)
                     ]),
               ),
@@ -231,7 +232,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                     style: Theme.of(context).textTheme.bodyLarge,
                     children: [
                       TextSpan(
-                          text: ' Minutes',
+                          text: ' ${AppLocalizations.of(context)!.minutes}',
                           style: Theme.of(context).primaryTextTheme.bodyMedium)
                     ]),
               ),
@@ -263,7 +264,7 @@ class _SobrietyTimerState extends State<SobrietyTimer> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   children: [
                     TextSpan(
-                        text: ' Seconds',
+                        text: ' ${AppLocalizations.of(context)!.seconds}',
                         style: Theme.of(context).primaryTextTheme.bodyMedium)
                   ]),
             ),

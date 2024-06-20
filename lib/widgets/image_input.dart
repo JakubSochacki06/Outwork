@@ -8,6 +8,8 @@ import 'package:path/path.dart' as path;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ImageInput extends StatelessWidget {
   final JournalEntry subject;
@@ -57,7 +59,7 @@ class ImageInput extends StatelessWidget {
                 case ConnectionState.waiting: return const CircularProgressIndicator();
                 default:
                   if (snapshot.hasError)
-                    return Text('Error: ${snapshot.error}');
+                    return Text('${AppLocalizations.of(context)!.error}: ${snapshot.error}');
                   else
                     return Image.network(
                         snapshot.data!
@@ -68,14 +70,14 @@ class ImageInput extends StatelessWidget {
             journalEntryProvider.existingEntry.storedImage!,
             fit: BoxFit.fill,
             width: double.infinity,
-          ): Text('No image taken', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,) :
+          ): Text(AppLocalizations.of(context)!.noImageTaken, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,) :
       journalEntryProvider.journalEntry.storedImage != null
               ? Image.file(
             journalEntryProvider.journalEntry.storedImage!,
             fit: BoxFit.fill,
             width: double.infinity,
           )
-              : Text('No image taken', textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,),
+              : Text(AppLocalizations.of(context)!.noImageTaken, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.labelLarge,),
           alignment: Alignment.center,
         ),
         const SizedBox(
@@ -91,14 +93,14 @@ class ImageInput extends StatelessWidget {
                   _pickImage(ImageSource.camera);
                 },
                 icon: const Icon(Icons.camera_alt),
-                label: Text('Take picture', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
+                label: Text(AppLocalizations.of(context)!.takePicture, style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
               TextButton.icon(
                 onPressed: () {
                   _pickImage(ImageSource.gallery);
                 },
                 icon: const Icon(Icons.photo),
-                label: Text('Choose from gallery', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
+                label: Text(AppLocalizations.of(context)!.chooseFromGallery, style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
               ),
             ],
           ),

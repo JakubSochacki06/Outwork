@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StressLevelInfo extends StatelessWidget {
   const StressLevelInfo({super.key});
@@ -20,33 +21,34 @@ class StressLevelInfo extends StatelessWidget {
     //   await get(Uri.parse('https://outwork.onrender.com/stressadvice/$stressLevel'));
     //   return jsonDecode(response.body);
     // }
+    final localizations = AppLocalizations.of(context)!;
 
     String getStressAdvice(int stressLevel) {
       switch (stressLevel) {
         case 0:
-          return 'You\'re doing great! Keep up the positive mindset.';
+          return localizations.stressLevelMessage0;
         case 1:
-          return 'Stay calm and take a deep breath. It\'s just a small bump.';
+          return localizations.stressLevelMessage1;
         case 2:
-          return 'Focus on the positive aspects of your day.';
+          return localizations.stressLevelMessage2;
         case 3:
-          return 'Take a short break and relax. You\'ve got this!';
+          return localizations.stressLevelMessage3;
         case 4:
-          return 'Organize your tasks and prioritize. It will help reduce stress.';
+          return localizations.stressLevelMessage4;
         case 5:
-          return 'Consider practicing mindfulness or meditation for relaxation.';
+          return localizations.stressLevelMessage5;
         case 6:
-          return 'Connect with friends or family for emotional support.';
+          return localizations.stressLevelMessage6;
         case 7:
-          return 'Delegate tasks if possible. Share the load.';
+          return localizations.stressLevelMessage7;
         case 8:
-          return 'Make sure to get enough sleep. It plays a crucial role in stress management.';
+          return localizations.stressLevelMessage8;
         case 9:
-          return 'Seek professional help or talk to a counselor if needed.';
+          return localizations.stressLevelMessage9;
         case 10:
-          return 'It\'s okay not to be okay. Reach out for support and take care of yourself.';
+          return localizations.stressLevelMessage10;
         default:
-          return 'Invalid stress level';
+          return localizations.stressLevelMessageInvalid;
       }
     }
 
@@ -82,7 +84,7 @@ class StressLevelInfo extends StatelessWidget {
                         : Theme.of(context).colorScheme.error),
               ),
               Text(
-                'Stress score',
+                localizations.stressScore,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
@@ -101,7 +103,7 @@ class StressLevelInfo extends StatelessWidget {
               )
               : Expanded(
                   child: Text(
-                    'Add more notes to track your stress and feelings',
+                    localizations.addMoreNotesToTrackYourStress,
                     style: Theme.of(context).primaryTextTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),

@@ -148,7 +148,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => XPLevelProvider()),
-        ChangeNotifierProvider(create: (context) => ChatProvider()),
+        ChangeNotifierProvider(create: (context) => ChatProvider(context)),
         ChangeNotifierProvider(create: (context) => NavbarControllerProvider()),
         ChangeNotifierProvider(create: (context) => DailyCheckinProvider()),
         ChangeNotifierProvider(create: (context) => MorningRoutineProvider()),

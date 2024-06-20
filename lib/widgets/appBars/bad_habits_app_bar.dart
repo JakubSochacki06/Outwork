@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:outwork/constants/constants.dart';
 import 'package:outwork/screens/progress_page/bad_habits_page/manage_habits_page.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../providers/progress_provider.dart';
+
 class BadHabitsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BadHabitsAppBar({super.key});
 
@@ -13,7 +14,7 @@ class BadHabitsAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
-        title: Text('Bad Habits', style: Theme.of(context).textTheme.bodyLarge),
+        title: Text(AppLocalizations.of(context)!.badHabits, style: Theme.of(context).textTheme.bodyLarge),
         centerTitle: true,
         leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.navigate_before)),
         actions: [

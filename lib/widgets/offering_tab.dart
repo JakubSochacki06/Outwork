@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OfferingTab extends StatelessWidget {
   final double priceTotal;
@@ -18,6 +19,19 @@ class OfferingTab extends StatelessWidget {
         priceMonthly = (priceTotal/3).roundToDouble();
       case '12 months':
         priceMonthly = (priceTotal/12).roundToDouble();
+    }
+
+    String getLocalizedPlanName(String planName) {
+      switch (planName) {
+        case "1 month":
+          return AppLocalizations.of(context)!.oneMonth;
+        case "3 months":
+          return AppLocalizations.of(context)!.months2(3);
+        case "12 months":
+          return AppLocalizations.of(context)!.months2(12);
+        default:
+          return planName; // Fallback to the original name if not found
+      }
     }
     return Container(
       padding: const EdgeInsets.all(20),
@@ -41,9 +55,9 @@ class OfferingTab extends StatelessWidget {
           // ),
           Row(
             children: [
-              Text(planName, style: Theme.of(context).textTheme.bodyLarge,),
+              Text(getLocalizedPlanName(planName), style: Theme.of(context).textTheme.bodyLarge,),
               const Spacer(),
-              Text('$currencyCode$priceMonthly / MO', style: Theme.of(context).textTheme.bodyLarge),
+              Text('$currencyCode$priceMonthly / ${AppLocalizations.of(context)!.monthShortcut}', style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
           priceMonthly!=priceTotal?Row(

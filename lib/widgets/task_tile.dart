@@ -6,6 +6,7 @@ import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/projects_page/pomodoro_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskTile extends StatelessWidget {
   final Project project;
@@ -20,20 +21,20 @@ class TaskTile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete task?', style: Theme.of(context).textTheme.bodySmall,),
-            content: Text('Are you sure you want to delete this task? You can\'t retrieve it after', style: Theme.of(context).primaryTextTheme.bodySmall),
+            title: Text(AppLocalizations.of(context)!.deleteTask, style: Theme.of(context).textTheme.bodySmall,),
+            content: Text(AppLocalizations.of(context)!.areYouSureYouWantToDeleteThisTask, style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+                child: Text(AppLocalizations.of(context)!.yes, style: Theme.of(context).textTheme.bodySmall),
               ),
             ],
           );
@@ -72,7 +73,7 @@ class TaskTile extends StatelessWidget {
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
               },
-              child: Text('Work', style: Theme.of(context).textTheme.bodySmall,),
+              child: Text(AppLocalizations.of(context)!.work, style: Theme.of(context).textTheme.bodySmall,),
             ),
             Checkbox(
               value: project.tasks![taskIndex].completed,
@@ -89,7 +90,7 @@ class TaskTile extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
         subtitle: Text(
-          project.tasks![taskIndex].completed!?'Done ✔️':project.tasks![taskIndex].countTimeLeft(),
+          project.tasks![taskIndex].completed!?'${AppLocalizations.of(context)!.done} ✔️':project.tasks![taskIndex].countTimeLeft(),
           style: Theme.of(context).primaryTextTheme.labelLarge!.copyWith(color: project.tasks![taskIndex].completed!?Theme.of(context).colorScheme.secondary:project.tasks![taskIndex].colorOfDaysLeft(context)),
           textAlign: TextAlign.start,
         ),

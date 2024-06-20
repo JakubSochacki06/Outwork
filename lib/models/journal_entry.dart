@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:outwork/string_extension.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JournalEntry{
   String? feeling;
@@ -43,34 +45,40 @@ class JournalEntry{
   }
 
 
-  String getFeelingAsTitle() {
+  String getFeelingAsTitle(context) {
+    final localizations = AppLocalizations.of(context)!;
     switch (feeling) {
       case 'sad':
+        return localizations.sad;
       case 'unhappy':
+        return localizations.unhappy;
       case 'neutral':
+        return localizations.neutral;
       case 'happy':
-        return feeling!.capitalize();
+        return localizations.happy;
+      default:
+        return localizations.veryHappy;
     }
-    return 'Very happy';
   }
 
-  String getDateAsString() {
+  String getDateAsString(context, Locale locale) {
+    final localizations = AppLocalizations.of(context)!;
     DateTime now = DateTime.now();
     DateTime today = DateTime(now.year, now.month, now.day);
     DateTime yesterday = DateTime(now.year, now.month, now.day - 1);
     DateTime dateFormatted = DateTime(date!.year, date!.month, date!.day);
-    String monthName = DateFormat('MMMM').format(dateFormatted);
+    String monthName = DateFormat('MMMM', locale.languageCode).format(dateFormatted);
     String minutes;
     date!.minute.toString().length == 1
         ? minutes = '0${date!.minute}'
         : minutes = date!.minute.toString();
     if (dateFormatted == today) {
-      return 'Today, ${date!.hour}:$minutes';
+      return '${localizations.today}, ${date!.hour}:$minutes';
     } else if (dateFormatted == yesterday) {
-      if(getFeelingAsTitle() == 'Very happy' && hasNote != true){
-        return 'Yesterday';
+      if(getFeelingAsTitle(context) == localizations.veryHappy && hasNote != true){
+        return localizations.yesterday;
       }
-      return 'Yesterday, ${date!.hour}:$minutes';
+      return '${localizations.yesterday}, ${date!.hour}:$minutes';
     } else {
       return '${date!.day} $monthName';
     }

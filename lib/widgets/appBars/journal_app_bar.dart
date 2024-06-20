@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../providers/journal_entry_provider.dart';
 import '../../screens/progress_page/mental_health_page/pop_ups/new_journal_entry_popup.dart';
 
@@ -13,7 +13,7 @@ class JournalAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
-        title: Text('Journal', style: Theme.of(context).textTheme.bodyLarge),
+        title: Text(AppLocalizations.of(context)!.journal, style: Theme.of(context).textTheme.bodyLarge),
         centerTitle: true,
         leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.navigate_before)),
         actions: [

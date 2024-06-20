@@ -5,6 +5,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/widgets/calendar_picker_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskPopup extends StatefulWidget {
   final Project project;
@@ -42,20 +43,20 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
       setState(() {
 
         if (projectProvider.newTask.dueDate == null) {
-          dueDateError = 'Select due date by clicking the icon';
+          dueDateError = AppLocalizations.of(context)!.dueDateError;
           isValid = false;
         } else {
           dueDateError = null;
         }
         if (_titleController.text.isEmpty) {
-          titleError = 'Title can\'t be empty';
+          titleError = AppLocalizations.of(context)!.titleError;
           isValid = false;
         } else {
           titleError = null;
         }
 
         if (_descriptionController.text.isEmpty) {
-          descriptionError = 'Description can\'t be empty';
+          descriptionError = AppLocalizations.of(context)!.descriptionError;
           isValid = false;
         } else {
           descriptionError = null;
@@ -94,7 +95,7 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
               height: height * 0.01,
             ),
             Text(
-              'Add task to project',
+              AppLocalizations.of(context)!.addTaskToProject,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
@@ -117,9 +118,9 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
                     // alignLabelWithHint: true,
-                    labelText: 'Title',
+                    labelText: AppLocalizations.of(context)!.title,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Enter your title here'),
+                    hintText: AppLocalizations.of(context)!.enterTitle),
               ),
             ),
             SizedBox(
@@ -141,10 +142,10 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
                         .primaryTextTheme
                         .labelLarge!
                         .copyWith(color: Theme.of(context).colorScheme.error),
-                    labelText: 'Description',
+                    labelText: AppLocalizations.of(context)!.description,
                     alignLabelWithHint: true,
                     labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                    hintText: 'Enter description here'),
+                    hintText: AppLocalizations.of(context)!.enterDescription),
               ),
             ),
             SizedBox(
@@ -178,7 +179,7 @@ class _AddTaskPopupState extends State<AddTaskPopup> {
 
               },
               child: Text(
-                'Submit',
+                AppLocalizations.of(context)!.submit,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

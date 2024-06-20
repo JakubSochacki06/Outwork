@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
+import 'package:outwork/widgets/pro_advantage_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/models/offerings_wrapper.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -65,58 +66,25 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppLocalizations.of(context)!.changeYourLifeNormal, style: Theme.of(context).textTheme.bodyMedium,),
-                  Text(AppLocalizations.of(context)!.now, style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.secondary, decoration: TextDecoration.underline, decorationColor: Theme.of(context).colorScheme.secondary)),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 35,
+                  Text(
+                    AppLocalizations.of(context)!.changeYourLifeNormal,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  Text(AppLocalizations.of(context)!.chatWithoutLimits,
-                      style: Theme.of(context).primaryTextTheme.bodySmall)
+                  Text(AppLocalizations.of(context)!.now,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                          decoration: TextDecoration.underline,
+                          decorationColor:
+                              Theme.of(context).colorScheme.secondary)),
                 ],
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 35,
-                  ),
-                  Text(AppLocalizations.of(context)!.noMoreTrackingLimits,
-                      style: Theme.of(context).primaryTextTheme.bodySmall)
-                ],
+              SizedBox(
+                height: height * 0.01,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 35,
-                  ),
-                  Text(AppLocalizations.of(context)!.earnEarlySupporter,
-                      style: Theme.of(context).primaryTextTheme.bodySmall)
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.check,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 35,
-                  ),
-                  Text(AppLocalizations.of(context)!.noAds,
-                      style: Theme.of(context).primaryTextTheme.bodySmall)
-                ],
-              ),
+              ProAdvantageTile(text: AppLocalizations.of(context)!.chatWithoutLimits),
+              ProAdvantageTile(text: AppLocalizations.of(context)!.noMoreTrackingLimits),
+              ProAdvantageTile(text: AppLocalizations.of(context)!.earnEarlySupporter),
+              ProAdvantageTile(text: AppLocalizations.of(context)!.noAds),
               Spacer(),
               InkWell(
                 splashFactory: NoSplash.splashFactory,
@@ -149,8 +117,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 },
                 child: OfferingTab(
                   isSelected: 1 == selectedOffering,
-                  priceTotal: widget
-                      .offerings.current!.availablePackages[1].storeProduct.price,
+                  priceTotal: widget.offerings.current!.availablePackages[1]
+                      .storeProduct.price,
                   planName: widget.offerings.current!.availablePackages[1]
                       .storeProduct.description,
                   currencyCode: widget.offerings.current!.availablePackages[1]
@@ -171,8 +139,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 },
                 child: OfferingTab(
                   isSelected: 0 == selectedOffering,
-                  priceTotal: widget
-                      .offerings.current!.availablePackages[0].storeProduct.price,
+                  priceTotal: widget.offerings.current!.availablePackages[0]
+                      .storeProduct.price,
                   planName: widget.offerings.current!.availablePackages[0]
                       .storeProduct.description,
                   currencyCode: widget.offerings.current!.availablePackages[0]
@@ -236,7 +204,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                       // var errorCode = PurchasesErrorHelper.getErrorCode(e);
                     }
                   },
-                  child: Text(
+                  child: AutoSizeText(
                     selectedOffering != 0
                         ? AppLocalizations.of(context)!.freeTrial(7)
                         : AppLocalizations.of(context)!.freeTrial(3),
@@ -244,6 +212,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color:
                             Theme.of(context).colorScheme.onSecondaryContainer),
+                    maxLines: 1,
                   ),
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),

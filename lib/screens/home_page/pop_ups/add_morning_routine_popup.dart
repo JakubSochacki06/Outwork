@@ -176,7 +176,7 @@ class _AddMorningRoutinePopupState extends State<AddMorningRoutinePopup> {
                       if (!isAllowedToSendNotification) {
                         await AwesomeNotifications().requestPermissionToSendNotifications();
                       }
-                      await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text, userProvider.user!.toughModeSelected!);
+                      await createRoutineReminderNotification(morningRoutineProvider.scheduledTime!, _morningRoutineController.text, userProvider.user!.toughModeSelected!, context);
                     }
                     await morningRoutineProvider.addMorningRoutineToDatabase(_morningRoutineController.text, userProvider.user!.email!);
                     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context ,listen: false);

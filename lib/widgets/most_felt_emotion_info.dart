@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MostFeltEmotionInfo extends StatelessWidget {
   const MostFeltEmotionInfo({super.key});
@@ -53,11 +54,11 @@ class MostFeltEmotionInfo extends StatelessWidget {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                       text:
-                          '${mostFrequentlyFeltEmotions[0].key} is your most frequently felt emotion. ',
+                          '${mostFrequentlyFeltEmotions[0].key} ${AppLocalizations.of(context)!.isYourMostFrequentlyFeltEmotion} ',
                       style: Theme.of(context).primaryTextTheme.bodySmall,
                       children: [
                         TextSpan(
-                          text: 'You felt it ',
+                          text: AppLocalizations.of(context)!.youFeltIt,
                           style: Theme.of(context).primaryTextTheme.bodySmall,
                         ),
                         TextSpan(
@@ -71,7 +72,7 @@ class MostFeltEmotionInfo extends StatelessWidget {
                                         .colorScheme
                                         .secondary)),
                         TextSpan(
-                          text: ' times. ',
+                          text: AppLocalizations.of(context)!.times,
                           style: Theme.of(context).primaryTextTheme.bodySmall,
                         ),
                         TextSpan(
@@ -105,7 +106,7 @@ class MostFeltEmotionInfo extends StatelessWidget {
             ),
             child: Center(
                 child: Text(
-              'Add at least 1 note with emotions to track your most frequently felt emotion!',
+                  AppLocalizations.of(context)!.addAtleast1Note,
               style: Theme.of(context).primaryTextTheme.bodyMedium,
               textAlign: TextAlign.center,
             )),

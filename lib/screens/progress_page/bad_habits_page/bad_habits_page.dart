@@ -24,6 +24,29 @@ class BadHabitsPage extends StatefulWidget {
 class _BadHabitsPageState extends State<BadHabitsPage> {
   int currentIndex = 0;
 
+  String getEnglishHabitName(String habitName) {
+    // Create an instance of AppLocalizations
+    final localizations = AppLocalizations.of(context);
+
+    // Map localized habit names to English habit names
+    final Map<String, String> habitNamesMap = {
+      localizations!.junkFood: "Junk food",
+      localizations.pornography: "Pornography",
+      localizations.gambling: "Gambling",
+      localizations.gaming: "Gaming",
+      localizations.alcohol: "Alcohol",
+      localizations.overspending: "Overspending",
+      localizations.partying: "Partying",
+      localizations.drugs: "Drugs",
+      localizations.smoking: "Smoking",
+      localizations.socialMedia: "Social media",
+      localizations.swearing: "swearing",
+    };
+
+    // Return the English habit name if found, else return the original habit name
+    return habitNamesMap[habitName] ?? habitName;
+  }
+
   Future<bool?> wantToRestartHabit(BuildContext context) async {
     bool? restartHabit = await showDialog(
       context: context,
@@ -148,7 +171,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                             itemCount: progressProvider.badHabits.length,
                             itemBuilder: (context, index, pageViewIndex) {
                               return Image.asset(
-                                  'assets/bad habits/${keys![index].toLowerCase()}.png');
+                                  'assets/bad habits/${getEnglishHabitName(keys![index]).toLowerCase()}.png');
                             },
                             options: CarouselOptions(
                               height: height * 0.4,
@@ -351,8 +374,8 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text(AppLocalizations.of(context)!.noHabits, style: Theme.of(context).textTheme.displaySmall,),
-                          Text(AppLocalizations.of(context)!.addNew, style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
+                          Text(AppLocalizations.of(context)!.noHabits, style: Theme.of(context).textTheme.displaySmall, textAlign: TextAlign.center,),
+                          Text(AppLocalizations.of(context)!.addNewPlus, style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
                         ],
                       ),
                     ),

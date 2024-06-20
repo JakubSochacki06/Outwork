@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/chat_provider.dart';
+import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/widgets/chatbot_text_input.dart';
 import 'package:outwork/widgets/commonly_used_sentences.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,9 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ChatProvider chatProvider = Provider.of<ChatProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    chatProvider.messages.length==0?chatProvider.addAdminSintructions(context, userProvider.user!.toughModeSelected!):null;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(

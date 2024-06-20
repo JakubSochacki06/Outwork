@@ -1,6 +1,6 @@
 import 'package:line_icons/line_icons.dart';
 import 'package:outwork/screens/progress_page/bad_habits_page/bad_habits_page.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../screens/progress_page/books_page.dart';
 import '../screens/progress_page/mental_health_page/mental_health_page.dart';
 import '../screens/progress_page/money_page/money_page.dart';
@@ -10,31 +10,31 @@ const googleRCApiKey = 'goog_ggEEfTYXPRbHsURTdeKJDXvwUPO';
 
 const appleRCApiKey = 'appl_hKiQmmQATydpshNQCqbKptQcfEh';
 
-const List<Map<String, dynamic>> progressFields = [
+List<Map<String, dynamic>> getProgressFields(context) => [
   {
-    'title': 'Money',
+    'title': AppLocalizations.of(context)!.titleMoney,
     'icon': LineIcons.wavyMoneyBill,
-    'description': 'Track your expenses',
-    'route': MoneyPage(),
+    'description': AppLocalizations.of(context)!.descriptionMoney,
+    'route': const MoneyPage(),
   },
   {
-    'title': 'Journal',
+    'title': AppLocalizations.of(context)!.titleJournal,
     'icon': LineIcons.pen,
-    'description': 'Track your feelings',
-    'route': MentalHealthPage(),
+    'description': AppLocalizations.of(context)!.descriptionJournal,
+    'route': const MentalHealthPage(),
   },
   {
-    'title': 'Bad habits',
+    'title': AppLocalizations.of(context)!.titleBadHabits,
     'icon': LineIcons.timesCircleAlt,
-    'description': 'Stay clean',
-    'route': BadHabitsPage(),
+    'description': AppLocalizations.of(context)!.descriptionBadHabits,
+    'route': const BadHabitsPage(),
   },
   // {'title': 'Physique', 'imageName': 'money', 'description': 'Track your physique progress'},
   {
-    'title': 'Books',
+    'title': AppLocalizations.of(context)!.titleBooks,
     'icon': LineIcons.readme,
-    'description': 'Read all of them!',
-    'route': BooksPage(),
+    'description': AppLocalizations.of(context)!.descriptionBooks,
+    'route': const BooksPage(),
   },
   // {
   //   'title': 'Physique',
@@ -91,5 +91,5 @@ const List<Map<String, dynamic>> subscriptions = [
   },
 ];
 
-List<String> badHabits = ['Junk Food', 'Pornography', 'Gambling', 'Gaming','Alcohol', 'Overspending', 'Partying', 'Drugs', 'Smoking', 'Social Media', 'Swearing'];
+List<String> getBadHabits(context) => [AppLocalizations.of(context)!.junkFood, AppLocalizations.of(context)!.pornography, AppLocalizations.of(context)!.gambling, AppLocalizations.of(context)!.gaming,AppLocalizations.of(context)!.alcohol, AppLocalizations.of(context)!.overspending, AppLocalizations.of(context)!.partying, AppLocalizations.of(context)!.drugs, AppLocalizations.of(context)!.smoking, AppLocalizations.of(context)!.socialMedia];
 

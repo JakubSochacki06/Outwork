@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/utilities/utilities.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimePickerTile extends StatelessWidget {
   final dynamic subject;
@@ -27,12 +28,12 @@ class TimePickerTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(15)),
       child: InkWell(
         onTap: () async{
-          TimeOfDay? scheduledTime = await pickSchedule(context, subject.runtimeType == MorningRoutineProvider?'Morning':'Night');
+          TimeOfDay? scheduledTime = await pickSchedule(context, subject.runtimeType == MorningRoutineProvider?AppLocalizations.of(context)!.morning:AppLocalizations.of(context)!.night);
           subject.setScheduledTime(scheduledTime);
         },
         child: Row(
           children: [
-            Text(subject.scheduledTime == null?'Schedule notification ->':'Scheduled at ${subject.scheduledTime.hour}:$minutes', style: Theme.of(context).primaryTextTheme.labelLarge,),
+            Text(subject.scheduledTime == null?'${AppLocalizations.of(context)!.scheduleNotification} ->':'${AppLocalizations.of(context)!.scheduledAt} ${subject.scheduledTime.hour}:$minutes', style: Theme.of(context).primaryTextTheme.labelLarge,),
             const Spacer(),
             subject.scheduledTime != null?InkWell(
               child: const Icon(Icons.delete),

@@ -21,6 +21,8 @@ import 'package:outwork/widgets/appBars/main_app_bar.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../providers/theme_provider.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -44,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     dailyCheckinProvider.setDailyCheckins(userProvider.user!);
     JournalEntryProvider journalEntryProvider =
     Provider.of<JournalEntryProvider>(context, listen: true);
+
     journalEntryProvider.setJournalEntries(userProvider.user!);
     List<Widget> checkinBoxes =
     List.generate(dailyCheckinProvider.dailyCheckins.length, (index) {

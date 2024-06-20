@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/models/firebase_user.dart';
 import 'package:outwork/models/project.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectMembersAvatars extends StatelessWidget {
   final double avatarSize;
@@ -33,7 +34,7 @@ class ProjectMembersAvatars extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Add new member',
+            title: Text(AppLocalizations.of(context)!.addNewMember,
                 style: Theme.of(context).primaryTextTheme.headlineMedium),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -41,7 +42,7 @@ class ProjectMembersAvatars extends StatelessWidget {
               children: [
                 RichText(
                   text: TextSpan(
-                      text: 'Project id: ',
+                      text: AppLocalizations.of(context)!.projectID,
                       style: Theme.of(context).primaryTextTheme.bodyLarge,
                       children: [
                         TextSpan(
@@ -56,7 +57,7 @@ class ProjectMembersAvatars extends StatelessWidget {
                       ]),
                 ),
                 Text(
-                  'Show this code to your friends and work together on this amazing project!',
+                  AppLocalizations.of(context)!.showThisCode,
                   style: Theme.of(context).primaryTextTheme.bodySmall,
                 )
               ],
@@ -68,7 +69,7 @@ class ProjectMembersAvatars extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    'Close',
+                    AppLocalizations.of(context)!.close,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),

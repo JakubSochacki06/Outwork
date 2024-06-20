@@ -2,14 +2,14 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/utilities/utilities.dart';
 import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-Future<void> createRoutineReminderNotification(TimeOfDay timeOfDay, String name, bool toughModeActivated) async {
+Future<void> createRoutineReminderNotification(TimeOfDay timeOfDay, String name, bool toughModeActivated, context) async {
   String notificationBody;
   if(toughModeActivated){
-    notificationBody = 'Stop procrastinating and do it now ${Emojis.smile_clown_face}';
+    notificationBody = '${AppLocalizations.of(context)!.notificationBodyTough} ${Emojis.smile_clown_face}';
   } else {
-    notificationBody = Platform.isIOS?'Stay consistent and you will win! ${Emojis.sun}':'Stay consistent and you will win! ${Emojis.symbols_sparkle}';
+    notificationBody = '${AppLocalizations.of(context)!.notificationBodyBasic} ${Platform.isIOS?Emojis.sun:Emojis.symbols_sparkle}';
   }
   await AwesomeNotifications().createNotification(
     content: NotificationContent(

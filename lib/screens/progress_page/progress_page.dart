@@ -24,6 +24,8 @@ class _ProgressPageState extends State<ProgressPage> {
         .of(context)
         .size
         .width;
+
+    List<Map<String, dynamic>> progressFields = getProgressFields(context);
     return Scaffold(
       appBar: const MainAppBar(),
       body: Padding(

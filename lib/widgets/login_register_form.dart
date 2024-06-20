@@ -5,7 +5,7 @@ import 'package:outwork/widgets/buttons/google_signup_button.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'buttons/apple_signup_button.dart';
 
 class LoginRegisterForm extends StatefulWidget {
@@ -63,7 +63,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
           inactiveFgColor: Colors.white,
           initialLabelIndex: loginActive ? 0 : 1,
           totalSwitches: 2,
-          labels: const ['Login', 'Register'],
+          labels: [AppLocalizations.of(context)!.login, AppLocalizations.of(context)!.register],
           radiusStyle: true,
           onToggle: (index) {
             if (index == 0) {
@@ -91,7 +91,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
           },
           decoration: InputDecoration(
             errorText: emailError,
-            labelText: 'Email Address',
+            labelText: AppLocalizations.of(context)!.emailAddress,
             labelStyle: Theme.of(context).textTheme.labelLarge,
             floatingLabelStyle: Theme.of(context)
                 .textTheme
@@ -158,7 +158,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
                 });
               },
             ),
-            labelText: 'Password',
+            labelText: AppLocalizations.of(context)!.password,
             prefixIcon: const Icon(
               Icons.lock_outline_rounded,
             ),
@@ -192,10 +192,10 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
           child: ElevatedButton(
             onPressed: () async {
               _passwordController.text.length < 8
-                  ? passwordError = 'Password must have atleast 8 characters!'
+                  ? passwordError = AppLocalizations.of(context)!.passwordError
                   : passwordError = null;
               !_emailController.text.contains("@")
-                  ? emailError = 'Email must be valid!'
+                  ? emailError = AppLocalizations.of(context)!.emailError
                   : emailError = null;
               if (passwordError != null || emailError != null) {
                 setState(() {});
@@ -213,7 +213,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
               Navigator.pushNamed(context, '/processingLogging');
             },
             child: Text(
-              loginActive ? 'Login' : 'Register',
+              loginActive ? AppLocalizations.of(context)!.login : AppLocalizations.of(context)!.register,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer),
@@ -241,7 +241,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
               width: width * 0.025,
             ),
             Text(
-              loginActive ? 'or login with' : 'or register with',
+              loginActive ? AppLocalizations.of(context)!.orLoginWith : AppLocalizations.of(context)!.orRegisterWith,
               style: Theme.of(context).primaryTextTheme.labelLarge,
             ),
             SizedBox(

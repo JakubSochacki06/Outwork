@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EarnedXPSnackbar {
 
@@ -12,7 +13,7 @@ class EarnedXPSnackbar {
         content: Row(
           children: [
             Text(
-              'You just earned $amount XP!',
+              '${AppLocalizations.of(context)!.youJustEarned} $amount XP!',
               style: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(
                   color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),

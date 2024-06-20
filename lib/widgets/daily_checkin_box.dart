@@ -55,8 +55,6 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
   }
 
   void _showFullScreenAd(){
-    print('REKLAMA');
-    print(_fullScreenAd);
     if (_fullScreenAd != null){
       _fullScreenAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdDismissedFullScreenContent: (ad){
@@ -173,11 +171,15 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
                       child: Image.asset('assets/emojis/dailycheckin/${dailyCheckin.emojiName}.png'),
                     ),
                   ),
-                  AutoSizeText(
-                    dailyCheckin.name!,
-                    style: Theme.of(context).textTheme.labelLarge,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
+                  SizedBox(width: width*0.01,),
+                  Flexible(
+                    child: AutoSizeText(
+                      dailyCheckin.name!,
+                      style: Theme.of(context).textTheme.labelLarge,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   widget.routineName == null?IconButton(
                     onPressed: (){
@@ -191,13 +193,13 @@ class _DailyCheckinBoxState extends State<DailyCheckinBox> {
                             padding: EdgeInsets.only(
                                 bottom:
                                 MediaQuery.of(context).viewInsets.bottom),
-                            child: AddDailyCheckinPopup(buttonText: AppLocalizations.of(context)!.edit, name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[widget.index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[widget.index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[widget.index].emojiName!, id: dailyCheckinProvider.dailyCheckins[widget.index].id!,),
+                            child: AddDailyCheckinPopup(buttonText: AppLocalizations.of(context)!.edit, name: dailyCheckin.name!, unit: dailyCheckinProvider.dailyCheckins[widget.index].unit!, goal: values['maximum'].toString(), step: dailyCheckinProvider.dailyCheckins[widget.index].step.toString(), emoji: dailyCheckinProvider.dailyCheckins[widget.index].emojiName!, id: dailyCheckinProvider.dailyCheckins[widget.index].id!, mode: 1,),
                           ),
                         ),
                       );
                     },
                     icon: Icon(Icons.settings, color: Theme.of(context).iconTheme.color,),
-                  ):Container(),
+                  ):IconButton(onPressed: (){}, icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.primary,),),
                 ],
               ),
               SizedBox(

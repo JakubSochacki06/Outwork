@@ -100,6 +100,25 @@ class NewJournalEntryPopup extends StatelessWidget {
             SizedBox(
               height: height * 0.01,
             ),
+            // GroupButton(
+            //   isRadio: false,
+            //   buttons: [AppLocalizations.of(context)!.excited, AppLocalizations.of(context)!.loved, AppLocalizations.of(context)!.surprised, AppLocalizations.of(context)!.angry, AppLocalizations.of(context)!.anxious, AppLocalizations.of(context)!.lonely, AppLocalizations.of(context)!.calm, AppLocalizations.of(context)!.fascinated, AppLocalizations.of(context)!.tired, AppLocalizations.of(context)!.frustrated, AppLocalizations.of(context)!.relaxed, AppLocalizations.of(context)!.bored],
+            //   buttonBuilder: (bool selected, String emotion, context){
+            //     return               ElevatedButton(
+            //       onPressed: (){
+            //         diaryEntryProvider.addEmotionToEntry(emotion, subject);
+            //       },
+            //       child: Text(emotion, style: subject.emotions!.contains(emotion)?Theme.of(context).textTheme.labelMedium!.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer):Theme.of(context).textTheme.labelMedium),
+            //       style: ElevatedButton.styleFrom(
+            //         // maximumSize: Size(40,20),
+            //         shape: const StadiumBorder(),
+            //         // fixedSize: Size(width*0.2,height*0.02),
+            //         backgroundColor: subject.emotions!.contains(emotion)?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,
+            //         elevation: 0,
+            //       ),
+            //     );
+            //   },
+            // ),
             // TODO: [IMPORTANT] THINK ABOUT CHANING TO group_button or multi_select_flutter
             EmotionsList(
               emotions: [AppLocalizations.of(context)!.excited, AppLocalizations.of(context)!.loved, AppLocalizations.of(context)!.surprised],

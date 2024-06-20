@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/string_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePageCalendar extends StatefulWidget {
   const HomePageCalendar({super.key});
@@ -15,21 +18,21 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
   String weekDayToName(int weekDay) {
     switch (weekDay) {
       case 1:
-        return "Mon";
+        return AppLocalizations.of(context)!.weekday1;
       case 2:
-        return "Tue";
+        return AppLocalizations.of(context)!.weekday2;
       case 3:
-        return "Wed";
+        return AppLocalizations.of(context)!.weekday3;
       case 4:
-        return "Thu";
+        return AppLocalizations.of(context)!.weekday4;
       case 5:
-        return "Fri";
+        return AppLocalizations.of(context)!.weekday5;
       case 6:
-        return "Sat";
+        return AppLocalizations.of(context)!.weekday6;
       case 7:
-        return "Sun";
+        return AppLocalizations.of(context)!.weekday7;
     }
-    return "invalid weekDay";
+    return AppLocalizations.of(context)!.invalidWeekDay;
   }
 
   CalendarFormat _calendarFormat = CalendarFormat.week;
@@ -66,7 +69,9 @@ class _HomePageCalendarState extends State<HomePageCalendar> {
         // ),
         // headerVisible: false,
         headerStyle:
-            const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+        HeaderStyle(formatButtonVisible: false, titleCentered: true, titleTextFormatter: (date, locale){
+              return DateFormat('yMMMM', themeProvider.selectedLocale!.languageCode).format(date).toString().capitalize();
+            }),
         calendarBuilders: CalendarBuilders(
           todayBuilder: (context, date, date2) {
             if (journalEntryProvider.journalEntries.any((element) =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/chat_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommonlyUsedSentences extends StatelessWidget {
   final ScrollController scrollController;
@@ -26,7 +27,7 @@ class CommonlyUsedSentences extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Commonly used',
+          AppLocalizations.of(context)!.commonlyUsed,
           style: Theme.of(context)
               .textTheme
               .bodySmall!
@@ -46,9 +47,9 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m not feeling alright', userProvider.user!.email!, userProvider.user!.isPremiumUser!,context);
+                    chatProvider.handleSubmitted(AppLocalizations.of(context)!.imNotFeelingAlright, userProvider.user!.email!, userProvider.user!.isPremiumUser!,context);
                   },
-                  child: Text('I\'m not feeling alright', style: Theme.of(context).textTheme.labelSmall,),
+                  child: Text(AppLocalizations.of(context)!.imNotFeelingAlright, style: Theme.of(context).textTheme.labelSmall,),
                 ),
               ),
               SizedBox(width: width*0.01,),
@@ -59,10 +60,10 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I don\'t have motivation', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
+                    chatProvider.handleSubmitted(AppLocalizations.of(context)!.iDontHaveMotivation, userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
-                  child: Text('I don\'t have motivation', style: Theme.of(context).textTheme.labelSmall,),
+                  child: Text(AppLocalizations.of(context)!.iDontHaveMotivation, style: Theme.of(context).textTheme.labelSmall,),
                 ),
               ),
               SizedBox(width: width*0.01,),
@@ -73,10 +74,10 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I\'m tired', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
+                    chatProvider.handleSubmitted(AppLocalizations.of(context)!.imTired, userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
-                  child: Text('I\'m tired', style: Theme.of(context).textTheme.labelSmall,),
+                  child: Text(AppLocalizations.of(context)!.imTired, style: Theme.of(context).textTheme.labelSmall,),
                 ),
               ),
               SizedBox(width: width*0.01,),
@@ -87,10 +88,10 @@ class CommonlyUsedSentences extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: (){
-                    chatProvider.handleSubmitted('I might give up soon', userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
+                    chatProvider.handleSubmitted(AppLocalizations.of(context)!.iMightGiveUp, userProvider.user!.email!, userProvider.user!.isPremiumUser!, context);
                     // _scrollDown();
                   },
-                  child: Text('I might give up soon', style: Theme.of(context).textTheme.labelSmall,),
+                  child: Text(AppLocalizations.of(context)!.iMightGiveUp, style: Theme.of(context).textTheme.labelSmall,),
                 ),
               ),
             ],

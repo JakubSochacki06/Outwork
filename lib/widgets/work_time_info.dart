@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WorkedTimeInfo extends StatelessWidget {
   const WorkedTimeInfo({super.key});
@@ -14,20 +15,21 @@ class WorkedTimeInfo extends StatelessWidget {
     Provider.of<UserProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    final localizations = AppLocalizations.of(context)!;
 
     String evaluateWorkStatus(int minutesWorked) {
       if (minutesWorked <= 0) {
-        return "You haven't started working yet. Get going!";
+        return localizations.workStatusMessage0;
       } else if (minutesWorked <= 10) {
-        return "You're just getting started. Keep it up!";
+        return localizations.workStatusMessage10;
       } else if (minutesWorked <= 30) {
-        return "You're making progress. Keep up the good work!";
+        return localizations.workStatusMessage30;
       } else if (minutesWorked <= 50) {
-        return "I see you working hard. Take a short break and then get back to it!";
+        return localizations.workStatusMessage50;
       } else if (minutesWorked <= 70) {
-        return "You're putting in serious effort. Keep pushing forward!";
+        return localizations.workStatusMessage70;
       } else {
-        return "Wow! You're really committed. Take a break if you need one!";
+        return localizations.workStatusMessageMore;
       }
     }
 
@@ -71,7 +73,7 @@ class WorkedTimeInfo extends StatelessWidget {
                     color: Theme.of(context).colorScheme.secondary),
               ),
               Text(
-                'Minutes worked',
+                localizations.minutesWorked,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],

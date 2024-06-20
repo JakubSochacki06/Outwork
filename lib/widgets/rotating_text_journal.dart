@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RotatingTextJournal extends StatelessWidget {
   const RotatingTextJournal({super.key});
@@ -13,7 +14,7 @@ class RotatingTextJournal extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Write about',
+          AppLocalizations.of(context)!.writeAbout,
           style: Theme.of(context).textTheme.labelMedium,
         ),
         SizedBox(
@@ -30,40 +31,40 @@ class RotatingTextJournal extends StatelessWidget {
                 repeatForever: true,
                 animatedTexts: [
                   RotateAnimatedText(
-                      'your emotions', alignment: Alignment.centerLeft
+                      AppLocalizations.of(context)!.rotateAnimatedTextYourEmotions, alignment: Alignment.centerLeft
                   ),
-                  RotateAnimatedText('your plans', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your feelings', alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourPlans, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourFeelings, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'insecurity you’re working to overcome', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your day', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your recent failure', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your thoughts', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your goals', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextInsecurityYoureWorkingToOvercome, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourDay, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourRecentFailure, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourThoughts, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourGoals, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'your recent disappointment', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextYourRecentDisappointment, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'something you’re grateful for', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('recent realization', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextSomethingYoureGratefulFor, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextRecentRealization, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'difficult decision you’re facing', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextDifficultDecisionYoureFacing, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'skill you’re working to improve', alignment: Alignment.centerLeft),
-                  RotateAnimatedText('your dream', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextSkillYoureWorkingToImprove, alignment: Alignment.centerLeft),
+                  RotateAnimatedText(AppLocalizations.of(context)!.rotateAnimatedTextYourDream, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'personal project you’re working on', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextPersonalProjectYoureWorkingOn, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'something you’ve been struggling with', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextSomethingYouveBeenStrugglingWith, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'relationship that is important to you', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextRelationshipThatIsImportantToYou, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'recent change in your life', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextRecentChangeInYourLife, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'personal values and beliefs', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextPersonalValuesAndBeliefs, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      'recent accomplishments you feel proud of', alignment: Alignment.centerLeft),
+                      AppLocalizations.of(context)!.rotateAnimatedTextRecentAccomplishmentsYouFeelProudOf, alignment: Alignment.centerLeft),
                   RotateAnimatedText(
-                      ' new experience you’ve had recently', alignment: Alignment.centerLeft),
+                      ' ${AppLocalizations.of(context)!.rotateAnimatedTextNewExperienceYouveHadRecently}', alignment: Alignment.centerLeft),
                 ],
                 onTap: () {
                 },

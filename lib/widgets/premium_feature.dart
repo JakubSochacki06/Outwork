@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class PremiumFeature extends StatelessWidget {
@@ -35,7 +36,7 @@ class PremiumFeature extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: Theme.of(context).textTheme.bodyMedium,),
+                AutoSizeText(title, style: Theme.of(context).textTheme.bodyMedium, maxLines: 1,),
                 Text(description, style: Theme.of(context).primaryTextTheme.bodySmall, maxLines: 2,),
               ],
             ),

@@ -9,6 +9,7 @@ import 'package:outwork/widgets/project_members_avatars.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectsList extends StatelessWidget {
   const ProjectsList({super.key});
@@ -41,6 +42,21 @@ class ProjectsList extends StatelessWidget {
               lightThemeColor = Theme.of(context).colorScheme.onPrimaryContainer;
           }
           return themeProvider.isDarkTheme()? Theme.of(context).colorScheme.onPrimaryContainer: lightThemeColor;
+        }
+
+        String getLocalizedTaskType(String taskType) {
+          final localizations = AppLocalizations.of(context)!;
+
+          switch (taskType) {
+            case 'Important':
+              return localizations.important;
+            case 'Basic':
+              return localizations.basic;
+            case 'Urgent':
+              return localizations.urgent;
+            default:
+              return taskType;
+          }
         }
 
         return InkWell(
@@ -130,7 +146,7 @@ class ProjectsList extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       vertical: 5, horizontal: width * 0.03),
                   child: Text(
-                    projectsProvider.projectsList[index].projectType!,
+                    getLocalizedTaskType(projectsProvider.projectsList[index].projectType!),
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
@@ -151,7 +167,7 @@ class ProjectsList extends StatelessWidget {
                   height: height * 0.01,
                 ),
                 Align(alignment:Alignment.center, child: Text(projectsProvider
-                    .projectsList[index].countTaskDonePercent() == 1?'Done ✔️':projectsProvider.projectsList[index].countTimeLeft(), style: Theme.of(context).textTheme.labelMedium!.copyWith(color: projectsProvider
+                    .projectsList[index].countTaskDonePercent() == 1?'${AppLocalizations.of(context)!.done} ✔️':projectsProvider.projectsList[index].countTimeLeft(), style: Theme.of(context).textTheme.labelMedium!.copyWith(color: projectsProvider
                     .projectsList[index].countTaskDonePercent() == 1?Theme.of(context).colorScheme.secondary:projectsProvider.projectsList[index].colorOfDaysLeft(context))))
               ],
             ),
@@ -162,8 +178,8 @@ class ProjectsList extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AutoSizeText('No projects found!', style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
-        Text('Add new project or join to existing one with the code.', style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+        AutoSizeText(AppLocalizations.of(context)!.noProjects, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
+        Text(AppLocalizations.of(context)!.addNewProjectOr, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
       ],
     );
   }

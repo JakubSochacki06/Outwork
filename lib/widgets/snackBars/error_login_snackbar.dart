@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorLoginSnackBar {
 
@@ -12,7 +13,7 @@ class ErrorLoginSnackBar {
         content: Row(
           children: [
             Text(
-              'This user doesn\'t exist!',
+              AppLocalizations.of(context)!.thisUserDoesntExist,
               style: Theme.of(context).primaryTextTheme.bodySmall,
             ),
             const Spacer(),

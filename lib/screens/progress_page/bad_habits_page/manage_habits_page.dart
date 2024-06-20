@@ -31,6 +31,7 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
         map2.keys.toSet().difference(map1.keys.toSet()).isEmpty;
   }
 
+
   @override
   Widget build(BuildContext context) {
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
@@ -38,6 +39,31 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    List<String> badHabits = getBadHabits(context);
+
+    String getEnglishHabitName(String habitName) {
+      // Create an instance of AppLocalizations
+      final localizations = AppLocalizations.of(context);
+
+      // Map localized habit names to English habit names
+      final Map<String, String> habitNamesMap = {
+        localizations!.junkFood: "Junk food",
+        localizations.pornography: "Pornography",
+        localizations.gambling: "Gambling",
+        localizations.gaming: "Gaming",
+        localizations.alcohol: "Alcohol",
+        localizations.overspending: "Overspending",
+        localizations.partying: "Partying",
+        localizations.drugs: "Drugs",
+        localizations.smoking: "Smoking",
+        localizations.socialMedia: "Social media",
+        localizations.swearing: "swearing",
+      };
+
+      // Return the English habit name if found, else return the original habit name
+      return habitNamesMap[habitName] ?? habitName;
+    }
+
     return Scaffold(
       appBar: BasicAppBar(title: AppLocalizations.of(context)!.selectBadHabitsTitle),
       floatingActionButton: FloatingActionButton.extended(
@@ -129,7 +155,7 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
                     children: [
                       Expanded(
                           child: Image.asset(
-                              'assets/bad habits/${badHabits[index].toLowerCase()}.png')),
+                              'assets/bad habits/${getEnglishHabitName(badHabits[index]).toLowerCase()}.png')),
                       SizedBox(
                         height: height * 0.02,
                       ),

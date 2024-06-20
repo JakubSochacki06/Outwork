@@ -5,6 +5,7 @@ ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: ColorScheme.dark(
       background: Color(0xFF101010),
+      // surface: Color(0xFF101010),
       onBackground: Colors.white,
       // primary: Color(0xFF2B2B2B),
       primary: Color(0xFF1E1E1E),
@@ -17,6 +18,9 @@ ThemeData darkTheme = ThemeData(
       onError: Color(0xFFB286FD),
       // URGENT
       onErrorContainer: Color(0xFFffdd3c),
+    ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: Color(0xFF101010),
     ),
     checkboxTheme: CheckboxThemeData(
         checkColor: MaterialStateProperty.all<Color>(Color(0xFFB2F042)),

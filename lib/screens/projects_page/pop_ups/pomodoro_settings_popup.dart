@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PomodoroSettingsPopup extends StatefulWidget {
   final Map<dynamic, dynamic> pomodoroSettings;
@@ -49,7 +49,7 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
               height: height * 0.01,
             ),
             Text(
-              'Edit pomodoro settings',
+              AppLocalizations.of(context)!.editPomodoroSettings,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
@@ -62,7 +62,7 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
                   width: width*0.28,
                   child: Column(
                     children: [
-                      Text('Pomodoro minutes', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
+                      Text(AppLocalizations.of(context)!.pomodoroMinutes, style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
                       NumberPicker(
                         minValue: 5,
                         maxValue: 50,
@@ -83,7 +83,7 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
                   width: width*0.28,
                   child: Column(
                     children: [
-                      Text('Short break minutes', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
+                      Text(AppLocalizations.of(context)!.shortBreakMinutes, style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
                       NumberPicker(
                         minValue: 1,
                         maxValue: 15,
@@ -104,7 +104,7 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
                   width: width*0.28,
                   child: Column(
                     children: [
-                      Text('Long break minutes', style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
+                      Text(AppLocalizations.of(context)!.longBreakMinutes, style: Theme.of(context).primaryTextTheme.labelLarge, textAlign: TextAlign.center,),
                       NumberPicker(
                         minValue: 5,
                         maxValue: 50,
@@ -134,7 +134,7 @@ class _PomodoroSettingsPopupState extends State<PomodoroSettingsPopup> {
                 // );
               },
               child: Text(
-                'Submit',
+                AppLocalizations.of(context)!.submit,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

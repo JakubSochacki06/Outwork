@@ -18,6 +18,7 @@ class AddDailyCheckinPopup extends StatefulWidget {
   final String step;
   final String emoji;
   final String id;
+  final int? mode;
   final String buttonText;
 
   AddDailyCheckinPopup(
@@ -27,6 +28,7 @@ class AddDailyCheckinPopup extends StatefulWidget {
       this.step = '',
       this.emoji = '',
       this.id = '',
+        this.mode,
       required this.buttonText});
 
   @override
@@ -57,7 +59,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
   @override
   void initState() {
     super.initState();
-    if (widget.buttonText == 'Edit existing') {
+    if (widget.mode == 1) {
       selectedEmoji = widget.emoji;
       _nameController.text = widget.name;
       _unitController.text = widget.unit;
@@ -65,7 +67,6 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
       _goalController.text = widget.goal;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -110,6 +111,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
       });
       return isValid;
     }
+
 
     Future<bool?> wantToDeleteCheckinAlert(BuildContext context) async {
       bool? deleteNote = await showDialog(
@@ -517,7 +519,7 @@ class _AddDailyCheckinPopupState extends State<AddDailyCheckinPopup> {
                 }
               },
               child: Text(
-                '${widget.buttonText} ${AppLocalizations.of(context)!.dailyCheckin}',
+                '${widget.buttonText} ${AppLocalizations.of(context)!.dailyCheckin2}',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer),

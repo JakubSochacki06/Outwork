@@ -13,6 +13,7 @@ import 'package:outwork/widgets/project_members_avatars.dart';
 import 'package:outwork/widgets/task_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectInfoPage extends StatelessWidget {
   final int projectIndex;
@@ -29,6 +30,21 @@ class ProjectInfoPage extends StatelessWidget {
 
     Future<void> onRefresh() async{
       await projectsProvider.updateProjectData(projectIndex);
+    }
+
+    String getLocalizedTaskType(String taskType) {
+      final localizations = AppLocalizations.of(context)!;
+
+      switch (taskType) {
+        case 'Important':
+          return localizations.important;
+        case 'Basic':
+          return localizations.basic;
+        case 'Urgent':
+          return localizations.urgent;
+        default:
+          return taskType;
+      }
     }
 
     Color getColorBasedOnTask() {
@@ -51,20 +67,20 @@ class ProjectInfoPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete project?', style: Theme.of(context).textTheme.bodySmall,),
-            content: Text('Are you sure you want to delete this project? You can\'t retrieve it after', style: Theme.of(context).primaryTextTheme.bodySmall),
+            title: Text(AppLocalizations.of(context)!.deleteProject, style: Theme.of(context).textTheme.bodySmall,),
+            content: Text(AppLocalizations.of(context)!.deleteProjectConfirm, style: Theme.of(context).primaryTextTheme.bodySmall),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: Text('No', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
+                child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
-                child: Text('Yes', style: Theme.of(context).textTheme.bodySmall),
+                child: Text(AppLocalizations.of(context)!.yes, style: Theme.of(context).textTheme.bodySmall),
               ),
             ],
           );
@@ -78,7 +94,7 @@ class ProjectInfoPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Project members', style: Theme.of(context).textTheme.bodyMedium),
+            title: Text(AppLocalizations.of(context)!.projectMembers, style: Theme.of(context).textTheme.bodyMedium),
             content: Container(
               height: project.membersData!.length>4?height*0.5:null,
               width: double.maxFinite,
@@ -234,7 +250,7 @@ class ProjectInfoPage extends StatelessWidget {
                                         // height: height*0.1,
                                         padding: EdgeInsets.only(
                                             bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: const AddProjectPopup(mode: 'Edit existing'),
+                                        child: const AddProjectPopup(mode: 1),
                                       ),
                                     ),
                                   );
@@ -267,7 +283,7 @@ class ProjectInfoPage extends StatelessWidget {
                                       SizedBox(
                                         width: width * 0.01,
                                       ),
-                                      Text('Edit project',
+                                      Text(AppLocalizations.of(context)!.editProject,
                                           style: Theme.of(context)
                                               .textTheme
                                               .labelMedium),
@@ -282,32 +298,66 @@ class ProjectInfoPage extends StatelessWidget {
                       SizedBox(
                         height: height * 0.02,
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: getColorBasedOnTask(),
-                          border: themeProvider.isLightTheme()
-                              ? Border.all(color: const Color(0xFFEDEDED))
-                              : null,
-                          // color: Color(0xFFF0F2F5),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
-                          boxShadow: themeProvider.isLightTheme()
-                              ? [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    // blurRadius: 10,
-                                    offset: const Offset(3, 3),
-                                  )
-                                ]
-                              : null,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 5, horizontal: width * 0.05),
-                        child: Text(
-                          project.projectType!,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: getColorBasedOnTask(),
+                              border: themeProvider.isLightTheme()
+                                  ? Border.all(color: const Color(0xFFEDEDED))
+                                  : null,
+                              // color: Color(0xFFF0F2F5),
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              boxShadow: themeProvider.isLightTheme()
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 2,
+                                        blurRadius: 3,
+                                        // blurRadius: 10,
+                                        offset: const Offset(3, 3),
+                                      )
+                                    ]
+                                  : null,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: width * 0.05),
+                            child: Text(
+                              getLocalizedTaskType(project.projectType!),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ),
+                          Spacer(),
+                          CircleAvatar(
+                            backgroundColor:
+                            Theme.of(context).colorScheme.onPrimaryContainer,
+                            radius: 25,
+                            child: CircleAvatar(
+                              radius: 10,
+                              backgroundColor: Colors.transparent,
+                              child: Image.asset('assets/emojis/calendar.png'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.03,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.dueDate,
+                                style:
+                                Theme.of(context).primaryTextTheme.titleLarge,
+                              ),
+                              Text(
+                                '${project.dueDate!.day} ${DateFormat('MMMM').format(project.dueDate!).toString().substring(0, 3)} ${project.dueDate!.year}',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .titleMedium,
+                              )
+                            ],
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: height * 0.02,
@@ -336,42 +386,12 @@ class ProjectInfoPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Managed by',
+                                AppLocalizations.of(context)!.managedBy,
                                 style:
                                     Theme.of(context).primaryTextTheme.titleLarge,
                               ),
                               Text(
                                 project.membersData![0].displayName!,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .titleMedium,
-                              )
-                            ],
-                          ),
-                          const Spacer(),
-                          CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimaryContainer,
-                            radius: 25,
-                            child: CircleAvatar(
-                              radius: 10,
-                              backgroundColor: Colors.transparent,
-                              child: Image.asset('assets/emojis/calendar.png'),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width * 0.03,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Due Date',
-                                style:
-                                    Theme.of(context).primaryTextTheme.titleLarge,
-                              ),
-                              Text(
-                                '${project.dueDate!.day} ${DateFormat('MMMM').format(project.dueDate!).toString().substring(0, 3)} ${project.dueDate!.year}',
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .titleMedium,
@@ -384,7 +404,7 @@ class ProjectInfoPage extends StatelessWidget {
                         height: height * 0.02,
                       ),
                       Text(
-                        'Description',
+                        AppLocalizations.of(context)!.description,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Text(
@@ -398,7 +418,7 @@ class ProjectInfoPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text('Team members ', style: Theme.of(context).textTheme.headlineSmall),
+                          Text(AppLocalizations.of(context)!.teamMembers, style: Theme.of(context).textTheme.headlineSmall),
                           Text(
                             '(${project.membersEmails!.length})',
                             style: Theme.of(context)
@@ -434,7 +454,7 @@ class ProjectInfoPage extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Task Progress',
+                            AppLocalizations.of(context)!.taskProgress,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           SizedBox(
@@ -500,7 +520,7 @@ class ProjectInfoPage extends StatelessWidget {
                                   SizedBox(
                                     width: width * 0.01,
                                   ),
-                                  Text('Add task',
+                                  Text(AppLocalizations.of(context)!.addTask,
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelMedium),

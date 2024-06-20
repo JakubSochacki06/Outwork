@@ -27,8 +27,8 @@ class LoginPage extends StatelessWidget {
                       children: [
                         Expanded(child: Image.asset('assets/logo_login.png',)),
                         SizedBox(height: height*0.005,),
-                        Text(AppLocalizations.of(context)!.number1App, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center,),
-                        SizedBox(height: height*0.02,),
+                        Text(AppLocalizations.of(context)!.number1App, style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
+                        SizedBox(height: height*0.03,),
                         const LoginRegisterForm(),
                         SizedBox(height: height*0.01,),
                         RichText(

@@ -71,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsTile.navigation(
                 leading: const Icon(Icons.language),
                 title: Text(AppLocalizations.of(context)!.language),
-                value: const Text('English (tap to change)'),
+                value: Text('${themeProvider.selectedLocale!.languageCode=='en'?AppLocalizations.of(context)!.english:AppLocalizations.of(context)!.polish} (${AppLocalizations.of(context)!.tapToChange})'),
                 onPressed: (context) async{
                   await _showLanguageDialog();
                 },
@@ -104,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
               // ),
             ],
           ),
-          SettingsSection(title: const Text('Account'), tiles: <SettingsTile>[
+          SettingsSection(title: Text(AppLocalizations.of(context)!.account), tiles: <SettingsTile>[
             SettingsTile.navigation(
               leading: const Icon(Icons.email),
               title: const Text('Email'),

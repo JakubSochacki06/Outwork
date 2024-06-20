@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GoogleSignupButton extends StatelessWidget {
   const GoogleSignupButton({super.key});
@@ -26,7 +27,7 @@ class GoogleSignupButton extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text('Continue with Google', style: Theme.of(context).textTheme.bodySmall,)
+          Text(AppLocalizations.of(context)!.continueWithX("Google"), style: Theme.of(context).textTheme.bodySmall,)
         ],
       ),
     );

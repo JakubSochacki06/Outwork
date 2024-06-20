@@ -4,6 +4,7 @@ import 'package:outwork/models/project.dart';
 import 'package:outwork/providers/projects_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectRequestsPopup extends StatelessWidget {
   final Project project;
@@ -47,7 +48,7 @@ class ProjectRequestsPopup extends StatelessWidget {
               height: height * 0.01,
             ),
             Text(
-              'Requests to join the project',
+              AppLocalizations.of(context)!.requestsToJoin,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
@@ -131,7 +132,7 @@ class ProjectRequestsPopup extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                Text('User not found',
+                                Text(AppLocalizations.of(context)!.userNotFound,
                                     style: Theme.of(context)
                                         .primaryTextTheme
                                         .labelLarge),

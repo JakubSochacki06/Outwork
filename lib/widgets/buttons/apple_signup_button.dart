@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/providers/user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppleSignupButton extends StatelessWidget {
   const AppleSignupButton({super.key});
@@ -29,7 +30,7 @@ class AppleSignupButton extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text('Continue with Apple', style: Theme.of(context).textTheme.bodySmall,)
+          Text(AppLocalizations.of(context)!.continueWithX("Apple"), style: Theme.of(context).textTheme.bodySmall,)
         ],
       ),
     );

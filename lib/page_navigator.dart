@@ -7,6 +7,7 @@ import 'package:outwork/screens/projects_page/projects_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'screens/home_page/home_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PageNavigator extends StatefulWidget {
   @override
@@ -29,7 +30,7 @@ class _PageNavigatorState extends State<PageNavigator> {
           activeColorPrimary: Theme.of(context).colorScheme.secondary,
           icon: const Icon(LineIcons.home),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
-          title: ('Home'),
+          title: (AppLocalizations.of(context)!.home),
           textStyle: Theme.of(context).textTheme.labelMedium
           // activeColorPrimary: CupertinoColors.activeBlue,
           // inactiveColorPrimary: CupertinoColors.systemGrey,
@@ -38,19 +39,19 @@ class _PageNavigatorState extends State<PageNavigator> {
           activeColorPrimary: Theme.of(context).colorScheme.secondary,
           icon: const Icon(LineIcons.calendarCheck),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
-          title: ('Projects'),
+          title: (AppLocalizations.of(context)!.projects),
           textStyle: Theme.of(context).textTheme.labelMedium),
       PersistentBottomNavBarItem(
           activeColorPrimary: Theme.of(context).colorScheme.secondary,
           icon: const Icon(Icons.show_chart),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
-          title: ('Progress'),
+          title: (AppLocalizations.of(context)!.progress),
           textStyle: Theme.of(context).textTheme.labelMedium),
       PersistentBottomNavBarItem(
           activeColorPrimary: Theme.of(context).colorScheme.secondary,
           icon: const Icon(Icons.person_outline),
           inactiveColorPrimary: Theme.of(context).iconTheme.color,
-          title: ("Profile"),
+          title: (AppLocalizations.of(context)!.profile),
           textStyle: Theme.of(context).textTheme.labelMedium),
     ];
   }

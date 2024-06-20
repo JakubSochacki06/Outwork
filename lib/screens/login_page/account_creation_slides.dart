@@ -32,6 +32,31 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    List<String> badHabits = getBadHabits(context);
+
+    String getEnglishHabitName(String habitName) {
+      // Create an instance of AppLocalizations
+      final localizations = AppLocalizations.of(context);
+
+      // Map localized habit names to English habit names
+      final Map<String, String> habitNamesMap = {
+        localizations!.junkFood: "Junk food",
+        localizations.pornography: "Pornography",
+        localizations.gambling: "Gambling",
+        localizations.gaming: "Gaming",
+        localizations.alcohol: "Alcohol",
+        localizations.overspending: "Overspending",
+        localizations.partying: "Partying",
+        localizations.drugs: "Drugs",
+        localizations.smoking: "Smoking",
+        localizations.socialMedia: "Social media",
+        localizations.swearing: "swearing",
+      };
+
+      // Return the English habit name if found, else return the original habit name
+      return habitNamesMap[habitName] ?? habitName;
+    }
+
     return Scaffold(
         body: SafeArea(
       child: IntroductionScreen(
@@ -296,7 +321,7 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                           padding: const EdgeInsets.all(15),
                           child: Column(
                             children: [
-                              Expanded(child: Image.asset('assets/bad habits/${badHabits[index].toLowerCase()}.png')),
+                              Expanded(child: Image.asset('assets/bad habits/${getEnglishHabitName(badHabits[index]).toLowerCase()}.png')),
                               SizedBox(height: height*0.02,),
                               AutoSizeText(badHabits[index], style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center, maxLines: 1,)
                             ],

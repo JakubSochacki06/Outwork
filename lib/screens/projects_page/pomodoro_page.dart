@@ -5,6 +5,7 @@ import 'package:outwork/providers/user_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/projects_page/pop_ups/pomodoro_settings_popup.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PomodoroPage extends StatefulWidget {
   // need to pass userProvider in order to access it in dispose method.
@@ -18,7 +19,8 @@ class PomodoroPage extends StatefulWidget {
 class _PomodoroPageState extends State<PomodoroPage> {
   CountDownController pomodoroController = CountDownController();
   String pomodoroStatus = 'Pomodoro';
-  String pomodoroTimerStatus = 'Not started';
+  // 1 = Not started, 2 = paused, 3 = running
+  int pomodoroTimerStatus = 1;
   late int pomodoroTimer;
   int interval = 1;
 
@@ -37,7 +39,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   @override
   void dispose() {
-    if(pomodoroTimerStatus != 'Not started'){
+    if(pomodoroTimerStatus != 1){
       int workedSeconds = calculateTimeDifference(
           pomodoroTimer, pomodoroController.getTime()!);
       Future.delayed(Duration.zero, () async {
@@ -63,22 +65,22 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
     void getNextMode(){
       if(pomodoroStatus == 'Pomodoro' && interval % 6 == 0){
-        pomodoroStatus = 'Long break';
-        pomodoroTimerStatus = 'Not started';
+        pomodoroStatus = AppLocalizations.of(context)!.longBreak;
+        pomodoroTimerStatus = 1;
         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['LongBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
         return;
-      } else if(pomodoroStatus == 'Short break'){
+      } else if(pomodoroStatus == AppLocalizations.of(context)!.shortBreak){
         pomodoroStatus = 'Pomodoro';
-        pomodoroTimerStatus = 'Not started';
+        pomodoroTimerStatus = 1;
         pomodoroTimer =  widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
         return;
       } else {
-        pomodoroStatus = 'Short break';
-        pomodoroTimerStatus = 'Not started';
+        pomodoroStatus = AppLocalizations.of(context)!.shortBreak;
+        pomodoroTimerStatus = 1;
         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['ShortBreak'] * 60;
         pomodoroController.restart(duration: pomodoroTimer);
         pomodoroController.pause();
@@ -89,40 +91,40 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
     TextButton? generateTextButton() {
       switch (pomodoroTimerStatus) {
-        case 'Paused':
+        case 2:
           return TextButton(
             onPressed: () {
               setState(() {
-                pomodoroTimerStatus = 'Running';
+                pomodoroTimerStatus = 3;
                 pomodoroController.resume();
 
               });
             },
-            child: Text('Resume timer',
+            child: Text(AppLocalizations.of(context)!.resumeTimer,
                 style: Theme.of(context).textTheme.bodyLarge),
           );
-        case 'Running':
+        case 3:
           return TextButton(
             onPressed: () {
               setState(() {
-                pomodoroTimerStatus = 'Paused';
+                pomodoroTimerStatus = 2;
                 pomodoroController.pause();
               });
 
             },
             child:
-            Text('Pause timer', style: Theme.of(context).textTheme.bodyLarge),
+            Text(AppLocalizations.of(context)!.pauseTimer, style: Theme.of(context).textTheme.bodyLarge),
           );
-        case 'Not started':
+        case 1:
           return TextButton(
             onPressed: () {
               setState(() {
-                pomodoroTimerStatus = 'Running';
+                pomodoroTimerStatus = 3;
                 pomodoroController.start();
               });
             },
             child:
-            Text('Start timer', style: Theme.of(context).textTheme.bodyLarge),
+            Text(AppLocalizations.of(context)!.startTimer, style: Theme.of(context).textTheme.bodyLarge),
           );
       }
       return null;
@@ -169,7 +171,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       setState(() {
                         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
                         pomodoroStatus = 'Pomodoro';
-                        pomodoroTimerStatus = 'Not started';
+                        pomodoroTimerStatus = 1;
                         pomodoroController.reset();
                       });
                     },
@@ -190,7 +192,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     onPressed: () {
                       setState(() {
                         pomodoroStatus = 'Pomodoro';
-                        pomodoroTimerStatus = 'Not started';
+                        pomodoroTimerStatus = 1;
                         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['Pomodoro'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
@@ -204,8 +206,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        pomodoroStatus = 'Short break';
-                        pomodoroTimerStatus = 'Not started';
+                        pomodoroStatus = AppLocalizations.of(context)!.shortBreak;
+                        pomodoroTimerStatus = 1;
                         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['ShortBreak'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
@@ -213,14 +215,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         // pomodoroController.restart(duration: pomodoroTimer);
                       });
                     },
-                    child: Text('Short break',
+                    child: Text(AppLocalizations.of(context)!.shortBreak,
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        pomodoroStatus = 'Long break';
-                        pomodoroTimerStatus = 'Not started';
+                        pomodoroStatus = AppLocalizations.of(context)!.longBreak;
+                        pomodoroTimerStatus = 1;
                         pomodoroTimer = widget.userProvider.user!.pomodoroSettings!['LongBreak'] * 60;
                         pomodoroController.restart(duration: pomodoroTimer);
                         pomodoroController.pause();
@@ -228,7 +230,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         // pomodoroController.restart(duration: pomodoroTimer);
                       });
                     },
-                    child: Text('Long break',
+                    child: Text(AppLocalizations.of(context)!.longBreak,
                         style: Theme.of(context).textTheme.labelLarge),
                   ),
                 ],
@@ -262,7 +264,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   generateTextButton()!,
-                  pomodoroTimerStatus != 'Not started'?IconButton(
+                  pomodoroTimerStatus != 1?IconButton(
                     icon: const Icon(Icons.skip_next),
                     onPressed: () async{
                       int workedSeconds = calculateTimeDifference(pomodoroTimer, pomodoroController.getTime()!);
@@ -277,9 +279,9 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 ],
               ),
               SizedBox(height: height*0.01,),
-              Text('#$interval You are doing great.', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),),
-              Text(pomodoroStatus=='Pomodoro'?'It\'s time to ':'It\'s time for a ', style: Theme.of(context).textTheme.displayMedium),
-              Text(pomodoroStatus=='Pomodoro'?'FOCUS':'BREAK', style: pomodoroStatus=='Pomodoro'?Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.error):Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
+              Text('#$interval ${AppLocalizations.of(context)!.youAreDoingGreat}', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.onPrimaryContainer),),
+              Text(pomodoroStatus=='Pomodoro'?AppLocalizations.of(context)!.itsTimeTo:AppLocalizations.of(context)!.itsTimeForA, style: Theme.of(context).textTheme.displayMedium),
+              Text(pomodoroStatus=='Pomodoro'?AppLocalizations.of(context)!.focus:AppLocalizations.of(context)!.breakTIMER, style: pomodoroStatus=='Pomodoro'?Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.error):Theme.of(context).textTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),),
             ],
           ),
         ),

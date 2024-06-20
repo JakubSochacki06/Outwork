@@ -28,8 +28,17 @@ class ProjectsProvider extends ChangeNotifier {
 
     for (int i = 0; i < _projectsIDList.length; i++) {
       Project? project = await getProjectById(_projectsIDList[i]);
-      print(project!.title);
-      _projectsList.add(project!);
+      if(project != null){
+        print("PROJECT IS EQUAL TO ");
+        print(project);
+        _projectsList.add(project);
+      } else {
+        await _db
+            .collection('users_data')
+            .doc(user.email)
+            .update({'projectsIDList': FieldValue.arrayRemove([_projectsIDList[i]])});
+      }
+
     }
     print('aha 2');
   }
@@ -106,8 +115,10 @@ class ProjectsProvider extends ChangeNotifier {
       List<FirebaseUser> projectMembers = await getProjectMembersData(projectData['membersEmails']);
       Project project = Project.fromMap(projectData, projectMembers);
       return project;
+    } else {
+      return null;
     }
-    return null;
+
   }
 
   Future<List<FirebaseUser>> getProjectMembersData(List<dynamic> userEmails) async{

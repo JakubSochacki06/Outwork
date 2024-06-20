@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:outwork/screens/chat_page.dart';
 import 'package:outwork/screens/profile_page/settings_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ProfileAppBar({super.key});
@@ -12,7 +13,7 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
       automaticallyImplyLeading: false,
-      title: Text('My profile', style: Theme.of(context).textTheme.bodyLarge),
+      title: Text(AppLocalizations.of(context)!.myProfile, style: Theme.of(context).textTheme.bodyLarge),
       centerTitle: true,
         leading: Padding(
           padding: EdgeInsets.only(left: width * 0.04),

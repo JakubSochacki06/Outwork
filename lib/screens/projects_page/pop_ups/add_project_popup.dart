@@ -7,11 +7,11 @@ import 'package:outwork/widgets/error_shake_text.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../upgrade_your_plan_page.dart';
 
 class AddProjectPopup extends StatefulWidget {
-  final String mode;
+  final int mode;
 
   const AddProjectPopup({required this.mode});
 
@@ -41,7 +41,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
         Provider.of<ProjectsProvider>(context, listen: true);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    if (widget.mode == 'Edit existing') {
+    if (widget.mode == 1) {
       _titleController.text = projectProvider.editableDummyProject.title!;
       _descriptionController.text =
           projectProvider.editableDummyProject.description!;
@@ -58,29 +58,29 @@ class _AddProjectPopup extends State<AddProjectPopup> {
     bool validateInput() {
       bool isValid = true;
       setState(() {
-        if (widget.mode != 'Edit existing' &&
+        if (widget.mode != 1 &&
             projectProvider.newProject.projectType == null) {
-          projectTypeError = 'Select project type';
+          projectTypeError = AppLocalizations.of(context)!.selectProjectTypeError;
           isValid = false;
         } else {
           projectTypeError = null;
         }
-        if (widget.mode != 'Edit existing' &&
+        if (widget.mode != 1 &&
             projectProvider.newProject.dueDate == null) {
-          dueDateError = 'Select due date by clicking the icon';
+          dueDateError = AppLocalizations.of(context)!.dueDateError;
           isValid = false;
         } else {
           dueDateError = null;
         }
         if (_titleController.text.isEmpty) {
-          titleError = 'Title can\'t be empty';
+          titleError = AppLocalizations.of(context)!.titleError;
           isValid = false;
         } else {
           titleError = null;
         }
 
         if (_descriptionController.text.isEmpty) {
-          descriptionError = 'Description can\'t be empty';
+          descriptionError = AppLocalizations.of(context)!.descriptionError;
           isValid = false;
         } else {
           descriptionError = null;
@@ -111,7 +111,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
             height: height * 0.02,
           ),
           Text(
-            '${widget.mode} project',
+            '${widget.mode==0?AppLocalizations.of(context)!.addButtonText:AppLocalizations.of(context)!.edit} ${AppLocalizations.of(context)!.project}',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(
@@ -126,7 +126,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
               maxLength: 20,
               controller: _titleController,
               onChanged: (word) {
-                if (widget.mode != 'Edit existing') {
+                if (widget.mode != 1) {
                   projectProvider.newProject.title = word;
                 } else {
                   projectProvider.editableDummyProject.title = word;
@@ -140,9 +140,9 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                       .labelLarge!
                       .copyWith(color: Theme.of(context).colorScheme.error),
                   // alignLabelWithHint: true,
-                  labelText: 'Title',
+                  labelText: AppLocalizations.of(context)!.title,
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                  hintText: 'Enter your title here'),
+                  hintText: AppLocalizations.of(context)!.enterTitle),
             ),
           ),
           SizedBox(
@@ -157,7 +157,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
               maxLength: 50,
               maxLines: 2,
               onChanged: (word) {
-                if (widget.mode != 'Edit existing') {
+                if (widget.mode != 1) {
                   projectProvider.newProject.description = word;
                 } else {
                   projectProvider.editableDummyProject.description = word;
@@ -172,17 +172,17 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                       .primaryTextTheme
                       .labelLarge!
                       .copyWith(color: Theme.of(context).colorScheme.error),
-                  labelText: 'Description',
+                  labelText: AppLocalizations.of(context)!.description,
                   alignLabelWithHint: true,
                   labelStyle: Theme.of(context).primaryTextTheme.bodyMedium,
-                  hintText: 'Enter description here'),
+                  hintText: AppLocalizations.of(context)!.enterDescription),
             ),
           ),
           SizedBox(
             height: height * 0.01,
           ),
           Text(
-            'Due Date',
+            AppLocalizations.of(context)!.dueDate,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(
@@ -199,7 +199,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
               borderRadius: BorderRadius.circular(15),
             ),
             child: CalendarPickerTile(
-                calendarSubject: widget.mode == 'Edit existing'
+                calendarSubject: widget.mode == 1
                     ? projectProvider.editableDummyProject
                     : projectProvider.newProject),
           ),
@@ -216,7 +216,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
             height: height * 0.01,
           ),
           Text(
-            'Project type',
+            AppLocalizations.of(context)!.projectType,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           SizedBox(
@@ -227,15 +227,15 @@ class _AddProjectPopup extends State<AddProjectPopup> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  widget.mode != 'Edit existing'
+                  widget.mode != 1
                       ? projectProvider.setNewProjectType('Basic')
                       : projectProvider.editProjectType('Basic');
                 },
-                child: Text('Basic',
-                    style: widget.mode != 'Edit existing' &&
+                child: Text(AppLocalizations.of(context)!.basic,
+                    style: widget.mode != 1 &&
                                 projectProvider.newProject.projectType ==
                                     'Basic' ||
-                            widget.mode == 'Edit existing' &&
+                            widget.mode == 1 &&
                                 projectProvider
                                         .editableDummyProject.projectType ==
                                     'Basic'
@@ -248,10 +248,10 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                   // maximumSize: Size(40,20),
                   shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor: widget.mode != 'Edit existing' &&
+                  backgroundColor: widget.mode != 1 &&
                               projectProvider.newProject.projectType ==
                                   'Basic' ||
-                          widget.mode == 'Edit existing' &&
+                          widget.mode == 1 &&
                               projectProvider
                                       .editableDummyProject.projectType ==
                                   'Basic'
@@ -262,15 +262,15 @@ class _AddProjectPopup extends State<AddProjectPopup> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  widget.mode != 'Edit existing'
+                  widget.mode != 1
                       ? projectProvider.setNewProjectType('Urgent')
                       : projectProvider.editProjectType('Urgent');
                 },
-                child: Text('Urgent',
-                    style: widget.mode != 'Edit existing' &&
+                child: Text(AppLocalizations.of(context)!.urgent,
+                    style: widget.mode != 1 &&
                                 projectProvider.newProject.projectType ==
                                     'Urgent' ||
-                            widget.mode == 'Edit existing' &&
+                            widget.mode == 1 &&
                                 projectProvider
                                         .editableDummyProject.projectType ==
                                     'Urgent'
@@ -283,10 +283,10 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                   // maximumSize: Size(40,20),
                   shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor: widget.mode != 'Edit existing' &&
+                  backgroundColor: widget.mode != 1 &&
                               projectProvider.newProject.projectType ==
                                   'Urgent' ||
-                          widget.mode == 'Edit existing' &&
+                          widget.mode == 1 &&
                               projectProvider
                                       .editableDummyProject.projectType ==
                                   'Urgent'
@@ -297,15 +297,15 @@ class _AddProjectPopup extends State<AddProjectPopup> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  widget.mode != 'Edit existing'
+                  widget.mode != 1
                       ? projectProvider.setNewProjectType('Important')
                       : projectProvider.editProjectType('Important');
                 },
-                child: Text('Important',
-                    style: widget.mode != 'Edit existing' &&
+                child: Text(AppLocalizations.of(context)!.important,
+                    style: widget.mode != 1 &&
                                 projectProvider.newProject.projectType ==
                                     'Important' ||
-                            widget.mode == 'Edit existing' &&
+                            widget.mode == 1 &&
                                 projectProvider
                                         .editableDummyProject.projectType ==
                                     'Important'
@@ -318,10 +318,10 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                   // maximumSize: Size(40,20),
                   shape: const StadiumBorder(),
                   // fixedSize: Size(width*0.2,height*0.02),
-                  backgroundColor: widget.mode != 'Edit existing' &&
+                  backgroundColor: widget.mode != 1 &&
                               projectProvider.newProject.projectType ==
                                   'Important' ||
-                          widget.mode == 'Edit existing' &&
+                          widget.mode == 1 &&
                               projectProvider
                                       .editableDummyProject.projectType ==
                                   'Important'
@@ -348,7 +348,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
             onPressed: () async {
               if(userProvider.user!.isPremiumUser! || projectProvider.projectsList.length < 3){
                 if (validateInput()) {
-                  if (widget.mode == 'Edit existing') {
+                  if (widget.mode == 1) {
                     await projectProvider.saveEditedChanges();
                   } else {
                     projectProvider.newProject.membersEmails = [
@@ -379,7 +379,7 @@ class _AddProjectPopup extends State<AddProjectPopup> {
                 }
               }
             },
-            child: Text('Submit',
+            child: Text(AppLocalizations.of(context)!.submit,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onSecondaryContainer)),

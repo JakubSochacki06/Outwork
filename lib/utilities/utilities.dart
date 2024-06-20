@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 int createUniqueId() {
   return DateTime.now().millisecondsSinceEpoch.remainder(100000);
@@ -22,22 +23,22 @@ Future<TimeOfDay?> pickSchedule(BuildContext context, String dayTime) async {
       ),
   );
 
-  if(timeOfDay!.hour <= 14 && dayTime == 'Morning' || timeOfDay.hour > 14 && dayTime == 'Night'){
+  if(timeOfDay!.hour <= 14 && dayTime == AppLocalizations.of(context)!.morning || timeOfDay.hour > 14 && dayTime == AppLocalizations.of(context)!.night){
     return timeOfDay;
   } else {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Oh snap!', style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.error)),
-          content: Text(dayTime=='Morning'?'Insert that routine into night routines.\nMorning routines ends at 14:59':'Insert that routine into morning routines.\nNight routines starts at 15:00', style: Theme.of(context).primaryTextTheme.labelLarge,),
+          title: Text(AppLocalizations.of(context)!.ohSnap, style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.error)),
+          content: Text(dayTime==AppLocalizations.of(context)!.morning?'${AppLocalizations.of(context)!.insertThatRoutineIntoX("Night routines")}\n${AppLocalizations.of(context)!.morningRoutinesEndsAt}':'${AppLocalizations.of(context)!.insertThatRoutineIntoX("Morning Routines")}\n${AppLocalizations.of(context)!.nightRoutineStartsAt}', style: Theme.of(context).primaryTextTheme.labelLarge,),
           actions: [
             Center(
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close', style: Theme.of(context).textTheme.bodySmall,),
+                child: Text(AppLocalizations.of(context)!.close, style: Theme.of(context).textTheme.bodySmall,),
               ),
             ),
           ],

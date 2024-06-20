@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:outwork/models/journal_entry.dart';
 import 'package:outwork/providers/journal_entry_provider.dart';
+import 'package:outwork/providers/theme_provider.dart';
+import 'package:outwork/string_extension.dart';
 import 'package:outwork/widgets/appBars/journal_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:outwork/widgets/note_tile.dart';
@@ -21,6 +23,8 @@ class MentalHealthPage extends StatelessWidget {
     List<int> monthsAdded = [];
     JournalEntryProvider journalEntryProvider =
         Provider.of<JournalEntryProvider>(context);
+    ThemeProvider themeProvider =
+    Provider.of<ThemeProvider>(context);
 
     List<Widget> buildNoteTiles() {
       return List.generate(journalEntryProvider.journalEntries.length, (index) {
@@ -29,7 +33,7 @@ class MentalHealthPage extends StatelessWidget {
 
         if (!monthsAdded.contains(currentEntry.date!.month)) {
           monthsAdded.add(currentEntry.date!.month);
-          String monthName = DateFormat('MMMM').format(currentEntry.date!);
+          String monthName = DateFormat('MMMM', themeProvider.selectedLocale!.languageCode).format(currentEntry.date!);
 
           return Column(
             children: [
@@ -37,7 +41,7 @@ class MentalHealthPage extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: RichText(
                   text: TextSpan(
-                      text: monthName,
+                      text: monthName.capitalize(),
                       style: Theme.of(context).textTheme.bodyLarge,
                       children: [
                         WidgetSpan(
@@ -81,13 +85,15 @@ class MentalHealthPage extends StatelessWidget {
                       return noteTiles[index];
                     },
                   )
-                : Column(
-              children: [
-                AutoSizeText(AppLocalizations.of(context)!.noNotes, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
-                Text(AppLocalizations.of(context)!.addNewNoteTo, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
-                Lottie.asset('assets/noData.json', height: height*0.3),
-              ],
-            ),),
+                : Center(
+                  child: Column(
+                                children: [
+                  AutoSizeText(AppLocalizations.of(context)!.noNotes, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center, maxLines: 1,),
+                  Text(AppLocalizations.of(context)!.addNewNoteTo, style: Theme.of(context).primaryTextTheme.bodyMedium, textAlign: TextAlign.center,),
+                  Lottie.asset('assets/noData.json', height: height*0.3),
+                                ],
+                              ),
+                ),),
       ),
     );
   }
