@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 class OfferingTab extends StatelessWidget {
   final double priceTotal;
-  final String planName;
   final String currencyCode;
   final double basicMonthlyPrice;
   final bool isSelected;
-  const OfferingTab({required this.priceTotal, required this.planName, required this.currencyCode, required this.basicMonthlyPrice, required this.isSelected});
+  final PackageType packageType;
+  const OfferingTab({required this.priceTotal, required this.currencyCode, required this.basicMonthlyPrice, required this.isSelected, required this.packageType});
 
   @override
   Widget build(BuildContext context) {
-    double priceMonthly = 0;
+    String priceMonthly = "";
+    String planName = "";
+    switch(packageType){
+      case PackageType.monthly:
+        planName = '1 month';
+      case PackageType.threeMonth:
+        planName = '3 months';
+      case PackageType.annual:
+        planName = '12 months';
+      default:
+        planName = "Error";
+    }
     switch(planName){
       case '1 month':
-        priceMonthly = priceTotal;
+        priceMonthly = priceTotal.toStringAsFixed(2);
       case '3 months':
-        priceMonthly = (priceTotal/3).roundToDouble();
+        print("PRICE MONTHLY");
+        priceMonthly = (priceTotal/3).toStringAsFixed(2);
+        print(priceMonthly);
       case '12 months':
-        priceMonthly = (priceTotal/12).roundToDouble();
+        priceMonthly = (priceTotal/12).toStringAsFixed(2);
     }
 
     String getLocalizedPlanName(String planName) {
+      if(planName == ""){
+
+      }
       switch (planName) {
         case "1 month":
           return AppLocalizations.of(context)!.oneMonth;
@@ -33,6 +50,8 @@ class OfferingTab extends StatelessWidget {
           return planName; // Fallback to the original name if not found
       }
     }
+
+    print(planName);
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -60,13 +79,13 @@ class OfferingTab extends StatelessWidget {
               Text('$currencyCode$priceMonthly / ${AppLocalizations.of(context)!.monthShortcut}', style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
-          priceMonthly!=priceTotal?Row(
+          double.parse(priceMonthly)!=priceTotal?Row(
             children: [
               Text(
-                '$currencyCode${basicMonthlyPrice*int.parse(planName.split(' ')[0])}',
+                '$currencyCode${(basicMonthlyPrice*int.parse(planName.split(' ')[0])).toStringAsFixed(2)}',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(decoration: TextDecoration.lineThrough, color: Theme.of(context).colorScheme.onPrimaryContainer, decorationColor: Theme.of(context).colorScheme.onPrimaryContainer),
               ),
-              Text(' $currencyCode$priceTotal', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),)
+              Text(' $currencyCode${priceTotal.toStringAsFixed(2)}', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary),)
             ],
           ):Container(),
         ],

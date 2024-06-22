@@ -18,6 +18,39 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
 
+  Future<bool?> wantToDeleteAccount(BuildContext context) async {
+    bool? deleteAccount = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            '${AppLocalizations.of(context)!.deleteAccount}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          content: Text(AppLocalizations.of(context)!.deleteAccountConfirm,
+              style: Theme.of(context).primaryTextTheme.bodySmall),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text(AppLocalizations.of(context)!.no, style: Theme.of(context).textTheme.bodySmall),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text(AppLocalizations.of(context)!.yes,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Theme.of(context).colorScheme.secondary)),
+            ),
+          ],
+        );
+      },
+    );
+    return deleteAccount;
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
@@ -122,6 +155,19 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: (context) async {
                 await Purchases.logOut();
                 await FirebaseAuth.instance.signOut();
+              },
+              // value: Text(userProvider.user!.email!),
+            ),
+            SettingsTile.navigation(
+              leading: const Icon(Icons.no_accounts),
+              title: Text(AppLocalizations.of(context)!.deleteAccount),
+              onPressed: (context) async {
+                bool? deleteAccount = await wantToDeleteAccount(context);
+                if(deleteAccount == true){
+
+                  await Purchases.logOut();
+                  await FirebaseAuth.instance.signOut();
+                }
               },
               // value: Text(userProvider.user!.email!),
             ),

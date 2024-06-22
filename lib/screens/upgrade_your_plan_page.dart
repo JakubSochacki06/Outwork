@@ -32,6 +32,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
+    print(widget.offerings.current!.availablePackages[2]);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -97,8 +98,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                   isSelected: 2 == selectedOffering,
                   priceTotal: widget.offerings.current!.availablePackages[2]
                       .storeProduct.price,
-                  planName: widget.offerings.current!.availablePackages[2]
-                      .storeProduct.description,
+                  packageType: widget.offerings.current!.availablePackages[2]
+                      .packageType,
                   currencyCode: widget.offerings.current!.availablePackages[2]
                       .storeProduct.currencyCode,
                   basicMonthlyPrice:
@@ -119,8 +120,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                   isSelected: 1 == selectedOffering,
                   priceTotal: widget.offerings.current!.availablePackages[1]
                       .storeProduct.price,
-                  planName: widget.offerings.current!.availablePackages[1]
-                      .storeProduct.description,
+                  packageType: widget.offerings.current!.availablePackages[1]
+                      .packageType,
                   currencyCode: widget.offerings.current!.availablePackages[1]
                       .storeProduct.currencyCode,
                   basicMonthlyPrice:
@@ -141,8 +142,8 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                   isSelected: 0 == selectedOffering,
                   priceTotal: widget.offerings.current!.availablePackages[0]
                       .storeProduct.price,
-                  planName: widget.offerings.current!.availablePackages[0]
-                      .storeProduct.description,
+                  packageType: widget.offerings.current!.availablePackages[0]
+                      .packageType,
                   currencyCode: widget.offerings.current!.availablePackages[0]
                       .storeProduct.currencyCode,
                   basicMonthlyPrice:

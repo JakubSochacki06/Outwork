@@ -236,4 +236,12 @@ class UserProvider extends ChangeNotifier {
         .update({'toughMode': newMode});
     notifyListeners();
   }
+
+  Future<void> deleteAccount() async{
+    await _db
+        .collection('users_data')
+        .doc(user!.email)
+        .delete();
+    notifyListeners();
+  }
 }
