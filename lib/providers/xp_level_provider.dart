@@ -9,7 +9,7 @@ class XPLevelProvider extends ChangeNotifier {
   int? _xpAmount;
   int? _xpLevel;
   double _levelProgress = 0.0;
-  List<int> levelThresholds = [0, 30, 70, 130, 200, 280, 370, 470, 580, 700, 830, 970, 1120, 1280, 1450, 1630, 1820];
+  List<int> levelThresholds = [0, 30, 70, 130, 200, 280, 370, 470, 580, 700, 830, 970, 1120, 1280, 1450, 1630, 1820, 2020, 2230, 2450, 2580, 2920, 3170, 3430, 3700,3980, 4270];
 
   int get xpAmount => _xpAmount!;
   int get xpLevel => _xpLevel!;

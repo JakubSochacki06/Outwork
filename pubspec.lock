@@ -478,6 +478,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_branch_sdk:
+    dependency: "direct main"
+    description:
+      name: flutter_branch_sdk
+      sha256: b4dcca6044d9666f6f2cc0fdb4964e914da17ce81697e1e0f76a22a195fee79c
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.0.2"
   flutter_dotenv:
     dependency: "direct main"
     description:

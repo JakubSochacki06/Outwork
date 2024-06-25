@@ -53,6 +53,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         journalEntryProvider.setJournalEntries(userProvider.user!);
         nightRoutineProvider.setNightRoutines(userProvider.user!);
         progressProvider.setProgressFields(userProvider.user!);
+        print("EVERYTHING SET");
         try {
           CustomerInfo customerInfo = await Purchases.getCustomerInfo();
           if (customerInfo.entitlements.all['premium']!.isActive) {

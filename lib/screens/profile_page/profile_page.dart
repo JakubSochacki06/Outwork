@@ -85,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              xpLevelProvider.xpLevel.toString(),
+                              xpLevelProvider.xpLevel.toString()!=null?xpLevelProvider.xpLevel.toString():"0",
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
