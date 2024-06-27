@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/user_provider.dart';
@@ -7,6 +8,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:outwork/widgets/appBars/settings_app_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/chat_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -122,6 +124,11 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsTile.switchTile(
                 onToggle: (value) async{
                   await userProvider.updateMode(value);
+                  if(value==true){
+                    await FirebaseMessaging.instance.subscribeToTopic("tough");
+                  } else {
+                    await FirebaseMessaging.instance.subscribeToTopic("basic");
+                  }
                   ChatProvider chatProvider = Provider.of<ChatProvider>(context, listen: false);
                   chatProvider.resetConversation(context);
                 },

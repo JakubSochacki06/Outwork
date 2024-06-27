@@ -241,7 +241,7 @@ class _LoginRegisterFormState extends State<LoginRegisterForm> {
               width: width * 0.025,
             ),
             Text(
-              loginActive ? AppLocalizations.of(context)!.orLoginWith : AppLocalizations.of(context)!.orRegisterWith,
+              AppLocalizations.of(context)!.or,
               style: Theme.of(context).primaryTextTheme.labelLarge,
             ),
             SizedBox(

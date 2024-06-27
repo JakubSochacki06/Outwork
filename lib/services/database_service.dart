@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class DatabaseService {
@@ -13,10 +14,13 @@ class DatabaseService {
   Future<void> setUserDataFromGoogle(User user, Map<String, Map<String, dynamic>> badHabits, bool toughModeActivated) async {
     var uuid = const Uuid();
     String refCode = uuid.v4().substring(0, 7);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? referredBy = prefs.getString("referredBy");
     await _db.collection('users_data').doc(user.email).set({
       'displayName': user.displayName,
       'email': user.email,
       'photoURL': user.photoURL,
+      'referredBy':referredBy,
       'morningRoutines':[
         // {'name': 'Prepare healthy breakfast', 'completed': false},
       ],
@@ -73,10 +77,13 @@ class DatabaseService {
       List<String> parts = user.email!.split("@");
       displayName = parts[0];
     }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? referredBy = prefs.getString("referredBy");
     await _db.collection('users_data').doc(user.email).set({
       'displayName': displayName,
       'email': user.email,
       'photoURL': 'https://i.pinimg.com/280x280_RS/66/ce/c1/66cec18796d258bffde99945565481a7.jpg',
+      'referredBy':referredBy,
       'morningRoutines':[
         // {'name': 'Prepare healthy breakfast', 'completed': false},
       ],

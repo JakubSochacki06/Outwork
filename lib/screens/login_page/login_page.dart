@@ -25,42 +25,68 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(child: Image.asset('assets/logo_login.png',)),
-                        SizedBox(height: height*0.005,),
-                        Text(AppLocalizations.of(context)!.number1App, style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.center,),
-                        SizedBox(height: height*0.03,),
+                        Expanded(
+                            child: Image.asset(
+                          'assets/logo_login.png',
+                        )),
+                        // SizedBox(
+                        //   height: height * 0.005,
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.changeYourLifeNormal,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            Text(AppLocalizations.of(context)!.now,
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor:
+                                    Theme.of(context).colorScheme.secondary)),
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.03,
+                        ),
                         const LoginRegisterForm(),
-                        SizedBox(height: height*0.01,),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
                         RichText(
                           textAlign: TextAlign.center,
-                          text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: AppLocalizations.of(context)!.byCreatingAccount,
-                                    style: Theme.of(context).primaryTextTheme.labelMedium
-                                ),
-                                TextSpan(
-                                    text: AppLocalizations.of(context)!.terms,
-                                    style: Theme.of(context).textTheme.labelMedium,
-                                    recognizer: TapGestureRecognizer()..onTap = () async{
-                                      String url = 'https://sites.google.com/view/outwork-terms-conditions/strona-g%C5%82%C3%B3wna';
-                                      await launchUrl(Uri.parse(url));
-                                    }
-                                ),
-                                TextSpan(
-                                    text: ' ${AppLocalizations.of(context)!.and} ',
-                                    style: Theme.of(context).primaryTextTheme.labelMedium
-                                ),
-                                TextSpan(
-                                    text: AppLocalizations.of(context)!.privacy,
-                                    style: Theme.of(context).textTheme.labelMedium,
-                                    recognizer: TapGestureRecognizer()..onTap = () async{
-                                      String url = 'https://sites.google.com/view/outwork-privacy-policy/strona-g%C5%82%C3%B3wna';
-                                      await launchUrl(Uri.parse(url));
-                                    }
-                                ),
-                              ]
-                          ),
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: AppLocalizations.of(context)!
+                                    .byCreatingAccount,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .labelMedium),
+                            TextSpan(
+                                text: AppLocalizations.of(context)!.terms,
+                                style: Theme.of(context).textTheme.labelMedium,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    String url =
+                                        'https://sites.google.com/view/outwork-terms-conditions/strona-g%C5%82%C3%B3wna';
+                                    await launchUrl(Uri.parse(url));
+                                  }),
+                            TextSpan(
+                                text: ' ${AppLocalizations.of(context)!.and} ',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .labelMedium),
+                            TextSpan(
+                                text: AppLocalizations.of(context)!.privacy,
+                                style: Theme.of(context).textTheme.labelMedium,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    String url =
+                                        'https://sites.google.com/view/outwork-privacy-policy/strona-g%C5%82%C3%B3wna';
+                                    await launchUrl(Uri.parse(url));
+                                  }),
+                          ]),
                         )
                       ],
                     ),
@@ -74,5 +100,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-

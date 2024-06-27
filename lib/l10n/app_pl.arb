@@ -377,5 +377,7 @@
                "friendlyModeAssistantGreeting": "Cześć! Jestem Jacob Bot, Twój przyjazny kumpel. Jestem tutaj zawsze dla Ciebie <3",
                "deleteAccount": "Usuń konto",
                        "areYouSure": "Jesteś pewny?",
-                       "deleteAccountConfirm": "Czy na pewno chcesz usunąć to konto? Usunięcie jest nieodwracalne!"
+                       "deleteAccountConfirm": "Czy na pewno chcesz usunąć to konto? Usunięcie jest nieodwracalne!",
+                                   "or": "lub",
+                                     "termsOfUse":"Zasady użytkowania (EULA)"
 }

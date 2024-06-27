@@ -358,13 +358,11 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
         showBackButton: true,
         onDone: () async{
           await FirebaseAuth.instance.currentUser!.reload();
-          print(FirebaseAuth.instance.currentUser);
           DatabaseService _dbS = DatabaseService();
           if(FirebaseAuth.instance.currentUser!.photoURL!=null){
             await _dbS.setUserDataFromGoogle(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
             await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
           } else{
-            print(FirebaseAuth.instance.currentUser!.displayName);
             await _dbS.setUserDataFromEmail(FirebaseAuth.instance.currentUser!, habitsSelected, toughModeSelected);
             await Purchases.logIn(FirebaseAuth.instance.currentUser!.email!);
           }

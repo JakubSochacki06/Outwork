@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:outwork/models/monthlyRevenue.dart';
 import 'package:outwork/providers/theme_provider.dart';
@@ -45,12 +46,53 @@ class _ReferPageState extends State<ReferPage> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     UserProvider userProvider = Provider.of<UserProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+
+    Future<dynamic> generateLink() async {
+      var buo = BranchUniversalObject(
+        canonicalIdentifier: 'flutter/branch',
+        title: 'Branch Flutter Testbed',
+      );
+
+      BranchLinkProperties lp = BranchLinkProperties(
+        channel: 'app',
+        feature: 'referral',
+      );
+
+      lp.addControlParam('referring_user_email', userProvider.user!.email);
+      var response =
+      await FlutterBranchSdk.getShortUrl(buo: buo, linkProperties: lp);
+      return response.result;
+    }
+
+    Future<void> showShareSheet() async{
+      BranchUniversalObject buo = BranchUniversalObject(
+        canonicalIdentifier: 'referral',
+        title: 'Referral Link',
+        contentDescription: 'Join and get rewards!',
+      );
+
+      BranchLinkProperties lp = BranchLinkProperties(
+        channel: 'app',
+        feature: 'referral',
+      );
+
+      lp.addControlParam('referring_user_email', userProvider.user!.email);
+
+      await FlutterBranchSdk.showShareSheet(
+          buo: buo,
+          linkProperties: lp,
+          messageText: 'My Share text',
+          androidMessageTitle: 'Download Outwork Today!',
+          androidSharingTitle: 'My Share with');
+    }
     return SafeArea(
         child: Scaffold(
       appBar: const ReferAppBar(),
@@ -117,7 +159,8 @@ class _ReferPageState extends State<ReferPage> {
                                           .secondary),
                             ),
                             TextSpan(
-                              text: AppLocalizations.of(context)!.referralThatHas,
+                              text:
+                                  AppLocalizations.of(context)!.referralThatHas,
                               style:
                                   Theme.of(context).primaryTextTheme.bodyMedium,
                             ),
@@ -174,25 +217,34 @@ class _ReferPageState extends State<ReferPage> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: width*0.65,
+                        width: width * 0.65,
                         padding: EdgeInsets.symmetric(
                             horizontal: width * 0.03, vertical: height * 0.01),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.error.withOpacity(0.45),
-                          border: Border.all(color: Theme.of(context).colorScheme.error),
-                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .error
+                              .withOpacity(0.45),
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.error),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
                           boxShadow: themeProvider.isLightTheme()
                               ? [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(3, 3),
-                            ),
-                          ]
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 3,
+                                    offset: const Offset(3, 3),
+                                  ),
+                                ]
                               : null,
                         ),
-                        child: Text(AppLocalizations.of(context)!.previewOfRef, textAlign: TextAlign.center, style: Theme.of(context).primaryTextTheme.bodySmall,),
+                        child: Text(
+                          AppLocalizations.of(context)!.previewOfRef,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).primaryTextTheme.bodySmall,
+                        ),
                       ),
                     ),
                   ),
@@ -251,59 +303,67 @@ class _ReferPageState extends State<ReferPage> {
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(15)),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.025),
-                    child: AutoSizeText(
-                      'https://link.to/REFCODE',
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        Clipboard.setData(const ClipboardData(
-                                text: "https://link.to/REFCODE"))
-                            .then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                               SnackBar(
-                                  content: Text(AppLocalizations.of(context)!.copied)));
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          border: themeProvider.isLightTheme()
-                              ? Border.all(color: const Color(0xFFEDEDED))
-                              : null,
-                          // color: Color(0xFFF0F2F5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                          boxShadow: themeProvider.isLightTheme()
-                              ? [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    // blurRadius: 10,
-                                    offset: const Offset(3, 3),
-                                  )
-                                ]
-                              : null,
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.copy,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: FutureBuilder(
+                  future: generateLink(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done) {
+                      return Row(
+                        children: [
+                          Container(
+                            width: width*0.65,
+                            child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: width * 0.025),
+                                child: AutoSizeText(snapshot.data, style: Theme.of(context)!.primaryTextTheme.labelMedium, maxLines: 1,)
+                            ),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () async {
+                                Clipboard.setData(ClipboardData(
+                                    text: snapshot.data))
+                                    .then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content:
+                                      Text(AppLocalizations.of(context)!.copied)));
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                decoration: BoxDecoration(
+                                  color:
+                                  Theme.of(context).colorScheme.onPrimaryContainer,
+                                  border: themeProvider.isLightTheme()
+                                      ? Border.all(color: const Color(0xFFEDEDED))
+                                      : null,
+                                  // color: Color(0xFFF0F2F5),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                                  boxShadow: themeProvider.isLightTheme()
+                                      ? [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 3,
+                                      // blurRadius: 10,
+                                      offset: const Offset(3, 3),
+                                    )
+                                  ]
+                                      : null,
+                                ),
+                                child: Text(
+                                  AppLocalizations.of(context)!.copy,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  }),
             ),
             SizedBox(
               height: height * 0.01,
@@ -389,6 +449,7 @@ class _ReferPageState extends State<ReferPage> {
                     )),
               ),
               InkWell(
+                onTap: showShareSheet,
                 child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -447,8 +508,7 @@ class _ReferPageState extends State<ReferPage> {
             ReferTile(
               imagePath: 'earn',
               title: AppLocalizations.of(context)!.step(3),
-              description:
-              AppLocalizations.of(context)!.step3Description,
+              description: AppLocalizations.of(context)!.step3Description,
             ),
           ],
         ),

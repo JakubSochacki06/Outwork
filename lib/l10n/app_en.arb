@@ -64,6 +64,7 @@
   "number1App": "#1 Self-improvement mobile app",
   "byCreatingAccount": "By creating an account, you are agreeing to our ",
   "terms":"Terms & Conditions",
+  "termsOfUse":"Terms of Use (EULA)",
   "and": "and",
   "privacy": "Privacy Policy",
   "loading": "Loading...",
@@ -376,6 +377,7 @@
             "assistantRoleDescription": "I'm here to chat with you about anything and provide a listening ear. Feel free to share your thoughts, ask questions, or just chat away!",
             "toughModeAssistantGreeting": "Hey there! I'm Jacob Bot, your tough motivational brother.",
             "friendlyModeAssistantGreeting": "Hey there! I'm Jacob Bot, your friendly chat companion.",
-            "deleteAccount": "Delete account"
+            "deleteAccount": "Delete account",
+            "or": "or"
 
 }

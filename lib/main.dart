@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,10 +69,10 @@ Future main() async {
         channelGroupKey: 'basic_channel_group', channelGroupName: 'Basic Group')
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterBranchSdk.init();
   PurchasesConfiguration configuration = PurchasesConfiguration(Platform.isIOS?appleRCApiKey:googleRCApiKey);
   await Purchases.configure(configuration);
   FlutterNativeSplash.preserve(widgetsBinding: binding);
-
   Future<Locale> loadSelectedLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String languageCode = prefs.getString('languageCode') ?? 'en';
@@ -109,8 +111,27 @@ class _MyAppState extends State<MyApp> {
       onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
       onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
     );
+
+    // FlutterBranchSdk.validateSDKIntegration();
     checkForUpdate();
+    initBranch();
     super.initState();
+  }
+
+  void initBranch() async{
+    StreamSubscription<Map> streamSubscription = FlutterBranchSdk.initSession().listen((data) async {
+      if (data.containsKey("+clicked_branch_link") &&
+          data["+clicked_branch_link"] == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('referredBy', data["referring_user_email"]);
+        print('Custom string: ${data["custom_string"]}');
+
+      }
+    }, onError: (error) {
+      PlatformException platformException = error as PlatformException;
+      print(
+          'InitSession error: ${platformException.code} - ${platformException.message}');
+    });
   }
 
   Future<void> checkForUpdate() async {

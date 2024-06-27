@@ -234,13 +234,13 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                      text: AppLocalizations.of(context)!.terms,
+                      text: AppLocalizations.of(context)!.termsOfUse,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Theme.of(context).colorScheme.secondary),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () async {
                           String url =
-                              'https://sites.google.com/view/outwork-terms-conditions/strona-g%C5%82%C3%B3wna';
+                              'https://sites.google.com/view/outwork-terms-of-use-eula/strona-g%C5%82%C3%B3wna';
                           await launchUrl(Uri.parse(url));
                         }),
                   TextSpan(

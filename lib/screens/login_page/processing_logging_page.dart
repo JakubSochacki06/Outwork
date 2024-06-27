@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:outwork/providers/chat_provider.dart';
@@ -47,6 +48,15 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         await Purchases.logIn(userProvider.user!.email!);
         print("BEFORE SETTINGS PROJECT LIST");
         await projectsProvider.setProjectsList(userProvider.user!);
+        await FirebaseMessaging.instance.requestPermission(provisional: true);
+        if(userProvider.user!.toughModeSelected!){
+          await FirebaseMessaging.instance.subscribeToTopic("tough");
+        } else {
+          await FirebaseMessaging.instance.subscribeToTopic("basic");
+        }
+        final apnsToken = await FirebaseMessaging.instance.getToken();
+        print("APNS");
+        print(apnsToken);
         print("AFTER SETTING PROJECT LIST");
         xpLevelProvider.setXPAmount(userProvider.user!);
         morningRoutineProvider.setMorningRoutines(userProvider.user!);
