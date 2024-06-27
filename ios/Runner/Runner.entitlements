@@ -8,5 +8,10 @@
 	<array>
 		<string>Default</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:outworkmobile.app</string>
+		<string>applinks:outworkmobile-alternate.app</string>
+	</array>
 </dict>
 </plist>
