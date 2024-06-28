@@ -8,6 +8,7 @@ import 'package:outwork/providers/journal_entry_provider.dart';
 import 'package:outwork/providers/morning_routine_provider.dart';
 import 'package:outwork/providers/night_routine_provider.dart';
 import 'package:outwork/providers/projects_provider.dart';
+import 'package:outwork/providers/theme_provider.dart';
 import 'package:outwork/providers/xp_level_provider.dart';
 import 'package:outwork/screens/login_page/account_creation_slides.dart';
 import 'package:outwork/screens/login_page/login_page.dart';
@@ -37,6 +38,7 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
     XPLevelProvider xpLevelProvider = Provider.of<XPLevelProvider>(context, listen: false);
     ProgressProvider progressProvider = Provider.of<ProgressProvider>(context, listen: false);
     JournalEntryProvider journalEntryProvider = Provider.of<JournalEntryProvider>(context, listen: false);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     Future<void> setUpData() async{
       DatabaseService _dbS = DatabaseService();
       if(await _dbS.userExists(FirebaseAuth.instance.currentUser!)){
@@ -50,9 +52,9 @@ class _LoggingPageState extends State<ProcessingLoggingPage> {
         await projectsProvider.setProjectsList(userProvider.user!);
         await FirebaseMessaging.instance.requestPermission(provisional: true);
         if(userProvider.user!.toughModeSelected!){
-          await FirebaseMessaging.instance.subscribeToTopic("tough");
+          await FirebaseMessaging.instance.subscribeToTopic("tough${themeProvider.selectedLocale!.languageCode}");
         } else {
-          await FirebaseMessaging.instance.subscribeToTopic("basic");
+          await FirebaseMessaging.instance.subscribeToTopic("basic${themeProvider.selectedLocale!.languageCode}");
         }
         final apnsToken = await FirebaseMessaging.instance.getToken();
         print("APNS");

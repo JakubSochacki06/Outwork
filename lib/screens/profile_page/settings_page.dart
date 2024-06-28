@@ -73,6 +73,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: Text(AppLocalizations.of(context)!.english),
                   onTap: () async{
                     await themeProvider.setUserLocale(Locale('en'));
+                    await FirebaseMessaging.instance.subscribeToTopic("${userProvider.user!.toughModeSelected!?"tough":"basic"}en");
+                    await FirebaseMessaging.instance.unsubscribeFromTopic("${userProvider.user!.toughModeSelected!?"tough":"basic"}pl");
                     Navigator.of(context).pop();
                   },
                 ),
@@ -80,6 +82,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: Text(AppLocalizations.of(context)!.polish),
                   onTap: () async {
                     await themeProvider.setUserLocale(Locale('pl'));
+                    await FirebaseMessaging.instance.subscribeToTopic("${userProvider.user!.toughModeSelected!?"tough":"basic"}pl");
+                    await FirebaseMessaging.instance.unsubscribeFromTopic("${userProvider.user!.toughModeSelected!?"tough":"basic"}en");
                     Navigator.of(context).pop();
                   },
                 ),
@@ -125,9 +129,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 onToggle: (value) async{
                   await userProvider.updateMode(value);
                   if(value==true){
-                    await FirebaseMessaging.instance.subscribeToTopic("tough");
+                    await FirebaseMessaging.instance.subscribeToTopic("tough${themeProvider.selectedLocale!.languageCode}");
+                    await FirebaseMessaging.instance.unsubscribeFromTopic("basic${themeProvider.selectedLocale!.languageCode}");
                   } else {
-                    await FirebaseMessaging.instance.subscribeToTopic("basic");
+                    await FirebaseMessaging.instance.subscribeToTopic("basic${themeProvider.selectedLocale!.languageCode}");
+                    await FirebaseMessaging.instance.unsubscribeFromTopic("tough${themeProvider.selectedLocale!.languageCode}");
                   }
                   ChatProvider chatProvider = Provider.of<ChatProvider>(context, listen: false);
                   chatProvider.resetConversation(context);
