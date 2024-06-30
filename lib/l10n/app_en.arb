@@ -378,6 +378,9 @@
             "toughModeAssistantGreeting": "Hey there! I'm Jacob Bot, your tough motivational brother.",
             "friendlyModeAssistantGreeting": "Hey there! I'm Jacob Bot, your friendly chat companion.",
             "deleteAccount": "Delete account",
-            "or": "or"
+            "or": "or",
+            "restorePurchase": "Restore Purchase",
+            "everyPurchase": "Every purchase have been restored!",
+            "done": "Done!"
 
 }

@@ -379,5 +379,8 @@
                        "areYouSure": "Jesteś pewny?",
                        "deleteAccountConfirm": "Czy na pewno chcesz usunąć to konto? Usunięcie jest nieodwracalne!",
                                    "or": "lub",
-                                     "termsOfUse":"Zasady użytkowania (EULA)"
+                                     "termsOfUse":"Zasady użytkowania (EULA)",
+                                                 "restorePurchase": "Przywróć zakup",
+                                                             "everyPurchase": "Każdy zakup został przywrócony",
+                                                             "done": "Zrobione!"
 }
