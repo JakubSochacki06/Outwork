@@ -206,9 +206,7 @@ class _UpgradeYourPlanPageState extends State<UpgradeYourPlanPage> {
                     }
                   },
                   child: AutoSizeText(
-                    selectedOffering != 0
-                        ? AppLocalizations.of(context)!.freeTrial(7)
-                        : AppLocalizations.of(context)!.freeTrial(3),
+                    AppLocalizations.of(context)!.changeYourLifeNormal,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color:

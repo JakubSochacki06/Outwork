@@ -36,7 +36,7 @@ class GoProPage extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge,
                           children: <TextSpan>[
                             TextSpan(
-                                text: '3.7x ',
+                                text: ' 3.7x ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyLarge!
