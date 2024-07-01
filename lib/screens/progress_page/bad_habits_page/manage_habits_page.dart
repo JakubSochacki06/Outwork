@@ -97,14 +97,14 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 onTap: () async{
-                  if (widget.startingHabits.containsKey(badHabits[index])) {
+                  if (widget.startingHabits.containsKey(getEnglishHabitName(badHabits[index]))) {
                     setState(() {
-                      widget.startingHabits.remove(badHabits[index]);
+                      widget.startingHabits.remove(getEnglishHabitName((badHabits[index])));
                     });
                   } else {
                     if(userProvider.user!.isPremiumUser! || widget.startingHabits.length < 2){
                       setState(() {
-                        widget.startingHabits[badHabits[index]] = {
+                        widget.startingHabits[getEnglishHabitName(badHabits[index])] = {
                           'description': null,
                           'longestStreak': 0,
                           'startDate': DateTime.now(),
@@ -135,7 +135,7 @@ class _ManageHabitsPageState extends State<ManageHabitsPage> {
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                     border: Border.all(
                         color:
-                            widget.startingHabits.containsKey(badHabits[index])
+                            widget.startingHabits.containsKey(getEnglishHabitName(badHabits[index]))
                                 ? Theme.of(context).colorScheme.secondary
                                 : Theme.of(context).colorScheme.primary,
                         width: 2),

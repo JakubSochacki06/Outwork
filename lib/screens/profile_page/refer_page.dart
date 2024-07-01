@@ -57,8 +57,9 @@ class _ReferPageState extends State<ReferPage> {
 
     Future<dynamic> generateLink() async {
       var buo = BranchUniversalObject(
-        canonicalIdentifier: 'flutter/branch',
-        title: 'Branch Flutter Testbed',
+        canonicalIdentifier: 'referral',
+        title: 'Referral Link',
+        contentDescription: 'Join and get rewards!',
       );
 
       BranchLinkProperties lp = BranchLinkProperties(
