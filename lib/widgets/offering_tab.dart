@@ -76,7 +76,7 @@ class OfferingTab extends StatelessWidget {
             children: [
               Text(getLocalizedPlanName(planName), style: Theme.of(context).textTheme.bodyLarge,),
               const Spacer(),
-              Text('$currencyCode$priceMonthly / ${AppLocalizations.of(context)!.monthShortcut}', style: Theme.of(context).textTheme.bodyLarge),
+              Text('$currencyCode$priceMonthly / ${AppLocalizations.of(context)!.monthShortcut}', style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
           double.parse(priceMonthly)!=priceTotal?Row(
