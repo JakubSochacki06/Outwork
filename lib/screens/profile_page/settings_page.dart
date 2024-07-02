@@ -59,6 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
         Provider.of<UserProvider>(context);
     ThemeProvider themeProvider =
         Provider.of<ThemeProvider>(context, listen: true);
+    ChatProvider chatProvider = Provider.of<ChatProvider>(context, listen: false);
 
     Future<void> _showLanguageDialog() async{
       showDialog(
@@ -135,7 +136,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     await FirebaseMessaging.instance.subscribeToTopic("basic${themeProvider.selectedLocale!.languageCode}");
                     await FirebaseMessaging.instance.unsubscribeFromTopic("tough${themeProvider.selectedLocale!.languageCode}");
                   }
-                  ChatProvider chatProvider = Provider.of<ChatProvider>(context, listen: false);
                   chatProvider.resetConversation(context);
                 },
                 initialValue: userProvider.user!.toughModeSelected,

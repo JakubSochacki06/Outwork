@@ -47,6 +47,29 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
     return habitNamesMap[habitName] ?? habitName;
   }
 
+  String getLocalizedHabitName(String englishHabitName) {
+    // Create an instance of AppLocalizations
+    final localizations = AppLocalizations.of(context);
+
+    // Map English habit names to localized habit names
+    final Map<String, String> habitNamesMap = {
+      "Junk food": localizations!.junkFood,
+      "Pornography": localizations.pornography,
+      "Gambling": localizations.gambling,
+      "Gaming": localizations.gaming,
+      "Alcohol": localizations.alcohol,
+      "Overspending": localizations.overspending,
+      "Partying": localizations.partying,
+      "Drugs": localizations.drugs,
+      "Smoking": localizations.smoking,
+      "Social media": localizations.socialMedia,
+      "Swearing": localizations.swearing,
+    };
+
+    // Return the localized habit name if found, else return the original English habit name
+    return habitNamesMap[englishHabitName] ?? englishHabitName;
+  }
+
   Future<bool?> wantToRestartHabit(BuildContext context) async {
     bool? restartHabit = await showDialog(
       context: context,
@@ -202,7 +225,7 @@ class _BadHabitsPageState extends State<BadHabitsPage> {
                         Row(
                           children: [
                             Text(
-                              '${keys[currentIndex]} ${AppLocalizations.of(context)!.freeFor}',
+                              '${getLocalizedHabitName(keys[currentIndex])} ${AppLocalizations.of(context)!.freeFor}',
                               style: Theme.of(context).textTheme.bodyLarge,
                               maxLines: 1,
                             ),

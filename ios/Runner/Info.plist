@@ -32,6 +32,7 @@
 				<string>com.googleusercontent.apps.77982820125-oolc3qommn9rh2im75r7c0kpnd63ajq8</string>
 			</array>
 		</dict>
+
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -42,6 +43,16 @@
 				<string>outwork</string>
 			</array>
 		</dict>
+		                    <dict>
+                                <key>CFBundleTypeRole</key>
+                                <string>Editor</string>
+                                <key>CFBundleURLSchemes</key>
+                                <array>
+                                    <string>com.sohatzky.outwork</string>
+                                </array>
+                                <key>CFBundleURLName</key>
+                                <string>com.sohatzky.outwork</string>
+                            </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -51,25 +62,11 @@
             <string>outworkmobile.app</string>
             <string>rshgn-alternate.app.link</string>
         </array>
-        <key>CFBundleURLTypes</key>
-        <array>
-            <dict>
-                <key>CFBundleTypeRole</key>
-                <string>Editor</string>
-                <key>CFBundleURLSchemes</key>
-                <array>
-                    <string>com.sohatzky.outwork</string>
-                </array>
-                <key>CFBundleURLName</key>
-                <string>com.sohatzky.outwork</string>
-            </dict>
-        </array>
         <key>branch_key</key>
         <dict>
             <key>live</key>
             <string>key_live_bybLKmecn0064X5JqRcySabmCya0xTFB</string>
         </dict>
-
 
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
