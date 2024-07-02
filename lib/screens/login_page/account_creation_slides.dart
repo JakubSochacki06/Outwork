@@ -293,11 +293,12 @@ class _AccountCreationSlidesState extends State<AccountCreationSlides> {
                             if(habitsSelected.containsKey(badHabits[index])){
                               habitsSelected.remove(badHabits[index]);
                             } else {
+                              habitsSelected.length<2?
                               habitsSelected[badHabits[index]] = {
                                 'startDate':now,
                                 'longestStreak':0,
                                 'description':null,
-                              };
+                              }:null;
                             }
                             // habitsSelected.contains(badHabits[index])?habitsSelected.remove(badHabits[index]):habitsSelected.add(badHabits[index]);
                           });

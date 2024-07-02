@@ -177,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: (context) async {
                 bool? deleteAccount = await wantToDeleteAccount(context);
                 if(deleteAccount == true){
-
+                  userProvider.deleteAccount();
                   await Purchases.logOut();
                   await FirebaseAuth.instance.signOut();
                 }

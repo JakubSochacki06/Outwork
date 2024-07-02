@@ -242,6 +242,7 @@ class UserProvider extends ChangeNotifier {
         .collection('users_data')
         .doc(user!.email)
         .delete();
+    _auth.currentUser!.delete();
     notifyListeners();
   }
 }
